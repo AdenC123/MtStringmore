@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,11 +18,17 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private bool _newLevel;
 
+    /// <summary>
+    /// Reference field to the dialog manager script attached to the same game object
+    /// </summary>
+    public DialogManager DialogManager { get; private set; }
+
     private void Awake() {
         if (Instance == null)
         {
             _newLevel = true;
             Instance = this;
+            DialogManager = gameObject.GetComponent<DialogManager>();
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded; 
         } else {
