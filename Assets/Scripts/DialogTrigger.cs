@@ -29,22 +29,12 @@ public class DialogTrigger : MonoBehaviour
 }
 
 /// <summary>
-/// Contains name of character and their sprite that would be displayed in their dialog.
-/// </summary>
-[System.Serializable]
-public class DialogCharacter
-{
-    public string name;
-    public Sprite icon;
-}
-
-/// <summary>
-/// Line to be displayed in one dialog box, and the <see cref="DialogCharacter"/> that speaks it.
+/// Line to be displayed in one dialog box, and the icon of the character that speaks it.
 /// </summary>
 [System.Serializable]
 public class DialogLine
 {
-    public DialogCharacter character;
+    public Sprite icon;
     [TextArea(3, 10)] public string line;
 }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -11,15 +12,12 @@ using UnityEngine.UI;
 public class DialogManager : MonoBehaviour
 {
     public Image characterIcon;
+    public TextMeshProUGUI dialogText;
+    public Canvas dialogTextbox;
 
-    public TextMeshProUGUI characterName;
-
-    public TextMeshProUGUI dialogArea;
-
-    [NonSerialized] private Queue<DialogLine> _lines;
+    [NonSerialized] private Queue<DialogLine> _lines = new();
     [NonSerialized] public bool IsDialogActive = false;
     public float typingSpeed = 0.2f;
-    public Animator animator;
 
     /// <summary>
     /// Start displaying a dialog sequence.
@@ -27,8 +25,8 @@ public class DialogManager : MonoBehaviour
     /// <param name="dialog">Sequence of dialog messages to be displayed.</param>
     public void StartDialog(Dialog dialog)
     {
+        dialogTextbox.gameObject.SetActive(true);
         IsDialogActive = true;
-        animator.Play("Show");
         _lines.Clear();
         foreach (DialogLine line in dialog.dialogLines)
         {
@@ -49,8 +47,7 @@ public class DialogManager : MonoBehaviour
         }
 
         DialogLine currentLine = _lines.Dequeue();
-        characterIcon.sprite = currentLine.character.icon;
-        characterName.text = currentLine.character.name;
+        characterIcon.sprite = currentLine.icon;
         
         StopAllCoroutines();
         StartCoroutine(TypeSentence(currentLine));
@@ -58,10 +55,10 @@ public class DialogManager : MonoBehaviour
 
     IEnumerator TypeSentence(DialogLine dialogLine)
     {
-        dialogArea.text = "";
+        dialogText.text = "";
         foreach (char letter in dialogLine.line)
         {
-            dialogArea.text += letter;
+            dialogText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
     }
@@ -69,6 +66,6 @@ public class DialogManager : MonoBehaviour
     void EndDialog()
     {
         IsDialogActive = false;
-        animator.Play("Hide");
+        dialogTextbox.gameObject.SetActive(true);
     }
 }
