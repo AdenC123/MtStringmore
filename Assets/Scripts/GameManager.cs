@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private bool _newLevel;
 
+    private bool _gamePaused;
+
     private void Awake() {
         if (Instance == null)
         {
@@ -26,6 +28,27 @@ public class GameManager : MonoBehaviour {
             SceneManager.sceneLoaded += OnSceneLoaded; 
         } else {
             Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Debug Reset"))
+        {
+            Respawn();
+        }
+
+        if (Input.GetButtonDown("Pause Game"))
+        {
+            _gamePaused = !_gamePaused;
+            if (_gamePaused)
+            {
+                PauseGame();
+            }
+            else
+            {
+                ResumeGame();
+            }
         }
     }
 
@@ -53,6 +76,16 @@ public class GameManager : MonoBehaviour {
         FollowCamera cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowCamera>();
         Vector2 playerTarget = cam.GetPlayerTarget();
         cam.transform.position = new Vector3(playerTarget.x, playerTarget.y, cam.transform.position.z);
+    }
+
+    public void PauseGame ()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame ()
+    {
+        Time.timeScale = 1;
     }
 
     public void Respawn()
