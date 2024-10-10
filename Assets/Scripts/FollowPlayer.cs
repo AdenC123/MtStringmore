@@ -21,6 +21,9 @@ public class FollowPlayer : MonoBehaviour
         // If the objectToFollow has moved, this moves this GO towards the new position with speed = interpolationSpeed
         if (currentPathPosition != Vector3.zero)
             transform.position += (currentPathPosition - transform.position) * Time.deltaTime * interpolationSpeed;
+
+        // sets Knitby's sprite renderer to be visible depending on whether the yarn string is on screen or not
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = !objectToFollow.GetComponentInChildren<LineRenderer>().isVisible;
     }
 
     void FixedUpdate()
