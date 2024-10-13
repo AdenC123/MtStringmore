@@ -168,7 +168,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(_rb.velocity);
         if (PlayerState == PlayerStateEnum.Dead || Paused)
             return;
 
