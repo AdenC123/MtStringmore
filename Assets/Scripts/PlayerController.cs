@@ -8,10 +8,10 @@ public class PlayerController : MonoBehaviour
 {
     #region Serialized Private Fields
 
-    [Header("Input")] 
+    [Header("Input")]
     [SerializeField] private bool doubleJumpEnabled;
     [SerializeField] private float buttonBufferTime;
-    [Header("Collisions")] 
+    [Header("Collisions")]
     [SerializeField] private LayerMask collisionLayer;
     [SerializeField] private float collisionDistance;
     [SerializeField] private float wallCloseDistance;
@@ -30,23 +30,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float earlyReleaseFallAcceleration;
     [SerializeField] private float maxAirSpeed;
     [SerializeField] private float airAcceleration;
-    [Header("Wall")] 
+    [Header("Wall")]
     [SerializeField] private float wallJumpAngle;
     [SerializeField] private float wallJumpPower;
     [SerializeField] private float wallSlideSpeed;
     [SerializeField] private float wallSlideAcceleration;
-    [Header("Swinging")] 
+    [Header("Swinging")]
     [SerializeField] private float swingBoostMultiplier;
     [SerializeField] private float maxSwingSpeed;
     [SerializeField] private float swingAcceleration;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
     [SerializeField] private int deathTime;
-    
+
     #endregion
 
     #region Public Properties and Actions
-    
+
     public enum PlayerStateEnum
     {
         Run,
@@ -56,19 +56,20 @@ public class PlayerController : MonoBehaviour
         Dead,
         Swing,
     }
-    
+    public bool Paused = false;
+
     public PlayerStateEnum PlayerState { get; private set; }
-    
+
     /// <summary>
     /// Current velocity of the player.
     /// </summary>
     public Vector2 Velocity => _velocity;
-    
+
     /// <summary>
     /// Facing direction of the player. -1.0 for left, 1.0 for right.
     /// </summary>
     public float Direction => _lastDirection;
-    
+
     /// <summary>
     /// Fires when the player becomes grounded or leaves the ground.
     /// Parameters:
@@ -76,22 +77,22 @@ public class PlayerController : MonoBehaviour
     ///     float: player's Y velocity
     /// </summary>
     public event Action<bool, float> GroundedChanged;
-    
+
     /// <summary>
     /// Fires when the player hits the wall or leaves the wall.
     /// Parameters:
     ///     bool: True if hitting the wall, false if leaving the wall
     /// </summary>
     public event Action<bool> WallChanged;
-    
+
     public event Action Jumped;
-    public event Action DoubleJumped; 
+    public event Action DoubleJumped;
     public event Action Death;
-    
+
     #endregion
-    
+
     #region Private Properties
-    
+
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
 
@@ -103,20 +104,20 @@ public class PlayerController : MonoBehaviour
     private bool _canReleaseEarly;
     private bool _releasedEarly;
     private bool _canDoubleJump;
-    
+
     private Vector2 _velocity;
     private float _lastDirection;
     private bool _closeToWall;
     private Vector2 _groundNormal;
-    
+
     private Collider2D _swingArea;
     private bool _inSwingArea;
     private float _swingRadius;
-    
+
     #endregion
 
     #region Unity Event Handlers
-    
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -127,6 +128,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (Paused)
+            return;
         _time += Time.deltaTime;
 
         if (Input.GetButtonDown("Jump"))
@@ -165,11 +168,12 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (PlayerState == PlayerStateEnum.Dead)
+        Debug.Log(_rb.velocity);
+        if (PlayerState == PlayerStateEnum.Dead || Paused)
             return;
-        
+
         CheckCollisions();
-        
+
         HandleWallJump();
         HandleSwing();
         HandleJump();
@@ -177,20 +181,20 @@ public class PlayerController : MonoBehaviour
         HandleEarlyRelease();
         HandleWalk();
         HandleGravity();
-        
+
         ApplyMovement();
     }
-    
+
     #endregion
 
     #region Private Methods
-    
+
     private RaycastHit2D CapsuleCastCollision(Vector2 direction, float distance)
     {
-        return Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, 
+        return Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0,
             direction, distance, collisionLayer);
     }
-    
+
     private void CheckCollisions()
     {
         RaycastHit2D groundCast = CapsuleCastCollision(Vector2.down, collisionDistance);
@@ -201,7 +205,7 @@ public class PlayerController : MonoBehaviour
         _closeToWall = CapsuleCastCollision(_velocity, wallCloseDistance);
 
         if (groundCast) _groundNormal = groundCast.normal;
-        
+
         if (ceilingHit) _velocity.y = Mathf.Min(0, _velocity.y);
 
         // TODO is this being fired constantly while on a wall?
@@ -227,8 +231,8 @@ public class PlayerController : MonoBehaviour
             _canDoubleJump = true;
             GroundedChanged?.Invoke(true, Mathf.Abs(_velocity.y));
         }
-        if (PlayerState == PlayerStateEnum.RightWallSlide && !rightWallHit || 
-            PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit) 
+        if (PlayerState == PlayerStateEnum.RightWallSlide && !rightWallHit ||
+            PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit)
             PlayerState = PlayerStateEnum.Air;
     }
 
@@ -252,7 +256,7 @@ public class PlayerController : MonoBehaviour
         {
             _velocity = new Vector2(Mathf.Cos(wallJumpAngle), Mathf.Sin(wallJumpAngle)) * wallJumpPower;
             if (PlayerState == PlayerStateEnum.RightWallSlide) _velocity.x = -_velocity.x;
-            
+
             _buttonUsed = true;
             PlayerState = PlayerStateEnum.Air;
             _canReleaseEarly = true;
@@ -287,7 +291,7 @@ public class PlayerController : MonoBehaviour
             DoubleJumped?.Invoke();
         }
     }
-    
+
     private void HandleEarlyRelease()
     {
         if (!_canReleaseEarly) return;
@@ -323,7 +327,7 @@ public class PlayerController : MonoBehaviour
         switch (PlayerState)
         {
             case PlayerStateEnum.Run:
-                if (_velocity.y <= 0f) 
+                if (_velocity.y <= 0f)
                     _velocity.y = -groundingForce;
                 break;
             case PlayerStateEnum.LeftWallSlide:
@@ -350,7 +354,7 @@ public class PlayerController : MonoBehaviour
             _swingRadius = Vector2.Distance(_swingArea.transform.position, transform.position);
             ropeRenderer.enabled = true;
         }
-        
+
         if (PlayerState == PlayerStateEnum.Swing && !_isButtonHeld)
         {
             // stop swing
@@ -366,7 +370,7 @@ public class PlayerController : MonoBehaviour
             // if going down, accelerate to target swing speed
             if (_velocity.y <= 0f && _velocity.magnitude <= maxSwingSpeed)
             {
-                _velocity = _velocity.normalized * Mathf.MoveTowards(_velocity.magnitude, maxSwingSpeed, 
+                _velocity = _velocity.normalized * Mathf.MoveTowards(_velocity.magnitude, maxSwingSpeed,
                     swingAcceleration * Time.fixedDeltaTime);
             }
             Vector2 testPos = relPos + _velocity * Time.fixedDeltaTime;
@@ -391,11 +395,24 @@ public class PlayerController : MonoBehaviour
         if (_velocity.x != 0f) _lastDirection = Mathf.Sign(_velocity.x);
         Debug.DrawRay(transform.position, _velocity, Color.magenta);
     }
-    
+
     private bool CanUseButton()
     {
         return !_buttonUsed && _time <= _timeButtonPressed + buttonBufferTime;
     }
-    
+
+    public void Pause()
+    {
+        _rb.velocity = Vector2.zero;
+        Paused = true;
+    }
+
+    public void Unpause()
+    {
+        _rb.velocity = _velocity;
+        Paused = false;
+    }
+
+
     #endregion
 }
