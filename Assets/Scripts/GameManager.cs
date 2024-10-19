@@ -4,11 +4,8 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Singleton class for global game settings. Persists between scenes and reloads.
 /// </summary>
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; private set; }
-    // get the current player controller
-    // call pause
 
     /// <summary>
     /// Last checkpoint position. The player should respawn here if they die.
@@ -22,17 +19,14 @@ public class GameManager : MonoBehaviour
 
     private bool _gamePaused;
 
-    private void Awake()
-    {
+    private void Awake() {
         if (Instance == null)
         {
             _newLevel = true;
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-        else
-        {
+            SceneManager.sceneLoaded += OnSceneLoaded; 
+        } else {
             Destroy(gameObject);
         }
     }
@@ -62,7 +56,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-
+    
     /// <summary>
     /// On scene load, put player in the right spawn/respawn point
     /// </summary>
@@ -78,28 +72,20 @@ public class GameManager : MonoBehaviour
         {
             CheckPointPos = player.transform.position;
         }
-
+        
         FollowCamera cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowCamera>();
         Vector2 playerTarget = cam.GetPlayerTarget();
         cam.transform.position = new Vector3(playerTarget.x, playerTarget.y, cam.transform.position.z);
     }
 
-    public void PauseGame()
+    public void PauseGame ()
     {
-        // Time.timeScale = 0;
-        // set paused on player controller to true
-        PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        player.Pause();
+        Time.timeScale = 0;
     }
 
-    public void ResumeGame()
+    public void ResumeGame ()
     {
-        // Time.timeScale = 1;
-        // set paused on player controller to false
-        PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        // player.Paused = false;
-        player.Unpause();
-
+        Time.timeScale = 1;
     }
 
     public void Respawn()
