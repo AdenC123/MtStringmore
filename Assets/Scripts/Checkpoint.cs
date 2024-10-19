@@ -1,15 +1,16 @@
-
-using System;
 using UnityEngine;
 using Yarn.Unity;
 
 /// <summary>
-/// Checkpoint flag that sets checkpoint position when player collides with it
+///     Checkpoint flag that sets checkpoint position when player collides with it
 /// </summary>
 public class Checkpoint : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private Animator anim;
+    private static readonly int HoistKey = Animator.StringToHash("Hoisted");
+
+    [Header("References")] [SerializeField]
+    private Animator anim;
+
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private string conversationStartNode;
     [SerializeField] private bool beginsInteractable;
@@ -19,11 +20,9 @@ public class Checkpoint : MonoBehaviour
     private bool interactable;
     private bool isCurrentConversation;
 
-    private static readonly int HoistKey = Animator.StringToHash("Hoisted");
-
     public void Start()
     {
-        dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
+        dialogueRunner = FindObjectOfType<DialogueRunner>();
         dialogueRunner.onDialogueComplete.AddListener(EndConversation);
         interactable = beginsInteractable;
     }
@@ -43,6 +42,7 @@ public class Checkpoint : MonoBehaviour
         Debug.Log("Started dialogue at checkpoint.");
         isCurrentConversation = true;
         dialogueRunner.StartDialogue(conversationStartNode);
+        Time.timeScale = 0;
     }
 
     private void EndConversation()
@@ -52,6 +52,7 @@ public class Checkpoint : MonoBehaviour
             isCurrentConversation = false;
             Debug.Log("Ended dialogue at checkpoint.");
             DisableConversation();
+            Time.timeScale = 1;
         }
     }
 
@@ -66,5 +67,4 @@ public class Checkpoint : MonoBehaviour
     {
         interactable = false;
     }
-
 }
