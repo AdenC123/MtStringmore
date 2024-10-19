@@ -158,6 +158,13 @@ public class PlayerController : MonoBehaviour
                 HandleDeath();
             }
         }
+        else if (other.gameObject.CompareTag("Boulder"))
+        {
+            if (PlayerState != PlayerStateEnum.Dead)
+            {
+                HandleDeath();
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
