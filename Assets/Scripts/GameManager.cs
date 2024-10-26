@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour {
             Respawn();
         }
 
-        if (Input.GetButtonDown("Pause Game")) {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             _gamePaused = !_gamePaused;
             if (_gamePaused) {
                 PauseGame();
