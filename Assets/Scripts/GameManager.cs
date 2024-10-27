@@ -6,11 +6,6 @@ public class GameManager : MonoBehaviour {
 
     public Vector2 CheckPointPos { get; set; }
     private bool _newLevel;
-    private bool _gamePaused;
-
-    // Array to hold references to all AudioSource components
-    private AudioSource[] _audioSources;
-
     private void Awake() {
         if (Instance == null) {
             _newLevel = true;
@@ -18,8 +13,6 @@ public class GameManager : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
 
-            // Get all AudioSource components in the AudioManager GameObject
-            _audioSources = FindObjectsOfType<AudioSource>();
         } else {
             Destroy(gameObject);
         }
@@ -28,15 +21,6 @@ public class GameManager : MonoBehaviour {
     private void Update() {
         if (Input.GetButtonDown("Debug Reset")) {
             Respawn();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            _gamePaused = !_gamePaused;
-            if (_gamePaused) {
-                PauseGame();
-            } else {
-                ResumeGame();
-            }
         }
     }
 
@@ -56,26 +40,6 @@ public class GameManager : MonoBehaviour {
         FollowCamera cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowCamera>();
         Vector2 playerTarget = cam.GetPlayerTarget();
         cam.transform.position = new Vector3(playerTarget.x, playerTarget.y, cam.transform.position.z);
-    }
-
-    public void PauseGame() {
-        Time.timeScale = 0;
-
-        // Mute all audio sources
-        foreach (var audioSource in _audioSources) {
-            audioSource.Pause();
-            audioSource.volume = 0;
-        }
-    }
-
-    public void ResumeGame() {
-        Time.timeScale = 1;
-
-        // Restore audio volume
-        foreach (var audioSource in _audioSources) {
-            audioSource.volume = 1;
-            audioSource.UnPause();
-        }
     }
 
     public void Respawn() {
