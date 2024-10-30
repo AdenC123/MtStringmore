@@ -42,6 +42,11 @@ public class PlayerController : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
     [SerializeField] private int deathTime;
+    [Header("Bouncing")] 
+    [SerializeField] private float yBounceForce;
+    [SerializeField] private float xBounceForce;
+    [SerializeField] private float bounceArcMultiplier;
+
     
     #endregion
 
@@ -112,6 +117,10 @@ public class PlayerController : MonoBehaviour
     private Collider2D _swingArea;
     private bool _inSwingArea;
     private float _swingRadius;
+
+    private Collider2D _bounceArea;
+    private bool _inBounceArea;
+
     
     #endregion
 
@@ -157,6 +166,9 @@ public class PlayerController : MonoBehaviour
             {
                 HandleDeath();
             }
+        } else if(other.gameObject.CompareTag("BounceArea")) {//check if in bounce area
+            _bounceArea = other;
+            _inBounceArea = true;
         }
     }
 
@@ -165,9 +177,21 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("SwingArea"))
         {
             _inSwingArea = false;
+        } else if(other.gameObject.CompareTag("BounceArea")) {//check if leaving bounce area
+            _inBounceArea = false;
         }
     }
 
+
+     private void OnCollisionEnter2D(Collision2D other) {
+
+         if (other.gameObject.CompareTag("BounceArea"))
+         {
+             var direction = Vector2.Reflect(_velocity.normalized, other.contacts[0].normal);
+            _velocity = direction * _velocity.magnitude;
+         }
+     }
+   
     private void FixedUpdate()
     {
         if (PlayerState == PlayerStateEnum.Dead)
@@ -177,6 +201,7 @@ public class PlayerController : MonoBehaviour
         
         HandleWallJump();
         HandleSwing();
+        HandleBounce();
         HandleJump();
         HandleDoubleJump();
         HandleEarlyRelease();
@@ -344,7 +369,14 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-
+    private void HandleBounce() {
+        if(PlayerState == PlayerStateEnum.Air && _inBounceArea) {
+            if(_velocity.y <= 0f) {
+                _velocity.y = yBounceForce *bounceArcMultiplier; 
+                _velocity.x += xBounceForce * Mathf.Sign(_velocity.x);
+            }
+        }
+    }
     private void HandleSwing()
     {
         if (PlayerState != PlayerStateEnum.Swing && CanUseButton() && _inSwingArea)
