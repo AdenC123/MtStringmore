@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7436c926f8d254e69adf04aebd819228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doubleJumpEnabled: 0
+  doubleJumpEnabled: 1
   buttonBufferTime: 0.1
   collisionLayer:
     serializedVersion: 2
@@ -228,6 +228,9 @@ MonoBehaviour:
   swingAcceleration: 60
   ropeRenderer: {fileID: 8739561083334380143}
   deathTime: 2
+  yBounceForce: 0
+  xBounceForce: 0
+  bounceArcMultiplier: 0
 --- !u!50 &5301496585393855472
 Rigidbody2D:
   serializedVersion: 4

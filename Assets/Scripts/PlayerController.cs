@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int deathTime;
     [Header("Bouncing")] 
     [SerializeField] private float yBounceForce;
-    [SerializeField] private float xBounceForce;
+    [SerializeField] private float bounceAccel;
     [SerializeField] private float bounceArcMultiplier;
 
     
@@ -118,7 +118,6 @@ public class PlayerController : MonoBehaviour
     private bool _inSwingArea;
     private float _swingRadius;
 
-    private Collider2D _bounceArea;
     private bool _inBounceArea;
 
     
@@ -167,7 +166,6 @@ public class PlayerController : MonoBehaviour
                 HandleDeath();
             }
         } else if(other.gameObject.CompareTag("BounceArea")) {//check if in bounce area
-            _bounceArea = other;
             _inBounceArea = true;
         }
     }
@@ -183,14 +181,23 @@ public class PlayerController : MonoBehaviour
     }
 
 
-     private void OnCollisionEnter2D(Collision2D other) {
+    private void OnCollisionEnter2D(Collision2D other) {
 
-         if (other.gameObject.CompareTag("BounceArea"))
-         {
-            var direction = Vector2.Reflect(_velocity.normalized, other.contacts[0].normal);
-            _velocity = direction * _velocity.magnitude;
-         }
-     }
+        if (other.gameObject.CompareTag("BounceArea"))
+        {
+            _inBounceArea = true;
+            //on first contact with bounce platform calculate the new direction to bounce towards
+            Vector2 directionVector = Vector2.Reflect(_velocity.normalized, other.contacts[0].normal);
+            _velocity = directionVector * _velocity.magnitude;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other) {
+        if (other.gameObject.CompareTag("BounceArea"))
+        {
+            _inBounceArea = false;
+        }
+    }
    
     private void FixedUpdate()
     {
@@ -371,10 +378,22 @@ public class PlayerController : MonoBehaviour
     }
     private void HandleBounce() {
         if(PlayerState == PlayerStateEnum.Air && _inBounceArea) {
-            //check if falling 
+            //check if player is falling 
             if(_velocity.y <= 0f) {
-                _velocity.y = yBounceForce *bounceArcMultiplier; 
-                _velocity.x += xBounceForce * Mathf.Sign(_velocity.x);
+
+            // Calculate the target velocity for the y direction vector
+            Vector2 targetYVelocity = transform.up * yBounceForce;
+
+            // Calculate the new upward velocity magnitude
+            float newUpwardMagnitude = Mathf.MoveTowards(_velocity.magnitude, targetYVelocity.magnitude, bounceAccel * Time.fixedDeltaTime);
+    
+           // adjust the bounce arch by slow or speed up the players x direction vector
+            Vector2 currentForward = new Vector2(_velocity.x, 0); 
+            currentForward = currentForward.normalized * (_velocity.magnitude * bounceArcMultiplier); 
+
+            // Combine the adjusted forward velocity with the new upward component
+            _velocity = currentForward + (targetYVelocity.normalized * newUpwardMagnitude);
+            
             }
         }
     }
