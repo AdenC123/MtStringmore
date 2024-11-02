@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17743f3a2e5f464786f2b1616bea905e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minXVelocity: -50
-  maxXVelocity: -30
+  smallerBoulderPrefab: {fileID: 5961280272311221197, guid: 59420feedabe2481b9dca2262ac44cba, type: 3}
+  splitVelocity: 5
   minGravityScale: 1
   maxGravityScale: 3
