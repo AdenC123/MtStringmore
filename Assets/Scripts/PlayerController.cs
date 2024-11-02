@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
 
          if (other.gameObject.CompareTag("BounceArea"))
          {
-             var direction = Vector2.Reflect(_velocity.normalized, other.contacts[0].normal);
+            var direction = Vector2.Reflect(_velocity.normalized, other.contacts[0].normal);
             _velocity = direction * _velocity.magnitude;
          }
      }
@@ -371,6 +371,7 @@ public class PlayerController : MonoBehaviour
     }
     private void HandleBounce() {
         if(PlayerState == PlayerStateEnum.Air && _inBounceArea) {
+            //check if falling 
             if(_velocity.y <= 0f) {
                 _velocity.y = yBounceForce *bounceArcMultiplier; 
                 _velocity.x += xBounceForce * Mathf.Sign(_velocity.x);
