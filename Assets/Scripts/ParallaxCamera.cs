@@ -29,8 +29,10 @@ public class ParallaxCamera : MonoBehaviour
     private void Start()
     {
         _mainCamera = gameObject.GetComponent<Camera>();
-        _screenBounds = _mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, _mainCamera.transform.position.z));
-        _screenBounds = new Vector2(Mathf.Abs(_screenBounds.x), Mathf.Abs(_screenBounds.y));
+        Vector3 screenTopRight = _mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+        Vector3 screenCenter = _mainCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        _screenBounds = new Vector2(Mathf.Abs(screenTopRight.x - screenCenter.x), Mathf.Abs(screenTopRight.y - screenCenter.y));
+        Debug.Log(_screenBounds);
         
         GameObject background = GameObject.FindGameObjectWithTag("ParallaxBackground");
         _layers = new GameObject[background.transform.childCount];
@@ -82,6 +84,7 @@ public class ParallaxCamera : MonoBehaviour
         {
             GameObject c = Instantiate(clone, obj.transform, true);
             c.transform.position = new Vector3(obj.transform.position.x + objectWidth * i, obj.transform.position.y, obj.transform.position.z);
+            Debug.Log(c.transform.position);
             c.name = obj.name + i;
         }
 
