@@ -30,22 +30,16 @@ public class ParallaxCamera : MonoBehaviour
     {
         _mainCamera = gameObject.GetComponent<Camera>();
         Vector3 screenTopRight = _mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-        Vector3 screenCenter = _mainCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Vector3 screenCenter = _mainCamera.ScreenToWorldPoint(new Vector3((float) Screen.width / 2, (float) Screen.height / 2, 0));
         _screenBounds = new Vector2(Mathf.Abs(screenTopRight.x - screenCenter.x), Mathf.Abs(screenTopRight.y - screenCenter.y));
-        Debug.Log(_screenBounds);
         
         GameObject background = GameObject.FindGameObjectWithTag("ParallaxBackground");
         _layers = new GameObject[background.transform.childCount];
         int i = 0;
-        foreach(Transform child in background.transform)
+        foreach (Transform child in background.transform)
         {
             _layers[i] = child.gameObject;
             i++;
-        }
-        
-        foreach (GameObject obj in _layers)
-        {
-            LoadLayers(obj);
         }
     }
 
@@ -75,44 +69,18 @@ public class ParallaxCamera : MonoBehaviour
     
     #region Helper Functions
 
-    private void LoadLayers(GameObject obj)
-    {
-        float objectWidth = obj.GetComponent<SpriteRenderer>().bounds.size.x - choke;
-        // int repeats = (int)Mathf.Ceil(_screenBounds.x * 2 / objectWidth);
-        GameObject clone = Instantiate(obj);
-        for (int i = 0; i <= repeats; i++)
-        {
-            GameObject c = Instantiate(clone, obj.transform, true);
-            c.transform.position = new Vector3(obj.transform.position.x + objectWidth * i, obj.transform.position.y, obj.transform.position.z);
-            Debug.Log(c.transform.position);
-            c.name = obj.name + i;
-        }
-
-        Destroy(clone);
-        Destroy(obj.GetComponent<SpriteRenderer>());
-    }
-
     private void RepositionLayer(GameObject obj)
     {
-        Transform[] children = obj.GetComponentsInChildren<Transform>();
-        if (children.Length > 1)
+        float bgWidth = obj.GetComponent<SpriteRenderer>().bounds.size.x;
+        float distanceFromCam = obj.transform.position.x - transform.position.x;
+        
+        if (distanceFromCam >= _screenBounds.x)
         {
-            GameObject firstChild = children[1].gameObject;
-            GameObject lastChild = children[children.Length - 1].gameObject;
-            float halfObjectWidth = lastChild.GetComponent<SpriteRenderer>().bounds.extents.x - choke;
-            
-            if (transform.position.x + _screenBounds.x > lastChild.transform.position.x + halfObjectWidth)
-            {
-                firstChild.transform.SetAsLastSibling();
-                firstChild.transform.position = new Vector3(lastChild.transform.position.x + halfObjectWidth * 2,
-                    lastChild.transform.position.y, lastChild.transform.position.z);
-            }
-            else if (transform.position.x - _screenBounds.x < firstChild.transform.position.x - halfObjectWidth)
-            {
-                lastChild.transform.SetAsFirstSibling();
-                lastChild.transform.position = new Vector3(firstChild.transform.position.x - halfObjectWidth * 2,
-                    firstChild.transform.position.y, firstChild.transform.position.z);
-            }
+            obj.transform.position = new Vector3(obj.transform.position.x - bgWidth / 3, obj.transform.position.y, obj.transform.position.z);
+        }
+        else if (distanceFromCam <= -_screenBounds.x)
+        {
+            obj.transform.position = new Vector3(obj.transform.position.x + bgWidth / 3, obj.transform.position.y, obj.transform.position.z);
         }
     }
     
