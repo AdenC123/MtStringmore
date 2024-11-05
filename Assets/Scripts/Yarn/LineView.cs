@@ -10,6 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 using Yarn.Markup;
 using Yarn.Unity;
@@ -269,16 +270,21 @@ namespace Yarn
 
         [SerializeField] internal MarkupPalette palette;
 
-        /// <summary>
-        ///     The current <see cref="LocalizedLine" /> that this line view is
-        ///     displaying.
-        /// </summary>
-        private LocalizedLine currentLine;
+        // fields to handle changing avatar image
+        [SerializeField] private SpriteLibraryAsset spriteLibrary;
+
+        [SerializeField] private Image image;
 
         /// <summary>
         ///     A stop token that is used to interrupt the current animation.
         /// </summary>
         private readonly UnscaledEffects.CoroutineInterruptToken currentStopToken = new();
+
+        /// <summary>
+        ///     The current <see cref="LocalizedLine" /> that this line view is
+        ///     displaying.
+        /// </summary>
+        private LocalizedLine currentLine;
 
         private void Awake()
         {
@@ -406,6 +412,10 @@ namespace Yarn
                         // we have a character name text view, show the character name
                         characterNameText.text = dialogueLine.CharacterName;
                         characterNameContainer.SetActive(true);
+
+                        // switch avatar image to new character
+                        // labels can be for different character expressions in the future
+                        image.sprite = spriteLibrary.GetSprite(dialogueLine.CharacterName, "Default");
                     }
                 }
                 else
