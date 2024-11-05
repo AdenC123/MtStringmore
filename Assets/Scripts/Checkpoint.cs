@@ -39,10 +39,13 @@ public class Checkpoint : MonoBehaviour
 
     private void StartConversation()
     {
-        Debug.Log("Started dialogue at checkpoint.");
-        isCurrentConversation = true;
-        dialogueRunner.StartDialogue(conversationStartNode);
-        Time.timeScale = 0;
+        if (conversationStartNode != "")
+        {
+            Debug.Log("Started dialogue at checkpoint.");
+            isCurrentConversation = true;
+            dialogueRunner.StartDialogue(conversationStartNode);
+            Time.timeScale = 0;
+        }
     }
 
     private void EndConversation()
