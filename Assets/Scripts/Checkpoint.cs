@@ -16,15 +16,13 @@ public class Checkpoint : MonoBehaviour
     [SerializeField] private bool beginsInteractable;
 
     // internal properties not exposed to editor
-    private DialogueRunner dialogueRunner;
-    private bool interactable;
-    private bool isCurrentConversation;
+    private DialogueRunner _dialogueRunner;
+    private bool _isCurrentConversation;
 
     public void Start()
     {
-        dialogueRunner = FindObjectOfType<DialogueRunner>();
-        dialogueRunner.onDialogueComplete.AddListener(EndConversation);
-        interactable = beginsInteractable;
+        _dialogueRunner = FindObjectOfType<DialogueRunner>();
+        _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -42,17 +40,17 @@ public class Checkpoint : MonoBehaviour
         if (conversationStartNode != "")
         {
             Debug.Log("Started dialogue at checkpoint.");
-            isCurrentConversation = true;
-            dialogueRunner.StartDialogue(conversationStartNode);
+            _isCurrentConversation = true;
+            _dialogueRunner.StartDialogue(conversationStartNode);
             Time.timeScale = 0;
         }
     }
 
     private void EndConversation()
     {
-        if (isCurrentConversation)
+        if (_isCurrentConversation)
         {
-            isCurrentConversation = false;
+            _isCurrentConversation = false;
             Debug.Log("Ended dialogue at checkpoint.");
             DisableConversation();
             Time.timeScale = 1;
@@ -62,12 +60,10 @@ public class Checkpoint : MonoBehaviour
     [YarnCommand("enable")]
     public void EnableConversation()
     {
-        interactable = true;
     }
 
     [YarnCommand("disable")]
     public void DisableConversation()
     {
-        interactable = false;
     }
 }
