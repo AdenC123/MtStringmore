@@ -297,6 +297,12 @@ namespace Yarn
             canvasGroup = GetComponentInParent<CanvasGroup>();
         }
 
+        private void Update()
+        {
+            // if hitting spacebar during update, trigger dialogue advancement
+            if (Input.GetButtonDown("Jump")) UserRequestedViewAdvancement();
+        }
+
         /// <inheritdoc />
         public override void DismissLine(Action onDismissalComplete)
         {
