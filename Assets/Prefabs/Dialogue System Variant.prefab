@@ -32,11 +32,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6730902377105218553}
+  m_Father: {fileID: 6730902377527061791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 120, y: -96}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 120, y: 0}
   m_SizeDelta: {x: 152, y: 152}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1761455380564059819
@@ -460,8 +460,8 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 4935123090977399901, guid: 9ff0a2e273d206240a83b32bc801114b, type: 3}
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4935123090281167011, guid: 9ff0a2e273d206240a83b32bc801114b, type: 3}
-      insertIndex: 1
+    - targetCorrespondingSourceObject: {fileID: 4935123090371513925, guid: 9ff0a2e273d206240a83b32bc801114b, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 6330849560733425586}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4935123090371513924, guid: 9ff0a2e273d206240a83b32bc801114b, type: 3}
@@ -516,6 +516,11 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
+--- !u!224 &6730902377527061791 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4935123090371513925, guid: 9ff0a2e273d206240a83b32bc801114b, type: 3}
+  m_PrefabInstance: {fileID: 1807610590621410138}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3389884135159000185
 PrefabInstance:
   m_ObjectHideFlags: 0
