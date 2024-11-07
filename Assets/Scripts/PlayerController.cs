@@ -440,7 +440,7 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-    private void HandleBounce() {
+    private void HandleBounce(){
         if(_playerState== PlayerStateEnum.Air || _playerState == PlayerStateEnum.Run||_playerState == PlayerStateEnum.Dash) {
             if(_inBounceArea) {
                 Vector2 directionVector = Vector2.Reflect(_velocity.normalized, _bouncePlatform.contacts[0].normal);
