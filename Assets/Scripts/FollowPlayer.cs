@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class FollowPlayer : MonoBehaviour
 {
@@ -10,9 +9,7 @@ public class FollowPlayer : MonoBehaviour
 
     [SerializeField] private float interpolationSpeed = 20;
 
-    [FormerlySerializedAs("deathSmoke")]
-    [SerializeField]
-    private GameObject poofSmoke;
+    [SerializeField] private GameObject poofSmoke;
 
     private readonly Queue<Vector3> path = new();
 
