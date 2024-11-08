@@ -61,7 +61,7 @@ public class ParallaxCamera : MonoBehaviour
         
         foreach (GameObject layer in _layers)
         {
-            RepositionLayer(layer);
+            // RepositionLayer(layer);
         }
     }
     
