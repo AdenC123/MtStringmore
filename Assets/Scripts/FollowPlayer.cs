@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FollowPlayer : MonoBehaviour
 {
@@ -10,36 +10,56 @@ public class FollowPlayer : MonoBehaviour
 
     [SerializeField] private float interpolationSpeed = 20;
 
-    private Queue<Vector3> path = new Queue<Vector3>();
-    private float queueTimer;
+    [FormerlySerializedAs("deathSmoke")]
+    [SerializeField]
+    private GameObject poofSmoke;
+
+    private readonly Queue<Vector3> path = new();
 
     private Vector3 currentPathPosition;
+    private LineRenderer lineRenderer;
+    private float queueTimer;
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        lineRenderer = objectToFollow.GetComponentInChildren<LineRenderer>();
+    }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // If the objectToFollow has moved, this moves this GO towards the new position with speed = interpolationSpeed
         if (currentPathPosition != Vector3.zero)
-            transform.position += (currentPathPosition - transform.position) * Time.deltaTime * interpolationSpeed;
+            transform.position += (currentPathPosition - transform.position) * (Time.deltaTime * interpolationSpeed);
 
         // sets Knitby's sprite renderer to be visible depending on whether the yarn string is on screen or not
-        this.gameObject.GetComponent<SpriteRenderer>().enabled = !objectToFollow.GetComponentInChildren<LineRenderer>().isVisible;
+        if (spriteRenderer.enabled != !lineRenderer.isVisible)
+        {
+            spriteRenderer.enabled = !lineRenderer.isVisible;
+            // make poof smoke only on knitby disappearance, not on reapparance 
+            if (!spriteRenderer.enabled)
+                Instantiate(poofSmoke, transform);
+        }
+
+        // flip Knitby sprite depending on location relative to next path
+        spriteRenderer.flipX = (currentPathPosition - transform.position).x > 0;
+        transform.Rotate(Vector3.back, Time.deltaTime * 400f);
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // granularity controls how many path positions can be stored in the queue before it is dequeued
         // this controls how far back we want this GO to lag behind the objectToFollow
-        if (objectToFollow == null)
+        if (objectToFollow is null)
             return;
         queueTimer -= Time.fixedDeltaTime;
 
-        if (queueTimer <= 0)
-        {
-            queueTimer = timeOffset / granularity;
-            if (path.Count == granularity)
-                currentPathPosition = path.Dequeue();
-            path.Enqueue(objectToFollow.transform.position);
-        }
+        if (!(queueTimer <= 0)) return;
+        queueTimer = timeOffset / granularity;
+        if (path.Count == granularity)
+            currentPathPosition = path.Dequeue();
+        path.Enqueue(objectToFollow.transform.position);
     }
 }
