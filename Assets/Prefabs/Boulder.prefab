@@ -198,6 +198,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smallerBoulderPrefab: {fileID: 5961280272311221197, guid: 59420feedabe2481b9dca2262ac44cba, type: 3}
+  tinyLiquidMoleculePrefab: {fileID: 0}
+  liquidMolecule: {fileID: 4651173200321422273, guid: e575c16db37404fd5b575e3b7b173420, type: 3}
   splitVelocity: 5
   minGravityScale: 1
   maxGravityScale: 3
