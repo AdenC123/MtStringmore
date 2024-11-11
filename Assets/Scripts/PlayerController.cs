@@ -43,11 +43,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float wallSlideSpeed;
     [SerializeField] private float wallSlideAcceleration;
     [Header("Swinging")] 
-    [SerializeField] private float swingBoostMultiplier;
-    [SerializeField] private float maxSwingSpeed;
+    // [SerializeField] private float swingBoostMultiplier;
+    // [SerializeField] private float maxSwingSpeed;
     [SerializeField] private float swingAcceleration;
-    [SerializeField] private float swingGravity;
-    [SerializeField] private float minSwingReleaseX;
+    // [SerializeField] private float swingGravity;
+    // [SerializeField] private float minSwingReleaseX;
+    [SerializeField] private float swingTargetAngle;
+    [SerializeField] private float swingThresholdAngle;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
     [SerializeField] private int deathTime;
@@ -138,8 +140,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 _groundNormal;
 
     private Collider2D _swingArea;
-    private bool _enteredSwingArea;
     private float _swingRadius;
+    private bool _canSwing;
+    private float _swingDirection;
 
     #endregion
 
@@ -182,7 +185,9 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("SwingArea"))
         {
             _swingArea = other;
-            _enteredSwingArea = true;
+            _swingRadius = _swingArea.GetComponent<CircleCollider2D>().radius;
+            _swingRadius *= _swingArea.transform.lossyScale.x;  // assume global scale is same for every dimension
+            _canSwing = true;
         }
         else if (other.gameObject.CompareTag("Death"))
         {
@@ -190,6 +195,16 @@ public class PlayerController : MonoBehaviour
             {
                 HandleDeath();
             }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("SwingArea"))
+        {
+            // can't swing if outside swing area
+            // assumes swing areas are not overlapping
+            _canSwing = false;
         }
     }
 
@@ -411,42 +426,59 @@ public class PlayerController : MonoBehaviour
 
     private void HandleSwing()
     {
-        if (_enteredSwingArea)
+        if (_canSwing && CanUseButton())
         {
-            // start swing automatically when entering
+            // in swing area, button pressed
+            // start the swing, set initial swing direction
             PlayerState = PlayerStateEnum.Swing;
-            _swingRadius = Vector2.Distance(_swingArea.transform.position, transform.position);
             ropeRenderer.enabled = true;
+            _swingDirection = _lastDirection;
         }
-        else if (PlayerState is PlayerStateEnum.Swing && CanUseButton())
+        else if (PlayerState is PlayerStateEnum.Swing && _isButtonHeld)
         {
-            // press button to release
-            PlayerState = PlayerStateEnum.Air;
-            ropeRenderer.enabled = false;
-            
-            // give x velocity boost on release
-            float boostDirection = transform.position.x >= _swingArea.transform.position.x ? 1f : -1f;
-            if (_velocity.x <= Mathf.Abs(minSwingReleaseX)) 
-                _velocity.x = minSwingReleaseX * boostDirection;
-            _buttonUsed = true;
+            // swinging and holding down button
+            if (Vector2.Distance(_swingArea.transform.position, transform.position) < _swingRadius)
+            {
+                // if not at max radius, fall normally
+                _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, fallAccelerationDown * Time.fixedDeltaTime);
+            }
+            else
+            {
+                // TODO: keep velocity on first swing
+                // TODO: allow swings above target angle
+                // calculate angles (in signed degrees, 0 is straight below swing)
+                Vector2 relPos = transform.position - _swingArea.transform.position; 
+                Vector2 tangent = Vector2.Perpendicular(relPos).normalized;
+                float currentAngle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
+                float targetAngle = swingTargetAngle * _swingDirection;
+                float angleDiff = Mathf.Abs(targetAngle - currentAngle);
+                
+                // if already past target, turn around
+                if (angleDiff <= swingThresholdAngle)
+                {
+                    _swingDirection *= -1f;
+                }
+                
+                // set velocity needed to reach max angle (max at 0, min near targetAngle)
+                float accelInterp = 1 - Mathf.Abs(currentAngle) / swingTargetAngle;
+                Debug.Log(accelInterp);
+                float angularVel = Mathf.Lerp(0f, swingAcceleration, accelInterp) * _swingDirection * Time.fixedDeltaTime;
+                // float angularVel = angleDiff * _swingDirection * swingAcceleration * Time.fixedDeltaTime;
+                _velocity = tangent * angularVel;
+                
+                // constrain transform to swing radius
+                Vector2 constrained = (Vector2) _swingArea.transform.position + relPos.normalized * _swingRadius;
+                transform.position = new Vector3(constrained.x, constrained.y, transform.position.z);
+            }
         }
         else if (PlayerState is PlayerStateEnum.Swing)
         {
-            _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, swingAcceleration * Time.fixedDeltaTime);
-            Vector2 relPos = transform.position - _swingArea.transform.position;
-            // if going down, accelerate to target swing speed
-            if (_velocity.y <= 0f && _velocity.magnitude <= maxSwingSpeed)
-            {
-                _velocity = _velocity.normalized * Mathf.MoveTowards(_velocity.magnitude, maxSwingSpeed,
-                    swingAcceleration * Time.fixedDeltaTime);
-            }
-
-            Vector2 testPos = relPos + _velocity * Time.fixedDeltaTime;
-            Vector2 newPos = testPos.normalized * _swingRadius;
-            _velocity = (newPos - relPos) / Time.fixedDeltaTime;
+            // swinging but button is released
+            // stop swinging, disallow swing until reentering area
+            PlayerState = PlayerStateEnum.Air;
+            ropeRenderer.enabled = false;
+            _canSwing = false;
         }
-
-        _enteredSwingArea = false;
     }
 
     private void RedrawRope()

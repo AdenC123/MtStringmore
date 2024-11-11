@@ -241,9 +241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef6f8ed4d8ac7ba40b7351a3da73d887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choke: 0
-  scrollSpeed: 0
-  repeats: 3
 --- !u!1001 &677841997
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3997,6 +3994,26 @@ PrefabInstance:
     - target: {fileID: 2905708094114413808, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3175786740816282053, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: swingAngle
+      value: 130
+      objectReference: {fileID: 0}
+    - target: {fileID: 3175786740816282053, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: stateDebugLog
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3175786740816282053, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: swingTargetAngle
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 3175786740816282053, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: swingAcceleration
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3175786740816282053, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: swingThresholdAngle
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4217790213014453210, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
       propertyPath: m_Name
