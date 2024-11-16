@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5395286700434532698}
   - component: {fileID: 1897521994860358765}
   - component: {fileID: 6632477694576699760}
+  - component: {fileID: -6712565928093763113}
   m_Layer: 0
   m_Name: Bounce Platform
   m_TagString: BounceArea
@@ -158,3 +159,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-6712565928093763113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815869302486538005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 217431db90a28b64ebddb7c775f0058f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yBounceForce: 25
+  xBounceForce: 15

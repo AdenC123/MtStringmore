@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     public PlayerStateEnum PlayerState
     {
         get => _playerState;
-        private set
+         private set
         {
             if (stateDebugLog)
                 Debug.Log($"PlayerState: {value}");
@@ -91,7 +91,11 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Current velocity of the player.
     /// </summary>
-    public Vector2 Velocity => _velocity;
+    public Vector2 Velocity
+    {
+        get => _velocity;
+        set => _velocity = value;
+    }
 
     /// <summary>
     /// Facing direction of the player. -1.0 for left, 1.0 for right.
@@ -122,7 +126,8 @@ public class PlayerController : MonoBehaviour
     #region Private Properties
 
     private PlayerStateEnum _playerState;
-
+    
+    
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
 
@@ -150,6 +155,7 @@ public class PlayerController : MonoBehaviour
     private bool _inBounceArea;
     private Collision2D _bouncePlatform;
     private bool _inTrampolineArea;
+    private trampolineController _tc;
 
     
     #endregion
@@ -160,6 +166,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
+        _tc = GameObject.FindGameObjectWithTag("Trampoline").GetComponent<trampolineController>();
         _buttonUsed = true;
         _lastDirection = startDirection;
     }
@@ -167,7 +174,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _time += Time.deltaTime;
-
         GetInput();
         RedrawRope(); // TODO this should be moved outside player controller when knitby is real
     }
@@ -217,10 +223,28 @@ public class PlayerController : MonoBehaviour
     
         if (other.gameObject.CompareTag("BounceArea"))
         {
+            if (_playerState == PlayerStateEnum.Dash)
+            {
+                _playerState = PlayerStateEnum.Air;
+            }
             //on first contact with bounce platform calculate the new direction to bounce towards
             _inBounceArea = true;
             _bouncePlatform = other;
         }
+        if(other.gameObject.CompareTag("Trampoline"))
+        {
+            _inTrampolineArea = true;
+        }
+        
+        
+        
+        
+        
+    }
+    private void OnCollisionExit2D(Collision2D other) {
+            _inBounceArea = false;
+            _inTrampolineArea = false;
+            _bouncePlatform = other;
         
     }
     
@@ -228,11 +252,10 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerState == PlayerStateEnum.Dead)
             return;
-
         CheckCollisions();
         HandleWallJump();
         HandleSwing();
-        HandleBounce();
+        //HandleBounce();
         HandleJump();
         if (doubleJumpEnabled) HandleDoubleJump();
         HandleEarlyRelease();
@@ -416,6 +439,12 @@ public class PlayerController : MonoBehaviour
 
     private void HandleGravity()
     {
+        //temporarily turn off gravity for auto bounce
+        if (_inTrampolineArea)
+        {
+            _velocity = _tc.handleBounce();
+            return;
+        }
         switch (PlayerState)
         {
             case PlayerStateEnum.Run:
@@ -440,28 +469,29 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-    private void HandleBounce(){
-        if(_playerState== PlayerStateEnum.Air || _playerState == PlayerStateEnum.Run||_playerState == PlayerStateEnum.Dash) {
-            if(_inBounceArea) {
-                Vector2 directionVector = Vector2.Reflect(_velocity.normalized, _bouncePlatform.contacts[0].normal);
-                if(_velocity.x <0 && directionVector.x <0 && _velocity.y<0 &&directionVector.y <0 ) {
-                    _velocity = new Vector2(-xBounceForce,yBounceForce);
-    
-                } else {
-                    _velocity = new Vector2(xBounceForce * Mathf.Sign(directionVector.x),yBounceForce* Mathf.Sign(directionVector.y));
-                }
-            }
-            _inBounceArea = false;
-            if(_inTrampolineArea) {
-
-                _velocity = new Vector2(xBounceForce*Mathf.Sign(_velocity.x),yBounceForce);
-                
-            }
-            _inTrampolineArea=false;
-
-        }
-        
-    }
+    // private void HandleBounce(){
+    //     if(_playerState== PlayerStateEnum.Air || _playerState == PlayerStateEnum.Run||_playerState == PlayerStateEnum.Dash) {
+    //
+    //         if(_inBounceArea) {
+    //             Vector2 directionVector = Vector2.Reflect(_velocity.normalized, _bouncePlatform.contacts[0].normal);
+    //             if(_velocity.x <0 && directionVector.x <0 && _velocity.y<0 &&directionVector.y <0 ) {
+    //                 _velocity = new Vector2(-xBounceForce,yBounceForce);
+    //
+    //             } else {
+    //                 _velocity = new Vector2(xBounceForce * Mathf.Sign(directionVector.x),yBounceForce* Mathf.Sign(directionVector.y));
+    //             }
+    //         }
+    //         _inBounceArea = false;
+    //         if(_inTrampolineArea) {
+    //
+    //             _velocity = new Vector2(xBounceForce*Mathf.Sign(_velocity.x),yBounceForce);
+    //             
+    //         }
+    //         _inTrampolineArea=false;
+    //
+    //     }
+    //     
+    // }
     private void HandleSwing()
     {
         if (_enteredSwingArea)
