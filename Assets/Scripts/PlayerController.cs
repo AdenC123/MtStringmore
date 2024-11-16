@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 /// <summary>
@@ -395,6 +396,7 @@ public class PlayerController : MonoBehaviour
                     _velocity.x = Mathf.MoveTowards(_velocity.x, maxAirSpeed * _lastDirection,
                         airAcceleration * Time.fixedDeltaTime);
                 break;
+            
         }
     }
 
@@ -422,8 +424,12 @@ public class PlayerController : MonoBehaviour
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, accel * Time.fixedDeltaTime);
                 break;
             case PlayerStateEnum.Down:
-                _velocity.y = -maxGroundSpeed;
-                //  AccelerateXDirection();
+                if (_velocity.y >= 0f)
+                {
+                    _velocity.y = 0; 
+                }
+                accel = fallAccelerationDown * 1.2f;
+                _velocity.y = Mathf.MoveTowards(_velocity.y, -maxDownSpeed, accel * Time.fixedDeltaTime);
                 break;
         }
     }
