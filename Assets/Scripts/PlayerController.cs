@@ -56,6 +56,8 @@ public class PlayerController : MonoBehaviour
     // this is just here for battle of the concepts
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
+    [Header("Down")]
+    [SerializeField] private float maxDownSpeed;
     // @formatter:on
 
     #endregion
@@ -70,7 +72,8 @@ public class PlayerController : MonoBehaviour
         RightWallSlide,
         Dead,
         Swing,
-        Dash
+        Dash,
+        Down
     }
 
     // TODO: PlayerState set should be a function that fires an action
@@ -178,6 +181,10 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.Respawn();
         }
+        if (_velocity.y != 0 && Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air)
+        {
+            PlayerState = PlayerStateEnum.Down;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -248,7 +255,11 @@ public class PlayerController : MonoBehaviour
             _timeLeftGround = _time;
             GroundedChanged?.Invoke(false, 0);
         }
-
+        if (PlayerState == PlayerStateEnum.Air || PlayerState == PlayerStateEnum.Down) // Add Down state here
+        {
+            if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
+            if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
+        }
         if (PlayerState == PlayerStateEnum.Air)
         {
             if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
@@ -408,8 +419,11 @@ public class PlayerController : MonoBehaviour
                 if (_releasedEarly) accel = earlyReleaseFallAcceleration;
                 else if (_velocity.y >= 0f) accel = fallAccelerationUp;
                 else accel = fallAccelerationDown;
-
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, accel * Time.fixedDeltaTime);
+                break;
+            case PlayerStateEnum.Down:
+                _velocity.y = -maxGroundSpeed;
+                //  AccelerateXDirection();
                 break;
         }
     }
