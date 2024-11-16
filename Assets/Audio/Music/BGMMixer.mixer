@@ -6,21 +6,21 @@ AudioMixerController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NewAudioMixer
+  m_Name: BGMMixer
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
   - {fileID: 24500006}
   m_StartSnapshot: {fileID: 24500006}
   m_SuspendThreshold: -80
-  m_EnableSuspend: 1
+  m_EnableSuspend: 0
   m_UpdateMode: 0
   m_ExposedParameters:
-  - guid: 80a25d2b2db7de143a8a3ee2d338ab1f
-    name: Music
+  - guid: 6d65a0147f3c4754fbb7a06e02427d77
+    name: Volume
   m_AudioMixerGroupViews:
   - guids:
-    - 4b03f086c404882459f09a3990d477be
+    - 133e4d93795413345a6f1347afabfd23
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -32,10 +32,10 @@ AudioMixerGroupController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Master
   m_AudioMixer: {fileID: 24100000}
-  m_GroupID: 4b03f086c404882459f09a3990d477be
+  m_GroupID: 133e4d93795413345a6f1347afabfd23
   m_Children: []
-  m_Volume: 80a25d2b2db7de143a8a3ee2d338ab1f
-  m_Pitch: 96875b5b0481380428c9fddea16423aa
+  m_Volume: 6d65a0147f3c4754fbb7a06e02427d77
+  m_Pitch: 0dee048cce1605e4f88fd8e033b0e97d
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 24400004}
@@ -50,9 +50,9 @@ AudioMixerEffectController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_EffectID: 7676fc0d8d5616b4dab89d3f3087b6c0
+  m_EffectID: 772b51857f471d7479cca62a2cc7a789
   m_EffectName: Attenuation
-  m_MixLevel: 4ba083f8632f44242b44993333786bd8
+  m_MixLevel: c1b92ec809655714a93cfb1c4e9348d7
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
@@ -65,7 +65,7 @@ AudioMixerSnapshotController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Snapshot
   m_AudioMixer: {fileID: 24100000}
-  m_SnapshotID: 9d1ac8c2b395b534b9a9a9d3257080d9
+  m_SnapshotID: 1611da4eb0e46b34f82e120b3c4d87ce
   m_FloatValues:
-    80a25d2b2db7de143a8a3ee2d338ab1f: -80
+    6d65a0147f3c4754fbb7a06e02427d77: -33.611675
   m_TransitionOverrides: {}
