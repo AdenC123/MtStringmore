@@ -59,6 +59,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject poofSmoke;
     [Header("Down")]
     [SerializeField] private float maxDownSpeed;
+   
+   
     // @formatter:on
 
     #endregion
@@ -74,7 +76,8 @@ public class PlayerController : MonoBehaviour
         Dead,
         Swing,
         Dash,
-        Down
+        Down, 
+        Slide
     }
 
     // TODO: PlayerState set should be a function that fires an action
@@ -138,7 +141,7 @@ public class PlayerController : MonoBehaviour
     private bool _releasedEarly;
     private bool _canDoubleJump;
     private bool _canDash;
-
+    private float _lastSlideTime; 
     private Vector2 _velocity;
     private float _lastDirection;
     private bool _closeToWall;
@@ -182,9 +185,13 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.Respawn();
         }
-        if (_velocity.y != 0 && Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air)
+        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air)
         {
             PlayerState = PlayerStateEnum.Down;
+        } 
+        else if (Input.GetKeyDown(KeyCode.S) && PlayerState == PlayerStateEnum.Run && IsGrounded() && CanSlide())
+        {
+            PlayerState = PlayerStateEnum.Slide; 
         }
     }
 
@@ -396,7 +403,19 @@ public class PlayerController : MonoBehaviour
                     _velocity.x = Mathf.MoveTowards(_velocity.x, maxAirSpeed * _lastDirection,
                         airAcceleration * Time.fixedDeltaTime);
                 break;
-            
+            case PlayerStateEnum.Slide:
+                float slopeAngle = Vector2.Angle(_groundNormal, Vector2.up); 
+                // on a slope
+                _lastSlideTime = 10f; 
+                    //Time.time;
+                if (Math.Abs(slopeAngle) > 10)
+                {
+                    Vector2 target = new Vector2(_groundNormal.y * _lastDirection, _groundNormal.x * -_lastDirection) * (maxGroundSpeed * 2f);
+                    float slideX = Mathf.MoveTowards(_velocity.x, target.x, groundAcceleration * Time.fixedDeltaTime);
+                    float slideY = target.y;
+                }   
+                break; 
+                
         }
     }
 
@@ -494,6 +513,16 @@ public class PlayerController : MonoBehaviour
     private bool CanUseButton()
     {
         return !_buttonUsed && _time <= _timeButtonPressed + buttonBufferTime;
+    }
+    
+    private bool IsGrounded()
+    {
+        return CapsuleCastCollision(Vector2.down, collisionDistance);
+    }
+    
+    private bool CanSlide()
+    {
+        return Time.time - _lastSlideTime >= 1f; // 1 second cooldown
     }
 
     #endregion
