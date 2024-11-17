@@ -55,10 +55,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool stateDebugLog;
     // @formatter:on
     
-    //TODO move to a separate bounce platform script later
-    [Header("Bouncing")] 
-    [SerializeField] private float yBounceForce;
-    [SerializeField] private float xBounceForce;
 
     
     #endregion
@@ -152,11 +148,11 @@ public class PlayerController : MonoBehaviour
     private bool _enteredSwingArea;
     private float _swingRadius;
 
-    private bool _inBounceArea;
-    private Collision2D _bouncePlatform;
-    private bool _inTrampolineArea;
+    /// <summary>
+    /// variable use to access public trampoline methods
+    /// </summary>
     private trampolineController _tc;
-
+    private bool _inTrampolineArea;
     
     #endregion
 
@@ -219,33 +215,16 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter2D(Collision2D other) {
-    
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
         if (other.gameObject.CompareTag("BounceArea"))
         {
+            //put player in air state for proper bouncy platform interactions
             if (_playerState == PlayerStateEnum.Dash)
             {
                 _playerState = PlayerStateEnum.Air;
-            }
-            //on first contact with bounce platform calculate the new direction to bounce towards
-            _inBounceArea = true;
-            _bouncePlatform = other;
-        }
-        if(other.gameObject.CompareTag("Trampoline"))
-        {
-            _inTrampolineArea = true;
-        }
-        
-        
-        
-        
-        
-    }
-    private void OnCollisionExit2D(Collision2D other) {
-            _inBounceArea = false;
-            _inTrampolineArea = false;
-            _bouncePlatform = other;
-        
+            }    
+        } 
     }
     
     private void FixedUpdate()
@@ -255,7 +234,6 @@ public class PlayerController : MonoBehaviour
         CheckCollisions();
         HandleWallJump();
         HandleSwing();
-        //HandleBounce();
         HandleJump();
         if (doubleJumpEnabled) HandleDoubleJump();
         HandleEarlyRelease();
@@ -439,7 +417,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleGravity()
     {
-        //temporarily turn off gravity for auto bounce
+        //temporarily "turn off gravity" for auto bounce
         if (_inTrampolineArea)
         {
             _velocity = _tc.handleBounce();
@@ -469,29 +447,7 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-    // private void HandleBounce(){
-    //     if(_playerState== PlayerStateEnum.Air || _playerState == PlayerStateEnum.Run||_playerState == PlayerStateEnum.Dash) {
-    //
-    //         if(_inBounceArea) {
-    //             Vector2 directionVector = Vector2.Reflect(_velocity.normalized, _bouncePlatform.contacts[0].normal);
-    //             if(_velocity.x <0 && directionVector.x <0 && _velocity.y<0 &&directionVector.y <0 ) {
-    //                 _velocity = new Vector2(-xBounceForce,yBounceForce);
-    //
-    //             } else {
-    //                 _velocity = new Vector2(xBounceForce * Mathf.Sign(directionVector.x),yBounceForce* Mathf.Sign(directionVector.y));
-    //             }
-    //         }
-    //         _inBounceArea = false;
-    //         if(_inTrampolineArea) {
-    //
-    //             _velocity = new Vector2(xBounceForce*Mathf.Sign(_velocity.x),yBounceForce);
-    //             
-    //         }
-    //         _inTrampolineArea=false;
-    //
-    //     }
-    //     
-    // }
+
     private void HandleSwing()
     {
         if (_enteredSwingArea)
