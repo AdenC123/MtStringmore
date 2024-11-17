@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
     private float _lastDirection;
     private bool _closeToWall;
     private Vector2 _groundNormal;
-
+    private bool _inSlide; 
     private Collider2D _swingArea;
     private bool _enteredSwingArea;
     private float _swingRadius;
@@ -185,13 +185,20 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.Respawn();
         }
-        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air)
+        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && EpsilonGround())
         {
             PlayerState = PlayerStateEnum.Down;
         } 
         else if (Input.GetKeyDown(KeyCode.S) && PlayerState == PlayerStateEnum.Run && IsGrounded() && CanSlide())
         {
             PlayerState = PlayerStateEnum.Slide; 
+            if (!_inSlide)
+            {
+                _lastSlideTime = Time.time; 
+                _inSlide = true; 
+            }
+
+           
         }
     }
 
@@ -200,7 +207,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("SwingArea"))
         {
             _swingArea = other;
-            _enteredSwingArea = true;
+            _enteredSwingArea = true; 
         }
         else if (other.gameObject.CompareTag("Death"))
         {
@@ -274,7 +281,7 @@ public class PlayerController : MonoBehaviour
             if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
         }
 
-        if (PlayerState != PlayerStateEnum.Run && groundHit)
+        if ((PlayerState != PlayerStateEnum.Run && PlayerState != PlayerStateEnum.Slide) && groundHit)
         {
             PlayerState = PlayerStateEnum.Run;
             _canDoubleJump = true;
@@ -406,14 +413,19 @@ public class PlayerController : MonoBehaviour
             case PlayerStateEnum.Slide:
                 float slopeAngle = Vector2.Angle(_groundNormal, Vector2.up); 
                 // on a slope
-                _lastSlideTime = 10f; 
-                    //Time.time;
+                //ping time for cooldown
                 if (Math.Abs(slopeAngle) > 10)
                 {
                     Vector2 target = new Vector2(_groundNormal.y * _lastDirection, _groundNormal.x * -_lastDirection) * (maxGroundSpeed * 2f);
                     float slideX = Mathf.MoveTowards(_velocity.x, target.x, groundAcceleration * Time.fixedDeltaTime);
                     float slideY = target.y;
                 }   
+                //stop holding it, or not grounded, or duration runs up. 
+                if ((!Input.GetKey(KeyCode.S) || !IsGrounded()) || !SlideDuration())
+                {
+                    PlayerState = PlayerStateEnum.Run;
+                    _inSlide = false; 
+                }
                 break; 
                 
         }
@@ -449,6 +461,10 @@ public class PlayerController : MonoBehaviour
                 }
                 accel = fallAccelerationDown * 1.2f;
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxDownSpeed, accel * Time.fixedDeltaTime);
+                if (!Input.GetKeyDown(KeyCode.S)) //reverts to air if not holding 
+                {
+                    PlayerState = PlayerStateEnum.Air;
+                }
                 break;
         }
     }
@@ -524,6 +540,22 @@ public class PlayerController : MonoBehaviour
     {
         return Time.time - _lastSlideTime >= 1f; // 1 second cooldown
     }
+
+    private bool SlideDuration()
+    {
+        return Time.time - _lastSlideTime <= 1.5f; //can slide for 2.5 seconds
+    }
+
+    private bool EpsilonGround()
+    {
+        return true; 
+    }
+    
+    private float DistanceToGround()
+    {
+        return 0f; 
+    }
+    
 
     #endregion
 }
