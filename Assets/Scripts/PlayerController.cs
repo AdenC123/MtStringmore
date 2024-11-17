@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -77,7 +78,7 @@ public class PlayerController : MonoBehaviour
         Swing,
         Dash,
         Down, 
-        Slide
+        Slide,
     }
 
     // TODO: PlayerState set should be a function that fires an action
@@ -185,11 +186,11 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.Respawn();
         }
-        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && EpsilonGround())
+        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && !EpsilonGround())
         {
             PlayerState = PlayerStateEnum.Down;
         } 
-        else if (Input.GetKeyDown(KeyCode.S) && PlayerState == PlayerStateEnum.Run && IsGrounded() && CanSlide())
+        else if (Input.GetKeyDown(KeyCode.S) && ((PlayerState == PlayerStateEnum.Run && IsGrounded()) || EpsilonGround()) && CanSlide())
         {
             PlayerState = PlayerStateEnum.Slide; 
             if (!_inSlide)
@@ -264,7 +265,7 @@ public class PlayerController : MonoBehaviour
         else
             WallChanged?.Invoke(false);
 
-        if (PlayerState == PlayerStateEnum.Run && !groundHit)
+        if ((PlayerState == PlayerStateEnum.Run && !groundHit) && !(EpsilonGround() && Input.GetKey(KeyCode.S)))
         {
             PlayerState = PlayerStateEnum.Air;
             _timeLeftGround = _time;
@@ -283,7 +284,15 @@ public class PlayerController : MonoBehaviour
 
         if ((PlayerState != PlayerStateEnum.Run && PlayerState != PlayerStateEnum.Slide) && groundHit)
         {
-            PlayerState = PlayerStateEnum.Run;
+            if (EpsilonGround() && Input.GetKey(KeyCode.S))
+            {
+                PlayerState = PlayerStateEnum.Slide;
+                
+            }
+            else
+            {
+                PlayerState = PlayerStateEnum.Run;
+            }
             _canDoubleJump = true;
             GroundedChanged?.Invoke(true, Mathf.Abs(_velocity.y));
         }
@@ -421,9 +430,10 @@ public class PlayerController : MonoBehaviour
                     float slideY = target.y;
                 }   
                 //stop holding it, or not grounded, or duration runs up. 
-                if ((!Input.GetKey(KeyCode.S) || !IsGrounded()) || !SlideDuration())
+                if ((!Input.GetKey(KeyCode.S) || !EpsilonGround())) //!SlideDuration() <- was causing issues
                 {
                     PlayerState = PlayerStateEnum.Run;
+                    Debug.Log("Debug10");
                     _inSlide = false; 
                 }
                 break; 
@@ -548,12 +558,28 @@ public class PlayerController : MonoBehaviour
 
     private bool EpsilonGround()
     {
-        return true; 
+        float dist = DistanceToGround(); 
+        if ( dist < 3.0f && dist != -1f)
+        {
+            return true;
+        }
+
+        return false; 
     }
     
     private float DistanceToGround()
     {
-        return 0f; 
+        Vector2 direction = Vector2.down;
+        float rayDistance = 10f; // Maximum distance to check
+        RaycastHit2D hit = CapsuleCastCollision(direction, rayDistance);
+        if (hit.collider)
+        {
+            return hit.distance;
+        }
+        else
+        {
+            return -1; 
+        }
     }
     
 
