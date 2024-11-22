@@ -14,13 +14,14 @@ public class ParallaxCamera : MonoBehaviour
     private Camera _mainCamera;
     private float _screenWidth;
     private float _prevX;
+    private float _prevY;
     private GameObject[] _layers;
     
     /// <summary>
     /// Fired when camera moves.
     /// Parameter is the amount the camera moved on the x-axis since the last frame.
     /// </summary>
-    public event Action<float> Moved;
+    public event Action<float, float> Moved;
     
     #endregion
     
@@ -52,10 +53,11 @@ public class ParallaxCamera : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!Mathf.Approximately(_prevX, transform.position.x))
+        if (!Mathf.Approximately(_prevX, transform.position.x) || !Mathf.Approximately(_prevY, transform.position.y))
         {
-            Moved?.Invoke(_prevX - transform.position.x);
+            Moved?.Invoke(_prevX - transform.position.x, _prevY - transform.position.y);
             _prevX = transform.position.x;
+            _prevY = transform.position.y;
         }
         
         foreach (GameObject layer in _layers)
