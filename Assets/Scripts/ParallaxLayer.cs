@@ -5,13 +5,15 @@ using UnityEngine;
 /// </summary>
 public class ParallaxLayer : MonoBehaviour
 {
-    [SerializeField] private float parallaxFactor;
+    [SerializeField] private float xParallaxFactor;
+    [SerializeField] private float yParallaxFactor;
 
-    public void Move(float delta)
+    public void Move(float deltaX, float deltaY)
     {
-        Vector3 newPos = transform.localPosition;
-        newPos.x -= delta * parallaxFactor;
+        Vector3 newPos = transform.position;
+        newPos.x -= deltaX * xParallaxFactor;
+        newPos.y -= deltaY * yParallaxFactor;
 
-        transform.localPosition = newPos;
+        transform.position = newPos;
     }
 }
