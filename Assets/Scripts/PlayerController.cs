@@ -67,7 +67,8 @@ public class PlayerController : MonoBehaviour
         RightWallSlide,
         Dead,
         Swing,
-        Dash
+        Dash,
+        Balloon
     }
 
     // TODO: PlayerState set should be a function that fires an action
@@ -177,8 +178,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool isTouchingBalloon;
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Balloon"))
+        {
+            Debug.Log("Balloon touched!");
+            isTouchingBalloon = true;
+            PlayerState = PlayerStateEnum.Balloon;
+        }
+        
+        
         if (other.gameObject.CompareTag("SwingArea"))
         {
             _swingArea = other;
@@ -193,6 +203,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Balloon"))
+        {
+            isTouchingBalloon = false;
+            PlayerState = PlayerStateEnum.Air; // Exit Balloon state
+        }
+    }
+    
+    private float balloonFloatForce = 5f;
+
     private void FixedUpdate()
     {
         if (PlayerState == PlayerStateEnum.Dead)
@@ -203,12 +225,23 @@ public class PlayerController : MonoBehaviour
         HandleSwing();
         HandleJump();
         if (doubleJumpEnabled) HandleDoubleJump();
+        if (doubleJumpEnabled) HandleDoubleJump();
         HandleEarlyRelease();
         HandleWalk();
         HandleGravity();
         if (dashEnabled) HandleDash();
+        HandleBalloon();
         ApplyMovement();
     }
+    
+    private void HandleBalloon()
+    {
+        if (PlayerState == PlayerStateEnum.Balloon)
+        {
+            _velocity.y = balloonFloatForce; // Apply a constant upward force
+        }
+    }
+
 
     #endregion
 
@@ -384,6 +417,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleGravity()
     {
+        if (PlayerState is PlayerStateEnum.Balloon) return;
+        
         switch (PlayerState)
         {
             case PlayerStateEnum.Run:
