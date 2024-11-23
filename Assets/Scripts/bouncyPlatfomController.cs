@@ -29,7 +29,7 @@ public class bouncyPlatfom : MonoBehaviour
             }
             else
             {
-                Debug.Log("38");
+                
                 playerController.Velocity = new Vector2(xBounceForce * Mathf.Sign(directionVector.x), 
                     yBounceForce);
             }
