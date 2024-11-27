@@ -7,10 +7,7 @@ using UnityEngine;
 public class ParallaxCamera : MonoBehaviour
 {
     #region Properties
-    
-    [SerializeField] private float choke;
     [SerializeField] private float scrollSpeed;
-    [SerializeField] private int repeats = 3;
     private Camera _mainCamera;
     private float _screenWidth;
     private float _prevX;
