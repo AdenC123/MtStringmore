@@ -67,6 +67,12 @@ public class ParallaxCamera : MonoBehaviour
     
     #region Helper Functions
 
+    /// <summary>
+    /// Moves a background tiled to repeat 3x to the left or right as the player reaches the edge,
+    /// to create the illusion of a seamlessly repeating background
+    /// Background MUST be tiled to repeat 3x.
+    /// </summary>
+    /// <param name="obj">Background sprite object to be moved</param>
     private void RepositionLayer(GameObject obj)
     {
         float bgWidth = obj.GetComponent<SpriteRenderer>().bounds.size.x;
