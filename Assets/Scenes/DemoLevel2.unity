@@ -54852,9 +54852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef6f8ed4d8ac7ba40b7351a3da73d887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choke: 0
   scrollSpeed: 0
-  repeats: 3
 --- !u!213 &755508449
 Sprite:
   m_ObjectHideFlags: 0
@@ -55744,21 +55742,61 @@ PrefabInstance:
       propertyPath: m_Name
       value: WatercolorForestBackground
       objectReference: {fileID: 0}
+    - target: {fileID: 1786684141466623076, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 23.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2249384508220100682, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: yParallaxFactor
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 2339179929703470888, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: yParallaxFactor
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537036697846254887, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -38.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537036697846254887, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 21.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934146119326438678, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: yParallaxFactor
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886316881335776179, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: yParallaxFactor
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579077361016816664, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: yParallaxFactor
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 7639808327873672985, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -42.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7639808327873672985, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 17.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7747568601484656293, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7747568601484656293, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7747568601484656293, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 325.1
+      value: 200.8
       objectReference: {fileID: 0}
     - target: {fileID: 7747568601484656293, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -15.3
+      value: -19.1
       objectReference: {fileID: 0}
     - target: {fileID: 7747568601484656293, guid: c50dd1e140118644ca9df94590c0a344, type: 3}
       propertyPath: m_LocalPosition.z
