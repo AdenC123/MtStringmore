@@ -8,6 +8,7 @@ TagManager:
   - Death
   - ParallaxBackground
   - Boulder
+  - Explosion
   layers:
   - Default
   - TransparentFX

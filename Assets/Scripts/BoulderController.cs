@@ -20,6 +20,8 @@ public class BoulderController : MonoBehaviour
     [Range(1, 5)]
     [SerializeField] public float maxGravityScale = 5f;
     
+    public PlayerController playerController;
+    
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -40,7 +42,8 @@ public class BoulderController : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
         {
             // SplitIntoSmallerBoulders();
-            TurnIntoLiquid();
+            // TurnIntoLiquid();
+            TurnIntoLiquidParticleSystem();
             
             // TurnIntoLiquidParticleSystem();
             Destroy(gameObject);

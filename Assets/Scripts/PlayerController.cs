@@ -165,6 +165,13 @@ public class PlayerController : MonoBehaviour
                 HandleDeath();
             }
         }
+        else if (other.gameObject.CompareTag("Explosion"))
+        {
+            if (PlayerState != PlayerStateEnum.Dead)
+            {
+                HandleDeath();
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -244,7 +251,7 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Air;
     }
 
-    private void HandleDeath()
+    public void HandleDeath()
     {
         _velocity = Vector2.zero;
         _rb.velocity = _velocity;
