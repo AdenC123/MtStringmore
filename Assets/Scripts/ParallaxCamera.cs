@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -7,7 +8,10 @@ using UnityEngine;
 public class ParallaxCamera : MonoBehaviour
 {
     #region Properties
-    [SerializeField] private float scrollSpeed;
+    /// <summary>
+    /// Time it takes for parallax background to follow camera. Smaller value = faster.
+    /// </summary>
+    [SerializeField] private float smoothTime = 0.5f;
     private Camera _mainCamera;
     private float _screenWidth;
     private float _prevX;
@@ -32,20 +36,15 @@ public class ParallaxCamera : MonoBehaviour
         
         GameObject background = GameObject.FindGameObjectWithTag("ParallaxBackground");
         _layers = new GameObject[background.transform.childCount];
-        int i = 0;
-        foreach (Transform child in background.transform)
-        {
-            _layers[i] = child.gameObject;
-            i++;
-        }
+        _layers = background.transform.Cast<Transform>().Select(child => child.gameObject).ToArray();
     }
 
     private void Update()
     {
         Vector3 velocity = Vector3.zero;
-        Vector3 desiredPosition = transform.position + new Vector3(scrollSpeed, 0, 0);
-        Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, 0.3f);
-        transform.position = smoothPosition;
+        Vector3 desiredPosition = transform.position;
+        // Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothTime);
+        transform.position = desiredPosition;
     }
 
     private void LateUpdate()

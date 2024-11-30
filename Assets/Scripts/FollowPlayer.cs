@@ -42,7 +42,7 @@ public class FollowPlayer : MonoBehaviour
 
         // flip Knitby sprite depending on location relative to next path
         spriteRenderer.flipX = (currentPathPosition - transform.position).x > 0;
-        transform.Rotate(Vector3.back, Time.deltaTime * 400f);
+        // transform.Rotate(Vector3.back, Time.deltaTime * 400f);
     }
 
     private void FixedUpdate()
