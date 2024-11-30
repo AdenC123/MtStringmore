@@ -11,10 +11,8 @@ public class KnitbyAnimator : MonoBehaviour
     
     private SpriteRenderer _spriteRenderer;
     private KnitbyController _knitbyController;
-
-    private bool _grounded;
     
-    private static readonly int GroundedKey = Animator.StringToHash("Grounded");
+    private static readonly int SwingKey = Animator.StringToHash("InSwing");
     private static readonly int YVelocityKey = Animator.StringToHash("YVelocity");
     
     private void Awake()
@@ -35,6 +33,7 @@ public class KnitbyAnimator : MonoBehaviour
         if (_spriteRenderer.enabled != !lineRenderer.isVisible)
         {
             _spriteRenderer.enabled = !lineRenderer.isVisible;
+            anim.SetBool(SwingKey, lineRenderer.isVisible);
             if (!_spriteRenderer.enabled)
                 Instantiate(poofSmoke, transform.position, new Quaternion());
         }
