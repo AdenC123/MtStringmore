@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnitbyAnimation : MonoBehaviour
+public class KnitbyAnimator : MonoBehaviour
 {
     [SerializeField] private GameObject objectToFollow;
     [SerializeField] private float timeOffset = 0.1f;
