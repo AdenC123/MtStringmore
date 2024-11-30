@@ -10,17 +10,20 @@ public class KnitbyController : MonoBehaviour
     [SerializeField] private float timeOffset = 0.1f;
     [SerializeField] private int granularity = 10;
     [SerializeField] private float interpolationSpeed = 20;
-
-    public Vector3 currentPathPosition;
+    
+    public Vector3 direction;
+    
+    private Vector3 _currentPathPosition;
     private readonly Queue<Vector3> _path = new();
     private float _queueTimer;
 
     private void Update()
     {
-        // If the objectToFollow has moved, this moves this game object towards the new position with
-        // speed = interpolationSpeed
-        if (currentPathPosition != Vector3.zero)
-            transform.position += (currentPathPosition - transform.position) * (Time.deltaTime * interpolationSpeed);
+        if (_currentPathPosition != Vector3.zero)
+        {
+            direction = _currentPathPosition - transform.position;
+            transform.position += direction * (Time.deltaTime * interpolationSpeed);
+        }
     }
 
     private void FixedUpdate()
@@ -34,7 +37,7 @@ public class KnitbyController : MonoBehaviour
         if (!(_queueTimer <= 0)) return;
         _queueTimer = timeOffset / granularity;
         if (_path.Count == granularity)
-            currentPathPosition = _path.Dequeue();
+            _currentPathPosition = _path.Dequeue();
         _path.Enqueue(objectToFollow.transform.position);
     }
 }

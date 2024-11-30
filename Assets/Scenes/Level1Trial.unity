@@ -91453,6 +91453,11 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!95 &191565744 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 491833523065215798, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
+  m_PrefabInstance: {fileID: 1088793803}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &356104563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92278,6 +92283,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2840611249138753973, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 191565744}
+    - target: {fileID: 2840611249138753973, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: lineRenderer
       value: 
       objectReference: {fileID: 527592133}
@@ -92285,6 +92294,10 @@ PrefabInstance:
       propertyPath: objectToFollow
       value: 
       objectReference: {fileID: 2111871245}
+    - target: {fileID: 4868919475267528974, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.23
+      objectReference: {fileID: 0}
     - target: {fileID: 7720336601314418461, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.1

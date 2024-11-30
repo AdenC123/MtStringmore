@@ -5,22 +5,29 @@ using UnityEngine;
 /// </summary>
 public class KnitbyAnimator : MonoBehaviour
 {
+    [SerializeField] private Animator anim;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private GameObject poofSmoke;
+    
     private SpriteRenderer _spriteRenderer;
     private KnitbyController _knitbyController;
 
+    private bool _grounded;
+    
+    private static readonly int GroundedKey = Animator.StringToHash("Grounded");
+    private static readonly int YVelocityKey = Animator.StringToHash("YVelocity");
+    
     private void Awake()
     {
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         _knitbyController = GetComponentInParent<KnitbyController>();
     }
 
-    // Update is called once per frame
     private void Update()
     {
+        anim.SetFloat(YVelocityKey, _knitbyController.direction.y);
+        _spriteRenderer.flipX = _knitbyController.direction.x < 0;
         HandleSwing();
-        _spriteRenderer.flipX = (_knitbyController.currentPathPosition - transform.position).x < 0;
     }
 
     private void HandleSwing()
