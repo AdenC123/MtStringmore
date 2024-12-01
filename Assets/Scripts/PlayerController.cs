@@ -57,9 +57,7 @@ public class PlayerController : MonoBehaviour
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
     // @formatter:on
-    
 
-    
     #endregion
 
     #region Public Properties and Actions
@@ -79,7 +77,7 @@ public class PlayerController : MonoBehaviour
     public PlayerStateEnum PlayerState
     {
         get => _playerState;
-         private set
+        private set
         {
             if (stateDebugLog)
                 Debug.Log($"PlayerState: {value}");
@@ -90,7 +88,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Current velocity of the player.
     /// </summary>
-    
+
     public Vector2 Velocity => _velocity;
 
     /// <summary>
@@ -122,8 +120,8 @@ public class PlayerController : MonoBehaviour
     #region Private Properties
 
     private PlayerStateEnum _playerState;
-    
-    
+
+
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
 
@@ -147,13 +145,13 @@ public class PlayerController : MonoBehaviour
     private Collider2D _swingArea;
     private bool _enteredSwingArea;
     private float _swingRadius;
-    
+
     private bool _inTrampolineArea;
     private bool _inBouncePlatformArea;
     private Collision2D _bounceArea;
     private Trampoline _trampoline;
     private BouncyPlatform _bouncyPlatform;
-    
+
     #endregion
 
     #region Unity Event Handlers
@@ -202,22 +200,25 @@ public class PlayerController : MonoBehaviour
             {
                 HandleDeath();
             }
-        } else if(other.gameObject.CompareTag("Trampoline")) {
+        }
+        else if (other.gameObject.CompareTag("Trampoline"))
+        {
             _inTrampolineArea = true;
             //get the exact trampoline that the player touched to get its public variables
             _trampoline = other.gameObject.GetComponent<Trampoline>();
-
         }
     }
-    private void OnTriggerExit2D(Collider2D other) {
-        if(other.gameObject.CompareTag("Trampoline")) 
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Trampoline"))
         {
             _inTrampolineArea = false;
-        }   
+        }
     }
 
 
-    private void OnCollisionEnter2D(Collision2D other) 
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("BounceArea"))
         {
@@ -226,14 +227,14 @@ public class PlayerController : MonoBehaviour
             {
                 _playerState = PlayerStateEnum.Air;
             }
+
             _inBouncePlatformArea = true;
             _bounceArea = other;
             //get the exact bouncy platform the player touched to get its public variables
             _bouncyPlatform = other.gameObject.GetComponent<BouncyPlatform>();
-            
-        } 
+        }
     }
-    
+
     private void FixedUpdate()
     {
         if (PlayerState == PlayerStateEnum.Dead)
@@ -432,7 +433,7 @@ public class PlayerController : MonoBehaviour
         {
             _velocity = new Vector2(_trampoline.xBounceForce * _lastDirection, _trampoline.yBounceForce);
         }
-        
+
         //handle bouncy platform bounces
         if (_inBouncePlatformArea)
         {
@@ -447,13 +448,14 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                _velocity = new Vector2(_bouncyPlatform.xBounceForce * Mathf.Sign(directionVector.x), _bouncyPlatform.yBounceForce);
+                _velocity = new Vector2(_bouncyPlatform.xBounceForce * Mathf.Sign(directionVector.x),
+                    _bouncyPlatform.yBounceForce);
             }
+
             _inBouncePlatformArea = false;
         }
-
     }
-    
+
 
     private void HandleGravity()
     {
@@ -462,6 +464,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+
         switch (PlayerState)
         {
             case PlayerStateEnum.Run:
@@ -501,10 +504,10 @@ public class PlayerController : MonoBehaviour
             // press button to release
             PlayerState = PlayerStateEnum.Air;
             ropeRenderer.enabled = false;
-            
+
             // give x velocity boost on release
             float boostDirection = transform.position.x >= _swingArea.transform.position.x ? 1f : -1f;
-            if (_velocity.x <= Mathf.Abs(minSwingReleaseX)) 
+            if (_velocity.x <= Mathf.Abs(minSwingReleaseX))
                 _velocity.x = minSwingReleaseX * boostDirection;
             _buttonUsed = true;
         }
