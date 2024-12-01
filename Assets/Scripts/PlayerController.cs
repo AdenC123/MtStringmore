@@ -154,8 +154,6 @@ public class PlayerController : MonoBehaviour
         _col = GetComponent<CapsuleCollider2D>();
         _buttonUsed = true;
         _lastDirection = startDirection;
-        Debug.Log($"[Awake] Death event listeners count: {Death?.GetInvocationList().Length ?? 0}");
-
     }
 
     private void Update()
@@ -280,7 +278,6 @@ public class PlayerController : MonoBehaviour
 
     private void Respawn()
     {
-        Debug.Log($"[Respawning] Death event listeners count: {Death?.GetInvocationList().Length ?? 0}");
         GameManager.Instance.Respawn();
     }
 

@@ -56,7 +56,6 @@ public class KnitbyAnimator : MonoBehaviour
 
     private void OnPlayerDeath()
     {
-        Debug.Log("player dead");
         Instantiate(deathSmoke, transform);
         anim.enabled = false;
     }
