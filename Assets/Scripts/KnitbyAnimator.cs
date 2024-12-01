@@ -7,7 +7,7 @@ using UnityEngine;
 public class KnitbyAnimator : MonoBehaviour
 {
     [SerializeField] private Animator anim;
-    [SerializeField] private GameObject poofSmoke;
+    [SerializeField] private GameObject deathSmoke;
     
     private SpriteRenderer _spriteRenderer;
     private KnitbyController _knitbyController;
@@ -27,6 +27,15 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.DirectionUpdated += OnMove;
         _knitbyController.GroundedChanged += OnGroundedChanged;
         _knitbyController.Swing += OnSwing;
+        _knitbyController.PlayerDeath += OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        _knitbyController.DirectionUpdated -= OnMove;
+        _knitbyController.GroundedChanged -= OnGroundedChanged;
+        _knitbyController.Swing -= OnSwing;
+        _knitbyController.PlayerDeath -= OnPlayerDeath;
     }
 
     private void OnMove(float x, float y)
@@ -43,8 +52,12 @@ public class KnitbyAnimator : MonoBehaviour
     private void OnSwing(bool inSwing)
     {
         anim.SetBool(SwingKey, inSwing);
-        _spriteRenderer.enabled = !inSwing;
-        if (!_spriteRenderer.enabled)
-            Instantiate(poofSmoke, transform.position, new Quaternion());
+    }
+
+    private void OnPlayerDeath()
+    {
+        Debug.Log("player dead");
+        Instantiate(deathSmoke, transform);
+        anim.enabled = false;
     }
 }

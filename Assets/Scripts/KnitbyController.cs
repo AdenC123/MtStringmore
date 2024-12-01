@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Updates Knitby's position to follow the player's path
@@ -8,8 +9,8 @@ using UnityEngine;
 public class KnitbyController : MonoBehaviour
 { 
     [Header("References")]
-    [SerializeField] private GameObject objectToFollow;
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private GameObject deathSmoke;
     [Header("Follow Settings")]
     [SerializeField] private float timeOffset = 0.1f;
     [SerializeField] private int granularity = 10;
@@ -34,15 +35,24 @@ public class KnitbyController : MonoBehaviour
     /// Fires when currently in swing, false otherwise
     /// </summary>
     public event Action<bool> Swing;
+    /// <summary>
+    /// Fires when player is dead
+    /// </summary>
+    public event Action PlayerDeath;
     
+    
+    private GameObject _player;
     private CapsuleCollider2D _col;
     private Vector3 _currentPathPosition;
     private readonly Queue<Vector3> _path = new();
     private float _queueTimer;
 
-    private void Awake()
+    private void Start()
     {
         _col = GetComponent<CapsuleCollider2D>();
+        _player = GameObject.FindGameObjectWithTag("Player");
+        var playerController = _player.GetComponent<PlayerController>();
+        playerController.Death += PlayerDeath;
     }
 
     private void Update()
@@ -54,12 +64,19 @@ public class KnitbyController : MonoBehaviour
             transform.position += direction * (Time.deltaTime * interpolationSpeed);
         }
     }
+    
+    private void OnDisable()
+    {
+        if (_player == null || _player) return;
+        var playerController = _player.GetComponent<PlayerController>();
+        playerController.Death -= PlayerDeath;
+    }
 
     private void FixedUpdate()
     {
         // granularity controls how many path positions can be stored in the queue before it is dequeued
         // this controls how far back we want this game object to lag behind the objectToFollow
-        if (objectToFollow is null)
+        if (_player is null)
             return;
         _queueTimer -= Time.fixedDeltaTime;
 
@@ -67,7 +84,7 @@ public class KnitbyController : MonoBehaviour
         _queueTimer = timeOffset / granularity;
         if (_path.Count == granularity)
             _currentPathPosition = _path.Dequeue();
-        _path.Enqueue(objectToFollow.transform.position);
+        _path.Enqueue(_player.transform.position);
         
         bool groundHit = CapsuleCastCollision(Vector2.down, collisionDistance);
         GroundedChanged?.Invoke(groundHit);
