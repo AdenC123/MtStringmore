@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -6,14 +7,14 @@ using UnityEngine;
 public class KnitbyAnimator : MonoBehaviour
 {
     [SerializeField] private Animator anim;
-    [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private GameObject poofSmoke;
     
     private SpriteRenderer _spriteRenderer;
     private KnitbyController _knitbyController;
     
-    private static readonly int SwingKey = Animator.StringToHash("InSwing");
+    private static readonly int GroundedKey = Animator.StringToHash("Grounded");
     private static readonly int YVelocityKey = Animator.StringToHash("YVelocity");
+    private static readonly int SwingKey = Animator.StringToHash("InSwing");
     
     private void Awake()
     {
@@ -21,21 +22,29 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController = GetComponentInParent<KnitbyController>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        anim.SetFloat(YVelocityKey, _knitbyController.direction.y);
-        _spriteRenderer.flipX = _knitbyController.direction.x < 0;
-        HandleSwing();
+        _knitbyController.DirectionUpdated += OnMove;
+        _knitbyController.GroundedChanged += OnGroundedChanged;
+        _knitbyController.Swing += OnSwing;
     }
 
-    private void HandleSwing()
+    private void OnMove(float x, float y)
     {
-        if (_spriteRenderer.enabled != !lineRenderer.isVisible)
-        {
-            _spriteRenderer.enabled = !lineRenderer.isVisible;
-            anim.SetBool(SwingKey, lineRenderer.isVisible);
-            if (!_spriteRenderer.enabled)
-                Instantiate(poofSmoke, transform.position, new Quaternion());
-        }
+        anim.SetFloat(YVelocityKey, y);
+        _spriteRenderer.flipX = x < 0;
+    }
+
+    private void OnGroundedChanged(bool grounded)
+    {
+        anim.SetBool(GroundedKey, grounded);
+    }
+
+    private void OnSwing(bool inSwing)
+    {
+        anim.SetBool(SwingKey, inSwing);
+        _spriteRenderer.enabled = !inSwing;
+        if (!_spriteRenderer.enabled)
+            Instantiate(poofSmoke, transform.position, new Quaternion());
     }
 }
