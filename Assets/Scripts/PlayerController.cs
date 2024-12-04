@@ -51,8 +51,6 @@ public class PlayerController : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
     [SerializeField] private int deathTime;
-    [Header("Debug")]
-    [SerializeField] private bool stateDebugLog;
     // this is just here for battle of the concepts
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
@@ -74,16 +72,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // TODO: PlayerState set should be a function that fires an action
-    public PlayerStateEnum PlayerState
-    {
-        get => _playerState;
-        private set
-        {
-            if (stateDebugLog)
-                Debug.Log($"PlayerState: {value}");
-            _playerState = value;
-        }
-    }
+    public PlayerStateEnum PlayerState { get; private set; }
 
     /// <summary>
     /// Current velocity of the player.
@@ -93,7 +82,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Facing direction of the player. -1.0 for left, 1.0 for right.
     /// </summary>
-    public float Direction => _lastDirection;
+    public float Direction { get; private set; }
 
     /// <summary>
     /// Fires when the player becomes grounded or leaves the ground.
@@ -118,8 +107,6 @@ public class PlayerController : MonoBehaviour
 
     #region Private Properties
 
-    private PlayerStateEnum _playerState;
-
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
 
@@ -136,7 +123,6 @@ public class PlayerController : MonoBehaviour
     private bool _canDash;
 
     private Vector2 _velocity;
-    private float _lastDirection;
     private bool _closeToWall;
     private Vector2 _groundNormal;
 
@@ -153,7 +139,7 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
         _buttonUsed = true;
-        _lastDirection = startDirection;
+        Direction = startDirection;
     }
 
     private void Update()
@@ -340,12 +326,12 @@ public class PlayerController : MonoBehaviour
         {
             // move player forward at dash speed
             _velocity.y = 0;
-            _velocity.x = dashSpeed * _lastDirection;
+            _velocity.x = dashSpeed * Direction;
             // check if dash is over
             if (_time - _timeDashed >= dashTime)
             {
                 PlayerState = PlayerStateEnum.Air;
-                _velocity.x = endDashSpeed * _lastDirection;
+                _velocity.x = endDashSpeed * Direction;
             }
         }
         else if (PlayerState is PlayerStateEnum.Run)
@@ -373,7 +359,7 @@ public class PlayerController : MonoBehaviour
         {
             case PlayerStateEnum.Run:
                 // rotate ground normal vector 90 degrees towards facing direction
-                Vector2 walkTarget = new Vector2(_groundNormal.y * _lastDirection, _groundNormal.x * -_lastDirection) *
+                Vector2 walkTarget = new Vector2(_groundNormal.y * Direction, _groundNormal.x * -Direction) *
                                      maxGroundSpeed;
                 float newX = Mathf.MoveTowards(_velocity.x, walkTarget.x, groundAcceleration * Time.fixedDeltaTime);
                 float newY = walkTarget.y;
@@ -381,7 +367,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerStateEnum.Air:
                 if (Mathf.Abs(_velocity.x) < maxAirSpeed)
-                    _velocity.x = Mathf.MoveTowards(_velocity.x, maxAirSpeed * _lastDirection,
+                    _velocity.x = Mathf.MoveTowards(_velocity.x, maxAirSpeed * Direction,
                         airAcceleration * Time.fixedDeltaTime);
                 break;
         }
@@ -467,7 +453,7 @@ public class PlayerController : MonoBehaviour
     private void ApplyMovement()
     {
         _rb.velocity = _velocity;
-        if (_velocity.x != 0f) _lastDirection = Mathf.Sign(_velocity.x);
+        if (_velocity.x != 0f) Direction = Mathf.Sign(_velocity.x);
         Debug.DrawRay(transform.position, _velocity, Color.magenta);
     }
 
