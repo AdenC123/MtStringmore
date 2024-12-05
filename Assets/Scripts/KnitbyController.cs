@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 /// Updates Knitby's position to follow the player's path
@@ -25,14 +24,14 @@ public class KnitbyController : MonoBehaviour
     /// </summary>
     public event Action<float, float> DirectionUpdated;
     /// <summary>
-    /// Fires when the player becomes grounded or leaves the ground.
+    /// Fires when Knitby becomes grounded or leaves the ground.
     /// Parameters:
     ///     bool: false if leaving the ground, true if becoming grounded
     ///     float: player's Y velocity
     /// </summary>
     public event Action<bool> GroundedChanged;
     /// <summary>
-    /// Fires when currently in swing, false otherwise
+    /// Fires continuously; true when currently in swing, false otherwise
     /// </summary>
     public event Action<bool> Swing;
     /// <summary>
@@ -46,6 +45,7 @@ public class KnitbyController : MonoBehaviour
     private Vector3 _currentPathPosition;
     private readonly Queue<Vector3> _path = new();
     private float _queueTimer;
+    private bool _grounded;
 
     private void Start()
     {
@@ -87,7 +87,11 @@ public class KnitbyController : MonoBehaviour
         _path.Enqueue(_player.transform.position);
         
         bool groundHit = CapsuleCastCollision(Vector2.down, collisionDistance);
-        GroundedChanged?.Invoke(groundHit);
+        if (_grounded != groundHit)
+        {
+            _grounded = groundHit;
+            GroundedChanged?.Invoke(groundHit);
+        }
         Swing?.Invoke(lineRenderer.isVisible);
     }
 
