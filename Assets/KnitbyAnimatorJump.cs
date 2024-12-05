@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Controls Jump; only allows a transition to Fall if all frames in Jump
+/// have been played
+/// </summary>
 public class KnitbyAnimatorJump : StateMachineBehaviour
 {
     private static readonly int JumpedKey = Animator.StringToHash("Jumped");

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /// <summary>
@@ -47,7 +46,6 @@ public class KnitbyAnimator : MonoBehaviour
 
     private void OnGroundedChanged(bool grounded)
     {
-        Debug.Log(grounded ? "land" : "jump");
         anim.SetTrigger(grounded ? GroundedKey : JumpKey);
     }
 
