@@ -7,6 +7,7 @@ TagManager:
   - SwingArea
   - Death
   - ParallaxBackground
+  - Knitby
   layers:
   - Default
   - TransparentFX

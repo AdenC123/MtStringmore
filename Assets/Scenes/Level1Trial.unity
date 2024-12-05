@@ -92325,6 +92325,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Knitby
       objectReference: {fileID: 0}
+    - target: {fileID: 8090917524103177417, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
+      propertyPath: m_TagString
+      value: Knitby
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
