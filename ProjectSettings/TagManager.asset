@@ -8,6 +8,8 @@ TagManager:
   - Death
   - ParallaxBackground
   - Knitby
+  - BounceArea
+  - Trampoline
   layers:
   - Default
   - TransparentFX

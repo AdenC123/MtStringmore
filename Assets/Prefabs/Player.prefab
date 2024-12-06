@@ -143,7 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 6379059411910678817}
-  deathSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
+  deathSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810,
+    type: 3}
   sprite: {fileID: 6233932863109230516}
   runSound: {fileID: 8300000, guid: 6bf00bd78aa7cc44ca3aeb9158e8bd12, type: 3}
   jumpSound: {fileID: 8300000, guid: f2b3c1932e39bef4d9fd655ea0a50af9, type: 3}
@@ -236,7 +237,10 @@ MonoBehaviour:
   ropeRenderer: {fileID: 8739561083334380143}
   deathTime: 2
   stateDebugLog: 0
-  poofSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
+  yBounceForce: 0
+  xBounceForce: 0
+  poofSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810,
+    type: 3}
 --- !u!50 &5301496585393855472
 Rigidbody2D:
   serializedVersion: 4
