@@ -83,6 +83,12 @@ public class PlayerAnimator : MonoBehaviour
         // DetectGroundColor();
         HandleSpriteFlip();
         HandleVerticalSpeed();
+        
+        if (_grounded && !_source.isPlaying)
+        {
+            _source.clip = runSounds[Random.Range(0, runSounds.Length)];
+            _source.Play();
+        }
     }
     
     #endregion
@@ -163,11 +169,10 @@ public class PlayerAnimator : MonoBehaviour
             if (_source.clip == wallSlideSound)
                 _source.Stop();
             _source.PlayOneShot(landSound);
-
-            int r = Random.Range(0, runSounds.Length);
-            _source.clip = runSounds[r];
-            _source.loop = true;
-            _source.Play();
+            // int r = Random.Range(0, runSounds.Length);
+            // _source.clip = runSounds[r];
+            // _source.loop = true;
+            // _source.Play();
 
             // _moveParticles.Play();
 
