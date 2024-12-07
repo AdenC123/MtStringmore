@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 8788333881759333814}
   m_Layer: 7
   m_Name: Knitby
-  m_TagString: Untagged
+  m_TagString: Knitby
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
