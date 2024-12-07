@@ -93141,6 +93141,58 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: wallSlideSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0008debccdf0ec542874262a493daf70, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: runSounds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: jumpSounds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: runSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 913143a824a4d004a87c1ae2d76899b0, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: runSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: bf3150c64c222c74a9183f465aaf3162, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: runSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 501b12ecb0a7ee74ea3c72b57b5eac45, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: runSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 551911f3591c7ed4b8b1974c1bfd183f, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: runSounds.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: a638ee92e51121d458720d1bb84647da, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: jumpSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1d7f84c80c0202348ab643008f08f478, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: jumpSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1c1f97c95ae3df040bb2ac125ce8cb52, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: jumpSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: d99f0013d3e13904eae73206ea746957, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: jumpSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: ca65c08b2b21f7a44bf20ed302c73fb8, type: 3}
+    - target: {fileID: 7281573306219109277, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: jumpSounds.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: b4d6e0049ee3ca64995fa79e58436b22, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

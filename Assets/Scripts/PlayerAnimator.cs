@@ -18,8 +18,8 @@ public class PlayerAnimator : MonoBehaviour
     // [SerializeField] private ParticleSystem _landParticles;
 
     [Header("Audio Clips")]
-    [SerializeField] private AudioClip runSound;
-    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip[] runSounds;
+    [SerializeField] private AudioClip[] jumpSounds;
     [SerializeField] private AudioClip landSound;
     [SerializeField] private AudioClip wallSlideSound;
     [SerializeField] private AudioClip[] deathSounds;
@@ -129,8 +129,9 @@ public class PlayerAnimator : MonoBehaviour
         anim.SetTrigger(JumpKey);
         anim.SetBool(GroundedKey, false);
 
-        _source.clip = jumpSound;
-        _source.PlayOneShot(jumpSound);
+        int r = Random.Range(0, jumpSounds.Length);
+        _source.clip = jumpSounds[r];
+        _source.PlayOneShot(jumpSounds[r]);
 
         // if (_grounded) // Avoid coyote
         // {
@@ -163,7 +164,8 @@ public class PlayerAnimator : MonoBehaviour
                 _source.Stop();
             _source.PlayOneShot(landSound);
 
-            _source.clip = runSound;
+            int r = Random.Range(0, runSounds.Length);
+            _source.clip = runSounds[r];
             _source.loop = true;
             _source.Play();
 
