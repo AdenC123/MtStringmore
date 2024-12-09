@@ -6,7 +6,7 @@ using UnityEngine;
 public class ParallaxLayer : MonoBehaviour
 {
     [SerializeField] private float xParallaxFactor;
-    [SerializeField] private float yParallaxFactor = 0.99f;
+    [SerializeField] private float yParallaxFactor;
     private const float SmoothTime = 0.01f;
     private Vector3 _velocity;
     
