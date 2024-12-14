@@ -90,7 +90,6 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Current velocity of the player.
     /// </summary>
-
     public Vector2 Velocity => _velocity;
 
     /// <summary>
@@ -122,8 +121,7 @@ public class PlayerController : MonoBehaviour
     #region Private Properties
 
     private PlayerStateEnum _playerState;
-
-
+    
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
 
@@ -196,7 +194,7 @@ public class PlayerController : MonoBehaviour
         {
             _swingArea = other;
             _swingRadius = _swingArea.GetComponent<CircleCollider2D>().radius;
-            _swingRadius *= _swingArea.transform.lossyScale.x;  // assume global scale is same for every dimension
+            _swingRadius *= _swingArea.transform.lossyScale.x; // assume global scale is same for every dimension
             _canSwing = true;
         }
         else if (other.gameObject.CompareTag("Death"))
@@ -211,14 +209,6 @@ public class PlayerController : MonoBehaviour
             _inTrampolineArea = true;
             //get the exact trampoline that the player touched to get its public variables
             _trampoline = other.gameObject.GetComponent<Trampoline>();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Trampoline"))
-        {
-            _inTrampolineArea = false;
         }
     }
 
@@ -247,6 +237,10 @@ public class PlayerController : MonoBehaviour
             // can't swing if outside swing area
             // assumes swing areas are not overlapping
             _canSwing = false;
+        }
+        else if (other.gameObject.CompareTag("Trampoline"))
+        {
+            _inTrampolineArea = false;
         }
     }
 
@@ -528,27 +522,28 @@ public class PlayerController : MonoBehaviour
                 // TODO: keep velocity on first swing
                 // TODO: allow swings above target angle
                 // calculate angles (in signed degrees, 0 is straight below swing)
-                Vector2 relPos = transform.position - _swingArea.transform.position; 
+                Vector2 relPos = transform.position - _swingArea.transform.position;
                 Vector2 tangent = Vector2.Perpendicular(relPos).normalized;
                 float currentAngle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
                 float targetAngle = swingTargetAngle * _swingDirection;
                 float angleDiff = Mathf.Abs(targetAngle - currentAngle);
-                
+
                 // if already past target, turn around
                 if (angleDiff <= swingThresholdAngle)
                 {
                     _swingDirection *= -1f;
                 }
-                
+
                 // set velocity needed to reach max angle (max at 0, min near targetAngle)
                 float accelInterp = 1 - Mathf.Abs(currentAngle) / swingTargetAngle;
                 Debug.Log(accelInterp);
-                float angularVel = Mathf.Lerp(0f, swingAcceleration, accelInterp) * _swingDirection * Time.fixedDeltaTime;
+                float angularVel = Mathf.Lerp(0f, swingAcceleration, accelInterp) * _swingDirection *
+                                   Time.fixedDeltaTime;
                 // float angularVel = angleDiff * _swingDirection * swingAcceleration * Time.fixedDeltaTime;
                 _velocity = tangent * angularVel;
-                
+
                 // constrain transform to swing radius
-                Vector2 constrained = (Vector2) _swingArea.transform.position + relPos.normalized * _swingRadius;
+                Vector2 constrained = (Vector2)_swingArea.transform.position + relPos.normalized * _swingRadius;
                 transform.position = new Vector3(constrained.x, constrained.y, transform.position.z);
             }
         }
