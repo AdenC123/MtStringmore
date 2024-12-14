@@ -115,6 +115,10 @@ public class FollowCamera : MonoBehaviour
         FixTarget(trigger.Target, trigger.fixX, trigger.fixY);
     }
 
+    /// <summary>
+    /// Called when exiting a FixCameraTrigger.
+    /// Camera will follow the previous area, or start following the player.
+    /// </summary>
     public void ExitFixCameraTrigger(FixCameraTrigger trigger)
     {
         _fixCameraTriggers.Remove(trigger);
