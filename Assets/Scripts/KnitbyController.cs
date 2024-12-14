@@ -8,7 +8,6 @@ using UnityEngine;
 public class KnitbyController : MonoBehaviour
 { 
     [Header("References")]
-    [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private GameObject deathSmoke;
     [Header("Follow Settings")]
     [SerializeField] private float timeOffset = 0.1f;
@@ -41,6 +40,7 @@ public class KnitbyController : MonoBehaviour
     
     
     private GameObject _player;
+    private LineRenderer _lineRenderer;
     private CapsuleCollider2D _col;
     private Vector3 _currentPathPosition;
     private readonly Queue<Vector3> _path = new();
@@ -51,6 +51,7 @@ public class KnitbyController : MonoBehaviour
     {
         _col = GetComponent<CapsuleCollider2D>();
         _player = GameObject.FindGameObjectWithTag("Player");
+        _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
         var playerController = _player.GetComponent<PlayerController>();
         playerController.Death += PlayerDeath;
     }
@@ -92,7 +93,7 @@ public class KnitbyController : MonoBehaviour
             _grounded = groundHit;
             GroundedChanged?.Invoke(groundHit);
         }
-        Swing?.Invoke(lineRenderer.isVisible);
+        Swing?.Invoke(_lineRenderer.isVisible);
     }
 
     private RaycastHit2D CapsuleCastCollision(Vector2 dir, float distance)
