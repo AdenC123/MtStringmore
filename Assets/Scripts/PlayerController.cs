@@ -55,6 +55,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int deathTime;
     [Header("Debug")]
     [SerializeField] private bool stateDebugLog;
+    // this is just here for battle of the concepts
+    [Header("Temporary")]
+    [SerializeField] private GameObject poofSmoke;
     // @formatter:on
 
     #endregion
@@ -87,6 +90,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Current velocity of the player.
     /// </summary>
+
     public Vector2 Velocity => _velocity;
 
     /// <summary>
@@ -119,6 +123,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerStateEnum _playerState;
 
+
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
 
@@ -144,6 +149,12 @@ public class PlayerController : MonoBehaviour
     private bool _canSwing;
     private float _swingDirection;
 
+    private bool _inTrampolineArea;
+    private bool _inBouncePlatformArea;
+    private Collision2D _bounceArea;
+    private Trampoline _trampoline;
+    private BouncyPlatform _bouncyPlatform;
+
     #endregion
 
     #region Unity Event Handlers
@@ -159,7 +170,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _time += Time.deltaTime;
-
         GetInput();
         RedrawRope(); // TODO this should be moved outside player controller when knitby is real
     }
@@ -196,6 +206,38 @@ public class PlayerController : MonoBehaviour
                 HandleDeath();
             }
         }
+        else if (other.gameObject.CompareTag("Trampoline"))
+        {
+            _inTrampolineArea = true;
+            //get the exact trampoline that the player touched to get its public variables
+            _trampoline = other.gameObject.GetComponent<Trampoline>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Trampoline"))
+        {
+            _inTrampolineArea = false;
+        }
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("BounceArea"))
+        {
+            //put player in air state for proper bouncy platform interactions
+            if (_playerState == PlayerStateEnum.Dash)
+            {
+                _playerState = PlayerStateEnum.Air;
+            }
+
+            _inBouncePlatformArea = true;
+            _bounceArea = other;
+            //get the exact bouncy platform the player touched to get its public variables
+            _bouncyPlatform = other.gameObject.GetComponent<BouncyPlatform>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -212,7 +254,6 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerState == PlayerStateEnum.Dead)
             return;
-
         CheckCollisions();
         HandleWallJump();
         HandleSwing();
@@ -221,6 +262,7 @@ public class PlayerController : MonoBehaviour
         HandleEarlyRelease();
         HandleWalk();
         HandleGravity();
+        HandleBounce();
         if (dashEnabled) HandleDash();
         ApplyMovement();
     }
@@ -345,6 +387,8 @@ public class PlayerController : MonoBehaviour
             _buttonUsed = true;
             PlayerState = PlayerStateEnum.Dash;
             _timeDashed = _time;
+            // for battle of the concepts: add temp dash anim
+            Instantiate(poofSmoke, transform.position, new Quaternion());
         }
         else if (PlayerState is PlayerStateEnum.Dash)
         {
@@ -397,8 +441,45 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void HandleBounce()
+    {
+        //handle trampoline bounces
+        if (_inTrampolineArea)
+        {
+            _velocity = new Vector2(_trampoline.xBounceForce * _lastDirection, _trampoline.yBounceForce);
+        }
+
+        //handle bouncy platform bounces
+        if (_inBouncePlatformArea)
+        {
+            //on first contact determine the players new direction
+            Vector2 directionVector = Vector2.Reflect(_velocity, _bounceArea.contacts[0].normal);
+
+            //ensure the player bounces correctly when hitting the platform coming from the left
+            if (_velocity.x < 0 && directionVector.x < 0 && _velocity.y < 0 &&
+                directionVector.y < 0)
+            {
+                _velocity = new Vector2(-_bouncyPlatform.xBounceForce, _bouncyPlatform.yBounceForce);
+            }
+            else
+            {
+                _velocity = new Vector2(_bouncyPlatform.xBounceForce * Mathf.Sign(directionVector.x),
+                    _bouncyPlatform.yBounceForce);
+            }
+
+            _inBouncePlatformArea = false;
+        }
+    }
+
+
     private void HandleGravity()
     {
+        //temporarily "turn off gravity" for auto trampoline bounce
+        if (_inTrampolineArea)
+        {
+            return;
+        }
+
         switch (PlayerState)
         {
             case PlayerStateEnum.Run:
