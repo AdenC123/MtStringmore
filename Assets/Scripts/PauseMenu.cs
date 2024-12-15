@@ -8,8 +8,13 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
-    
+
     public AudioMixer audioMixer;
+
+    public void Start()
+    {
+        pauseMenuUI.SetActive(false);
+    }
 
     public void SetVolume(float volume)
     {
