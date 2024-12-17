@@ -8,9 +8,9 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {	
 	public AudioMixer audioMixer;
-	public Slider volumeSlider;
-
-	public float startVolume = 0.5f;
+	public Slider volumeSlider; 
+	[SerializeField] string nameOfCurrLevel = "PauseTest";
+	[SerializeField] float startVolume = 0.5f;
 
 	public void Start()
 	{
@@ -24,7 +24,12 @@ public class MainMenu : MonoBehaviour
 	}
     public void PlayGame()
     {
-       SceneManager.LoadScene("PauseTest");
+	    AudioSource audioSource = FindObjectOfType<AudioSource>();
+	    if (audioSource != null)
+	    {
+		    audioSource.Stop();
+	    }
+	    SceneManager.LoadScene(nameOfCurrLevel);
     }
     
     public void QuitGame()
