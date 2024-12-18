@@ -8461,14 +8461,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5103069794447571689, guid: ae467fca31521479d920e449f3fcb866, type: 3}
-      propertyPath: xSmoothTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5103069794447571689, guid: ae467fca31521479d920e449f3fcb866, type: 3}
-      propertyPath: ySmoothTime
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6964292186168748787, guid: ae467fca31521479d920e449f3fcb866, type: 3}
       propertyPath: m_Name
       value: Cutscene Camera
