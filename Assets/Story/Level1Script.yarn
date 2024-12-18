@@ -1,8 +1,15 @@
 ﻿title: IntroCutscene
 setting: outside Knitby's house
 ---
+<<follow_object Marshmallow>>
 Marshmallow: <i>*walks up to Knitby's door and knocks*</i>
+<<move Marshmallow 2 1 10 true>>
 Knitby: <i>*opens the door with a creak*</i>
+<<show Knitby>>
+<<wait 0.5>>
+<<fix_object Knitby>>
+<<move Knitby 1.5 1 10>>
+<<move Marshmallow 3 1 10>>
 Marshmallow: Hiya Knitby, how's it going?
 Knitby: Hey, good to see you, Marshmallow! It's going well, I'm still reveling in our glorious victory on the football field the other day.  
 Marshmallow: <i>*smiling*</i> Those teddy bears didn't know what hit them! 
@@ -15,13 +22,16 @@ Knitby: <i>*sternly*</i> Marshmallow, these peaks have claimed many adventurers 
 Marshmallow: I have a <i>what</i> on my shoulder?
 Knitby: Let me rephrase. Just because you want to prove yourself doesn't mean you should recklessly endanger yourself—
 Marshmallow: Well, okay then. Bye! <i>*takes off at a full sprint*</i>
+<<run Marshmallow 45 1 20 true>>
 Knitby: Wait, where are you going in such a hurry?
 Marshmallow: <i>*getting further away*</i> Up the mountain, duh!
 Knitby: <i>*shouting*</i> But why?
 Marshmallow: <i>*far away*</i> Because I know you can't help but follow me anyway!
 Knitby: <i>*sighs*</i> ...
+<<run Knitby 44 1 20>>
 Knitby: <i>*shouting*</i> Fine, I'm coming, wait up!
 Marshmallow: <i>*playfully*</i> Good, try to keep up!
+<<load_scene Level1Trial>>
 ===
 
 title: JumpTutorial
