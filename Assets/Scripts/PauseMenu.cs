@@ -14,11 +14,12 @@ public class PauseMenu : MonoBehaviour
     public void Start()
     {
         pauseMenuUI.SetActive(false);
+        
     }
 
     public void SetVolume(float volume)
     {
-        audioMixer.SetFloat("Volume", volume);
+        audioMixer.SetFloat("Volume", Mathf.Log10(volume) * 20);
     }
 
     // Update is called once per frame
