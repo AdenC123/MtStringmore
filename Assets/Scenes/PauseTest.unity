@@ -751,6 +751,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 23919938}
   audioMixer: {fileID: 24100000, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
+  volumeSlider: {fileID: 1498589751}
+  startVolume: 0.5
 --- !u!1 &673468514
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +938,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Manager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2257474230385962516, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -50728,6 +50731,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4375740838175892631, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 7445090876735969629, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

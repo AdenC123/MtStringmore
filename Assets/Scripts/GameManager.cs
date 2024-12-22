@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        Time.timeScale = 1f;
         var player = GameObject.FindGameObjectWithTag("Player");
         if (!_newLevel) {
             Vector3 spawnPos = new Vector3(CheckPointPos.x, CheckPointPos.y, player.transform.position.z);
