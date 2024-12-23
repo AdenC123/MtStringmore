@@ -11,24 +11,35 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
 
     public AudioMixer audioMixer;
-    
-    public Slider volumeSlider;
 
-    public float startVolume = 0.5f;
+    public Slider BGMSlider;
+    public Slider SFXSlider;
+    
+    public float startBGMVolume = 0.5f;
+    public float startSFXVolume = 0.5f;
 
     public void Start()
     {
         pauseMenuUI.SetActive(false);
-        float savedVolume = PlayerPrefs.GetFloat("Volume", startVolume);
-        SetVolume(savedVolume);
-        volumeSlider.value = savedVolume;
-        audioMixer.SetFloat("SFX", 0f);
+        float savedBGMVolume = PlayerPrefs.GetFloat("BGM", startBGMVolume);
+        float savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
+        SetSFXVolume(savedSFXVolume);
+        SetBGMVolume(savedBGMVolume);
+        BGMSlider.value = savedBGMVolume;
+        SFXSlider.value = savedSFXVolume;
     }
-
-    public void SetVolume(float volume)
+    
+    public void SetBGMVolume(float volume)
     {
-        audioMixer.SetFloat("Volume", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("Volume", volume);
+        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("BGM", volume);
+        PlayerPrefs.Save();
+    }
+    
+    public void SetSFXVolume(float volume)
+    {
+        audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("SFX", volume);
         PlayerPrefs.Save();
     }
 
@@ -53,7 +64,8 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;   
-        audioMixer.SetFloat("SFX", 0f);
+        float savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
+        SetSFXVolume(savedSFXVolume);
     }
 
     void Pause()
@@ -61,6 +73,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
+        
         audioMixer.SetFloat("SFX", -80f);
     }
 
