@@ -468,6 +468,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94481008}
   m_CullTransparentMesh: 1
+--- !u!82 &102753753 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4375740838175892631, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+  m_PrefabInstance: {fileID: 5309413382810785003}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &248560665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,6 +1045,8 @@ MonoBehaviour:
   SFXSlider: {fileID: 961102416}
   startBGMVolume: 0.5
   startSFXVolume: 0.5
+  startMasterVolume: 0.5
+  sfxAudioSource: {fileID: 102753753}
 --- !u!1 &673468514
 GameObject:
   m_ObjectHideFlags: 0

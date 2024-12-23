@@ -15,6 +15,7 @@ public class PauseMenu : MonoBehaviour
 
     public float startBGMVolume = 0.5f;
     public float startSFXVolume = 0.5f;
+    public float startMasterVolume = 0.5f;
 
     // SerializeField to directly assign the AudioSource that plays the SFX in the Inspector
     [SerializeField] private AudioSource sfxAudioSource;
@@ -22,6 +23,7 @@ public class PauseMenu : MonoBehaviour
     public void Start()
     {
         pauseMenuUI.SetActive(false);
+        audioMixer.SetFloat("Master", startMasterVolume);
         float savedBGMVolume = PlayerPrefs.GetFloat("BGM", startBGMVolume);
         float savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
         SetBGMVolume(savedBGMVolume);
