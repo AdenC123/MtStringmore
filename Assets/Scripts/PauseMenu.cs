@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
@@ -14,28 +12,31 @@ public class PauseMenu : MonoBehaviour
 
     public Slider BGMSlider;
     public Slider SFXSlider;
-    
+
     public float startBGMVolume = 0.5f;
     public float startSFXVolume = 0.5f;
+
+    // SerializeField to directly assign the AudioSource that plays the SFX in the Inspector
+    [SerializeField] private AudioSource sfxAudioSource;
 
     public void Start()
     {
         pauseMenuUI.SetActive(false);
         float savedBGMVolume = PlayerPrefs.GetFloat("BGM", startBGMVolume);
         float savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
-        SetSFXVolume(savedSFXVolume);
         SetBGMVolume(savedBGMVolume);
+        SetSFXVolume(savedSFXVolume);
         BGMSlider.value = savedBGMVolume;
         SFXSlider.value = savedSFXVolume;
     }
-    
+
     public void SetBGMVolume(float volume)
     {
         audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("BGM", volume);
         PlayerPrefs.Save();
     }
-    
+
     public void SetSFXVolume(float volume)
     {
         audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
@@ -63,9 +64,13 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        GameIsPaused = false;   
+        GameIsPaused = false;
+        
         float savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
         SetSFXVolume(savedSFXVolume);
+        
+        if (!sfxAudioSource.isPlaying)
+            sfxAudioSource.Play();
     }
 
     void Pause()
@@ -73,8 +78,13 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
-        
+
+        // Mute the SFX when pausing
         audioMixer.SetFloat("SFX", -80f);
+
+        // Pause the SFX audio source
+        if (sfxAudioSource.isPlaying)
+            sfxAudioSource.Pause();
     }
 
     public void LoadMenu()
