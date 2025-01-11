@@ -22,6 +22,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Start()
     {
+        Resume();
         pauseMenuUI.SetActive(false);
         audioMixer.SetFloat("Master", startMasterVolume);
         float savedBGMVolume = PlayerPrefs.GetFloat("BGM", startBGMVolume);
