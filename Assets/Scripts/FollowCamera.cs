@@ -51,8 +51,6 @@ public class FollowCamera : MonoBehaviour
         if (!_fixedX && !_fixedY) _target = GetPlayerTarget();
         else if (!_fixedX) _target.x = GetPlayerTarget().x;
         else if (!_fixedY) _target.y = GetPlayerTarget().y;
-        Debug.Log(_target.x);
-        Debug.Log(_target.y);
 
         // apply smoothing to the camera
         Vector3 camPosition = transform.position;
