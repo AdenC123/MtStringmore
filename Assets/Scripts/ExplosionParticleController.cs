@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
+    /// <summary>
+    /// Handles the death of player, when in contact with particles 
+    /// </summary>
     public class ExplosionParticleController : MonoBehaviour
     {
         public ParticleSystem explosionParticles;
@@ -24,11 +27,9 @@ namespace DefaultNamespace
 
         void OnParticleCollision(GameObject other)
         {
-            Debug.Log("entered OnParticleCollision");
             if (other.CompareTag("Player"))
             {
-                Debug.Log("Player hit by explosion particle!");
-                PlayerController playerController = other.GetComponent<PlayerController>();
+                var playerController = other.GetComponent<PlayerController>();
                 if (playerController.PlayerState != PlayerController.PlayerStateEnum.Dead)
                 {
                     playerController.HandleDeath();
