@@ -2,8 +2,8 @@
 setting: outside Knitby's house
 ---
 <<follow_object Marshmallow>>
-Marshmallow: <i>*walks up to Knitby's door and knocks*</i>
 <<move Marshmallow 2 1 10 true>>
+Marshmallow: <i>*knocks on Knitby's door*</i>
 Knitby: <i>*opens the door with a creak*</i>
 <<show Knitby>>
 <<wait 0.5>>
