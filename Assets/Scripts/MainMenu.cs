@@ -7,26 +7,41 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {	
-	public AudioMixer audioMixer;
-	public Slider volumeSlider;
-	public float startVolume = 0.5f;
+    public AudioMixer audioMixer;
+    public Slider BGMSlider;
+    public Slider SFXSlider;
+    public float startBGMVolume = 0.5f;
+    public float startSFXVolume = 0.5f;
+    public float startMasterVolume = 0.5f;
 
-	public void Start()
-	{
-		float savedVolume = PlayerPrefs.GetFloat("Volume", startVolume);
-		SetVolume(savedVolume);
-		volumeSlider.value = savedVolume;
-	}
+    public void Start()
+    {
+        audioMixer.SetFloat("Master", startMasterVolume);
+        float savedBGMVolume = PlayerPrefs.GetFloat("BGM", startBGMVolume);
+        float savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
+        SetBGMVolume(savedBGMVolume);
+        SetSFXVolume(savedSFXVolume);
+        BGMSlider.value = savedBGMVolume;
+        SFXSlider.value = savedSFXVolume;
+    }
 
-	public void SetVolume(float volume)
-	{
-		audioMixer.SetFloat("Volume", Mathf.Log10(volume) * 20);
-		PlayerPrefs.SetFloat("Volume", volume);
-		PlayerPrefs.Save();
-	}
+    public void SetBGMVolume(float volume)
+    {
+        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("BGM", volume);
+        PlayerPrefs.Save();
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("SFX", volume);
+        PlayerPrefs.Save();
+    }
+
     public void PlayGame()
     {
-       SceneManager.LoadScene("PauseTest");
+        SceneManager.LoadScene("PauseTest");
     }
     
     public void QuitGame()
