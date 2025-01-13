@@ -1098,7 +1098,7 @@ MonoBehaviour:
   startBGMVolume: 0.5
   startSFXVolume: 0.5
   startMasterVolume: 0.5
-  sfxAudioSource: {fileID: 0}
+  sfxAudioSource: {fileID: 1901031394}
 --- !u!1 &673468514
 GameObject:
   m_ObjectHideFlags: 0
