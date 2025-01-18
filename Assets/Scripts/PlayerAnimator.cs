@@ -43,7 +43,8 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int WallChangedKey = Animator.StringToHash("WallChanged");
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int DeathKey = Animator.StringToHash("Dead");
-    
+    private static readonly int BalloonKey = Animator.StringToHash("Balloon");
+
     #endregion
 
     #region Unity Event Handlers
@@ -61,6 +62,8 @@ public class PlayerAnimator : MonoBehaviour
         _player.GroundedChanged += OnGroundedChanged;
         _player.WallChanged += OnWallChanged;
         _player.Death += OnDeath;
+        _player.BalloonStateChanged += OnBalloonStateChanged;
+
 
         // _moveParticles.Play();
     }
@@ -190,6 +193,14 @@ public class PlayerAnimator : MonoBehaviour
             _source.PlayOneShot(sound);
         Instantiate(deathSmoke, transform);
         anim.SetBool(DeathKey, true);
+    }
+    
+    /// <summary>
+    /// If player state is Balloon, true, false otherwise
+    /// </summary>
+    private void OnBalloonStateChanged(bool balloon)
+    {
+        anim.SetBool(BalloonKey, balloon);
     }
 
     // private void DetectGroundColor()

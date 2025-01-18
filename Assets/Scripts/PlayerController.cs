@@ -51,6 +51,9 @@ public class PlayerController : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
     [SerializeField] private int deathTime;
+    [Header("Balloon")]
+    [SerializeField] private GameObject _balloon;
+    [SerializeField] private Vector2 _balloonOffset = new Vector2(0f, -1f);
     [Header("Debug")]
     [SerializeField] private bool stateDebugLog;
     // @formatter:on
@@ -106,6 +109,8 @@ public class PlayerController : MonoBehaviour
     /// Parameters:
     ///     bool: True if hitting the wall, false if leaving the wall
     /// </summary>
+    public event Action<bool> BalloonStateChanged;
+
     public event Action<bool> WallChanged;
 
     public event Action Jumped;
@@ -141,6 +146,8 @@ public class PlayerController : MonoBehaviour
     private Collider2D _swingArea;
     private bool _enteredSwingArea;
     private float _swingRadius;
+    
+    private bool _isTouchingBalloon;
 
     #endregion
 
@@ -177,15 +184,14 @@ public class PlayerController : MonoBehaviour
             GameManager.Instance.Respawn();
         }
     }
-
-    private bool isTouchingBalloon;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Balloon"))
+        if (other.gameObject.CompareTag("Balloon"))
         {
             Debug.Log("Balloon touched!");
-            isTouchingBalloon = true;
+            _isTouchingBalloon = true;
             PlayerState = PlayerStateEnum.Balloon;
+            BalloonStateChanged?.Invoke(true);
         }
         
         
@@ -202,18 +208,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Balloon"))
-        {
-            isTouchingBalloon = false;
-            PlayerState = PlayerStateEnum.Air; // Exit Balloon state
-        }
-    }
-    
-    private float balloonFloatForce = 5f;
 
     private void FixedUpdate()
     {
@@ -236,11 +230,31 @@ public class PlayerController : MonoBehaviour
     
     private void HandleBalloon()
     {
-        if (PlayerState == PlayerStateEnum.Balloon)
+        if (_isTouchingBalloon)
         {
-            _velocity.y = balloonFloatForce; // Apply a constant upward force
+            PlayerState = PlayerStateEnum.Balloon;
+            _velocity.x = 0f;
+            _velocity.y = 0f;
+        }
+        
+        if (_balloon != null && PlayerState == PlayerStateEnum.Balloon)
+        {
+            // Set the player to be below the balloon
+            float verticalOffset = -100.0f;
+            Vector3 targetPosition = _balloon.transform.position + new Vector3(0, verticalOffset, 0);
+
+            // Smoothly move towards the target position
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 5f);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerState = PlayerStateEnum.Air;
+            BalloonStateChanged?.Invoke(false);
+            _isTouchingBalloon = false;
         }
     }
+
 
 
     #endregion
@@ -417,7 +431,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleGravity()
     {
-        if (PlayerState is PlayerStateEnum.Balloon) return;
+        if (PlayerState == PlayerStateEnum.Balloon) return;
         
         switch (PlayerState)
         {
@@ -496,6 +510,14 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMovement()
     {
+        if (PlayerState == PlayerStateEnum.Balloon)
+        {
+            if (_balloon != null)
+            {
+                transform.position = _balloon.transform.position; // Lock position to balloon
+            }
+            return;
+        }
         _rb.velocity = _velocity;
         if (_velocity.x != 0f) _lastDirection = Mathf.Sign(_velocity.x);
         Debug.DrawRay(transform.position, _velocity, Color.magenta);
