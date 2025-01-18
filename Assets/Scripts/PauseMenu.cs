@@ -1,11 +1,12 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 public class PauseMenu : MonoBehaviour
 {
-    public static bool GameIsPaused = false;
+    public static bool GameIsPaused;
     public GameObject pauseMenuUI;
 
     public AudioMixer audioMixer;
@@ -19,18 +20,36 @@ public class PauseMenu : MonoBehaviour
 
     // SerializeField to directly assign the AudioSource that plays the SFX in the Inspector
     [SerializeField] private AudioSource sfxAudioSource;
+    private DialogueRunner _dialogueRunner;
 
     public void Start()
     {
-        Resume();
         pauseMenuUI.SetActive(false);
         audioMixer.SetFloat("Master", startMasterVolume);
-        float savedBGMVolume = PlayerPrefs.GetFloat("BGM", startBGMVolume);
-        float savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
+        var savedBGMVolume = PlayerPrefs.GetFloat("BGM", startBGMVolume);
+        var savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
         SetBGMVolume(savedBGMVolume);
         SetSFXVolume(savedSFXVolume);
         BGMSlider.value = savedBGMVolume;
         SFXSlider.value = savedSFXVolume;
+
+        _dialogueRunner = FindObjectOfType<DialogueRunner>();
+        Debug.Log(_dialogueRunner);
+        // _dialogueRunner = GetComponent<DialogueRunner>();
+        // Debug.Log(_dialogueRunner);
+        Resume();
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (GameIsPaused)
+                Resume();
+            else
+                Pause();
+        }
     }
 
     public void SetBGMVolume(float volume)
@@ -47,36 +66,21 @@ public class PauseMenu : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (GameIsPaused)
-            {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
-        }
-    }
-
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
+        if (!_dialogueRunner.IsDialogueRunning) Time.timeScale = 1f;
+
         GameIsPaused = false;
-        
-        float savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
+
+        var savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
         SetSFXVolume(savedSFXVolume);
-        
+
         if (!sfxAudioSource.isPlaying)
             sfxAudioSource.Play();
     }
 
-    void Pause()
+    private void Pause()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
