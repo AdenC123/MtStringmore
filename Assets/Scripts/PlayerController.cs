@@ -234,19 +234,19 @@ public class PlayerController : MonoBehaviour
         {
             PlayerState = PlayerStateEnum.Balloon;
             _velocity.x = 0f;
-            _velocity.y = 0f;
+            _velocity.y = 10f;
         }
         
         if (_balloon != null && PlayerState == PlayerStateEnum.Balloon)
         {
-            // Set the player to be below the balloon
-            float verticalOffset = -100.0f;
-            Vector3 targetPosition = _balloon.transform.position + new Vector3(0, verticalOffset, 0);
-
-            // Smoothly move towards the target position
-            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 5f);
+            // // Set the player to be below the balloon
+            // float verticalOffset = -10.0f;
+            // Vector3 targetPosition = _balloon.transform.position + new Vector3(0, verticalOffset, 0);
+            //
+            // // Smoothly move towards the target position
+            // transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 5f);
         }
-
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             PlayerState = PlayerStateEnum.Air;
@@ -510,14 +510,6 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMovement()
     {
-        if (PlayerState == PlayerStateEnum.Balloon)
-        {
-            if (_balloon != null)
-            {
-                transform.position = _balloon.transform.position; // Lock position to balloon
-            }
-            return;
-        }
         _rb.velocity = _velocity;
         if (_velocity.x != 0f) _lastDirection = Mathf.Sign(_velocity.x);
         Debug.DrawRay(transform.position, _velocity, Color.magenta);
