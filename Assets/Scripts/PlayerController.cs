@@ -393,9 +393,9 @@ public class PlayerController : MonoBehaviour
                 _velocity.x = endDashSpeed * _lastDirection;
             }
         }
-        else if (PlayerState is PlayerStateEnum.Run)
+        else if (PlayerState is PlayerStateEnum.Run or PlayerStateEnum.Swing)
         {
-            // can dash after landing on the ground
+            // can dash after landing on the ground or swinging
             _canDash = true;
         }
     }
