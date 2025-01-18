@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
@@ -59,6 +58,7 @@ public class GameManager : MonoBehaviour
         }
 
         var cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowCamera>();
+        if (cam is null) return;
         var playerTarget = cam.GetPlayerTarget();
         cam.transform.position = new Vector3(playerTarget.x, playerTarget.y, cam.transform.position.z);
     }
