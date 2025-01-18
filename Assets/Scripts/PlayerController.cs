@@ -43,15 +43,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float wallSlideSpeed;
     [SerializeField] private float wallSlideAcceleration;
     [Header("Swinging")] 
-    // [SerializeField] private float swingBoostMultiplier;
-    // [SerializeField] private float maxSwingSpeed;
-    // [SerializeField] private float swingAcceleration;
-    // [SerializeField] private float swingGravity;
-    // [SerializeField] private float minSwingReleaseX;
-    // [SerializeField] private float swingTargetAngle;
-    // [SerializeField] private float swingThresholdAngle;
-    [SerializeField] private float swingFrequency;
-    [SerializeField] private float swingMaxAngle;
+    [SerializeField] private float swingBoostMultiplier;
+    [SerializeField] private float maxSwingSpeed;
+    [SerializeField] private float swingAcceleration;
+    [SerializeField] private float swingGravity;
+    [SerializeField] private float minSwingReleaseX;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
     [SerializeField] private int deathTime;
@@ -147,10 +143,6 @@ public class PlayerController : MonoBehaviour
     private Collider2D _swingArea;
     private float _swingRadius;
     private bool _canSwing;
-    private float _swingDirection;
-    private float _swingInitialAngle;
-    private float _swingStartTime;
-    private bool _swingStarted;
 
     private bool _inTrampolineArea;
     private bool _inBouncePlatformArea;
@@ -518,81 +510,37 @@ public class PlayerController : MonoBehaviour
             if (Vector2.Distance(_swingArea.transform.position, transform.position) < _swingRadius)
             {
                 // not at max radius, fall normally
-                _swingStarted = false;
-                _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, fallAccelerationDown * Time.fixedDeltaTime);
+                _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, swingAcceleration * Time.fixedDeltaTime);
             }
             else
             {
-                // at max radius, swinging: set velocity to zero, use position control instead
-                _velocity = Vector2.zero;
-                
-                // calculate angles (in signed degrees, 0 is straight below swing)
+                _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, swingAcceleration * Time.fixedDeltaTime);
                 Vector2 relPos = transform.position - _swingArea.transform.position;
-                Vector2 tangent = Vector2.Perpendicular(relPos).normalized;
-                float currentAngle = Mathf.Atan2(tangent.y, tangent.x);
- 
-                if (!_swingStarted)
+                // if going down, accelerate to target swing speed
+                if (_velocity.y <= 0f && _velocity.magnitude <= maxSwingSpeed)
                 {
-                    // just hit max radius: set initial swing direction, angle, time
-                    _swingStarted = true;
-                    _swingDirection = _lastDirection;
-                    _swingInitialAngle = currentAngle;
-                    _swingStartTime = _time;
+                    _velocity = _velocity.normalized * Mathf.MoveTowards(_velocity.magnitude, maxSwingSpeed,
+                        swingAcceleration * Time.fixedDeltaTime);
                 }
-                
-                // calculate new angle
-                float timeSinceSwing = _time - _swingStartTime;
-                //float newAngle = _swingDirection * swingMaxAngle * Mathf.Deg2Rad * 
-                //                 Mathf.Sin(swingFrequency * timeSinceSwing + _swingInitialAngle);
-                float newAngle = _swingDirection * swingMaxAngle * Mathf.Deg2Rad * 
-                                 Mathf.Sin(swingFrequency * Time.fixedDeltaTime * timeSinceSwing);
-                
-                // set position to new angle
-                Vector2 newRelPos = new Vector2(Mathf.Sin(newAngle), -Mathf.Cos(newAngle)) * _swingRadius;
-                Vector2 newPos = (Vector2) _swingArea.transform.position + newRelPos;
-                transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
-                
-                Debug.Log($"curr angle: {currentAngle * Mathf.Rad2Deg} new angle: {newAngle * Mathf.Rad2Deg}, new pos: {newRelPos}, initial angle: {_swingInitialAngle * Mathf.Rad2Deg}");
-                Debug.Log($"time: {timeSinceSwing}");
 
-                // // set velocity needed to reach new angle
-                // float angleDiff = newAngle - currentAngle;
-                // float angularVel = angleDiff * Time.fixedDeltaTime;
-                // _velocity = tangent * angularVel;
-
-                // // constrain transform to swing radius
-                // Vector2 constrained = (Vector2)_swingArea.transform.position + relPos.normalized * _swingRadius;
-                // transform.position = new Vector3(constrained.x, constrained.y, transform.position.z);
-
-                // // TODO: keep velocity on first swing
-                // // TODO: allow swings above target angle
-                // float targetAngle = swingTargetAngle * _swingDirection;
-                // float angleDiff = Mathf.Abs(targetAngle - currentAngle);
-                //
-                // // if already past target, turn around
-                // if (angleDiff <= swingThresholdAngle)
-                // {
-                //     _swingDirection *= -1f;
-                // }
-                //
-                // // set velocity needed to reach max angle (max at 0, min near targetAngle)
-                // float accelInterp = 1 - Mathf.Abs(currentAngle) / swingTargetAngle;
-                // Debug.Log(accelInterp);
-                // float angularVel = Mathf.Lerp(0f, swingAcceleration, accelInterp) * _swingDirection *
-                //                    Time.fixedDeltaTime;
-                // float angularVel = angleDiff * _swingDirection * swingAcceleration * Time.fixedDeltaTime;
-                // _velocity = tangent * angularVel;
-                //
+                Vector2 testPos = relPos + _velocity * Time.fixedDeltaTime;
+                Vector2 newPos = testPos.normalized * _swingRadius;
+                _velocity = (newPos - relPos) / Time.fixedDeltaTime;
             }
         }
-        else if (PlayerState is PlayerStateEnum.Swing)
+        else if (PlayerState is PlayerStateEnum.Swing && !_isButtonHeld)
         {
             // swinging but button is released
             // stop swinging, disallow swing until reentering area
             PlayerState = PlayerStateEnum.Air;
             ropeRenderer.enabled = false;
             _canSwing = false;
-            _swingStarted = false;
+            
+            // give x velocity boost on release
+            float boostDirection = transform.position.x >= _swingArea.transform.position.x ? 1f : -1f;
+            if (_velocity.x <= Mathf.Abs(minSwingReleaseX))
+                _velocity.x = minSwingReleaseX * boostDirection;
+            _buttonUsed = true;
         }
     }
 
