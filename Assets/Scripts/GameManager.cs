@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
@@ -7,8 +8,6 @@ using Yarn.Unity;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private string nextScene;
-
     /// <summary>
     ///     Used between scene transitions. Set to false for respawns, true for transition between levels
     /// </summary>
@@ -34,11 +33,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K)) NextScene();
     }
 
     private void OnDestroy()
@@ -79,11 +73,5 @@ public class GameManager : MonoBehaviour
     public static void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-    }
-
-    [YarnCommand("next_scene")]
-    public void NextScene()
-    {
-        SceneManager.LoadScene(nextScene);
     }
 }
