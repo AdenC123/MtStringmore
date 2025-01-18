@@ -228,11 +228,8 @@ MonoBehaviour:
   wallJumpPower: 36
   wallSlideSpeed: 15
   wallSlideAcceleration: 30
-  swingBoostMultiplier: 1.2
-  maxSwingSpeed: 47
-  swingAcceleration: 75
-  swingGravity: 110
-  minSwingReleaseX: 25
+  swingFrequency: 1
+  swingMaxAngle: 150
   ropeRenderer: {fileID: 8739561083334380143}
   deathTime: 2
   stateDebugLog: 0
