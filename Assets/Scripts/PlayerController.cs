@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float swingBoostMultiplier;
     [SerializeField] private float maxSwingSpeed;
     [SerializeField] private float swingAcceleration;
-    [SerializeField] private float swingGravity;
     [SerializeField] private float minSwingReleaseX;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
@@ -143,6 +142,7 @@ public class PlayerController : MonoBehaviour
     private Collider2D _swingArea;
     private float _swingRadius;
     private bool _canSwing;
+    private bool _swingStarted;
 
     private bool _inTrampolineArea;
     private bool _inBouncePlatformArea;
@@ -486,6 +486,7 @@ public class PlayerController : MonoBehaviour
                 else goto case PlayerStateEnum.Air;
                 break;
             case PlayerStateEnum.Air:
+            case PlayerStateEnum.Swing:
                 float accel;
                 if (_releasedEarly) accel = earlyReleaseFallAcceleration;
                 else if (_velocity.y >= 0f) accel = fallAccelerationUp;
@@ -507,14 +508,15 @@ public class PlayerController : MonoBehaviour
         else if (PlayerState is PlayerStateEnum.Swing && _isButtonHeld)
         {
             // in swing and holding down button
-            if (Vector2.Distance(_swingArea.transform.position, transform.position) < _swingRadius)
+            // if not at max radius yet, fall normally
+            if (!_swingStarted && Vector2.Distance(_swingArea.transform.position, transform.position) >= _swingRadius)
             {
-                // not at max radius, fall normally
-                _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, swingAcceleration * Time.fixedDeltaTime);
+                // reached max radius, start swing
+                _swingStarted = true;
             }
-            else
+            if (_swingStarted)
             {
-                _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, swingAcceleration * Time.fixedDeltaTime);
+                // swinging at max radius
                 Vector2 relPos = transform.position - _swingArea.transform.position;
                 // if going down, accelerate to target swing speed
                 if (_velocity.y <= 0f && _velocity.magnitude <= maxSwingSpeed)
@@ -535,12 +537,16 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Air;
             ropeRenderer.enabled = false;
             _canSwing = false;
-            
-            // give x velocity boost on release
-            float boostDirection = transform.position.x >= _swingArea.transform.position.x ? 1f : -1f;
-            if (_velocity.x <= Mathf.Abs(minSwingReleaseX))
-                _velocity.x = minSwingReleaseX * boostDirection;
-            _buttonUsed = true;
+
+            if (_swingStarted)
+            {
+                // give x velocity boost on release
+                float boostDirection = transform.position.x >= _swingArea.transform.position.x ? 1f : -1f;
+                if (Mathf.Abs(_velocity.x) <= minSwingReleaseX)
+                    _velocity.x = minSwingReleaseX * boostDirection;
+                _buttonUsed = true;
+                _swingStarted = false;
+            }
         }
     }
 
