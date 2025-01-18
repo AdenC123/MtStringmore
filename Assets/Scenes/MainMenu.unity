@@ -1639,6 +1639,7 @@ MonoBehaviour:
   startBGMVolume: 0.5
   startSFXVolume: 0.5
   startMasterVolume: 0.5
+  startingScene: PauseTest
 --- !u!1 &1548438057
 GameObject:
   m_ObjectHideFlags: 0

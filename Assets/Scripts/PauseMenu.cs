@@ -7,16 +7,16 @@ using Yarn.Unity;
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused;
-    public GameObject pauseMenuUI;
+    [SerializeField] private GameObject pauseMenuUI;
 
-    public AudioMixer audioMixer;
+    [SerializeField] private AudioMixer audioMixer;
 
-    public Slider BGMSlider;
-    public Slider SFXSlider;
+    [SerializeField] private Slider BGMSlider;
+    [SerializeField] private Slider SFXSlider;
 
-    public float startBGMVolume = 0.5f;
-    public float startSFXVolume = 0.5f;
-    public float startMasterVolume = 0.5f;
+    [SerializeField] private float startBGMVolume = 0.5f;
+    [SerializeField] private float startSFXVolume = 0.5f;
+    [SerializeField] private float startMasterVolume = 0.5f;
 
     // SerializeField to directly assign the AudioSource that plays the SFX in the Inspector
     [SerializeField] private AudioSource sfxAudioSource;
