@@ -11,13 +11,11 @@ public class BoulderController : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private ParticleSystem liquidMolecule;
     
-    [SerializeField] public GameObject smallerBoulderPrefab;
-    [SerializeField] public float splitVelocity = 8f;
     [SerializeField] public bool toExplode = false;
     
-    [Range(1, 5)]
+    [Range(0, 5)]
     [SerializeField] public float minGravityScale = 3f;
-    [Range(1, 5)]
+    [Range(0, 5)]
     [SerializeField] public float maxGravityScale = 5f;
     
     private void Start()
@@ -41,27 +39,7 @@ public class BoulderController : MonoBehaviour
             
         }
     }
-
-    private void SplitIntoSmallerBoulders()
-    {
-        for (int i = 0; i < 2; i++)
-        {
-            GameObject smallerBoulder = Instantiate(smallerBoulderPrefab, transform.position, Quaternion.identity);
-            Rigidbody2D smallerRb = smallerBoulder.GetComponent<Rigidbody2D>();
     
-            float randomAngle = (i == 0) ? 45f : -45f;
-            float angleInRadians = randomAngle * Mathf.Deg2Rad;
-    
-            Vector2 velocity = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)) * splitVelocity;
-            smallerRb.velocity = (i == 0) ? velocity : -velocity;
-    
-            // float randomGravityScale = Random.Range(minGravityScale, maxGravityScale);
-            // smallerRb.gravityScale = randomGravityScale;
-            
-            Destroy(smallerBoulder, 1f);
-        }
-    }
-
     private void TurnIntoParticles()
     {
         if (liquidMolecule != null)
