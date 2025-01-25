@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("SwingArea"))
         {
             _swingArea = other;
-            _swingRadius = _swingArea.GetComponent<CircleCollider2D>().radius;
+            _swingRadius = _swingArea.GetComponent<SwingArea>().swingRadius;
             _swingRadius *= _swingArea.transform.lossyScale.x; // assume global scale is same for every dimension
             _canSwing = true;
         }
