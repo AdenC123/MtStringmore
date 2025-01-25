@@ -17,14 +17,19 @@ public class Checkpoint : MonoBehaviour
     [SerializeField]
     private string conversationStartNode;
 
+    [SerializeField] private string tutorialMove;
+
     // internal properties not exposed to editor
     private DialogueRunner _dialogueRunner;
     private bool _isCurrentConversation;
+    private TutorialBox _tutorialBox;
 
     public void Start()
     {
         _dialogueRunner = FindObjectOfType<DialogueRunner>();
         _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
+        if (tutorialMove != "")
+            _tutorialBox = FindObjectOfType<TutorialBox>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -33,6 +38,7 @@ public class Checkpoint : MonoBehaviour
         anim.SetBool(HoistKey, true);
         GameManager.Instance.CheckPointPos = transform.position;
         StartConversation();
+        ShowTutorial();
     }
 
     private void StartConversation()
@@ -50,5 +56,12 @@ public class Checkpoint : MonoBehaviour
         _isCurrentConversation = false;
         Debug.Log("Ended dialogue at checkpoint.");
         Time.timeScale = 1;
+    }
+
+    private void ShowTutorial()
+    {
+        if (tutorialMove == "") return;
+        _tutorialBox.SetMove(tutorialMove);
+        _tutorialBox.ShowTutorial();
     }
 }
