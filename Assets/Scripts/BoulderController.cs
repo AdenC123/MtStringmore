@@ -43,13 +43,16 @@ public class BoulderController : MonoBehaviour
         {
             float yOffset = 0.5f;
             
+            // Set the particle system position to just above the boulder, so the animation looks better
             Vector3 particlePosition = transform.position + new Vector3(0, yOffset, 0);
+            
+            // physically move the particles to the newly created position
             ParticleSystem particles = Instantiate(liquidMolecule, particlePosition, Quaternion.identity);
             
             particles.Play();
             
             Destroy(particles.gameObject, particles.main.duration + particles.main.startLifetime.constantMax);
         }
-    }
+    } // - created prefabs of fireballs/snowballs, the cannon that shoots them, and also the particle effects of the explosion
 
 }

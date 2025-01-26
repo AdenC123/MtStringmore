@@ -10,8 +10,8 @@ public class CanonController : MonoBehaviour
     private float MaxTimeBtwnShots;
     private float TimeBtwnShots;
     
-    [SerializeField] public float Angle = 45f; // angle in degrees
-    [SerializeField] public float Speed = 10f; // initial speed of the boulder
+    [SerializeField] public float Angle = 45f; // angle in DEGREES
+    [SerializeField] public float Speed = 10f;
     [SerializeField] public float minTimeBetweenShots = 1f;
     [SerializeField] public float maxTimeBetweenShots = 3f;
     void Start()
@@ -27,6 +27,7 @@ public class CanonController : MonoBehaviour
             GameObject newBoulder = Instantiate(Boulder, transform.position, Quaternion.identity);
             Rigidbody2D boulderRb = newBoulder.GetComponent<Rigidbody2D>();
 
+            // create the angle that the boulder shoots out
             float angleInRadians = Angle * Mathf.Deg2Rad;
             Vector2 velocity = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)) * Speed;
             boulderRb.velocity = velocity;
