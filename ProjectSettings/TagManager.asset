@@ -9,6 +9,9 @@ TagManager:
   - ParallaxBackground
   - Boulder
   - Explosion
+  - Knitby
+  - BounceArea
+  - Trampoline
   layers:
   - Default
   - TransparentFX
