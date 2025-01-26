@@ -6,8 +6,6 @@ using UnityEngine;
 public class CanonController : MonoBehaviour
 {
     private Rigidbody2D rb;
-
-    private BoulderController boulder = new BoulderController();
     public GameObject Boulder;
     private float MaxTimeBtwnShots;
     private float TimeBtwnShots;

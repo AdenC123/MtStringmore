@@ -10,7 +10,6 @@ public class BoulderController : MonoBehaviour
 {
     private Rigidbody2D rb;
     [SerializeField] private ParticleSystem liquidMolecule;
-    
     [SerializeField] public bool toExplode = false;
     
     [Range(0, 5)]
@@ -32,11 +31,9 @@ public class BoulderController : MonoBehaviour
         {
             if (toExplode)
             {
-                // SplitIntoSmallerBoulders();
                 TurnIntoParticles();
             }
             Destroy(gameObject);
-            
         }
     }
     
@@ -44,10 +41,8 @@ public class BoulderController : MonoBehaviour
     {
         if (liquidMolecule != null)
         {
-            // liquidMolecule.transform.position = transform.position;
-            float yOffset = 0.5f; // Adjust this value as needed
+            float yOffset = 0.5f;
             
-            // Set the particle system position to just above the boulder
             Vector3 particlePosition = transform.position + new Vector3(0, yOffset, 0);
             ParticleSystem particles = Instantiate(liquidMolecule, particlePosition, Quaternion.identity);
             
@@ -55,8 +50,6 @@ public class BoulderController : MonoBehaviour
             
             Destroy(particles.gameObject, particles.main.duration + particles.main.startLifetime.constantMax);
         }
-            
-        // Destroy(gameObject, 0.1f);
     }
 
 }

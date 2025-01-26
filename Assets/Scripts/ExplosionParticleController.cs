@@ -19,10 +19,6 @@ namespace DefaultNamespace
                 collisionModule.enabled = true;
                 collisionModule.collidesWith = LayerMask.GetMask("Player", "Terrain");
             }
-            else
-            {
-                Debug.LogError("ParticleSystem not found on this GameObject.");
-            }
         }
 
         void OnParticleCollision(GameObject other)
