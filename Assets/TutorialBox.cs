@@ -3,18 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Handles showing and hiding tutorial.
+// Fades in when a checkpoint flag calls the ShowTutorial function,
+// Fades out 3 seconds after the user presses the key associated with the move.
 public class TutorialBox : MonoBehaviour
 {
     private string _moveToShow;
+    private bool _showTutorial;
     private Animator _moveAnim;
     private Animator _keyAnim;
     private SpriteRenderer _moveSprite;
     private SpriteRenderer _keySprite;
-    private Coroutine _fadeCoroutine;
+    private Coroutine _fadeInCoroutine;
+    private Coroutine _fadeOutCoroutine;
 
     [SerializeField] private GameObject moveDisplay;
     [SerializeField] private GameObject keyDisplay;
     [SerializeField] private float fadeDuration = 1.0f;
+    [SerializeField] private float hideDelay = 2.0f;
     
     // Dictionary of tutorial moves
     // Tuple items:
@@ -22,15 +28,16 @@ public class TutorialBox : MonoBehaviour
     // - Player animation speed
     // - Keyboard animation name
     // - Keyboard animation speed
-    private readonly Dictionary<string, Tuple<string, float, string, float>> _moves =
+    // - Key to press
+    private readonly Dictionary<string, Tuple<string, float, string, float, KeyCode>> _moves =
         new()
         {
-            {"jump", new Tuple<string, float, string, float>
-                ("Tutorial_Player_Jump", 0.25f, "Tutorial_Key_Space", 0.25f)},
-            {"dash", new Tuple<string, float, string, float>
-                ("Tutorial_Player_Dash", 0.25f, "Tutorial_Key_Space", 0.25f)},
-            {"swing", new Tuple<string, float, string, float>
-                ("Tutorial_Player_Swing", 0.25f, "Tutorial_Key_Space", 0.25f)}
+            {"jump", new Tuple<string, float, string, float, KeyCode>
+                ("Tutorial_Player_Jump", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)},
+            {"dash", new Tuple<string, float, string, float, KeyCode>
+                ("Tutorial_Player_Dash", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)},
+            {"swing", new Tuple<string, float, string, float, KeyCode>
+                ("Tutorial_Player_Swing", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)}
         };
 
     private void Start()
@@ -41,41 +48,50 @@ public class TutorialBox : MonoBehaviour
         _keySprite = keyDisplay.GetComponent<SpriteRenderer>();
     }
 
-    public void SetMove(string move)
+    private void Update()
+    {
+        if (Mathf.Approximately(_moveSprite.color.a, 0f)) return;
+        if (Input.GetKeyDown(_moves[_moveToShow].Item5) && _showTutorial)
+            HideTutorial();
+    }
+
+    public void ShowTutorial(string move)
     {
         if (_moves.ContainsKey(move))
             _moveToShow = move;
         else
+        {
             Debug.LogError("Invalid tutorial move set");
-    }
-    
-    public void ShowTutorial()
-    {
+            return;
+        }
+
+        _showTutorial = true;
+        
         _moveAnim.enabled = true;
+        Color moveColor = _moveSprite.color;
+        moveColor.a = 1f;
+        _moveSprite.color = moveColor;
         _moveAnim.Play(_moves[_moveToShow].Item1);
         _moveAnim.speed = _moves[_moveToShow].Item2;
         
         _keyAnim.enabled = true;
+        Color keyColor = _keySprite.color;
+        keyColor.a = 1f;
+        _keySprite.color = keyColor;
         _keyAnim.Play(_moves[_moveToShow].Item3);
         _keyAnim.speed = _moves[_moveToShow].Item4;
 
-        if (_fadeCoroutine != null)
-        {
-            StopCoroutine(_fadeCoroutine);
-        }
-        _fadeCoroutine = StartCoroutine(FadeIn());
+        if (_fadeInCoroutine != null)
+            StopCoroutine(_fadeInCoroutine);
+        _fadeInCoroutine = StartCoroutine(FadeIn());
     }
 
-    public void HideTutorial()
+    private void HideTutorial()
     {
-        if (_fadeCoroutine != null)
-        {
-            StopCoroutine(_fadeCoroutine);
-        }
-        _fadeCoroutine = StartCoroutine(FadeOut());
-        
-        _moveAnim.enabled = false;
-        _keyAnim.enabled = false;
+        _showTutorial = false;
+        if (_fadeOutCoroutine != null)
+            StopCoroutine(_fadeOutCoroutine);
+        _fadeOutCoroutine = StartCoroutine(FadeOut());
     }
     
     private IEnumerator FadeIn()
@@ -100,6 +116,10 @@ public class TutorialBox : MonoBehaviour
 
     private IEnumerator FadeOut()
     {
+        while (!Mathf.Approximately(_moveSprite.color.a, 1f))
+            yield return null;
+        yield return new WaitForSeconds(hideDelay);
+        
         float elapsedTime = 0f;
         Color moveColor = _moveSprite.color;
         Color keyColor = _keySprite.color;
@@ -117,5 +137,8 @@ public class TutorialBox : MonoBehaviour
         keyColor.a = 0f;
         _moveSprite.color = moveColor;
         _keySprite.color = keyColor;
+        
+        _moveAnim.enabled = false;
+        _keyAnim.enabled = false;
     }
 }

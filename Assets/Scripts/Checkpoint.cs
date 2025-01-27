@@ -61,7 +61,6 @@ public class Checkpoint : MonoBehaviour
     private void ShowTutorial()
     {
         if (tutorialMove == "") return;
-        _tutorialBox.SetMove(tutorialMove);
-        _tutorialBox.ShowTutorial();
+        _tutorialBox.ShowTutorial(tutorialMove);
     }
 }
