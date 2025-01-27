@@ -9,7 +9,6 @@ using UnityEngine;
 public class TutorialBox : MonoBehaviour
 {
     private string _moveToShow;
-    private bool _showTutorial;
     private Animator _moveAnim;
     private Animator _keyAnim;
     private SpriteRenderer _moveSprite;
@@ -19,8 +18,7 @@ public class TutorialBox : MonoBehaviour
 
     [SerializeField] private GameObject moveDisplay;
     [SerializeField] private GameObject keyDisplay;
-    [SerializeField] private float fadeDuration = 1.0f;
-    [SerializeField] private float hideDelay = 2.0f;
+    [SerializeField] private float fadeDuration = 0.5f;
     
     // Dictionary of tutorial moves
     // Tuple items:
@@ -48,13 +46,6 @@ public class TutorialBox : MonoBehaviour
         _keySprite = keyDisplay.GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
-    {
-        if (Mathf.Approximately(_moveSprite.color.a, 0f)) return;
-        if (Input.GetKeyDown(_moves[_moveToShow].Item5) && _showTutorial)
-            HideTutorial();
-    }
-
     public void ShowTutorial(string move)
     {
         if (_moves.ContainsKey(move))
@@ -64,8 +55,6 @@ public class TutorialBox : MonoBehaviour
             Debug.LogError("Invalid tutorial move set");
             return;
         }
-
-        _showTutorial = true;
         
         _moveAnim.enabled = true;
         Color moveColor = _moveSprite.color;
@@ -86,9 +75,8 @@ public class TutorialBox : MonoBehaviour
         _fadeInCoroutine = StartCoroutine(FadeIn());
     }
 
-    private void HideTutorial()
+    public void HideTutorial()
     {
-        _showTutorial = false;
         if (_fadeOutCoroutine != null)
             StopCoroutine(_fadeOutCoroutine);
         _fadeOutCoroutine = StartCoroutine(FadeOut());
@@ -118,7 +106,6 @@ public class TutorialBox : MonoBehaviour
     {
         while (!Mathf.Approximately(_moveSprite.color.a, 1f))
             yield return null;
-        yield return new WaitForSeconds(hideDelay);
         
         float elapsedTime = 0f;
         Color moveColor = _moveSprite.color;
