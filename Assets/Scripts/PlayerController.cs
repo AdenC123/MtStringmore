@@ -214,6 +214,7 @@ public class PlayerController : MonoBehaviour
             {
                 HandleDeath();
             }
+        }
         else if (other.gameObject.CompareTag("Trampoline"))
         {
             _inTrampolineArea = true;
