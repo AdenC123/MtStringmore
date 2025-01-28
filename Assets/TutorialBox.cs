@@ -34,8 +34,10 @@ public class TutorialBox : MonoBehaviour
                 ("Tutorial_Player_Jump", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)},
             {"dash", new Tuple<string, float, string, float, KeyCode>
                 ("Tutorial_Player_Dash", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)},
-            {"swing", new Tuple<string, float, string, float, KeyCode>
-                ("Tutorial_Player_Swing", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)}
+            {"swing_enter", new Tuple<string, float, string, float, KeyCode>
+                ("Tutorial_Player_Swing_Enter", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)},
+            {"swing_leave", new Tuple<string, float, string, float, KeyCode>
+                ("Tutorial_Player_Swing_Leave", 0.25f, "Tutorial_Key_Space_Rev", 0.25f, KeyCode.Space)}
         };
 
     private void Start()
@@ -57,16 +59,10 @@ public class TutorialBox : MonoBehaviour
         }
         
         _moveAnim.enabled = true;
-        Color moveColor = _moveSprite.color;
-        moveColor.a = 1f;
-        _moveSprite.color = moveColor;
         _moveAnim.Play(_moves[_moveToShow].Item1);
         _moveAnim.speed = _moves[_moveToShow].Item2;
         
         _keyAnim.enabled = true;
-        Color keyColor = _keySprite.color;
-        keyColor.a = 1f;
-        _keySprite.color = keyColor;
         _keyAnim.Play(_moves[_moveToShow].Item3);
         _keyAnim.speed = _moves[_moveToShow].Item4;
 

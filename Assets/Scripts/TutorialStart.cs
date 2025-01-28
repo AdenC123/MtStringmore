@@ -12,7 +12,8 @@ public class TutorialStart : MonoBehaviour
     private void Start()
     {
         _tutorialBox = FindObjectOfType<TutorialBox>();
-        tutorialEnd.OnEnd += () => _tutorialBox.HideTutorial();
+        if (tutorialEnd)
+            tutorialEnd.OnEnd += () => _tutorialBox.HideTutorial();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
