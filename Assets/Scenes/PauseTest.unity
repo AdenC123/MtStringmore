@@ -993,6 +993,7 @@ GameObject:
   - component: {fileID: 602569992}
   - component: {fileID: 602569991}
   - component: {fileID: 602569995}
+  - component: {fileID: 602569996}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1096,13 +1097,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 23919938}
+  mainMenuSceneName: MainMenu
+--- !u!114 &602569996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602569990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504a8d20ce9048e469ec33b40ed2eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
   BGMSlider: {fileID: 1498589751}
   SFXSlider: {fileID: 961102416}
   startBGMVolume: 0.5
   startSFXVolume: 0.5
   startMasterVolume: 0.5
-  sfxAudioSource: {fileID: 1901031394}
 --- !u!1 &673468514
 GameObject:
   m_ObjectHideFlags: 0
@@ -50064,8 +50077,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 602569995}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+      - m_Target: {fileID: 602569996}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetSFXVolume
         m_Mode: 0
         m_Arguments:
@@ -50505,8 +50518,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 602569995}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+      - m_Target: {fileID: 602569996}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetBGMVolume
         m_Mode: 0
         m_Arguments:

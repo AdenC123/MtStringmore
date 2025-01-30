@@ -28,7 +28,7 @@ public class CutsceneCamera : MonoBehaviour
     public static void FollowObject(GameObject target)
     {
         _targetObject = target;
-        _target = target.transform.position;
+        //_target = target.transform.position;
     }
 
     [YarnCommand("fix_coords")]

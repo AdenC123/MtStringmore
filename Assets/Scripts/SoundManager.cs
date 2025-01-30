@@ -1,31 +1,54 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] private Slider volumeSlider;
+    public static SoundManager Instance;
+    
+    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private Slider BGMSlider;
+    [SerializeField] private Slider SFXSlider;
+    [SerializeField] private float startBGMVolume = 0.5f;
+    [SerializeField] private float startSFXVolume = 0.5f;
+    [SerializeField] private float startMasterVolume = 0.5f;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
     private void Start()
     {
-        if (!PlayerPrefs.HasKey("musicVolume")) PlayerPrefs.SetFloat("musicVolume", 1);
-
-        Load();
+        audioMixer.SetFloat("Master", startMasterVolume);
+        var savedBGMVolume = PlayerPrefs.GetFloat("BGM", startBGMVolume);
+        var savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
+        SetBGMVolume(savedBGMVolume);
+        SetSFXVolume(savedSFXVolume);
+        BGMSlider.value = savedBGMVolume;
+        SFXSlider.value = savedSFXVolume;
     }
 
-    public void ChangeVolume()
+    /// <summary> Sets BGM volume (0.0001 to 1). </summary>
+    public void SetBGMVolume(float volume)
     {
-        AudioListener.volume = volumeSlider.value;
-        Save();
+        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("BGM", volume);
+        PlayerPrefs.Save();
     }
 
-    private void Load()
+    /// <summary> Sets SFX volume (0.0001 to 1). </summary>
+    public void SetSFXVolume(float volume)
     {
-        volumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("SFX", volume);
+        PlayerPrefs.Save();
     }
 
-    private void Save()
+    /// <summary> Mutes or unmutes all audio. </summary>
+    public void SetMute(bool isMuted)
     {
-        PlayerPrefs.SetFloat("musicVolume", volumeSlider.value);
+        audioMixer.SetFloat("Master", isMuted ? -80f : 0f);
     }
 }
