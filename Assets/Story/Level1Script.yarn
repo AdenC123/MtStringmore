@@ -31,7 +31,7 @@ Knitby: <i>*sighs*</i> ...
 <<run Knitby 44 1 20>>
 Knitby: <i>*shouting*</i> Fine, I'm coming, wait up!
 Marshmallow: <i>*playfully*</i> Good, try to keep up!
-<<load_scene Level1Trial>>
+<<load_scene PauseTest>>
 ===
 
 title: JumpTutorial

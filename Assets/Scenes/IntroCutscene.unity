@@ -8722,7 +8722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1495736755695802734, guid: b6fec259806fe4fe2a04e1886d452243, type: 3}
       propertyPath: nextScene
-      value: Level1Trial
+      value: PauseTest
       objectReference: {fileID: 0}
     - target: {fileID: 8964655812362898365, guid: b6fec259806fe4fe2a04e1886d452243, type: 3}
       propertyPath: m_LocalPosition.x
