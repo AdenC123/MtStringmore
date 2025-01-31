@@ -1,17 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Yarn.Unity;
 
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private string mainMenuSceneName = "MainMenu";
-    private DialogueRunner _dialogueRunner;
+    private float _prevTimescale;
 
     private void Start()
     {
-        _dialogueRunner = FindObjectOfType<DialogueRunner>();
+        _prevTimescale = Time.timeScale;
         Resume();
     }
 
@@ -29,7 +28,7 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
-        if (!_dialogueRunner.IsDialogueRunning) Time.timeScale = 1f;
+        Time.timeScale = _prevTimescale;
         GameIsPaused = false;
 
         // Unmute audio using SoundManager
@@ -39,6 +38,7 @@ public class PauseMenu : MonoBehaviour
     private void Pause()
     {
         pauseMenuUI.SetActive(true);
+        _prevTimescale = Time.timeScale;
         Time.timeScale = 0f;
         GameIsPaused = true;
 
