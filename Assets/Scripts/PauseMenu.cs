@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public static bool GameIsPaused;
+    private static bool _gameIsPaused;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private string mainMenuSceneName = "MainMenu";
     private float _prevTimescale;
@@ -16,20 +16,18 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name != mainMenuSceneName)
-        {
-            if (GameIsPaused)
-                Resume();
-            else
-                Pause();
-        }
+        if (!Input.GetKeyDown(KeyCode.Escape) || SceneManager.GetActiveScene().name == mainMenuSceneName) return;
+        if (_gameIsPaused)
+            Resume();
+        else
+            Pause();
     }
 
-    public void Resume()
+    private void Resume()
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = _prevTimescale;
-        GameIsPaused = false;
+        _gameIsPaused = false;
 
         // Unmute audio using SoundManager
         SoundManager.Instance.SetMute(false);
@@ -40,7 +38,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         _prevTimescale = Time.timeScale;
         Time.timeScale = 0f;
-        GameIsPaused = true;
+        _gameIsPaused = true;
 
         // Mute audio using SoundManager
         SoundManager.Instance.SetMute(true);
