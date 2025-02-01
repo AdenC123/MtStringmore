@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
-    
+
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private Slider MasterSlider;
     [SerializeField] private Slider bgmSlider;
@@ -29,11 +29,15 @@ public class SoundManager : MonoBehaviour
         SetBgmVolume(savedBgmVolume);
         SetSfxVolume(savedSfxVolume);
     }
-    
+
+    public static float SliderToVolume(float sliderValue)
+    {
+        return Mathf.Log10(sliderValue) * 20;
+    }
+
     /// <summary> Sets Master volume (0.0001 to 1). </summary>
     public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
         MasterSlider.value = volume;
         PlayerPrefs.SetFloat("Master", volume);
         PlayerPrefs.Save();
@@ -42,7 +46,7 @@ public class SoundManager : MonoBehaviour
     /// <summary> Sets BGM volume (0.0001 to 1). </summary>
     public void SetBgmVolume(float volume)
     {
-        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("BGM", SliderToVolume(volume));
         bgmSlider.value = volume;
         PlayerPrefs.SetFloat("BGM", volume);
         PlayerPrefs.Save();
@@ -51,7 +55,7 @@ public class SoundManager : MonoBehaviour
     /// <summary> Sets SFX volume (0.0001 to 1). </summary>
     public void SetSfxVolume(float volume)
     {
-        audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("SFX", SliderToVolume(volume));
         sfxSlider.value = volume;
         PlayerPrefs.SetFloat("SFX", volume);
         PlayerPrefs.Save();
@@ -60,6 +64,7 @@ public class SoundManager : MonoBehaviour
     /// <summary> Mutes or unmutes all audio. </summary>
     public void SetMute(bool isMuted)
     {
-        audioMixer.SetFloat("Master", isMuted ? -80f : PlayerPrefs.GetFloat("Master", startMasterVolume));
+        audioMixer.SetFloat("Master",
+            isMuted ? -80f : SliderToVolume(PlayerPrefs.GetFloat("Master", startMasterVolume)));
     }
 }
