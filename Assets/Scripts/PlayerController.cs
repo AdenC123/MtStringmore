@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour
             _inTrampolineArea = true;
             //get the exact trampoline that the player touched to get its public variables
             _trampoline = other.gameObject.GetComponent<Trampoline>();
-        }
+        } 
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -232,6 +232,11 @@ public class PlayerController : MonoBehaviour
             _bounceArea = other;
             //get the exact bouncy platform the player touched to get its public variables
             _bouncyPlatform = other.gameObject.GetComponent<BouncyPlatform>();
+        }
+        else if(other.gameObject.CompareTag("CollapsingPlatform")) 
+        {   
+            _playerState = PlayerStateEnum.Run;
+            Debug.Log(_playerState);
         }
     }
 
