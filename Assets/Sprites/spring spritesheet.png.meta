@@ -108,7 +108,133 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: spring spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 900.3333
+        height: 901
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b62a9b31b60d294aabdab41207cc808
+      internalID: -953709097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spring spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 0
+        width: 900.3333
+        height: 901
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 469a3f9412335bf42a6854d708a3d392
+      internalID: -103322505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spring spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 900.3333
+        height: 901
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d388c984aa48bc41bbc20c72b0610af
+      internalID: -1125953973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spring spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 2700
+        y: 0
+        width: 900.3333
+        height: 901
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a5a31209a7bd524fb17554114870d00
+      internalID: 841900949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spring spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 0
+        width: 900.3333
+        height: 901
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7b9e857b1ba44b49bfa7b4ea48e377b
+      internalID: 388968874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spring spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 4500
+        y: 0
+        width: 900.3333
+        height: 901
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8f2d717f373b2241b5195a0496318ff
+      internalID: 1400147319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +245,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      spring spritesheet_0: -953709097
+      spring spritesheet_1: -103322505
+      spring spritesheet_2: -1125953973
+      spring spritesheet_3: 841900949
+      spring spritesheet_4: 388968874
+      spring spritesheet_5: 1400147319
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

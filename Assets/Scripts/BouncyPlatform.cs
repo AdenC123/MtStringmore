@@ -11,4 +11,21 @@ public class BouncyPlatform : MonoBehaviour
     [SerializeField] public float xBounceForce;
     #endregion
     
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if the player touched the object
+        if (other.CompareTag("Player"))
+        {
+            // Trigger the animation
+            animator.SetTrigger("Bounce");
+        }
+    }
+    
 }
