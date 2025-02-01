@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name != mainMenuSceneName)
         {
             if (GameIsPaused)
                 Resume();
@@ -48,6 +48,8 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadMenu()
     {
+        // reset any changes made by pausing
+        Resume();
         SceneManager.LoadScene(mainMenuSceneName);
     }
 

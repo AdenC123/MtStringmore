@@ -7,10 +7,10 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
     
     [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private Slider BGMSlider;
-    [SerializeField] private Slider SFXSlider;
-    [SerializeField] private float startBGMVolume = 0.5f;
-    [SerializeField] private float startSFXVolume = 0.5f;
+    [SerializeField] private Slider bgmSlider;
+    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private float startBgmVolume = 0.5f;
+    [SerializeField] private float startSfxVolume = 0.5f;
     [SerializeField] private float startMasterVolume = 0.5f;
 
     private void Awake()
@@ -22,26 +22,26 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         audioMixer.SetFloat("Master", startMasterVolume);
-        var savedBGMVolume = PlayerPrefs.GetFloat("BGM", startBGMVolume);
-        var savedSFXVolume = PlayerPrefs.GetFloat("SFX", startSFXVolume);
-        SetBGMVolume(savedBGMVolume);
-        SetSFXVolume(savedSFXVolume);
-        BGMSlider.value = savedBGMVolume;
-        SFXSlider.value = savedSFXVolume;
+        var savedBgmVolume = PlayerPrefs.GetFloat("BGM", startBgmVolume);
+        var savedSfxVolume = PlayerPrefs.GetFloat("SFX", startSfxVolume);
+        SetBgmVolume(savedBgmVolume);
+        SetSfxVolume(savedSfxVolume);
     }
 
     /// <summary> Sets BGM volume (0.0001 to 1). </summary>
-    public void SetBGMVolume(float volume)
+    public void SetBgmVolume(float volume)
     {
         audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        bgmSlider.value = volume;
         PlayerPrefs.SetFloat("BGM", volume);
         PlayerPrefs.Save();
     }
 
     /// <summary> Sets SFX volume (0.0001 to 1). </summary>
-    public void SetSFXVolume(float volume)
+    public void SetSfxVolume(float volume)
     {
         audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+        sfxSlider.value = volume;
         PlayerPrefs.SetFloat("SFX", volume);
         PlayerPrefs.Save();
     }

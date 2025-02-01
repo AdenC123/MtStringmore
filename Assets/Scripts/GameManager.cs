@@ -34,16 +34,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("Debug Reset")) Respawn();
+    }
+
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-    
-    private void Update()
-    {
-        if (Input.GetButtonDown("Debug Reset")) {
-            Respawn();
-        }
     }
 
     /// <summary>
@@ -55,7 +53,7 @@ public class GameManager : MonoBehaviour
         var player = GameObject.FindGameObjectWithTag("Player");
         var knitby = GameObject.FindGameObjectWithTag("Knitby");
         if (!player || !knitby) return;
-        
+
         if (_newLevel == false)
         {
             var spawnPos = new Vector3(CheckPointPos.x, CheckPointPos.y, player.transform.position.z);
