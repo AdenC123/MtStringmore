@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
     
     [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private Slider MasterSlider;
     [SerializeField] private Slider bgmSlider;
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private float startBgmVolume = 0.5f;
@@ -21,11 +22,21 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        audioMixer.SetFloat("Master", startMasterVolume);
+        var savedMasterVolume = PlayerPrefs.GetFloat("Master", startMasterVolume);
         var savedBgmVolume = PlayerPrefs.GetFloat("BGM", startBgmVolume);
         var savedSfxVolume = PlayerPrefs.GetFloat("SFX", startSfxVolume);
+        SetMasterVolume(savedMasterVolume);
         SetBgmVolume(savedBgmVolume);
         SetSfxVolume(savedSfxVolume);
+    }
+    
+    /// <summary> Sets Master volume (0.0001 to 1). </summary>
+    public void SetMasterVolume(float volume)
+    {
+        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+        MasterSlider.value = volume;
+        PlayerPrefs.SetFloat("Master", volume);
+        PlayerPrefs.Save();
     }
 
     /// <summary> Sets BGM volume (0.0001 to 1). </summary>
@@ -49,6 +60,6 @@ public class SoundManager : MonoBehaviour
     /// <summary> Mutes or unmutes all audio. </summary>
     public void SetMute(bool isMuted)
     {
-        audioMixer.SetFloat("Master", isMuted ? -80f : 0f);
+        audioMixer.SetFloat("Master", isMuted ? -80f : PlayerPrefs.GetFloat("Master", startMasterVolume));
     }
 }
