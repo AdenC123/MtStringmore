@@ -158,14 +158,11 @@ public class PlayerController : MonoBehaviour
                 HandleDeath();
             }
         }
-        else if (other.gameObject.CompareTag("Boulder"))
-        {
-            if (PlayerState != PlayerStateEnum.Dead)
-            {
-                HandleDeath();
-            }
-        }
-        else if (other.gameObject.CompareTag("Explosion"))
+    }
+    
+    private void OnParticleCollision(GameObject other)
+    {
+        if (other.CompareTag("Death"))
         {
             if (PlayerState != PlayerStateEnum.Dead)
             {

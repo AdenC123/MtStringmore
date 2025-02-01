@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3073576679869683706}
   m_Layer: 0
   m_Name: NoExplodeFire
-  m_TagString: Boulder
+  m_TagString: Death
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -7,7 +7,9 @@ namespace DefaultNamespace
     /// </summary>
     public class ExplosionParticleController : MonoBehaviour
     {
-        public ParticleSystem explosionParticles;
+        [Range(0, 2)]
+        [SerializeField] public float emissionRadius = 1.0f;
+        [SerializeField] private ParticleSystem explosionParticles;
 
         private void Start()
         {
@@ -15,21 +17,21 @@ namespace DefaultNamespace
 
             if (explosionParticles != null)
             {
+                var shapeModule = explosionParticles.shape;
+                shapeModule.radius = emissionRadius;
+
                 var collisionModule = explosionParticles.collision;
                 collisionModule.enabled = true;
                 collisionModule.collidesWith = LayerMask.GetMask("Player", "Terrain");
             }
         }
 
-        void OnParticleCollision(GameObject other)
+        private void Update()
         {
-            if (other.CompareTag("Player"))
+            if (explosionParticles != null)
             {
-                var playerController = other.GetComponent<PlayerController>();
-                if (playerController.PlayerState != PlayerController.PlayerStateEnum.Dead)
-                {
-                    playerController.HandleDeath();
-                }
+                var shapeModule = explosionParticles.shape;
+                shapeModule.radius = emissionRadius;
             }
         }
     }

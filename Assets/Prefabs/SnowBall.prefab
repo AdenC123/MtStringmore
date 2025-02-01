@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2326845351370820341}
   m_Layer: 0
   m_Name: SnowBall
-  m_TagString: Boulder
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,9 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17743f3a2e5f464786f2b1616bea905e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smallerBoulderPrefab: {fileID: 5961280272311221197, guid: 59420feedabe2481b9dca2262ac44cba, type: 3}
-  tinyLiquidMoleculePrefab: {fileID: 0}
   liquidMolecule: {fileID: 1946510279154354478, guid: a2a136295d2f14823846cd0c886c6455, type: 3}
-  splitVelocity: 5
+  toExplode: 0
   minGravityScale: 1
   maxGravityScale: 3

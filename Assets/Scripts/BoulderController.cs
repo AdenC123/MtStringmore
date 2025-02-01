@@ -50,7 +50,6 @@ public class BoulderController : MonoBehaviour
             ParticleSystem particles = Instantiate(liquidMolecule, particlePosition, Quaternion.identity);
 
             particles.Play();
-
             Destroy(particles.gameObject, particles.main.duration + particles.main.startLifetime.constantMax);
         }
     }
