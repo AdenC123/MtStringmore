@@ -7,9 +7,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region Serialized Private Fields
-
-    [Header("Input")] 
+    
+    // @formatter:off
+    [Header("Input")]
     [SerializeField] private bool doubleJumpEnabled;
+    [SerializeField] private bool dashEnabled;
     [SerializeField] private float buttonBufferTime;
     [Header("Collisions")] 
     [SerializeField] private LayerMask collisionLayer;
@@ -26,10 +28,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coyoteTime;
     [Header("Air")]
     [SerializeField] private float maxFallSpeed;
-    [SerializeField] private float fallAcceleration;
+    [SerializeField] private float fallAccelerationUp;
+    [SerializeField] private float fallAccelerationDown;
     [SerializeField] private float earlyReleaseFallAcceleration;
     [SerializeField] private float maxAirSpeed;
     [SerializeField] private float airAcceleration;
+    [Header("Dash")] 
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashSpeed;
+    [SerializeField] private float endDashSpeed;
     [Header("Wall")] 
     [SerializeField] private float wallJumpAngle;
     [SerializeField] private float wallJumpPower;
@@ -39,14 +46,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float swingBoostMultiplier;
     [SerializeField] private float maxSwingSpeed;
     [SerializeField] private float swingAcceleration;
+    [SerializeField] private float swingGravity;
+    [SerializeField] private float minSwingReleaseX;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
     [SerializeField] private int deathTime;
-    
+    [Header("Debug")]
+    [SerializeField] private bool stateDebugLog;
+    // this is just here for battle of the concepts
+    [Header("Temporary")]
+    [SerializeField] private GameObject poofSmoke;
+    // @formatter:on
+
     #endregion
 
     #region Public Properties and Actions
-    
+
     public enum PlayerStateEnum
     {
         Run,
@@ -55,20 +70,32 @@ public class PlayerController : MonoBehaviour
         RightWallSlide,
         Dead,
         Swing,
+        Dash
     }
-    
-    public PlayerStateEnum PlayerState { get; private set; }
-    
+
+    // TODO: PlayerState set should be a function that fires an action
+    public PlayerStateEnum PlayerState
+    {
+        get => _playerState;
+        private set
+        {
+            if (stateDebugLog)
+                Debug.Log($"PlayerState: {value}");
+            _playerState = value;
+        }
+    }
+
     /// <summary>
     /// Current velocity of the player.
     /// </summary>
+
     public Vector2 Velocity => _velocity;
-    
+
     /// <summary>
     /// Facing direction of the player. -1.0 for left, 1.0 for right.
     /// </summary>
     public float Direction => _lastDirection;
-    
+
     /// <summary>
     /// Fires when the player becomes grounded or leaves the ground.
     /// Parameters:
@@ -76,47 +103,59 @@ public class PlayerController : MonoBehaviour
     ///     float: player's Y velocity
     /// </summary>
     public event Action<bool, float> GroundedChanged;
-    
+
     /// <summary>
     /// Fires when the player hits the wall or leaves the wall.
     /// Parameters:
     ///     bool: True if hitting the wall, false if leaving the wall
     /// </summary>
     public event Action<bool> WallChanged;
-    
+
     public event Action Jumped;
-    public event Action DoubleJumped; 
+    public event Action DoubleJumped;
     public event Action Death;
-    
+
     #endregion
-    
+
     #region Private Properties
-    
+
+    private PlayerStateEnum _playerState;
+
+
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
 
     private float _time;
     private float _timeButtonPressed;
     private float _timeLeftGround;
+    private float _timeDashed;
+
     private bool _buttonUsed;
     private bool _isButtonHeld;
     private bool _canReleaseEarly;
     private bool _releasedEarly;
     private bool _canDoubleJump;
-    
+    private bool _canDash;
+
     private Vector2 _velocity;
     private float _lastDirection;
     private bool _closeToWall;
     private Vector2 _groundNormal;
-    
+
     private Collider2D _swingArea;
-    private bool _inSwingArea;
+    private bool _enteredSwingArea;
     private float _swingRadius;
-    
+
+    private bool _inTrampolineArea;
+    private bool _inBouncePlatformArea;
+    private Collision2D _bounceArea;
+    private Trampoline _trampoline;
+    private BouncyPlatform _bouncyPlatform;
+
     #endregion
 
     #region Unity Event Handlers
-    
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -128,20 +167,24 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _time += Time.deltaTime;
+        GetInput();
+        RedrawRope(); // TODO this should be moved outside player controller when knitby is real
+    }
 
+    private void GetInput()
+    {
         if (Input.GetButtonDown("Jump"))
         {
             _timeButtonPressed = _time;
             _buttonUsed = false;
         }
+
         _isButtonHeld = Input.GetButton("Jump");
 
         if (Input.GetButtonDown("Debug Reset"))
         {
             GameManager.Instance.Respawn();
         }
-
-        RedrawRope();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -149,7 +192,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("SwingArea"))
         {
             _swingArea = other;
-            _inSwingArea = true;
+            _enteredSwingArea = true;
         }
         else if (other.gameObject.CompareTag("Death"))
         {
@@ -169,13 +212,37 @@ public class PlayerController : MonoBehaviour
                 HandleDeath();
             }
         }
+        else if (other.gameObject.CompareTag("Trampoline"))
+        {
+            _inTrampolineArea = true;
+            //get the exact trampoline that the player touched to get its public variables
+            _trampoline = other.gameObject.GetComponent<Trampoline>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("SwingArea"))
+        if (other.gameObject.CompareTag("Trampoline"))
         {
-            _inSwingArea = false;
+            _inTrampolineArea = false;
+        }
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("BounceArea"))
+        {
+            //put player in air state for proper bouncy platform interactions
+            if (_playerState == PlayerStateEnum.Dash)
+            {
+                _playerState = PlayerStateEnum.Air;
+            }
+
+            _inBouncePlatformArea = true;
+            _bounceArea = other;
+            //get the exact bouncy platform the player touched to get its public variables
+            _bouncyPlatform = other.gameObject.GetComponent<BouncyPlatform>();
         }
     }
 
@@ -183,30 +250,29 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerState == PlayerStateEnum.Dead)
             return;
-        
         CheckCollisions();
-        
         HandleWallJump();
         HandleSwing();
         HandleJump();
-        HandleDoubleJump();
+        if (doubleJumpEnabled) HandleDoubleJump();
         HandleEarlyRelease();
         HandleWalk();
         HandleGravity();
-        
+        HandleBounce();
+        if (dashEnabled) HandleDash();
         ApplyMovement();
     }
-    
+
     #endregion
 
     #region Private Methods
-    
+
     private RaycastHit2D CapsuleCastCollision(Vector2 direction, float distance)
     {
-        return Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, 
+        return Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0,
             direction, distance, collisionLayer);
     }
-    
+
     private void CheckCollisions()
     {
         RaycastHit2D groundCast = CapsuleCastCollision(Vector2.down, collisionDistance);
@@ -217,7 +283,7 @@ public class PlayerController : MonoBehaviour
         _closeToWall = CapsuleCastCollision(_velocity, wallCloseDistance);
 
         if (groundCast) _groundNormal = groundCast.normal;
-        
+
         if (ceilingHit) _velocity.y = Mathf.Min(0, _velocity.y);
 
         // TODO is this being fired constantly while on a wall?
@@ -232,19 +298,22 @@ public class PlayerController : MonoBehaviour
             _timeLeftGround = _time;
             GroundedChanged?.Invoke(false, 0);
         }
+
         if (PlayerState == PlayerStateEnum.Air)
         {
             if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
             if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
         }
+
         if (PlayerState != PlayerStateEnum.Run && groundHit)
         {
             PlayerState = PlayerStateEnum.Run;
             _canDoubleJump = true;
             GroundedChanged?.Invoke(true, Mathf.Abs(_velocity.y));
         }
-        if (PlayerState == PlayerStateEnum.RightWallSlide && !rightWallHit || 
-            PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit) 
+
+        if (PlayerState == PlayerStateEnum.RightWallSlide && !rightWallHit ||
+            PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit)
             PlayerState = PlayerStateEnum.Air;
     }
 
@@ -264,14 +333,15 @@ public class PlayerController : MonoBehaviour
 
     private void HandleWallJump()
     {
-        if (PlayerState is PlayerStateEnum.LeftWallSlide or PlayerStateEnum.RightWallSlide && CanUseButton())
+        if (CanUseButton() && PlayerState is PlayerStateEnum.LeftWallSlide or PlayerStateEnum.RightWallSlide)
         {
             _velocity = new Vector2(Mathf.Cos(wallJumpAngle), Mathf.Sin(wallJumpAngle)) * wallJumpPower;
             if (PlayerState == PlayerStateEnum.RightWallSlide) _velocity.x = -_velocity.x;
-            
+
             _buttonUsed = true;
             PlayerState = PlayerStateEnum.Air;
-            _canReleaseEarly = true;
+            _canReleaseEarly = false;
+            _releasedEarly = false;
             _canDoubleJump = true;
             Jumped?.Invoke();
             GroundedChanged?.Invoke(false, Mathf.Abs(_velocity.y)); // TODO need a new action for wj
@@ -294,7 +364,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDoubleJump()
     {
-        if (doubleJumpEnabled && CanUseButton() && _canDoubleJump && !_closeToWall)
+        if (CanUseButton() && _canDoubleJump && !_closeToWall)
         {
             _velocity.y = doubleJumpPower;
             _buttonUsed = true;
@@ -303,7 +373,38 @@ public class PlayerController : MonoBehaviour
             DoubleJumped?.Invoke();
         }
     }
-    
+
+    private void HandleDash()
+    {
+        if (PlayerState is PlayerStateEnum.Air && CanUseButton() && _canDash && !_closeToWall)
+        {
+            // start a dash
+            _canDash = false;
+            _buttonUsed = true;
+            PlayerState = PlayerStateEnum.Dash;
+            _timeDashed = _time;
+            // for battle of the concepts: add temp dash anim
+            Instantiate(poofSmoke, transform.position, new Quaternion());
+        }
+        else if (PlayerState is PlayerStateEnum.Dash)
+        {
+            // move player forward at dash speed
+            _velocity.y = 0;
+            _velocity.x = dashSpeed * _lastDirection;
+            // check if dash is over
+            if (_time - _timeDashed >= dashTime)
+            {
+                PlayerState = PlayerStateEnum.Air;
+                _velocity.x = endDashSpeed * _lastDirection;
+            }
+        }
+        else if (PlayerState is PlayerStateEnum.Run)
+        {
+            // can dash after landing on the ground
+            _canDash = true;
+        }
+    }
+
     private void HandleEarlyRelease()
     {
         if (!_canReleaseEarly) return;
@@ -322,35 +423,79 @@ public class PlayerController : MonoBehaviour
         {
             case PlayerStateEnum.Run:
                 // rotate ground normal vector 90 degrees towards facing direction
-                Vector2 walkTarget = new Vector2(_groundNormal.y * _lastDirection, _groundNormal.x * -_lastDirection) * maxGroundSpeed;
+                Vector2 walkTarget = new Vector2(_groundNormal.y * _lastDirection, _groundNormal.x * -_lastDirection) *
+                                     maxGroundSpeed;
                 float newX = Mathf.MoveTowards(_velocity.x, walkTarget.x, groundAcceleration * Time.fixedDeltaTime);
                 float newY = walkTarget.y;
                 _velocity = new Vector2(newX, newY);
                 break;
             case PlayerStateEnum.Air:
                 if (Mathf.Abs(_velocity.x) < maxAirSpeed)
-                    _velocity.x = Mathf.MoveTowards(_velocity.x, maxAirSpeed * _lastDirection, airAcceleration * Time.fixedDeltaTime);
+                    _velocity.x = Mathf.MoveTowards(_velocity.x, maxAirSpeed * _lastDirection,
+                        airAcceleration * Time.fixedDeltaTime);
                 break;
         }
     }
 
+    private void HandleBounce()
+    {
+        //handle trampoline bounces
+        if (_inTrampolineArea)
+        {
+            _velocity = new Vector2(_trampoline.xBounceForce * _lastDirection, _trampoline.yBounceForce);
+        }
+
+        //handle bouncy platform bounces
+        if (_inBouncePlatformArea)
+        {
+            //on first contact determine the players new direction
+            Vector2 directionVector = Vector2.Reflect(_velocity, _bounceArea.contacts[0].normal);
+
+            //ensure the player bounces correctly when hitting the platform coming from the left
+            if (_velocity.x < 0 && directionVector.x < 0 && _velocity.y < 0 &&
+                directionVector.y < 0)
+            {
+                _velocity = new Vector2(-_bouncyPlatform.xBounceForce, _bouncyPlatform.yBounceForce);
+            }
+            else
+            {
+                _velocity = new Vector2(_bouncyPlatform.xBounceForce * Mathf.Sign(directionVector.x),
+                    _bouncyPlatform.yBounceForce);
+            }
+
+            _inBouncePlatformArea = false;
+        }
+    }
+
+
     private void HandleGravity()
     {
+        //temporarily "turn off gravity" for auto trampoline bounce
+        if (_inTrampolineArea)
+        {
+            return;
+        }
+
         switch (PlayerState)
         {
             case PlayerStateEnum.Run:
-                if (_velocity.y <= 0f) 
+                if (_velocity.y <= 0f)
                     _velocity.y = -groundingForce;
                 break;
             case PlayerStateEnum.LeftWallSlide:
             case PlayerStateEnum.RightWallSlide:
                 _velocity.x = 0f;
                 if (_velocity.y <= 0f)
-                    _velocity.y = Mathf.MoveTowards(_velocity.y, -wallSlideSpeed, wallSlideAcceleration * Time.fixedDeltaTime);
-                else goto default;
+                    _velocity.y = Mathf.MoveTowards(_velocity.y, -wallSlideSpeed,
+                        wallSlideAcceleration * Time.fixedDeltaTime);
+                else goto case PlayerStateEnum.Air;
                 break;
-            default:
-                float accel = _releasedEarly ? earlyReleaseFallAcceleration : fallAcceleration;
+            case PlayerStateEnum.Air:
+                float accel;
+                if (_releasedEarly) accel = earlyReleaseFallAcceleration;
+                else if (_velocity.y >= 0f) accel = fallAccelerationUp;
+                else accel = fallAccelerationDown;
+
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, accel * Time.fixedDeltaTime);
                 break;
         }
@@ -358,37 +503,42 @@ public class PlayerController : MonoBehaviour
 
     private void HandleSwing()
     {
-        if (PlayerState != PlayerStateEnum.Swing && CanUseButton() && _inSwingArea)
+        if (_enteredSwingArea)
         {
-            // start swing
+            // start swing automatically when entering
             PlayerState = PlayerStateEnum.Swing;
-            _buttonUsed = true;
             _swingRadius = Vector2.Distance(_swingArea.transform.position, transform.position);
             ropeRenderer.enabled = true;
         }
-        
-        if (PlayerState == PlayerStateEnum.Swing && !_isButtonHeld)
+        else if (PlayerState is PlayerStateEnum.Swing && CanUseButton())
         {
-            // stop swing
+            // press button to release
             PlayerState = PlayerStateEnum.Air;
             ropeRenderer.enabled = false;
-            // boost velocity if going up
-            if (_velocity.y >= 0f) _velocity *= swingBoostMultiplier;
-        }
 
-        if (PlayerState == PlayerStateEnum.Swing)
+            // give x velocity boost on release
+            float boostDirection = transform.position.x >= _swingArea.transform.position.x ? 1f : -1f;
+            if (_velocity.x <= Mathf.Abs(minSwingReleaseX))
+                _velocity.x = minSwingReleaseX * boostDirection;
+            _buttonUsed = true;
+        }
+        else if (PlayerState is PlayerStateEnum.Swing)
         {
+            _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, swingAcceleration * Time.fixedDeltaTime);
             Vector2 relPos = transform.position - _swingArea.transform.position;
             // if going down, accelerate to target swing speed
             if (_velocity.y <= 0f && _velocity.magnitude <= maxSwingSpeed)
             {
-                _velocity = _velocity.normalized * Mathf.MoveTowards(_velocity.magnitude, maxSwingSpeed, 
+                _velocity = _velocity.normalized * Mathf.MoveTowards(_velocity.magnitude, maxSwingSpeed,
                     swingAcceleration * Time.fixedDeltaTime);
             }
+
             Vector2 testPos = relPos + _velocity * Time.fixedDeltaTime;
             Vector2 newPos = testPos.normalized * _swingRadius;
             _velocity = (newPos - relPos) / Time.fixedDeltaTime;
         }
+
+        _enteredSwingArea = false;
     }
 
     private void RedrawRope()
@@ -407,11 +557,11 @@ public class PlayerController : MonoBehaviour
         if (_velocity.x != 0f) _lastDirection = Mathf.Sign(_velocity.x);
         Debug.DrawRay(transform.position, _velocity, Color.magenta);
     }
-    
+
     private bool CanUseButton()
     {
         return !_buttonUsed && _time <= _timeButtonPressed + buttonBufferTime;
     }
-    
+
     #endregion
 }

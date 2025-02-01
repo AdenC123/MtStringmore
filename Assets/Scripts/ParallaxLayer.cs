@@ -5,13 +5,17 @@ using UnityEngine;
 /// </summary>
 public class ParallaxLayer : MonoBehaviour
 {
-    [SerializeField] private float parallaxFactor;
-
-    public void Move(float delta)
+    [SerializeField] private float xParallaxFactor;
+    [SerializeField] private float yParallaxFactor = 0.99f;
+    private const float SmoothTime = 0.01f;
+    private Vector3 _velocity;
+    
+    public void Move(float deltaX, float deltaY)
     {
-        Vector3 newPos = transform.localPosition;
-        newPos.x -= delta * parallaxFactor;
+        Vector3 newPos = transform.position;
+        newPos.x -= deltaX * xParallaxFactor;
+        newPos.y -= deltaY * yParallaxFactor;
 
-        transform.localPosition = newPos;
+        transform.position = Vector3.SmoothDamp(transform.position, newPos, ref _velocity, SmoothTime);
     }
 }
