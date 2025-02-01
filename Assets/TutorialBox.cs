@@ -26,18 +26,15 @@ public class TutorialBox : MonoBehaviour
     // - Player animation speed
     // - Keyboard animation name
     // - Keyboard animation speed
-    // - Key to press
-    private readonly Dictionary<string, Tuple<string, float, string, float, KeyCode>> _moves =
+    private readonly Dictionary<string, Tuple<string, float, string, float>> _moves =
         new()
         {
-            {"jump", new Tuple<string, float, string, float, KeyCode>
-                ("Tutorial_Player_Jump", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)},
-            {"dash", new Tuple<string, float, string, float, KeyCode>
-                ("Tutorial_Player_Dash", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)},
-            {"swing_enter", new Tuple<string, float, string, float, KeyCode>
-                ("Tutorial_Player_Swing_Enter", 0.25f, "Tutorial_Key_Space", 0.25f, KeyCode.Space)},
-            {"swing_leave", new Tuple<string, float, string, float, KeyCode>
-                ("Tutorial_Player_Swing_Leave", 0.25f, "Tutorial_Key_Space_Rev", 0.25f, KeyCode.Space)}
+            {"jump", new Tuple<string, float, string, float>
+                ("Tutorial_Player_Jump", 0.25f, "Tutorial_Key_Space", 0.25f)},
+            {"dash", new Tuple<string, float, string, float>
+                ("Tutorial_Player_Dash", 0.25f, "Tutorial_Key_Space", 0.25f)},
+            {"swing", new Tuple<string, float, string, float>
+                ("Tutorial_Player_Swing", 0.15f, "Tutorial_Key_Space_Hold", 0.15f)}
         };
 
     private void Start()
@@ -54,7 +51,7 @@ public class TutorialBox : MonoBehaviour
             _moveToShow = move;
         else
         {
-            Debug.LogError("Invalid tutorial move set");
+            Debug.LogError("Invalid tutorial move set " + move);
             return;
         }
         

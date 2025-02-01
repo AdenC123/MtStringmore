@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Tutorial_Key_Space_Rev
+  m_Name: Tutorial_Key_Space_Hold
   m_Speed: 1
   m_CycleOffset: 1
   m_Transitions: []
@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8e065af685d01024287549aad40aede6, type: 2}
+  m_Motion: {fileID: 7400000, guid: c719503a8d03f854e87beb971dd73a7c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -32,7 +32,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Key
+  m_Name: Tutorial_Key
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:

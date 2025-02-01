@@ -155,8 +155,8 @@ TextureImporter:
       name: Tutorial_Player_Swing_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 1024
+        y: 256
         width: 512
         height: 256
       alignment: 0
@@ -176,7 +176,7 @@ TextureImporter:
       name: Tutorial_Player_Swing_3
       rect:
         serializedVersion: 2
-        x: 512
+        x: 0
         y: 0
         width: 512
         height: 256
@@ -189,6 +189,48 @@ TextureImporter:
       bones: []
       spriteID: 427ad91f3eb386a429847c0c168d8541
       internalID: 1141748452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tutorial_Player_Swing_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 512
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0dbce98e0fbe1014b853deb082724eeb
+      internalID: -2056987705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tutorial_Player_Swing_5
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 512
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45b16a8d5a8a16144a590910aa09ae2e
+      internalID: -1331055201
       vertices: []
       indices: 
       edges: []
@@ -208,6 +250,8 @@ TextureImporter:
       Tutorial_Player_Swing_1: -532151880
       Tutorial_Player_Swing_2: -1394204450
       Tutorial_Player_Swing_3: 1141748452
+      Tutorial_Player_Swing_4: -2056987705
+      Tutorial_Player_Swing_5: -1331055201
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
