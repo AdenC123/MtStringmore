@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
 
     [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private Slider MasterSlider;
+    [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider bgmSlider;
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private float startBgmVolume = 0.5f;
@@ -38,7 +38,7 @@ public class SoundManager : MonoBehaviour
     /// <summary> Sets Master volume (0.0001 to 1). </summary>
     public void SetMasterVolume(float volume)
     {
-        MasterSlider.value = volume;
+        masterSlider.value = volume;
         PlayerPrefs.SetFloat("Master", volume);
         PlayerPrefs.Save();
     }

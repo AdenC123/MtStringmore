@@ -2441,7 +2441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
-  MasterSlider: {fileID: 501530456080664424}
+  masterSlider: {fileID: 501530456080664424}
   bgmSlider: {fileID: 7062846956582741004}
   sfxSlider: {fileID: 3686908410102533265}
   startBgmVolume: 0.5
