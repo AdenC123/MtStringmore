@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 ///     Handles player animation
 /// </summary>
-public class PlayerAnimator : MonoBehaviour
+public class PlayerAnimator : Resettable
 {
     #region Serialized Private Fields
 
@@ -214,6 +214,20 @@ public class PlayerAnimator : MonoBehaviour
     //     var main = ps.main;
     //     main.startColor = _currentGradient;
     // }
+
+    public override void Reset()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+            var material = child.GetComponent<Renderer>().material;
+            Color color = material.color;
+            color.a = 1;
+            material.color = color;
+        }
+        
+        base.Reset();
+    }
 
     #endregion
 }

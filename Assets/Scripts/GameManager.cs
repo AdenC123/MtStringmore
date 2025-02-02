@@ -19,6 +19,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public Vector2 CheckPointPos { get; set; }
 
+    /// <summary>
+    /// Object that contains all objects that need to be reset when the player respawns
+    /// </summary>
+    private Resettable _resetter;
+
+    /// <summary>
+    /// Name of the object that resets the <see cref="_resetter"/>
+    /// </summary>
+    [SerializeField] private string resetterName = "Resettable";
+
     private void Awake()
     {
         if (Instance == null)
@@ -32,6 +42,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        _resetter = GameObject.Find(resetterName).GetComponent<Resettable>();
     }
 
     private void Update()
@@ -75,6 +90,7 @@ public class GameManager : MonoBehaviour
     {
         _newLevel = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // _resetter.Reset();
     }
 
     [YarnCommand("load_scene")]

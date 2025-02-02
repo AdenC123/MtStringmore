@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Controls player movement and invokes events for different player states
 /// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : Resettable
 {
     #region Serialized Private Fields
     
@@ -573,4 +573,14 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    public override void Reset()
+    {
+        var checkpointPos = GameManager.Instance.CheckPointPos;
+        var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
+        transform.position = spawnPos;
+        PlayerState = PlayerStateEnum.Run;
+        
+        base.Reset();
+    }
 }

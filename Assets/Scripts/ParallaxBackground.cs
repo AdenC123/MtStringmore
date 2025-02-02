@@ -4,13 +4,15 @@ using UnityEngine;
 /// <summary>
 /// Loads background layers from child objects, and moves them with respect to camera movement
 /// </summary>
-public class ParallaxBackground : MonoBehaviour
+public class ParallaxBackground : Resettable
 {
     private ParallaxCamera _parallaxCamera;
     private readonly List<ParallaxLayer> _parallaxLayers = new();
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         _parallaxCamera = Camera.main?.GetComponent<ParallaxCamera>();
 
         if (_parallaxCamera is not null)
