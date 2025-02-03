@@ -6,7 +6,8 @@ using System.Collections;
 /// </summary>
 public class FadeOut : MonoBehaviour
 {
-    [SerializeField] private float fadeDuration = 0.3f; // Duration of the fade-out effect
+    [SerializeField] private float fadeDuration = 0.3f;
+    [SerializeField] private bool destroyOnFade;
 
     public void InvokeFadeOut()
     {
@@ -31,5 +32,7 @@ public class FadeOut : MonoBehaviour
         color.a = 0;
         material.color = color;
         gameObject.SetActive(false);
+        if (destroyOnFade)
+            Destroy(gameObject);
     }
 }

@@ -7,17 +7,17 @@ using Yarn.Unity;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    /// <summary>
-    ///     Used between scene transitions. Set to false for respawns, true for transition between levels
-    /// </summary>
-    private bool _newLevel;
-
     public static GameManager Instance { get; private set; }
 
     /// <summary>
     ///     Last checkpoint position. The player should respawn here if they die.
     /// </summary>
     public Vector2 CheckPointPos { get; set; }
+    
+    /// <summary>
+    /// If true, the player faces left when they respawn
+    /// </summary>
+    public bool RespawnFacingLeft { get; set; }
 
     /// <summary>
     /// Object that contains all objects that need to be reset when the player respawns
@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null)
         {
-            _newLevel = true;
             Instance = this;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -66,8 +65,6 @@ public class GameManager : MonoBehaviour
 
     public void Respawn()
     {
-        // _newLevel = false;
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         _resetter.Reset();
     }
 

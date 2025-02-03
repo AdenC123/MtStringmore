@@ -49,7 +49,7 @@ public class PlayerController : Resettable
     [SerializeField] private float minSwingReleaseX;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
-    [SerializeField] private int deathTime;
+    [SerializeField] private float deathTime;
     [Header("Debug")]
     [SerializeField] private bool stateDebugLog;
     // this is just here for battle of the concepts
@@ -579,6 +579,7 @@ public class PlayerController : Resettable
         var checkpointPos = GameManager.Instance.CheckPointPos;
         var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
         transform.position = spawnPos;
+        _lastDirection = GameManager.Instance.RespawnFacingLeft ? -1.0f : 1.0f;
         PlayerState = PlayerStateEnum.Run;
         
         base.Reset();
