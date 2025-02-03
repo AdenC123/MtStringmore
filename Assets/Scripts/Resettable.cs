@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Superclass for game objects that get reset when the player respawns
+/// Game objects that get reset when the player respawns
 /// </summary>
 public class Resettable: MonoBehaviour
 {
@@ -23,7 +23,6 @@ public class Resettable: MonoBehaviour
     /// </summary>
     public virtual void Reset()
     {
-        Debug.Log("resetting " + gameObject.name);
         foreach (Resettable child in _children)
             child.Reset();
     }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
@@ -22,12 +23,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Object that contains all objects that need to be reset when the player respawns
     /// </summary>
-    private Resettable _resetter;
-
-    /// <summary>
-    /// Name of the object that resets the <see cref="_resetter"/>
-    /// </summary>
-    [SerializeField] private string resetterName = "Resettable";
+    private List<Resettable> _resetters = new();
 
     private void Awake()
     {
@@ -53,19 +49,21 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    /// <summary>
-    ///     On scene load, put player in the right spawn/respawn point
-    /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        _resetter = GameObject.Find(resetterName).GetComponent<Resettable>();
-        
         Time.timeScale = 1f;
+        foreach (var resetObject in GameObject.FindGameObjectsWithTag("Resetter"))
+            _resetters.Add(resetObject.GetComponent<Resettable>());
     }
 
+    /// <summary>
+    /// Resets core components like player, Knitby, camera, etc to the state at
+    /// the last checkpoint
+    /// </summary>
     public void Respawn()
     {
-        _resetter.Reset();
+        foreach (var resetObject in _resetters)
+            resetObject.Reset();
     }
 
     [YarnCommand("load_scene")]

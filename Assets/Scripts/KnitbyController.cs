@@ -38,7 +38,6 @@ public class KnitbyController : Resettable
     /// </summary>
     public event Action PlayerDeath;
     
-    
     private GameObject _player;
     private LineRenderer _lineRenderer;
     private CapsuleCollider2D _col;
@@ -105,8 +104,10 @@ public class KnitbyController : Resettable
     
     public override void Reset()
     {
+        _path.Clear();
         var checkpointPos = GameManager.Instance.CheckPointPos;
         var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
+        _currentPathPosition = spawnPos;
         transform.position = spawnPos;
         
         base.Reset();
