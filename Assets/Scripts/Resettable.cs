@@ -23,6 +23,7 @@ public class Resettable: MonoBehaviour
     /// </summary>
     public virtual void Reset()
     {
+        Debug.Log("resetting " + gameObject.name);
         foreach (Resettable child in _children)
             child.Reset();
     }

@@ -44,11 +44,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        _resetter = GameObject.Find(resetterName).GetComponent<Resettable>();
-    }
-
     private void Update()
     {
         if (Input.GetButtonDown("Debug Reset")) Respawn();
@@ -64,33 +59,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        _resetter = GameObject.Find(resetterName).GetComponent<Resettable>();
+        
         Time.timeScale = 1f;
-        var player = GameObject.FindGameObjectWithTag("Player");
-        var knitby = GameObject.FindGameObjectWithTag("Knitby");
-        if (!player || !knitby) return;
-
-        if (_newLevel == false)
-        {
-            var spawnPos = new Vector3(CheckPointPos.x, CheckPointPos.y, player.transform.position.z);
-            player.transform.position = spawnPos;
-            knitby.transform.position = spawnPos;
-        }
-        else
-        {
-            CheckPointPos = player.transform.position;
-        }
-
-        var cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowCamera>();
-        if (cam is null) return;
-        var playerTarget = cam.GetPlayerTarget();
-        cam.transform.position = new Vector3(playerTarget.x, playerTarget.y, cam.transform.position.z);
     }
 
     public void Respawn()
     {
-        _newLevel = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        // _resetter.Reset();
+        // _newLevel = false;
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        _resetter.Reset();
     }
 
     [YarnCommand("load_scene")]
