@@ -60,6 +60,7 @@ public class KnitbyAnimator : Resettable
         anim.enabled = false;
     }
 
+    /// <inheritdoc />
     public override void Reset()
     {
         anim.enabled = true;

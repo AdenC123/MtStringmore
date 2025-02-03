@@ -18,7 +18,7 @@ public class Resettable: MonoBehaviour
     }
 
     /// <summary>
-    /// Resets the transform of the current object to its starting transform in the scene,
+    /// Resets the current object to its state on last checkpoint,
     /// and recursively call reset on all resettable children
     /// </summary>
     public virtual void Reset()

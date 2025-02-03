@@ -135,6 +135,7 @@ public class FollowCamera : Resettable
         }
     }
 
+    /// <inheritdoc />
     public override void Reset()
     {
         var playerTarget = GetPlayerTarget();

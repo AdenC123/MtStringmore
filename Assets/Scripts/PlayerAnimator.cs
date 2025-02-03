@@ -215,6 +215,7 @@ public class PlayerAnimator : Resettable
     //     main.startColor = _currentGradient;
     // }
 
+    /// <inheritdoc />
     public override void Reset()
     {
         foreach (Transform child in transform)

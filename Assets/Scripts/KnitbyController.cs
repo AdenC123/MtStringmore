@@ -102,6 +102,7 @@ public class KnitbyController : Resettable
             dir, distance, collisionLayer);
     }
     
+    /// <inheritdoc />
     public override void Reset()
     {
         _path.Clear();
