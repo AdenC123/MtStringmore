@@ -6,27 +6,26 @@ public class CollapsingPlatform : MonoBehaviour
 {
     #region Serialized Public Fields
     [Header("Collapse Time")] 
-    [SerializeField] public float collapsePlatTime;
-    [SerializeField] public float restorePlatTime;
-    [SerializeField] public bool LeftWallPlatform;
-    [SerializeField] public float rotationAngle;
+    [SerializeField] public float collapsePlatTimer;
+    [SerializeField] public float restorePlatTimer;
+    [SerializeField] public bool isLeftWall;
+    [SerializeField] public float motorForce;
+    [SerializeField] public float motorSpeed;
     #endregion
 
+    private HingeJoint2D _hinge;
+    private JointMotor2D _motor;
+    private float _deltaCollapseTimer;
+    private float _deltaRestoreTimer;
     private bool _isOnPlatform;
-    private bool _isPlatformActive = true;
-    private float _deltaCollapseTime;
-    private float _deltaRestoreTime;
-    private float _currentRotation;
-    Vector3 _pivotPosition;
 
-    
-
-
+    // Start is called before the first frame update
     void Start()
     {
-        _deltaCollapseTime = collapsePlatTime;
-        _deltaRestoreTime = restorePlatTime;
-        _pivotPosition = transform.parent.position;
+        _deltaCollapseTimer = collapsePlatTimer;
+        _deltaRestoreTimer = restorePlatTimer;
+        _hinge = GetComponent<HingeJoint2D>();
+        _motor = _hinge.motor;
     }
 
     // Update is called once per frame
@@ -34,91 +33,46 @@ public class CollapsingPlatform : MonoBehaviour
     {
         if(_isOnPlatform) 
         {
-            
-            _deltaCollapseTime -= Time.deltaTime;
+            _deltaCollapseTimer-=Time.deltaTime;
 
-            if(_deltaCollapseTime <= 0) 
-            {
-                //might experiment to get the target angle to be a full 90 degrees (so tweek 45)
+            if(_deltaCollapseTimer<=0) {
+                //instantly disable then re-enable current platform's motor to set variables at the same time
+                _hinge.useMotor = false;
+                _motor.motorSpeed = motorSpeed;
+                _motor.maxMotorTorque = motorForce;
+                _hinge.motor = _motor;
+                _hinge.useMotor = true;
 
-                if(LeftWallPlatform) 
-                {
-                    Debug.Log(transform.eulerAngles.z);
-                    transform.RotateAround(_pivotPosition, Vector3.back, 180* Time.deltaTime);
-                } else 
-                {
-                    Debug.Log(transform.eulerAngles.z);
-                    transform.RotateAround(_pivotPosition, Vector3.forward, 180* Time.deltaTime);
-                }
-                
-                _isPlatformActive = false;
-            } 
-        } 
-        
-        if(!_isPlatformActive) 
-        {
-            _deltaRestoreTime-=Time.deltaTime;
-            if(_deltaRestoreTime <= 0) 
-            {   
-                if(LeftWallPlatform) 
-                {
-                    Debug.Log(transform.eulerAngles.z);
-                    transform.RotateAround(_pivotPosition, Vector3.forward, 180* Time.deltaTime);
-                } 
-                else
-                {
-                    Debug.Log(transform.eulerAngles.z);
-                    transform.RotateAround(_pivotPosition, Vector3.back, 180* Time.deltaTime);
-                }
-            } 
-
-            if(transform.eulerAngles.z >=0 && transform.eulerAngles.z<1)//desired range of angles to stop.
-            {
-                transform.eulerAngles = new Vector3(0f, 0f, 0f); //get the platform exactly horizontal.
-                _isPlatformActive = true;
-                _deltaRestoreTime = restorePlatTime;
+                //call coroutine that pauses execution after retorePlatTime expires
+                StartCoroutine(RestorePlatform());
             }
-
         }
     }
-    // private void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     if (other.gameObject.CompareTag("Player"))
-    //     {
-    //         _isOnPlatform = true;
-    //         Debug.Log("I enter");
-    //     }
-    // }
 
-    // private void OnTriggerExit2D(Collider2D other)
-    // {
-    //     if (other.gameObject.CompareTag("Player"))
-    //     {
-    //         _isOnPlatform = false;
-    //         _deltaCollapseTime = collapsePlatTime;
-    //         Debug.Log("I exited");
-    //     }
-    // }
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             _isOnPlatform = true;
-            Debug.Log("I enter");
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other)
+    //coroutine to restore platform after restore time elapsed
+    IEnumerator RestorePlatform()
     {
-        if (other.gameObject.CompareTag("Player"))
+        _isOnPlatform = false;
+
+        yield return new WaitForSeconds(restorePlatTimer);
+
+        _hinge.useMotor = false;
+        if(isLeftWall) {
+            _motor.motorSpeed = -100f;
+        } else 
         {
-            _isOnPlatform = false;
-            _deltaCollapseTime = collapsePlatTime;
-            Debug.Log("I exited");
+            _motor.motorSpeed = 100f;
         }
+        _motor.maxMotorTorque = 30f;
+        _hinge.motor = _motor;
+        _hinge.useMotor = true;
     }
-
-    
-
-    
 }
