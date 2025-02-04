@@ -574,6 +574,7 @@ public class PlayerController : Resettable
 
     #endregion
 
+    /// <inheritdoc />
     public override void Reset()
     {
         var checkpointPos = GameManager.Instance.CheckPointPos;
