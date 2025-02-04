@@ -1,17 +1,18 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
 
 /// <summary>
-///     Singleton class for global game settings. Persists between scenes and reloads.
+/// Singleton class for global game settings. Persists between scenes and reloads.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     /// <summary>
-    ///     Last checkpoint position. The player should respawn here if they die.
+    /// Last checkpoint position. The player should respawn here if they die.
     /// </summary>
     public Vector2 CheckPointPos { get; set; }
     
@@ -24,6 +25,11 @@ public class GameManager : MonoBehaviour
     /// Object that contains all objects that need to be reset when the player respawns
     /// </summary>
     private List<Resettable> _resetters = new();
+
+    /// <summary>
+    /// Canvas to fade in/out when transitioning between scenes
+    /// </summary>
+    [SerializeField] private FadeEffects sceneTransitionCanvas;
 
     private void Awake()
     {
@@ -51,6 +57,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        sceneTransitionCanvas.InvokeFadeOut();
         Time.timeScale = 1f;
         foreach (var resetObject in GameObject.FindGameObjectsWithTag("Resetter"))
             _resetters.Add(resetObject.GetComponent<Resettable>());
@@ -62,8 +69,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void Respawn()
     {
+        sceneTransitionCanvas.FadeIn += OnFadeIn;
+        sceneTransitionCanvas.InvokeFadeInAndOut();
+    }
+
+    private void OnFadeIn()
+    {
         foreach (var resetObject in _resetters)
             resetObject.Reset();
+        sceneTransitionCanvas.FadeIn -= OnFadeIn;
     }
 
     [YarnCommand("load_scene")]
