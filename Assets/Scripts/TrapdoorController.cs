@@ -2,25 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class TrapdoorController : MonoBehaviour
 {
     #region Serialized Public Fields
     [Header("Collapse Time")] 
     [SerializeField] public float collapsePlatTimer;
     [SerializeField] public float restorePlatTimer;
+    [SerializeField] public bool isLeftWall;
+    [SerializeField] public float motorForce;
+    [SerializeField] public float motorSpeed;
     #endregion
 
-    private BoxCollider2D _boxCollider;
-    private SpriteRenderer _sprite;
-    private bool _isOnPlatform;
+    private HingeJoint2D _hinge;
+    private JointMotor2D _motor;
     private float _deltaCollapseTimer;
+    private float _deltaRestoreTimer;
+    private bool _isOnPlatform;
 
     // Start is called before the first frame update
     void Start()
     {
         _deltaCollapseTimer = collapsePlatTimer;
-        _boxCollider = GetComponent<BoxCollider2D>();
-        _sprite = GetComponent<SpriteRenderer>();
+        _deltaRestoreTimer = restorePlatTimer;
+        _hinge = GetComponent<HingeJoint2D>();
+        _motor = _hinge.motor;
     }
 
     // Update is called once per frame
@@ -31,9 +36,12 @@ public class NewBehaviourScript : MonoBehaviour
             _deltaCollapseTimer-=Time.deltaTime;
 
             if(_deltaCollapseTimer<=0) {
-            
-                _sprite.enabled = false;
-                _boxCollider.enabled = false;
+                //instantly disable then re-enable current platform's motor to set variables at the same time
+                _hinge.useMotor = false;
+                _motor.motorSpeed = motorSpeed;
+                _motor.maxMotorTorque = motorForce;
+                _hinge.motor = _motor;
+                _hinge.useMotor = true;
 
                 //call coroutine that pauses execution after retorePlatTime expires
                 StartCoroutine(RestorePlatform());
@@ -49,14 +57,23 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
+    //coroutine to restore platform after restore time elapsed
     IEnumerator RestorePlatform()
     {
         _isOnPlatform = false;
 
         yield return new WaitForSeconds(restorePlatTimer);
-        _sprite.enabled = true;
-        _boxCollider.enabled = true;
+
+        _hinge.useMotor = false;
+        if(isLeftWall) {
+            _motor.motorSpeed = -100f;
+        } else 
+        {
+            _motor.motorSpeed = 100f;
+        }
+        _motor.maxMotorTorque = 30f;
+        _hinge.motor = _motor;
+        _hinge.useMotor = true;
         _deltaCollapseTimer = collapsePlatTimer;
     }
-
 }
