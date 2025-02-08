@@ -1,38 +1,35 @@
 using UnityEngine;
 
-namespace DefaultNamespace
+/// <summary>
+/// Handles the death of player, when in contact with particles 
+/// </summary>
+public class ExplosionParticleController : MonoBehaviour
 {
-    /// <summary>
-    /// Handles the death of player, when in contact with particles 
-    /// </summary>
-    public class ExplosionParticleController : MonoBehaviour
+    [Range(0, 2)]
+    [SerializeField] private float emissionRadius = 1.0f;
+    [SerializeField] private ParticleSystem explosionParticles;
+
+    private void Start()
     {
-        [Range(0, 2)]
-        [SerializeField] public float emissionRadius = 1.0f;
-        [SerializeField] private ParticleSystem explosionParticles;
+        explosionParticles = GetComponent<ParticleSystem>();
 
-        private void Start()
+        if (explosionParticles != null)
         {
-            explosionParticles = GetComponent<ParticleSystem>();
+            var shapeModule = explosionParticles.shape;
+            shapeModule.radius = emissionRadius;
 
-            if (explosionParticles != null)
-            {
-                var shapeModule = explosionParticles.shape;
-                shapeModule.radius = emissionRadius;
-
-                var collisionModule = explosionParticles.collision;
-                collisionModule.enabled = true;
-                collisionModule.collidesWith = LayerMask.GetMask("Player", "Terrain");
-            }
+            var collisionModule = explosionParticles.collision;
+            collisionModule.enabled = true;
+            collisionModule.collidesWith = LayerMask.GetMask("Player", "Terrain");
         }
+    }
 
-        private void Update()
+    private void Update()
+    {
+        if (explosionParticles != null)
         {
-            if (explosionParticles != null)
-            {
-                var shapeModule = explosionParticles.shape;
-                shapeModule.radius = emissionRadius;
-            }
+            var shapeModule = explosionParticles.shape;
+            shapeModule.radius = emissionRadius;
         }
     }
 }

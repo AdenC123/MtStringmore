@@ -5,43 +5,41 @@ using UnityEngine;
 /// </summary>
 public class CanonController : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    public GameObject Boulder;
-    private float MaxTimeBtwnShots;
-    private float TimeBtwnShots;
+    public GameObject boulder;
+    private float _maxTimeBetweenShots;
+    private float _timeBetweenShots;
     
-    [SerializeField] public float Angle = 45f; // angle in DEGREES
-    [SerializeField] public float Speed = 10f;
-    [SerializeField] public float minTimeBetweenShots = 1f;
-    [SerializeField] public float maxTimeBetweenShots = 3f;
+    [SerializeField] private float angle = 45f; // angle in DEGREES
+    [SerializeField] private float speed = 10f;
+    [SerializeField] private float minTimeBetweenShots = 1f;
+    [SerializeField] private float maxTimeBetweenShots = 3f;
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         SetRandomShotInterval();
     }
 
     void Update()
     {
-        if (TimeBtwnShots <= 0)
+        if (_timeBetweenShots <= 0)
         {
-            GameObject newBoulder = Instantiate(Boulder, transform.position, Quaternion.identity);
+            GameObject newBoulder = Instantiate(boulder, transform.position, Quaternion.identity);
             Rigidbody2D boulderRb = newBoulder.GetComponent<Rigidbody2D>();
 
             // create the angle that the boulder shoots out
-            float angleInRadians = Angle * Mathf.Deg2Rad;
-            Vector2 velocity = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)) * Speed;
+            float angleInRadians = angle * Mathf.Deg2Rad;
+            Vector2 velocity = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)) * speed;
             boulderRb.velocity = velocity;
             SetRandomShotInterval();
         }
         else
         {
-            TimeBtwnShots -= Time.deltaTime;
+            _timeBetweenShots -= Time.deltaTime;
         }
     }
     
     private void SetRandomShotInterval()
     {
-        TimeBtwnShots = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
+        _timeBetweenShots = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
     }
     
 }

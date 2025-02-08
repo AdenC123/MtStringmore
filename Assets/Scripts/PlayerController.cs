@@ -317,7 +317,7 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Air;
     }
 
-    public void HandleDeath()
+    private void HandleDeath()
     {
         _velocity = Vector2.zero;
         _rb.velocity = _velocity;
