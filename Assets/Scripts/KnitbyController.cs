@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Updates Knitby's position to follow the player's path
 /// </summary>
-public class KnitbyController : MonoBehaviour
+public class KnitbyController : Resettable
 { 
     [Header("References")]
     [SerializeField] private GameObject deathSmoke;
@@ -42,7 +42,6 @@ public class KnitbyController : MonoBehaviour
     /// </summary>
     public event Action PlayerDeath;
     
-    
     private GameObject _player;
     private LineRenderer _lineRenderer;
     private CapsuleCollider2D _col;
@@ -52,8 +51,9 @@ public class KnitbyController : MonoBehaviour
     private bool _grounded;
     private bool _wallHit;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         _col = GetComponent<CapsuleCollider2D>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
@@ -113,5 +113,17 @@ public class KnitbyController : MonoBehaviour
     {
         return Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0,
             dir, distance, collisionLayer);
+    }
+    
+    /// <inheritdoc />
+    public override void Reset()
+    {
+        _path.Clear();
+        var checkpointPos = GameManager.Instance.CheckPointPos;
+        var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
+        _currentPathPosition = spawnPos;
+        transform.position = spawnPos;
+        
+        base.Reset();
     }
 }

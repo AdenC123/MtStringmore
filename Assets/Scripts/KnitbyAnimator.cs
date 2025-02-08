@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Handles Knitby's animation
 /// </summary>
-public class KnitbyAnimator : MonoBehaviour
+public class KnitbyAnimator : Resettable
 {
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject deathSmoke;
@@ -70,5 +70,12 @@ public class KnitbyAnimator : MonoBehaviour
     {
         Instantiate(deathSmoke, transform);
         anim.enabled = false;
+    }
+
+    /// <inheritdoc />
+    public override void Reset()
+    {
+        anim.enabled = true;
+        base.Reset();
     }
 }

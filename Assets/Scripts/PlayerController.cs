@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Controls player movement and invokes events for different player states
 /// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : Resettable
 {
     #region Serialized Private Fields
     
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minSwingReleaseX;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
-    [SerializeField] private int deathTime;
+    [SerializeField] private float deathTime;
     [Header("Debug")]
     [SerializeField] private bool stateDebugLog;
     // this is just here for battle of the concepts
@@ -573,4 +573,16 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    /// <inheritdoc />
+    public override void Reset()
+    {
+        var checkpointPos = GameManager.Instance.CheckPointPos;
+        var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
+        transform.position = spawnPos;
+        _lastDirection = GameManager.Instance.RespawnFacingLeft ? -1.0f : 1.0f;
+        PlayerState = PlayerStateEnum.Run;
+        
+        base.Reset();
+    }
 }
