@@ -145,7 +145,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DownwardMovement
+  m_Name: DownMovement
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: YVelocity
@@ -303,7 +303,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Land
+  m_Name: Grounded
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Grounded

@@ -24,11 +24,14 @@ public class KnitbyController : MonoBehaviour
     public event Action<float, float> DirectionUpdated;
     /// <summary>
     /// Fires when Knitby becomes grounded or leaves the ground.
-    /// Parameters:
-    ///     bool: false if leaving the ground, true if becoming grounded
-    ///     float: player's Y velocity
+    /// False if leaving the ground, true if becoming grounded
     /// </summary>
     public event Action<bool> GroundedChanged;
+    /// <summary>
+    /// Fires when Knitby hits a wall or leaves a wall.
+    /// False if leaving the wall, true if hitting a wall
+    /// </summary>
+    public event Action<bool> WallHitChanged;
     /// <summary>
     /// Fires continuously; true when currently in swing, false otherwise
     /// </summary>
@@ -46,6 +49,7 @@ public class KnitbyController : MonoBehaviour
     private readonly Queue<Vector3> _path = new();
     private float _queueTimer;
     private bool _grounded;
+    private bool _wallHit;
 
     private void Start()
     {
@@ -92,6 +96,14 @@ public class KnitbyController : MonoBehaviour
         {
             _grounded = groundHit;
             GroundedChanged?.Invoke(groundHit);
+        }
+
+        bool wallHit = CapsuleCastCollision(Vector2.right, collisionDistance) ||
+                       CapsuleCastCollision(Vector2.left, collisionDistance);
+        if (_wallHit != wallHit)
+        {
+            _wallHit = wallHit;
+            WallHitChanged?.Invoke(wallHit);
         }
         Swing?.Invoke(_lineRenderer.isVisible);
     }

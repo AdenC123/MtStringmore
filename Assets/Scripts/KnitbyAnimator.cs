@@ -27,6 +27,7 @@ public class KnitbyAnimator : MonoBehaviour
     {
         _knitbyController.DirectionUpdated += OnMove;
         _knitbyController.GroundedChanged += OnGroundedChanged;
+        _knitbyController.WallHitChanged += OnWallHitChanged;
         _knitbyController.Swing += OnSwing;
         _knitbyController.PlayerDeath += OnPlayerDeath;
     }
@@ -49,6 +50,11 @@ public class KnitbyAnimator : MonoBehaviour
     {
         anim.SetTrigger(grounded ? LandKey : JumpKey);
         anim.SetBool(GroundedKey, grounded);
+    }
+
+    private void OnWallHitChanged(bool wallHit)
+    {
+        // TODO
     }
 
     private void OnSwing(bool inSwing)
