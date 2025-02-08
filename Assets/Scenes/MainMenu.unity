@@ -506,7 +506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
-  MasterSlider: {fileID: 995008616}
+  masterSlider: {fileID: 995008616}
   bgmSlider: {fileID: 54188057}
   sfxSlider: {fileID: 1781584532}
 --- !u!1 &388277171
