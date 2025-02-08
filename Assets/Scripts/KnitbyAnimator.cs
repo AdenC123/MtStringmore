@@ -15,6 +15,8 @@ public class KnitbyAnimator : MonoBehaviour
     private static readonly int LandKey = Animator.StringToHash("Land");
     private static readonly int GroundedKey = Animator.StringToHash("Grounded");
     private static readonly int YVelocityKey = Animator.StringToHash("YVelocity");
+    private static readonly int HitWallKey = Animator.StringToHash("HitWall");
+    private static readonly int LeaveWallKey = Animator.StringToHash("LeaveWall");
     private static readonly int SwingKey = Animator.StringToHash("InSwing");
     
     private void Awake()
@@ -36,6 +38,7 @@ public class KnitbyAnimator : MonoBehaviour
     {
         _knitbyController.DirectionUpdated -= OnMove;
         _knitbyController.GroundedChanged -= OnGroundedChanged;
+        _knitbyController.WallHitChanged -= OnWallHitChanged;
         _knitbyController.Swing -= OnSwing;
         _knitbyController.PlayerDeath -= OnPlayerDeath;
     }
@@ -54,7 +57,8 @@ public class KnitbyAnimator : MonoBehaviour
 
     private void OnWallHitChanged(bool wallHit)
     {
-        // TODO
+        
+        anim.SetTrigger(wallHit ? HitWallKey : LeaveWallKey);
     }
 
     private void OnSwing(bool inSwing)

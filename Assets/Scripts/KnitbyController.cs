@@ -13,6 +13,7 @@ public class KnitbyController : MonoBehaviour
     [SerializeField] private float timeOffset = 0.1f;
     [SerializeField] private int granularity = 10;
     [SerializeField] private float interpolationSpeed = 20;
+    [SerializeField] private float yOffset = 0.4f;
     [Header("Collisions")] 
     [SerializeField] private LayerMask collisionLayer;
     [SerializeField] private float collisionDistance;
@@ -89,7 +90,7 @@ public class KnitbyController : MonoBehaviour
         _queueTimer = timeOffset / granularity;
         if (_path.Count == granularity)
             _currentPathPosition = _path.Dequeue();
-        _path.Enqueue(_player.transform.position);
+        _path.Enqueue(_player.transform.position + new Vector3(0f, yOffset, 0f));
         
         bool groundHit = CapsuleCastCollision(Vector2.down, collisionDistance);
         if (_grounded != groundHit)
