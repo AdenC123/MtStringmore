@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine.SceneManagement;
 
 namespace DevConsole
@@ -8,7 +10,7 @@ namespace DevConsole
     /// </summary>
     public class LoadSceneCommand : IDevCommand
     {
-        /// <inheritdoc />s
+        /// <inheritdoc />
         public string Name => "scene";
         
         /// <inheritdoc />
@@ -19,28 +21,30 @@ namespace DevConsole
                 sw.WriteLine(IDevCommand.Color($"Usage: {Name} <sceneName>", "red"));
                 return;
             }
+            
+            List<string> scenes = new();
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                // yes, we can't get the actual scene name, only the file path. Thanks Unity!
+                scenes.Add(Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)));
+            } 
 
             // if one of y'all makes a scene called "list.unity" just FYI you will not be able to access it
             // but also, w h y
             if (args[0].ToLower() is "l" or "list")
             {
-                for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-                {
-                    // this would return blank if the scene isn't loaded, but that's a limitation with Unity
-                    // can't do nothin'
-                    sw.WriteLine($"Scene {i + 1}: {SceneManager.GetSceneByBuildIndex(i).name}");
-                }
-
+                foreach (string scene in scenes) sw.WriteLine($"Found Scene: {scene}");
                 return;
             }
-            
-            Scene scene = SceneManager.GetSceneByName(args[0]);
-            if (!scene.IsValid())
+
+            if (scenes.Select(name => name.ToLower()).ToHashSet().Contains(args[0].ToLower()))
+            {
+                SceneManager.LoadScene(args[0]);
+            }
+            else
             {
                 sw.WriteLine(IDevCommand.Color($"Scene {args[0]} not found.", "red"));
-                return;
             }
-            SceneManager.LoadScene(scene.buildIndex);
         }
     }
 }

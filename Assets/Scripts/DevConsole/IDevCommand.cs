@@ -30,6 +30,9 @@ namespace DevConsole
         /// <param name="arg">Argument</param>
         /// <param name="result">Parsed result</param>
         /// <returns>True if parsed successfully, false otherwise</returns>
+        /// <remarks>
+        /// And yes, <see cref="System.Boolean.TryParse(string, out bool)"/> only matches "true" and "false".
+        /// </remarks>
         protected static bool TryParseBool(string arg, out bool result)
         {
             result = arg == "1";
