@@ -20,7 +20,7 @@ namespace DevConsole
                 return;
             }
 
-            if (args.Length == 1 && args[0].ToLower() == "list" || args[0].ToLower() == "l")
+            if (args.Length == 1 && args[0].ToLower() is "list" or "l")
             {
                 Checkpoint[] checkpoints = Object.FindObjectsOfType<Checkpoint>();
 

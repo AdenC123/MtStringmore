@@ -22,10 +22,12 @@ namespace DevConsole
 
             // if one of y'all makes a scene called "list.unity" just FYI you will not be able to access it
             // but also, w h y
-            if (args[0].ToLower() == "l" || args[0].ToLower() == "list")
+            if (args[0].ToLower() is "l" or "list")
             {
                 for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
                 {
+                    // this would return blank if the scene isn't loaded, but that's a limitation with Unity
+                    // can't do nothin'
                     sw.WriteLine($"Scene {i + 1}: {SceneManager.GetSceneByBuildIndex(i).name}");
                 }
 
