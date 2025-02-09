@@ -85,8 +85,7 @@ namespace DevConsole
                 {
                     StringWriter stringWriter = new();
                     command.Run(args, stringWriter);
-                    string output = stringWriter.ToString();
-                    if (output.Length > 0) consoleOutputArea.text += output;
+                    consoleOutputArea.text += stringWriter.ToString();
                 }
             }
             else
