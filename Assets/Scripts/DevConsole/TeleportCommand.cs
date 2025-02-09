@@ -19,7 +19,7 @@ namespace DevConsole
                 PrintUsage(sw);
                 return;
             }
-            bool result = CheckpointCommand.GetPosition(args, sw, out Vector2 pos);
+            bool result = IDevCommand.TryGetPosOrCheckpointPos(args, sw, out Vector2 pos);
             // error message is already printed, return
             if (!result) return;
             PlayerController pc = Object.FindObjectOfType<PlayerController>();

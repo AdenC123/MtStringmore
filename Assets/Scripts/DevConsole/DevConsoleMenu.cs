@@ -27,7 +27,24 @@ namespace DevConsole
 
         private readonly Dictionary<string, IDevCommand> _commands = new();
         private readonly List<string> _commandHistory = new();
-        private int _currentCommandIndex = -1;
+        private int _currentCommandIndex;
+
+        /// <summary>
+        /// Utility to get/set the current command index.
+        /// </summary>
+        private int CurrentCommandIndex
+        {
+            get => _currentCommandIndex;
+            set
+            {
+                if (_currentCommandIndex == value) return;
+                _currentCommandIndex = value;
+                inputField.text = _currentCommandIndex < _commandHistory.Count
+                    ? _commandHistory[_currentCommandIndex]
+                    : "";
+                inputField.caretPosition = inputField.text.Length;
+            }
+        }
 
         /// <summary>
         /// Simple utility to register a command.
@@ -62,13 +79,13 @@ namespace DevConsole
         /// <param name="input">Input field contents</param>
         private void OnConsoleSubmit(string input)
         {
+            inputField.text = "";
             input = input.Trim();
-            _currentCommandIndex = -1;
             if (input.Length == 0) return;
 
             _commandHistory.Add(input);
+            CurrentCommandIndex = _commandHistory.Count;
             consoleOutputArea.text += $"> {input}\n";
-            inputField.text = "";
 
             // yes, there's probably a better way of doing this. Too bad!
             string[] inputSplit = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -99,7 +116,7 @@ namespace DevConsole
             LayoutRebuilder.ForceRebuildLayoutImmediate(scrollRect.transform as RectTransform);
             scrollRect.verticalNormalizedPosition = 0;
         }
-        
+
         private void Awake()
         {
             RegisterCommand(new InvincibilityCommand());
@@ -128,24 +145,20 @@ namespace DevConsole
             }
 
             // yeah there's definitely a better way to implement the 'up' feature in like every console
-            if (Input.GetKeyDown(KeyCode.UpArrow) && inputField.isFocused && _commandHistory.Count > 0 &&
-                _currentCommandIndex != 0)
+            if (inputField.isFocused && _commandHistory.Count > 0)
             {
-                switch (_currentCommandIndex)
+                if (Input.GetKeyDown(KeyCode.UpArrow) && CurrentCommandIndex > 0)
                 {
-                    case -1:
-                        _currentCommandIndex = _commandHistory.Count - 1;
-                        break;
-                    case > 0:
-                        _currentCommandIndex--;
-                        break;
+                    CurrentCommandIndex--;
                 }
 
-                inputField.text = _commandHistory[_currentCommandIndex];
-                inputField.caretPosition = inputField.text.Length;
+                if (Input.GetKeyDown(KeyCode.DownArrow) && CurrentCommandIndex < _commandHistory.Count)
+                {
+                    CurrentCommandIndex++;
+                }
             }
         }
-        
+
         private void OnDestroy()
         {
             Application.logMessageReceived -= HandleLog;
