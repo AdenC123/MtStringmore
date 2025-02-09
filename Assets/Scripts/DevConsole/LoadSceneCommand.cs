@@ -8,8 +8,10 @@ namespace DevConsole
     /// </summary>
     public class LoadSceneCommand : IDevCommand
     {
+        /// <inheritdoc />s
         public string Name => "scene";
         
+        /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
             if (args.Length != 1)

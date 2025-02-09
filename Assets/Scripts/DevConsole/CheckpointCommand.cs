@@ -8,8 +8,10 @@ namespace DevConsole
     /// </summary>
     public class CheckpointCommand : IDevCommand
     {
+        /// <inheritdoc />
         public string Name => "checkpoint";
 
+        /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
             if (args.Length is < 1 or > 2)
@@ -35,6 +37,10 @@ namespace DevConsole
             GameManager.Instance.CheckPointPos = pos;
         }
 
+        /// <summary>
+        /// Prints all usages to the provided StringWriter.
+        /// </summary>
+        /// <param name="sw">StringWriter, typically provided by the dev console</param>
         private void PrintUsage(StringWriter sw)
         {
             sw.WriteLine(IDevCommand.Color($"Usage: {Name} <checkpoint no>", "red"));

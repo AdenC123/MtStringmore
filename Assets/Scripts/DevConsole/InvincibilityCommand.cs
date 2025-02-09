@@ -9,13 +9,29 @@ namespace DevConsole
     /// </summary>
     public class InvincibilityCommand : IDevCommand
     {
+        /// <summary>
+        /// Internal variable to persist the setting across scene transitions.
+        ///
+        /// Required as we need to re-set invincibility after a scene transition as it defaults to false.
+        /// </summary>
         private bool _isInvincible;
         
+        /// <inheritdoc />
         public string Name => "sv_invincibility";
 
+        /// <summary>
+        /// Constructor - initializes the scene change listener.
+        /// </summary>
         public InvincibilityCommand()
         {
             SceneManager.activeSceneChanged += SceneManagerOnActiveSceneChanged;
+        }
+        
+        /// <summary>
+        /// Destructor to remove the scene change listener otherwise we leak memory if this is destroyed lmfao.
+        /// </summary>
+        ~InvincibilityCommand(){
+            SceneManager.activeSceneChanged -= SceneManagerOnActiveSceneChanged;
         }
 
         /// <summary>
@@ -40,6 +56,7 @@ namespace DevConsole
             pc.DebugIgnoreDeath = _isInvincible;
         }
 
+        /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
             if (args.Length != 1 || !IDevCommand.TryParseBool(args[0], out bool arg))

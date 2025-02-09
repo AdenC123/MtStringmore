@@ -7,17 +7,27 @@ namespace DevConsole
     /// </summary>
     public class EnableCheatsCommand : IDevCommand
     {
+        /// <inheritdoc />
+        /// <remarks>
+        /// Need this to not require cheats as otherwise the player can't enable it lol
+        /// </remarks>
         public bool RequiresCheats => false;
         
+        /// <inheritdoc />
         public string Name => "sv_cheats";
 
         private readonly DevConsoleMenu _devConsole;
 
+        /// <summary>
+        /// Constructor to provide DevConsole to toggle cheats on.
+        /// </summary>
+        /// <param name="menu">DevConsole to change cheat settings</param>
         public EnableCheatsCommand(DevConsoleMenu menu)
         {
             _devConsole = menu;
         }
         
+        /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
             if (args.Length != 1 || !IDevCommand.TryParseBool(args[0], out bool arg))

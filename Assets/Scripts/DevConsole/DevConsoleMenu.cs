@@ -38,17 +38,6 @@ namespace DevConsole
             _commands.Add(command.Name, command);
         }
 
-        private void Awake()
-        {
-            RegisterCommand(new InvincibilityCommand());
-            RegisterCommand(new CheckpointCommand());
-            RegisterCommand(new TeleportCommand());
-            RegisterCommand(new LoadSceneCommand());
-            RegisterCommand(new EnableCheatsCommand(this));
-            inputField.onSubmit.AddListener(OnConsoleSubmit);
-            Application.logMessageReceived += HandleLog;
-        }
-
         /// <summary>
         /// Listener for any Debug.Log* messages.
         /// </summary>
@@ -65,46 +54,6 @@ namespace DevConsole
                 _ => "white"
             };
             consoleOutputArea.text += IDevCommand.Color(message, color) + '\n';
-        }
-
-        private void OnDestroy()
-        {
-            Application.logMessageReceived -= HandleLog;
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(openKeyCode))
-            {
-                consoleCanvas.gameObject.SetActive(!consoleCanvas.gameObject.activeSelf);
-                if (consoleCanvas.gameObject.activeSelf)
-                {
-                    inputField.ActivateInputField();
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Escape) && consoleCanvas.gameObject.activeSelf)
-            {
-                consoleCanvas.gameObject.SetActive(false);
-            }
-
-            // yeah there's definitely a better way to implement the 'up' feature in like every console
-            if (Input.GetKeyDown(KeyCode.UpArrow) && inputField.isFocused && _commandHistory.Count > 0 &&
-                _currentCommandIndex != 0)
-            {
-                switch (_currentCommandIndex)
-                {
-                    case -1:
-                        _currentCommandIndex = _commandHistory.Count - 1;
-                        break;
-                    case > 0:
-                        _currentCommandIndex--;
-                        break;
-                }
-
-                inputField.text = _commandHistory[_currentCommandIndex];
-                inputField.caretPosition = inputField.text.Length;
-            }
         }
 
         /// <summary>
@@ -149,6 +98,57 @@ namespace DevConsole
             inputField.ActivateInputField();
             // scroll to bottom upon command execution
             scrollRect.verticalNormalizedPosition = 0;
+        }
+        
+        private void Awake()
+        {
+            RegisterCommand(new InvincibilityCommand());
+            RegisterCommand(new CheckpointCommand());
+            RegisterCommand(new TeleportCommand());
+            RegisterCommand(new LoadSceneCommand());
+            RegisterCommand(new EnableCheatsCommand(this));
+            inputField.onSubmit.AddListener(OnConsoleSubmit);
+            Application.logMessageReceived += HandleLog;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(openKeyCode))
+            {
+                consoleCanvas.gameObject.SetActive(!consoleCanvas.gameObject.activeSelf);
+                if (consoleCanvas.gameObject.activeSelf)
+                {
+                    inputField.ActivateInputField();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape) && consoleCanvas.gameObject.activeSelf)
+            {
+                consoleCanvas.gameObject.SetActive(false);
+            }
+
+            // yeah there's definitely a better way to implement the 'up' feature in like every console
+            if (Input.GetKeyDown(KeyCode.UpArrow) && inputField.isFocused && _commandHistory.Count > 0 &&
+                _currentCommandIndex != 0)
+            {
+                switch (_currentCommandIndex)
+                {
+                    case -1:
+                        _currentCommandIndex = _commandHistory.Count - 1;
+                        break;
+                    case > 0:
+                        _currentCommandIndex--;
+                        break;
+                }
+
+                inputField.text = _commandHistory[_currentCommandIndex];
+                inputField.caretPosition = inputField.text.Length;
+            }
+        }
+        
+        private void OnDestroy()
+        {
+            Application.logMessageReceived -= HandleLog;
         }
     }
 }
