@@ -123,6 +123,8 @@ namespace DevConsole
             RegisterCommand(new CheckpointCommand());
             RegisterCommand(new TeleportCommand());
             RegisterCommand(new LoadSceneCommand());
+            RegisterCommand(new QuitCommand());
+            RegisterCommand(new KillCommand());
             RegisterCommand(new EnableCheatsCommand(this));
             inputField.onSubmit.AddListener(OnConsoleSubmit);
             Application.logMessageReceived += HandleLog;
