@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
 namespace DevConsole
 {
     /// <summary>
@@ -13,13 +15,19 @@ namespace DevConsole
     {
         [SerializeField] private KeyCode openKeyCode = KeyCode.F3;
         [SerializeField] private TextMeshProUGUI consoleOutputArea;
-        [SerializeField, Tooltip("Player command input field")] private TMP_InputField inputField;
+        [SerializeField] private ScrollRect scrollRect;
+
+        [SerializeField, Tooltip("Player command input field")]
+        private TMP_InputField inputField;
+
         [SerializeField] private Canvas consoleCanvas;
 
         [Tooltip("Whether cheats are currently enabled")]
         public bool cheatsEnabled;
 
         private readonly Dictionary<string, IDevCommand> _commands = new();
+        private readonly List<string> _commandHistory = new();
+        private int _currentCommandIndex = -1;
 
         /// <summary>
         /// Simple utility to register a command.
@@ -79,6 +87,24 @@ namespace DevConsole
             {
                 consoleCanvas.gameObject.SetActive(false);
             }
+
+            // yeah there's definitely a better way to implement the 'up' feature in like every console
+            if (Input.GetKeyDown(KeyCode.UpArrow) && inputField.isFocused && _commandHistory.Count > 0 &&
+                _currentCommandIndex != 0)
+            {
+                switch (_currentCommandIndex)
+                {
+                    case -1:
+                        _currentCommandIndex = _commandHistory.Count - 1;
+                        break;
+                    case > 0:
+                        _currentCommandIndex--;
+                        break;
+                }
+
+                inputField.text = _commandHistory[_currentCommandIndex];
+                inputField.caretPosition = inputField.text.Length;
+            }
         }
 
         /// <summary>
@@ -87,8 +113,14 @@ namespace DevConsole
         /// <param name="input">Input field contents</param>
         private void OnConsoleSubmit(string input)
         {
+            input = input.Trim();
+            _currentCommandIndex = -1;
+            if (input.Length == 0) return;
+
+            _commandHistory.Add(input);
             consoleOutputArea.text += $"> {input}\n";
             inputField.text = "";
+
             // yes, there's probably a better way of doing this. Too bad!
             string[] inputSplit = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             string cmd = inputSplit[0].ToLower();
@@ -97,21 +129,26 @@ namespace DevConsole
             {
                 if (!cheatsEnabled && command.RequiresCheats)
                 {
-                    consoleOutputArea.text += IDevCommand.Color("Cheats are not enabled in this session.", "red") + '\n';
+                    consoleOutputArea.text +=
+                        IDevCommand.Color("Cheats are not enabled in this session.", "red") + '\n';
                 }
                 else
                 {
                     StringWriter stringWriter = new();
                     command.Run(args, stringWriter);
                     string output = stringWriter.ToString();
-                    if (output.Length > 0) consoleOutputArea.text += stringWriter.ToString() + '\n';
+                    if (output.Length > 0) consoleOutputArea.text += stringWriter.ToString();
                 }
             }
             else
             {
                 consoleOutputArea.text += IDevCommand.Color($"Unknown command: {cmd}", "red") + '\n';
             }
+
+            // re-focus input field
             inputField.ActivateInputField();
+            // scroll to bottom upon command execution
+            scrollRect.verticalNormalizedPosition = 0;
         }
     }
 }
