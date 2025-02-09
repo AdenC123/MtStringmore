@@ -96,6 +96,7 @@ namespace DevConsole
             // re-focus input field
             inputField.ActivateInputField();
             // scroll to bottom upon command execution
+            LayoutRebuilder.ForceRebuildLayoutImmediate(scrollRect.transform as RectTransform);
             scrollRect.verticalNormalizedPosition = 0;
         }
         
