@@ -22,9 +22,9 @@ namespace DevConsole
             // but also, w h y
             if (args[0].ToLower() == "l" || args[0].ToLower() == "list")
             {
-                for (int i = 0; i < SceneManager.sceneCount; i++)
+                for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
                 {
-                    sw.WriteLine($"Scene {i + 1}: {SceneManager.GetSceneAt(i).name}");
+                    sw.WriteLine($"Scene {i + 1}: {SceneManager.GetSceneByBuildIndex(i).name}");
                 }
 
                 return;
