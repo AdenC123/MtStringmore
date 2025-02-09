@@ -12,20 +12,28 @@ namespace DevConsole
         
         public void Run(string[] args, StringWriter sw)
         {
-            if (args.Length != 2 || !float.TryParse(args[0], out float x) || !float.TryParse(args[1], out float y))
+            if (args.Length is < 1 or > 2)
             {
-                sw.WriteLine(IDevCommand.Color($"Usage: {Name} <x> <y>", "red"));
+                PrintUsage(sw);
                 return;
             }
-            
+            bool result = CheckpointCommand.GetPosition(args, sw, out Vector2 pos);
+            // error message is already printed, return
+            if (!result) return;
             PlayerController pc = Object.FindObjectOfType<PlayerController>();
             if (!pc)
             {
                 sw.WriteLine(IDevCommand.Color("Player not found.", "red"));
                 return;
             }
-            
-            pc.gameObject.transform.position = new Vector3(x, y, 0);
+
+            pc.transform.position = pos;
+        }
+        
+        private void PrintUsage(StringWriter sw)
+        {
+            sw.WriteLine(IDevCommand.Color($"Usage: {Name} <checkpoint no>", "red"));
+            sw.WriteLine(IDevCommand.Color($"       {Name} <x> <y>", "red"));
         }
     }
 }

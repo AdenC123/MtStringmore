@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
@@ -89,7 +90,7 @@ namespace DevConsole
             consoleOutputArea.text += $"> {input}\n";
             inputField.text = "";
             // yes, there's probably a better way of doing this. Too bad!
-            string[] inputSplit = input.Split(' ');
+            string[] inputSplit = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             string cmd = inputSplit[0].ToLower();
             string[] args = inputSplit.Skip(1).ToArray();
             if (_commands.TryGetValue(cmd, out IDevCommand command))
@@ -110,6 +111,7 @@ namespace DevConsole
             {
                 consoleOutputArea.text += IDevCommand.Color($"Unknown command: {cmd}", "red") + '\n';
             }
+            inputField.ActivateInputField();
         }
     }
 }
