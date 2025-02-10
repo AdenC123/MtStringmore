@@ -18,14 +18,19 @@ public class BouncyPlatform : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         // Check if the player touched the object
         if (other.CompareTag("Player"))
-        {
             // Trigger the animation
             animator.SetTrigger("Bounce");
-        }
     }
     
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        // Check if the player touched the object
+        if (other.CompareTag("Player"))
+            // Trigger the animation
+            animator.ResetTrigger("Bounce");
+    }
 }
