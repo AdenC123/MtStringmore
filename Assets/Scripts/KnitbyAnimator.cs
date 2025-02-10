@@ -12,8 +12,11 @@ public class KnitbyAnimator : Resettable
     private KnitbyController _knitbyController;
     
     private static readonly int JumpKey = Animator.StringToHash("Jump");
-    private static readonly int GroundedKey = Animator.StringToHash("Land");
+    private static readonly int LandKey = Animator.StringToHash("Land");
+    private static readonly int GroundedKey = Animator.StringToHash("Grounded");
     private static readonly int YVelocityKey = Animator.StringToHash("YVelocity");
+    private static readonly int HitWallKey = Animator.StringToHash("HitWall");
+    private static readonly int LeaveWallKey = Animator.StringToHash("LeaveWall");
     private static readonly int SwingKey = Animator.StringToHash("InSwing");
     
     private void Awake()
@@ -26,6 +29,7 @@ public class KnitbyAnimator : Resettable
     {
         _knitbyController.DirectionUpdated += OnMove;
         _knitbyController.GroundedChanged += OnGroundedChanged;
+        _knitbyController.WallHitChanged += OnWallHitChanged;
         _knitbyController.Swing += OnSwing;
         _knitbyController.PlayerDeath += OnPlayerDeath;
     }
@@ -34,6 +38,7 @@ public class KnitbyAnimator : Resettable
     {
         _knitbyController.DirectionUpdated -= OnMove;
         _knitbyController.GroundedChanged -= OnGroundedChanged;
+        _knitbyController.WallHitChanged -= OnWallHitChanged;
         _knitbyController.Swing -= OnSwing;
         _knitbyController.PlayerDeath -= OnPlayerDeath;
     }
@@ -46,7 +51,14 @@ public class KnitbyAnimator : Resettable
 
     private void OnGroundedChanged(bool grounded)
     {
-        anim.SetTrigger(grounded ? GroundedKey : JumpKey);
+        anim.SetTrigger(grounded ? LandKey : JumpKey);
+        anim.SetBool(GroundedKey, grounded);
+    }
+
+    private void OnWallHitChanged(bool wallHit)
+    {
+        
+        anim.SetTrigger(wallHit ? HitWallKey : LeaveWallKey);
     }
 
     private void OnSwing(bool inSwing)
