@@ -14,7 +14,7 @@ namespace DevConsole
     /// </summary>
     public class DevConsoleMenu : MonoBehaviour
     {
-        [SerializeField] private KeyCode openKeyCode = KeyCode.F3;
+        [SerializeField] private KeyCode openKeyCode = KeyCode.BackQuote;
         [SerializeField] private TextMeshProUGUI consoleOutputArea;
         [SerializeField] private ScrollRect scrollRect;
 
