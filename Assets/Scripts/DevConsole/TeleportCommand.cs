@@ -10,7 +10,7 @@ namespace DevConsole
     {
         /// <inheritdoc />
         public string Name => "tp";
-        
+
         /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
@@ -19,6 +19,7 @@ namespace DevConsole
                 PrintUsage(sw);
                 return;
             }
+
             bool result = IDevCommand.TryGetPosOrCheckpointPos(args, sw, out Vector2 pos);
             // error message is already printed, return
             if (!result) return;
@@ -31,15 +32,12 @@ namespace DevConsole
 
             pc.transform.position = pos;
         }
-        
-        /// <summary>
-        /// Prints all usages to the provided StringWriter.
-        /// </summary>
-        /// <param name="sw">StringWriter, typically provided by the dev console</param>
-        private void PrintUsage(StringWriter sw)
+
+        /// <inheritdoc />
+        public void PrintUsage(StringWriter sw, string color = "red")
         {
-            sw.WriteLine(IDevCommand.Color($"Usage: {Name} <checkpoint no>", "red"));
-            sw.WriteLine(IDevCommand.Color($"       {Name} <x> <y>", "red"));
+            sw.WriteLine(IDevCommand.Color($"Usage: {Name} <checkpoint no>", color));
+            sw.WriteLine(IDevCommand.Color($"       {Name} <x> <y>", color));
         }
     }
 }

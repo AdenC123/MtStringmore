@@ -1,23 +1,24 @@
 ﻿using System.IO;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DevConsole
 {
     /// <summary>
-    /// Command to quit the game.
+    /// Command to reload the scene.
     /// </summary>
-    public class QuitCommand : IDevCommand
+    /// <remarks>
+    /// I don't think this is necessary since pressing 'r' reloads the scene anyways,
+    /// and the command has an 'r' in it LOL
+    /// </remarks>
+    public class ResetCommand : IDevCommand
     {
         /// <inheritdoc />
-        public bool RequiresCheats => false;
-
-        /// <inheritdoc />
-        public string Name => "quit";
+        public string Name => "reset";
 
         /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
-            Application.Quit();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         /// <inheritdoc />

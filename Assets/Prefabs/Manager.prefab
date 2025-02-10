@@ -3800,7 +3800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0fd047167bc46bf851d36226fc483b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openKeyCode: 284
+  openKeyCode: 96
   consoleOutputArea: {fileID: 7296676741327014533}
   scrollRect: {fileID: 7134280259742014980}
   inputField: {fileID: 3099254450165900373}

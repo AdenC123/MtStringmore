@@ -12,7 +12,7 @@ namespace DevConsole
         /// Need this to not require cheats as otherwise the player can't enable it lol
         /// </remarks>
         public bool RequiresCheats => false;
-        
+
         /// <inheritdoc />
         public string Name => "sv_cheats";
 
@@ -26,17 +26,23 @@ namespace DevConsole
         {
             _devConsole = menu;
         }
-        
+
         /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
             if (args.Length != 1 || !IDevCommand.TryParseBool(args[0], out bool arg))
             {
-                sw.WriteLine(IDevCommand.Color($"Usage: {Name} <1/0>", "red"));
+                PrintUsage(sw);
                 return;
             }
-            
+
             _devConsole.cheatsEnabled = arg;
+        }
+
+        /// <inheritdoc />
+        public void PrintUsage(StringWriter sw, string color = "red")
+        {
+            sw.WriteLine(IDevCommand.Color($"Usage: {Name} <1/0>", color));
         }
     }
 }

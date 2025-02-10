@@ -26,6 +26,13 @@ namespace DevConsole
         void Run(string[] args, StringWriter sw);
 
         /// <summary>
+        /// Prints all valid usages to the StringWriter.
+        /// </summary>
+        /// <param name="sw">StringWriter for log messages</param>
+        /// <param name="color">Color of printed messages</param>
+        void PrintUsage(StringWriter sw, string color = "red");
+
+        /// <summary>
         /// Parses an individual positional argument, which can be relational.
         ///
         /// For instance, ~+20 is player position + 20, but ~20 is also accepted. However, 20~ is not.

@@ -10,7 +10,7 @@ namespace DevConsole
     {
         /// <inheritdoc />
         public string Name => "kill";
-        
+
         /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
@@ -20,7 +20,14 @@ namespace DevConsole
                 sw.WriteLine(IDevCommand.Color("Player not found.", "red"));
                 return;
             }
+
             pc.SendMessage("HandleDeath");
+        }
+
+        /// <inheritdoc />
+        public void PrintUsage(StringWriter sw, string color = "red")
+        {
+            sw.WriteLine(IDevCommand.Color($"Usage: {Name}", color));
         }
     }
 }

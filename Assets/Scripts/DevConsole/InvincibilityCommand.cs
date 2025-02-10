@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace DevConsole
 {
@@ -15,56 +14,25 @@ namespace DevConsole
         /// Required as we need to re-set invincibility after a scene transition as it defaults to false.
         /// </summary>
         private bool _isInvincible;
-        
+
         /// <inheritdoc />
         public string Name => "sv_invincibility";
 
         /// <summary>
         /// Constructor - initializes the scene change listener.
         /// </summary>
-        public InvincibilityCommand()
+        public InvincibilityCommand(DevConsoleMenu console)
         {
-            SceneManager.activeSceneChanged += SceneManagerOnActiveSceneChanged;
-        }
-        
-        /// <summary>
-        /// Destructor to remove the scene change listener otherwise we leak memory if this is destroyed lmfao.
-        /// </summary>
-        ~InvincibilityCommand(){
-            SceneManager.activeSceneChanged -= SceneManagerOnActiveSceneChanged;
+            console.OnSceneLoad += OnSceneLoad;
         }
 
         /// <summary>
-        /// Listener on scene changes to set player invincibility on scene load.
+        /// Sets player invincibility and logs any errors to the StringWriter.
         /// </summary>
-        /// <param name="curr">Current scene (ignored)</param>
-        /// <param name="next">Next scene (ignored)</param>
-        /// <remarks>
-        /// There's probably a better way to do this but I cba.
-        /// </remarks>
-        private void SceneManagerOnActiveSceneChanged(Scene curr, Scene next)
+        /// <param name="arg">New player invincibility parameter</param>
+        /// <param name="sw">StringWriter to log errors to</param>
+        private void SetInvincibility(bool arg, StringWriter sw)
         {
-            if (!_isInvincible) return;
-            PlayerController pc = Object.FindObjectOfType<PlayerController>();
-            if (!pc)
-            {
-                // ideally I'd like to access a StringWriter but hey i mean i hooked Debug Log so that works
-                Debug.LogError("Player not found.");
-                return;
-            }
-
-            pc.DebugIgnoreDeath = _isInvincible;
-        }
-
-        /// <inheritdoc />
-        public void Run(string[] args, StringWriter sw)
-        {
-            if (args.Length != 1 || !IDevCommand.TryParseBool(args[0], out bool arg))
-            {
-                sw.WriteLine(IDevCommand.Color($"Usage: {Name} <1/0>", "red"));
-                return;
-            }
-            
             PlayerController pc = Object.FindObjectOfType<PlayerController>();
             if (!pc)
             {
@@ -74,6 +42,34 @@ namespace DevConsole
 
             _isInvincible = arg;
             pc.DebugIgnoreDeath = _isInvincible;
+        }
+
+        /// <summary>
+        /// Listener on scene changes to set player invincibility on scene load.
+        /// </summary>
+        /// <param name="sw">StringWriter to log any messages to the console.</param>
+        private void OnSceneLoad(StringWriter sw)
+        {
+            if (!_isInvincible) return; // player defaults to false so we don't need to call it
+            SetInvincibility(true, sw);
+        }
+
+        /// <inheritdoc />
+        public void Run(string[] args, StringWriter sw)
+        {
+            if (args.Length != 1 || !IDevCommand.TryParseBool(args[0], out bool arg))
+            {
+                PrintUsage(sw);
+                return;
+            }
+
+            SetInvincibility(arg, sw);
+        }
+
+        /// <inheritdoc />
+        public void PrintUsage(StringWriter sw, string color = "red")
+        {
+            sw.WriteLine(IDevCommand.Color($"Usage: {Name} <1/0>", color));
         }
     }
 }

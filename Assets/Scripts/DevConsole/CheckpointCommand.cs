@@ -37,15 +37,12 @@ namespace DevConsole
             GameManager.Instance.CheckPointPos = pos;
         }
 
-        /// <summary>
-        /// Prints all usages to the provided StringWriter.
-        /// </summary>
-        /// <param name="sw">StringWriter, typically provided by the dev console</param>
-        private void PrintUsage(StringWriter sw)
+        /// <inheritdoc />
+        public void PrintUsage(StringWriter sw, string color = "red")
         {
-            sw.WriteLine(IDevCommand.Color($"Usage: {Name} <checkpoint no>", "red"));
-            sw.WriteLine(IDevCommand.Color($"       {Name} <list/l>", "red"));
-            sw.WriteLine(IDevCommand.Color($"       {Name} <x> <y>", "red"));
+            sw.WriteLine(IDevCommand.Color($"Usage: {Name} <checkpoint no>", color));
+            sw.WriteLine(IDevCommand.Color($"       {Name} <list/l>", color));
+            sw.WriteLine(IDevCommand.Color($"       {Name} <x> <y>", color));
         }
     }
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace DevConsole
@@ -25,9 +26,22 @@ namespace DevConsole
         [Tooltip("Whether cheats are currently enabled")]
         public bool cheatsEnabled;
 
-        private readonly Dictionary<string, IDevCommand> _commands = new();
         private readonly List<string> _commandHistory = new();
+        private readonly Dictionary<string, IDevCommand> _commands = new();
         private int _currentCommandIndex;
+
+        /// <summary>
+        /// Event called on scene load, in case commands need to execute on scene load and log to the console.
+        /// </summary>
+        public Action<StringWriter> OnSceneLoad;
+
+        /// <summary>
+        /// Get a collection of all registered commands.
+        /// </summary>
+        /// <remarks>
+        /// Basically only needed for the Help command, but I didn't want to implement the Help function here.
+        /// </remarks>
+        public IReadOnlyCollection<IDevCommand> Commands => _commands.Values;
 
         /// <summary>
         /// Utility to get/set the current command index.
@@ -117,17 +131,39 @@ namespace DevConsole
             scrollRect.verticalNormalizedPosition = 0;
         }
 
+        /// <summary>
+        /// Listener to check for scene loads, as the input field would lose focus on scene transition.
+        ///
+        /// Also executes any commands that needs to re-execute on scene transition.
+        /// </summary>
+        /// <param name="scene">New scene</param>
+        /// <param name="mode">Scene load mode</param>
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (consoleCanvas.gameObject.activeSelf)
+            {
+                inputField.ActivateInputField();
+            }
+
+            StringWriter stringWriter = new();
+            OnSceneLoad?.Invoke(stringWriter);
+            consoleOutputArea.text += stringWriter.ToString();
+        }
+
         private void Awake()
         {
-            RegisterCommand(new InvincibilityCommand());
+            RegisterCommand(new InvincibilityCommand(this));
             RegisterCommand(new CheckpointCommand());
             RegisterCommand(new TeleportCommand());
             RegisterCommand(new LoadSceneCommand());
             RegisterCommand(new QuitCommand());
             RegisterCommand(new KillCommand());
+            RegisterCommand(new ResetCommand());
+            RegisterCommand(new HelpCommand(this));
             RegisterCommand(new EnableCheatsCommand(this));
             inputField.onSubmit.AddListener(OnConsoleSubmit);
             Application.logMessageReceived += HandleLog;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void Update()
@@ -164,6 +200,7 @@ namespace DevConsole
         private void OnDestroy()
         {
             Application.logMessageReceived -= HandleLog;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
 }
