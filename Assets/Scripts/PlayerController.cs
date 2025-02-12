@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject poofSmoke;
     [Header("Down")]
     [SerializeField] private float maxDownSpeed;
-   
+    [SerializeField] private float downAcceleration;
    
     // @formatter:on
 
@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.Respawn();
         }
-        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && !EpsilonGround())
+        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && !(DistanceToGround() < 0.5f))
         {
             PlayerState = PlayerStateEnum.Down;
         }
@@ -296,7 +296,7 @@ public class PlayerController : MonoBehaviour
             _timeLeftGround = _time;
             GroundedChanged?.Invoke(false, 0);
         }
-        if (PlayerState == PlayerStateEnum.Air || PlayerState == PlayerStateEnum.Down) // Add Down state here
+        if (PlayerState is PlayerStateEnum.Air or PlayerStateEnum.Down) // Add Down state here
         {
             if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
             if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
@@ -501,11 +501,13 @@ public class PlayerController : MonoBehaviour
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, accel * Time.fixedDeltaTime);
                 break;
             case PlayerStateEnum.Down:
-                if (_velocity.y >= 0f)
+                if (_velocity.y >= -5)
                 {
                     _velocity.y = -5f; 
                 }
-                accel = fallAccelerationDown * 1.2f;
+
+                accel = fallAccelerationDown * downAcceleration; 
+                        ;
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxDownSpeed, accel * Time.fixedDeltaTime);
                 if (!Input.GetKeyDown(KeyCode.S)) //reverts to air if not holding 
                 {
@@ -579,30 +581,14 @@ public class PlayerController : MonoBehaviour
   
     
 
-    private bool EpsilonGround()
-    {
-        float dist = DistanceToGround(); 
-        if ( dist < 0.5f)
-        {
-            return true;
-        }
-
-        return false; 
-    }
+    
     
     private float DistanceToGround()
     {
         Vector2 direction = Vector2.down;
         float rayDistance = 10f; // Maximum distance to check
         RaycastHit2D hit = CapsuleCastCollision(direction, rayDistance);
-        if (hit.collider)
-        {
-            return hit.distance;
-        }
-        else
-        {
-            return -1; 
-        }
+        return hit.distance; 
     }
     
 
