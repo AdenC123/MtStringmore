@@ -190,6 +190,7 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.Respawn();
         }
+
         if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && !(DistanceToGround() < 0.5f))
         {
             PlayerState = PlayerStateEnum.Down;
@@ -296,11 +297,13 @@ public class PlayerController : MonoBehaviour
             _timeLeftGround = _time;
             GroundedChanged?.Invoke(false, 0);
         }
+
         if (PlayerState is PlayerStateEnum.Air or PlayerStateEnum.Down) // Add Down state here
         {
             if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
             if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
         }
+
         if (PlayerState == PlayerStateEnum.Air)
         {
             if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
@@ -503,16 +506,17 @@ public class PlayerController : MonoBehaviour
             case PlayerStateEnum.Down:
                 if (_velocity.y >= -5)
                 {
-                    _velocity.y = -5f; 
+                    _velocity.y = -5f;
                 }
 
-                accel = fallAccelerationDown * downAcceleration; 
-                        ;
+                accel = fallAccelerationDown * downAcceleration;
+                ;
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxDownSpeed, accel * Time.fixedDeltaTime);
                 if (!Input.GetKeyDown(KeyCode.S)) //reverts to air if not holding 
                 {
                     PlayerState = PlayerStateEnum.Air;
                 }
+
                 break;
         }
     }
@@ -578,19 +582,15 @@ public class PlayerController : MonoBehaviour
     {
         return !_buttonUsed && _time <= _timeButtonPressed + buttonBufferTime;
     }
-  
-    
 
-    
-    
+
     private float DistanceToGround()
     {
         Vector2 direction = Vector2.down;
         float rayDistance = 10f; // Maximum distance to check
         RaycastHit2D hit = CapsuleCastCollision(direction, rayDistance);
-        return hit.distance; 
+        return hit.distance;
     }
-    
 
     #endregion
 }
