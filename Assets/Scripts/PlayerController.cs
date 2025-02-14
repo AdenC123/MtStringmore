@@ -206,6 +206,17 @@ public class PlayerController : MonoBehaviour
                 HandleDeath();
             }
         }
+    }
+    
+    private void OnParticleCollision(GameObject other)
+    {
+        if (other.CompareTag("Death"))
+        {
+            if (PlayerState != PlayerStateEnum.Dead)
+            {
+                HandleDeath();
+            }
+        }
         else if (other.gameObject.CompareTag("Trampoline"))
         {
             _inTrampolineArea = true;
