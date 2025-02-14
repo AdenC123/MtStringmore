@@ -77,7 +77,6 @@ public class ClothObstacleHider : MonoBehaviour
         }
 
         transform.localPosition = secondPosition;
-        _activeMotion = null;
     }
 
     /// <summary>
