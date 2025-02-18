@@ -8,19 +8,22 @@ public class NewBehaviourScript : MonoBehaviour
     [Header("Collapse Time")] 
     [SerializeField] public float collapsePlatTimer;
     [SerializeField] public float restorePlatTimer;
+    [SerializeField] public float destroyTimer;
+    [SerializeField] public Rigidbody2D _rb;
     #endregion
 
-    private BoxCollider2D _boxCollider;
-    private SpriteRenderer _sprite;
+    #region Private Properties
     private bool _isOnPlatform;
     private float _deltaCollapseTimer;
+    private Vector2 _originalPosition;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        _originalPosition = transform.position;
         _deltaCollapseTimer = collapsePlatTimer;
-        _boxCollider = GetComponent<BoxCollider2D>();
-        _sprite = GetComponent<SpriteRenderer>();
+
     }
 
     // Update is called once per frame
@@ -31,12 +34,8 @@ public class NewBehaviourScript : MonoBehaviour
             _deltaCollapseTimer-=Time.deltaTime;
 
             if(_deltaCollapseTimer<=0) {
-            
-                _sprite.enabled = false;
-                _boxCollider.enabled = false;
 
-                //call coroutine that pauses execution after retorePlatTime expires
-                StartCoroutine(RestorePlatform());
+                StartCoroutine(Falling());
             }
         }
     }
@@ -49,14 +48,13 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
-    IEnumerator RestorePlatform()
+    IEnumerator Falling() 
     {
         _isOnPlatform = false;
-
+        _rb.bodyType = RigidbodyType2D.Dynamic;
+        yield return new WaitForSeconds(destroyTimer);
         yield return new WaitForSeconds(restorePlatTimer);
-        _sprite.enabled = true;
-        _boxCollider.enabled = true;
-        _deltaCollapseTimer = collapsePlatTimer;
+        _rb.bodyType = RigidbodyType2D.Static;
+        transform.position = _originalPosition;
     }
-
 }
