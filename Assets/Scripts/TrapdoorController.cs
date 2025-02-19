@@ -13,12 +13,14 @@ public class TrapdoorController : MonoBehaviour
     [SerializeField] public float motorSpeed;
     #endregion
 
+    #region Private Properties
     private HingeJoint2D _hinge;
     private JointMotor2D _motor;
     private float _deltaCollapseTimer;
     private float _deltaRestoreTimer;
     private bool _isOnPlatform;
-
+    #endregion
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +37,8 @@ public class TrapdoorController : MonoBehaviour
         {
             _deltaCollapseTimer-=Time.deltaTime;
 
-            if(_deltaCollapseTimer<=0) {
+            if(_deltaCollapseTimer<=0) 
+            {
                 //instantly disable then re-enable current platform's motor to set variables at the same time
                 _hinge.useMotor = false;
                 _motor.motorSpeed = motorSpeed;
@@ -63,9 +66,10 @@ public class TrapdoorController : MonoBehaviour
         _isOnPlatform = false;
 
         yield return new WaitForSeconds(restorePlatTimer);
-
         _hinge.useMotor = false;
-        if(isLeftWall) {
+        
+        if(isLeftWall) 
+        {
             _motor.motorSpeed = -100f;
         } else 
         {

@@ -33,8 +33,8 @@ public class NewBehaviourScript : MonoBehaviour
         {
             _deltaCollapseTimer-=Time.deltaTime;
 
-            if(_deltaCollapseTimer<=0) {
-
+            if(_deltaCollapseTimer<=0) 
+            {
                 StartCoroutine(Falling());
             }
         }
@@ -51,9 +51,12 @@ public class NewBehaviourScript : MonoBehaviour
     IEnumerator Falling() 
     {
         _isOnPlatform = false;
+        //apply gravity on platform then wait for timers
         _rb.bodyType = RigidbodyType2D.Dynamic;
         yield return new WaitForSeconds(destroyTimer);
         yield return new WaitForSeconds(restorePlatTimer);
+
+        //put platfrom back into place and freeze it
         _rb.bodyType = RigidbodyType2D.Static;
         transform.position = _originalPosition;
     }
