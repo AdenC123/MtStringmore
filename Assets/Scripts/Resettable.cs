@@ -4,15 +4,15 @@ using UnityEngine;
 /// <summary>
 /// Game objects that get reset when the player respawns
 /// </summary>
-public class Resettable: MonoBehaviour
+public class Resettable : MonoBehaviour
 {
     private List<Resettable> _children = new();
+
     protected virtual void Start()
     {
         foreach (Transform child in transform)
         {
-            Resettable resettable = child.GetComponent<Resettable>();
-            if (resettable is not null)
+            if (child.TryGetComponent(out Resettable resettable))
                 _children.Add(resettable);
         }
     }

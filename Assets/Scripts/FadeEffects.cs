@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class FadeEffects : MonoBehaviour
 {
     private Material _material;
-    [SerializeField] private float fadeDuration = 0.3f;
+    [SerializeField, Min(0)] private float fadeDuration = 0.3f;
 
     [Tooltip("Delay between fading in and fading out, if applicable")] [SerializeField]
     private bool deactivateOnFade;

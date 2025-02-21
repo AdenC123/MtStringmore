@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,7 +14,7 @@ public class GameManager : MonoBehaviour
     /// Last checkpoint position. The player should respawn here if they die.
     /// </summary>
     public Vector2 CheckPointPos { get; set; }
-    
+
     /// <summary>
     /// If true, the player faces left when they respawn
     /// </summary>
@@ -61,6 +60,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         foreach (var resetObject in GameObject.FindGameObjectsWithTag("Resetter"))
             _resetters.Add(resetObject.GetComponent<Resettable>());
+        // Z0rb14n: do we ever... drop the references to these in case they get destroyed on a second scene change?
     }
 
     /// <summary>

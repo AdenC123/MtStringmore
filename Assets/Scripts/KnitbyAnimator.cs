@@ -7,10 +7,10 @@ public class KnitbyAnimator : Resettable
 {
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject deathSmoke;
-    
+
     private SpriteRenderer _spriteRenderer;
     private KnitbyController _knitbyController;
-    
+
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int LandKey = Animator.StringToHash("Land");
     private static readonly int GroundedKey = Animator.StringToHash("Grounded");
@@ -18,7 +18,7 @@ public class KnitbyAnimator : Resettable
     private static readonly int HitWallKey = Animator.StringToHash("HitWall");
     private static readonly int LeaveWallKey = Animator.StringToHash("LeaveWall");
     private static readonly int SwingKey = Animator.StringToHash("InSwing");
-    
+
     private void Awake()
     {
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -57,7 +57,6 @@ public class KnitbyAnimator : Resettable
 
     private void OnWallHitChanged(bool wallHit)
     {
-        
         anim.SetTrigger(wallHit ? HitWallKey : LeaveWallKey);
     }
 
