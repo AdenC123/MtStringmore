@@ -1,6 +1,6 @@
 using System;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -10,24 +10,33 @@ public class FadeEffects : MonoBehaviour
 {
     private Material _material;
     [SerializeField] private float fadeDuration = 0.3f;
-    [Tooltip("Delay between fading in and fading out, if applicable")]
-    [SerializeField] private bool deactivateOnFade;
+
+    [Tooltip("Delay between fading in and fading out, if applicable")] [SerializeField]
+    private bool deactivateOnFade;
+
     [SerializeField] private bool destroyOnFade;
     public Action FadeIn;
 
     private void Awake()
     {
-        if (GetComponent<Image>())
-            _material = GetComponent<Image>().material;
-        else if (GetComponent<Renderer>())
-            _material = GetComponent<Renderer>().material;
+        if (TryGetComponent(out Image image))
+        {
+            // please don't overwrite literally *every UI object's* material
+            // I've had to restart Unity so many times because of this
+            image.material = new Material(image.material);
+            _material = image.material;
+        }
+        else if (TryGetComponent(out Renderer componentRenderer))
+        {
+            _material = componentRenderer.material;
+        }
     }
 
     public void InvokeFadeOut()
     {
         StartCoroutine(FadeOutCoroutine());
     }
-    
+
     public void InvokeFadeIn()
     {
         StartCoroutine(FadeInCoroutine());
@@ -59,7 +68,7 @@ public class FadeEffects : MonoBehaviour
         if (destroyOnFade)
             Destroy(gameObject);
     }
-    
+
     private IEnumerator FadeInCoroutine()
     {
         Color color = _material.color;
