@@ -17,6 +17,9 @@ public class Trampoline : MonoBehaviour, IPlayerVelocityEffector
     private PlayerController _player;
 
     /// <inheritdoc />
+    /// <remarks>
+    /// Temporarily "turn off gravity" for auto trampoline bounce
+    /// </remarks>
     public bool IgnoreGravity => true;
 
     /// <inheritdoc />
