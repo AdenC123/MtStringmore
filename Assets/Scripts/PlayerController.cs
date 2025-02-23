@@ -82,6 +82,11 @@ public class PlayerController : MonoBehaviour
     /// Facing direction of the player. -1.0 for left, 1.0 for right.
     /// </summary>
     public float Direction { get; private set; }
+    
+    /// <summary>
+    /// Active velocity effector.
+    /// </summary>
+    public IPlayerVelocityEffector ActiveVelocityEffector { get; set; }
 
     /// <summary>
     /// Fires when the player becomes grounded or leaves the ground.
@@ -212,6 +217,8 @@ public class PlayerController : MonoBehaviour
         HandleEarlyRelease();
         HandleWalk();
         HandleGravity();
+        if (ActiveVelocityEffector != null)
+            _velocity = ActiveVelocityEffector.ApplyVelocity(_velocity);
         if (dashEnabled) HandleDash();
         ApplyMovement();
     }
@@ -393,6 +400,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleGravity()
     {
+        if (ActiveVelocityEffector?.IgnoreGravity ?? false) return;
         switch (PlayerState)
         {
             case PlayerStateEnum.Run:

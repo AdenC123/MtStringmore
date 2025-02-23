@@ -24,7 +24,7 @@ public class Checkpoint : MonoBehaviour
     public void Start()
     {
         _dialogueRunner = FindObjectOfType<DialogueRunner>();
-        _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
+        if (_dialogueRunner) _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
