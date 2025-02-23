@@ -11,7 +11,7 @@ public interface IPlayerVelocityEffector
     /// Useful if you're applying upward motion in a trigger area.
     /// </summary>
     bool IgnoreGravity => false;
-    
+
     /// <summary>
     /// Gets the desired velocity of the player after applying velocity effects.
     /// </summary>
