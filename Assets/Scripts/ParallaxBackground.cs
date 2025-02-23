@@ -23,11 +23,9 @@ public class ParallaxBackground : MonoBehaviour
     {
         _parallaxLayers.Clear();
 
-        for (var i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            var layer = transform.GetChild(i).GetComponent<ParallaxLayer>();
-
-            if (layer is null) continue;
+            if (!transform.GetChild(i).TryGetComponent(out ParallaxLayer layer)) continue;
             layer.name = "Layer-" + i;
             _parallaxLayers.Add(layer);
         }

@@ -11,7 +11,7 @@ public class ParallaxCamera : MonoBehaviour
     private float _screenWidth;
     private float _prevX;
     private float _prevY;
-    private GameObject[] _layers;
+    private SpriteRenderer[] _layers;
     
     /// <summary>
     /// Fired when camera moves.
@@ -30,12 +30,10 @@ public class ParallaxCamera : MonoBehaviour
         _screenWidth = height * cam.aspect;
         
         GameObject background = GameObject.FindGameObjectWithTag("ParallaxBackground");
-        _layers = new GameObject[background.transform.childCount];
-        int i = 0;
-        foreach (Transform child in background.transform)
+        _layers = new SpriteRenderer[background.transform.childCount];
+        for (int i = 0; i < background.transform.childCount; i++)
         {
-            _layers[i] = child.gameObject;
-            i++;
+            _layers[i] = background.transform.GetChild(i).GetComponent<SpriteRenderer>();
         }
     }
 
@@ -48,7 +46,7 @@ public class ParallaxCamera : MonoBehaviour
             _prevY = transform.position.y;
         }
         
-        foreach (GameObject layer in _layers)
+        foreach (SpriteRenderer layer in _layers)
         {
             RepositionLayer(layer);
         }
@@ -60,21 +58,24 @@ public class ParallaxCamera : MonoBehaviour
 
     /// <summary>
     /// Moves a background tiled to repeat 3x to the left or right as the player reaches the edge,
-    /// to create the illusion of a seamlessly repeating background
+    /// to create the illusion of a seamlessly repeating background.
     /// Background MUST be tiled to repeat 3x.
     /// </summary>
     /// <param name="obj">Background sprite object to be moved</param>
-    private void RepositionLayer(GameObject obj)
+    private void RepositionLayer(SpriteRenderer obj)
     {
-        float bgWidth = obj.GetComponent<SpriteRenderer>().bounds.size.x;
+        float bgWidth = obj.bounds.size.x;
         
-        if (obj.transform.position.x + bgWidth / 2f <= transform.position.x + _screenWidth / 2f)
+        Vector3 objPos = obj.transform.position;
+        Vector3 pos = transform.position;
+        
+        if (objPos.x + bgWidth / 2f <= pos.x + _screenWidth / 2f)
         {
-            obj.transform.position = new Vector3(obj.transform.position.x + bgWidth / 3f, obj.transform.position.y, obj.transform.position.z);
+            obj.transform.position = new Vector3(objPos.x + bgWidth / 3f, objPos.y, objPos.z);
         }
-        else if (obj.transform.position.x - bgWidth / 2f >= transform.position.x - _screenWidth / 2f)
+        else if (objPos.x - bgWidth / 2f >= pos.x - _screenWidth / 2f)
         {
-            obj.transform.position = new Vector3(obj.transform.position.x - bgWidth / 3f, obj.transform.position.y, obj.transform.position.z);
+            obj.transform.position = new Vector3(objPos.x - bgWidth / 3f, objPos.y, objPos.z);
         }
     }
     
