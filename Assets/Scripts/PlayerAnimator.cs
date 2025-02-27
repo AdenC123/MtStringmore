@@ -48,7 +48,7 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int WallChangedKey = Animator.StringToHash("WallChanged");
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int DeathKey = Animator.StringToHash("Dead");
-private static readonly int BalloonKey = Animator.StringToHash("Balloon");
+    private static readonly int BalloonKey = Animator.StringToHash("BalloonState");
     #endregion
 
     #region Unity Event Handlers
