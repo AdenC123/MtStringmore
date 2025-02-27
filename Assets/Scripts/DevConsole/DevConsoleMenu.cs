@@ -163,8 +163,7 @@ namespace DevConsole
             RegisterCommand(new HelpCommand(this));
             RegisterCommand(new EnableCheatsCommand(this));
             inputField.onSubmit.AddListener(OnConsoleSubmit);
-            EventSystem eventSystem = FindObjectOfType<EventSystem>();
-            if (!eventSystem)
+            if (!FindObjectOfType<EventSystem>())
             {
                 Debug.LogWarning("One of y'all forgot to add a UI event system... AGAIN!");
                 GameObject go = new("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
