@@ -165,7 +165,7 @@ namespace DevConsole
             inputField.onSubmit.AddListener(OnConsoleSubmit);
             if (!FindObjectOfType<EventSystem>())
             {
-                Debug.LogWarning("One of y'all forgot to add a UI event system... AGAIN!");
+                Debug.LogWarning("No UI EventSystem found - creating a default event system.");
                 GameObject go = new("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
                 go.transform.parent = transform;
             }
