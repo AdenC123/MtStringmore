@@ -55,6 +55,10 @@ public class PlayerController : MonoBehaviour
     // this is just here for battle of the concepts
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
+    [Header("Down")]
+    [SerializeField] private float maxDownSpeed;
+    [SerializeField] private float downAcceleration;
+   
     // @formatter:on
 
     #endregion
@@ -69,7 +73,8 @@ public class PlayerController : MonoBehaviour
         RightWallSlide,
         Dead,
         Swing,
-        Dash
+        Dash,
+        Down
     }
 
     // TODO: PlayerState set should be a function that fires an action
@@ -188,6 +193,11 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.Respawn();
         }
+
+        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && !(DistanceToGround() < 0.5f))
+        {
+            PlayerState = PlayerStateEnum.Down;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -297,6 +307,12 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Air;
             _timeLeftGround = _time;
             GroundedChanged?.Invoke(false, 0);
+        }
+
+        if (PlayerState is PlayerStateEnum.Air or PlayerStateEnum.Down) // Add Down state here
+        {
+            if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
+            if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
         }
 
         if (PlayerState == PlayerStateEnum.Air)
@@ -500,6 +516,21 @@ public class PlayerController : MonoBehaviour
 
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, accel * Time.fixedDeltaTime);
                 break;
+            case PlayerStateEnum.Down:
+                if (_velocity.y >= -5)
+                {
+                    _velocity.y = -5f;
+                }
+
+                accel = fallAccelerationDown * downAcceleration;
+                ;
+                _velocity.y = Mathf.MoveTowards(_velocity.y, -maxDownSpeed, accel * Time.fixedDeltaTime);
+                if (!Input.GetKeyDown(KeyCode.S)) //reverts to air if not holding 
+                {
+                    PlayerState = PlayerStateEnum.Air;
+                }
+
+                break;
         }
     }
 
@@ -576,6 +607,15 @@ public class PlayerController : MonoBehaviour
     private bool CanUseButton()
     {
         return !_buttonUsed && _time <= _timeButtonPressed + buttonBufferTime;
+    }
+
+
+    private float DistanceToGround()
+    {
+        Vector2 direction = Vector2.down;
+        float rayDistance = 10f; // Maximum distance to check
+        RaycastHit2D hit = CapsuleCastCollision(direction, rayDistance);
+        return hit.distance;
     }
 
     #endregion
