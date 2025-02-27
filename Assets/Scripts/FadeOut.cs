@@ -1,12 +1,15 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Causes the GameObject to fade out and deactivate over time when InvokeFadeOut() is called.
+///
+/// If <see cref="destroyOnFadeOut"/> is true, also destroys the object.
 /// </summary>
 public class FadeOut : MonoBehaviour
 {
-    [SerializeField] private float fadeDuration = 0.3f; // Duration of the fade-out effect
+    [SerializeField, Tooltip("Duration of fade-out effect (seconds)"), Min(0)] private float fadeDuration = 0.3f;
+    [SerializeField, Tooltip("Whether the fade-out is destroyed after animation")] private bool destroyOnFadeOut;
 
     public void InvokeFadeOut()
     {
@@ -31,5 +34,6 @@ public class FadeOut : MonoBehaviour
         color.a = 0;
         material.color = color;
         gameObject.SetActive(false);
+        if (destroyOnFadeOut) Destroy(gameObject);
     }
 }
