@@ -7,6 +7,9 @@ TagManager:
   - SwingArea
   - Death
   - ParallaxBackground
+  - Knitby
+  - BounceArea
+  - Trampoline
   - Balloon
   layers:
   - Default
