@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int deathTime;
     [Header("Balloon")]
     [SerializeField] private GameObject _balloon;
-    [SerializeField] private Vector2 _balloonOffset = new Vector2(0f, -1f);
+    [SerializeField] private float _verticalBalloonOffset = -3f;
     [Header("Debug")]
     [SerializeField] private bool stateDebugLog;
     // this is just here for battle of the concepts
@@ -123,6 +123,11 @@ public class PlayerController : MonoBehaviour
     /// If true, skips death logic.
     /// </summary>
     public bool DebugIgnoreDeath { get; set; }
+
+    /// <summary>
+    /// Access to the balloon game object
+    /// </summary>
+    public GameObject _balloonObject;
 
     #endregion
 
@@ -287,17 +292,20 @@ public class PlayerController : MonoBehaviour
         {
             PlayerState = PlayerStateEnum.Balloon;
             _velocity.x = 0f;
-            _velocity.y = 10f;
+            _velocity.y = 0f;
         }
         
         if (_balloon != null && PlayerState == PlayerStateEnum.Balloon)
         {
-            // // Set the player to be below the balloon
-            // float verticalOffset = -10.0f;
-            // Vector3 targetPosition = _balloon.transform.position + new Vector3(0, verticalOffset, 0);
-            //
-            // // Smoothly move towards the target position
-            // transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 5f);
+            Balloon balloonscript = _balloonObject.GetComponent<Balloon>();
+            if (balloonscript != null)
+            {
+                if (Mathf.Abs(_verticalBalloonOffset) <= balloonscript.groundDistance && balloonscript.isFloating)
+                {
+                    // Set the player to be below the balloon
+                    _velocity.y = balloonscript.floatForce;
+                }
+            }
         }
         
         if (Input.GetKeyDown(KeyCode.Space))
