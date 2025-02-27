@@ -1,0 +1,14 @@
+﻿title: Level2Cutscene
+setting: on the way up the mountain 
+---
+Knitby: Whew, that was close! it's getting dangerous out here
+Marshmallow: And we're only just getting started!
+Knitby: You don't know the half of it. The steepest cliffs and treacherous drops are still ahead of us.
+Marshmallow: Don't <i>lecture</i> me, Knitby!
+Knitby: I'm just trying to look out for you, Marshmallow. You need to be more watchful.
+Marshmallow: Nope! No hesitation allowed, or we won't make it to the summit.
+Knitby: That attitude is going to get you hurt, Marshmallow, or worse!
+Knitby: Look, just... don't abandon me, okay?
+Marshmallow: I would never leave you behind, you have my word. Now, shall we go?
+Knitby: ... okay.
+// <<load_scene Level2>>
