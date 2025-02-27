@@ -6,7 +6,7 @@ using static PlayerController;
 /// <summary>
 /// Causes the camera to dynamically follow the player (GameObject with the Player tag).
 /// </summary>
-public class FollowCamera : MonoBehaviour
+public class FollowCamera : Resettable
 {
     #region Serialized Private Fields
 
@@ -133,6 +133,15 @@ public class FollowCamera : MonoBehaviour
             FixCameraTrigger recent = _fixCameraTriggers.Last();
             FixTarget(recent.Target, recent.fixX, recent.fixY);
         }
+    }
+
+    /// <inheritdoc />
+    public override void Reset()
+    {
+        var playerTarget = GetPlayerTarget();
+        transform.position = new Vector3(playerTarget.x, playerTarget.y, transform.position.z);
+        
+        base.Reset();
     }
 
     #endregion
