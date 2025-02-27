@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Controls player movement and invokes events for different player states
 /// </summary>
-public class PlayerController : Resettable
+public class PlayerController : MonoBehaviour
 {
     #region Serialized Private Fields
     
@@ -165,6 +165,16 @@ public class PlayerController : Resettable
         _col = GetComponent<CapsuleCollider2D>();
         _buttonUsed = true;
         _lastDirection = startDirection;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.Reset += OnReset;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.Reset -= OnReset;
     }
 
     private void Update()
@@ -580,15 +590,15 @@ public class PlayerController : Resettable
 
     #endregion
 
-    /// <inheritdoc />
-    public override void Reset()
+    /// <summary>
+    /// On reset, respawn at checkpoint with the direction we faced at that checkpoint
+    /// </summary>
+    private void OnReset()
     {
         var checkpointPos = GameManager.Instance.CheckPointPos;
         var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
         transform.position = spawnPos;
         _lastDirection = GameManager.Instance.RespawnFacingLeft ? -1.0f : 1.0f;
         PlayerState = PlayerStateEnum.Run;
-        
-        base.Reset();
     }
 }

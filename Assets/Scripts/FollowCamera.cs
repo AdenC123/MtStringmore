@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,7 +7,7 @@ using static PlayerController;
 /// <summary>
 /// Causes the camera to dynamically follow the player (GameObject with the Player tag).
 /// </summary>
-public class FollowCamera : Resettable
+public class FollowCamera : MonoBehaviour
 {
     #region Serialized Private Fields
 
@@ -44,6 +45,16 @@ public class FollowCamera : Resettable
         _fixedX = false;
         _fixedY = false;
         _fixCameraTriggers = new List<FixCameraTrigger>();
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.Reset += OnReset;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.Reset -= OnReset;
     }
 
     private void LateUpdate()
@@ -135,13 +146,13 @@ public class FollowCamera : Resettable
         }
     }
 
-    /// <inheritdoc />
-    public override void Reset()
+    /// <summary>
+    /// On level reset, place camera at player's position
+    /// </summary>
+    private void OnReset()
     {
         var playerTarget = GetPlayerTarget();
         transform.position = new Vector3(playerTarget.x, playerTarget.y, transform.position.z);
-        
-        base.Reset();
     }
 
     #endregion

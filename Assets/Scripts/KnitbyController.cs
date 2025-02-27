@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Updates Knitby's position to follow the player's path
 /// </summary>
-public class KnitbyController : Resettable
+public class KnitbyController : MonoBehaviour
 { 
     [Header("References")]
     [SerializeField] private GameObject deathSmoke;
@@ -50,14 +50,16 @@ public class KnitbyController : Resettable
     private bool _grounded;
     private bool _wallHit;
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
         _col = GetComponent<CapsuleCollider2D>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
+        
         var playerController = _player.GetComponent<PlayerController>();
         playerController.Death += PlayerDeath;
+        
+        GameManager.Instance.Reset += OnReset;
     }
 
     private void Update()
@@ -75,6 +77,7 @@ public class KnitbyController : Resettable
         if (_player == null || _player) return;
         var playerController = _player.GetComponent<PlayerController>();
         playerController.Death -= PlayerDeath;
+        GameManager.Instance.Reset -= OnReset;
     }
 
     private void FixedUpdate()
@@ -114,15 +117,15 @@ public class KnitbyController : Resettable
             dir, distance, collisionLayer);
     }
     
-    /// <inheritdoc />
-    public override void Reset()
+    /// <summary>
+    /// On reset, clear follow path and respawn at checkpoint position
+    /// </summary>
+    private void OnReset()
     {
         _path.Clear();
         var checkpointPos = GameManager.Instance.CheckPointPos;
         var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
         _currentPathPosition = spawnPos;
         transform.position = spawnPos;
-        
-        base.Reset();
     }
 }
