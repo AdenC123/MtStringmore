@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -162,6 +163,13 @@ namespace DevConsole
             RegisterCommand(new HelpCommand(this));
             RegisterCommand(new EnableCheatsCommand(this));
             inputField.onSubmit.AddListener(OnConsoleSubmit);
+            EventSystem eventSystem = FindObjectOfType<EventSystem>();
+            if (!eventSystem)
+            {
+                Debug.LogWarning("One of y'all forgot to add a UI event system... AGAIN!");
+                GameObject go = new("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+                go.transform.parent = transform;
+            }
             Application.logMessageReceived += HandleLog;
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
