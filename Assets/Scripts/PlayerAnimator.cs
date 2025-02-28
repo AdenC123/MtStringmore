@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 
 /// <summary>
-///     Handles player animation
+/// Handles player animation
 /// </summary>
 public class PlayerAnimator : MonoBehaviour
 {
