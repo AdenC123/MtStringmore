@@ -51,7 +51,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     /// </remarks>
     [Tooltip("Second position (world space)")]
     public Vector2 secondPosition;
-    
+
     [Tooltip("Path renderer")] public MovingObjectPathRenderer pathRenderer;
 
     /// <remarks>
@@ -155,6 +155,21 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         {
             _rigidbody.velocity = Vector2.zero;
         }
+    }
+
+    /// <inheritdoc />
+    public override void OnPlayerEnter(PlayerController player)
+    {
+        if (_rigidbody.position == secondPosition)
+        {
+            // disallow re-attaching if reached
+            player.CurrentInteractableArea = null;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void OnPlayerExit(PlayerController player)
+    {
     }
 
     /// <inheritdoc />

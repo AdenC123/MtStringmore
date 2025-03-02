@@ -25,7 +25,7 @@ namespace Parallax
         /// </summary>
         public event Action<CameraMotionData> Moved;
 
-        private void Start()
+        private void Awake()
         {
             Camera cam = GetComponent<Camera>();
             float height = 2f * cam.orthographicSize;

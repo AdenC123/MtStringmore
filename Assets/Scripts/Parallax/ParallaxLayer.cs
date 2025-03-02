@@ -42,7 +42,7 @@ namespace Parallax
         public void Reposition(Vector2 camPos, float screenWidth)
         {
             float bgWidth = _spriteRenderer.bounds.size.x;
-        
+
             Vector3 pos = transform.position;
             if (pos.x + bgWidth / 2f <= camPos.x + screenWidth / 2f)
             {
@@ -52,6 +52,7 @@ namespace Parallax
             {
                 pos.x -= bgWidth / 3f;
             }
+
             transform.position = pos;
         }
     }

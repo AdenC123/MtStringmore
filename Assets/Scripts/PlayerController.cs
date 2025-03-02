@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     /// Facing direction of the player. -1.0 for left, 1.0 for right.
     /// </summary>
     public float Direction { get; private set; }
-    
+
     /// <summary>
     /// Active velocity effector.
     /// </summary>
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
     public event Action Jumped;
     public event Action DoubleJumped;
     public event Action Death;
-    
+
     /// <summary>
     /// If true, skips death logic.
     /// </summary>
@@ -460,7 +460,8 @@ public class PlayerController : MonoBehaviour
         {
             PlayerState = PlayerStateEnum.OnObject;
             CurrentInteractableArea.StartInteract(this);
-        } else if (PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)
+        }
+        else if (PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)
         {
             _buttonUsed = true;
             CurrentInteractableArea.EndInteract(this);
@@ -485,6 +486,7 @@ public class PlayerController : MonoBehaviour
                 // reached max radius, start swing
                 _swingStarted = true;
             }
+
             if (_swingStarted)
             {
                 // swinging at max radius

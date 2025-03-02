@@ -11,7 +11,7 @@ namespace Parallax
         private ParallaxCamera _parallaxCamera;
         private readonly List<ParallaxLayer> _parallaxLayers = new();
 
-        private void Start()
+        private void Awake()
         {
             _parallaxCamera = Camera.main?.GetComponent<ParallaxCamera>();
 

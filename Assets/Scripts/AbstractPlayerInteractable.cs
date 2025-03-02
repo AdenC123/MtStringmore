@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Abstract player interactable: detects if the player walks into the trigger, and if the player presses space,
@@ -24,20 +23,22 @@ public abstract class AbstractPlayerInteractable : MonoBehaviour, IPlayerVelocit
     public virtual bool DisallowReinteraction => true;
 
     /// <summary>
-    /// Event triggered on player enter.
+    /// Called on player enter.
     /// </summary>
+    /// <param name="player">Player that entered</param>
     /// <remarks>
     /// Currently unused, but may come in handy later.
     /// </remarks>
-    public event Action<PlayerController> OnPlayerEnter;
+    public abstract void OnPlayerEnter(PlayerController player);
 
     /// <summary>
-    /// Event triggered on player exit.
+    /// Called on player exit.
     /// </summary>
+    /// <param name="player">Player that exited</param>
     /// <remarks>
     /// Currently unused, but may come in handy later.
     /// </remarks>
-    public event Action<PlayerController> OnPlayerExit;
+    public abstract void OnPlayerExit(PlayerController player);
 
     /// <inheritdoc />
     public abstract Vector2 ApplyVelocity(Vector2 velocity);
@@ -58,7 +59,7 @@ public abstract class AbstractPlayerInteractable : MonoBehaviour, IPlayerVelocit
     {
         if (!other.TryGetComponent(out PlayerController player)) return;
         player.CurrentInteractableArea = this;
-        OnPlayerEnter?.Invoke(player);
+        OnPlayerEnter(player);
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -73,6 +74,6 @@ public abstract class AbstractPlayerInteractable : MonoBehaviour, IPlayerVelocit
             player.CurrentInteractableArea = null;
         }
 
-        OnPlayerExit?.Invoke(player);
+        OnPlayerExit(player);
     }
 }

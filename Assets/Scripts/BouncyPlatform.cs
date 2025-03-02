@@ -23,7 +23,7 @@ public class BouncyPlatform : MonoBehaviour, IPlayerVelocityEffector
         if (_bounceArea.contactCount == 0) return velocity;
         Vector2 directionVector = Vector2.Reflect(velocity, _bounceArea.GetContact(0).normal);
         // apply at most once
-        if (ReferenceEquals(_player.ActiveVelocityEffector, this)) 
+        if (ReferenceEquals(_player.ActiveVelocityEffector, this))
             _player.ActiveVelocityEffector = null;
         return new Vector2(xBounceForce * Mathf.Sign(directionVector.x), yBounceForce);
     }

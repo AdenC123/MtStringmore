@@ -37,7 +37,7 @@ public class Trampoline : MonoBehaviour, IPlayerVelocityEffector
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.TryGetComponent(out PlayerController _)) return;
-        if (ReferenceEquals(_player.ActiveVelocityEffector, this)) 
+        if (ReferenceEquals(_player.ActiveVelocityEffector, this))
             _player.ActiveVelocityEffector = null;
     }
 }

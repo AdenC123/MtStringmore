@@ -12,7 +12,7 @@ public class Checkpoint : MonoBehaviour
     private Animator anim;
 
     [SerializeField] private SpriteRenderer sprite;
-    
+
     [Tooltip("Node that starts from this checkpoint. Set to \"\" to not trigger dialog from checkpoint.")]
     [SerializeField]
     private string conversationStartNode;
