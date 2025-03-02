@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Yarn.Unity;
+using Action = System.Action;
 
 /// <summary>
 /// Singleton class for global game settings. Persists between scenes and reloads.
 /// </summary>
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
     public static GameManager Instance { get; private set; }
 
     /// <summary>
@@ -13,51 +16,69 @@ public class GameManager : MonoBehaviour {
     public Vector2 CheckPointPos { get; set; }
 
     /// <summary>
-    /// Used between scene transitions. Set to false for respawns, true for transition between levels
+    /// If true, the player faces left when they respawn
     /// </summary>
-    private bool _newLevel;
+    public bool RespawnFacingLeft { get; set; }
 
-    private void Awake() {
+    /// <summary>
+    /// Action that gets invoked when level reloads, e.g. respawns
+    /// </summary>
+    public event Action Reset;
+
+    /// <summary>
+    /// Canvas to fade in/out when transitioning between scenes
+    /// </summary>
+    [SerializeField] private FadeEffects sceneTransitionCanvas;
+
+    private void Awake()
+    {
         if (Instance == null)
         {
-            _newLevel = true;
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded; 
-        } else {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }
 
-    void OnDestroy()
+    private void Update()
+    {
+        if (Input.GetButtonDown("Debug Reset")) Respawn();
+    }
+
+    private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    
-    /// <summary>
-    /// On scene load, put player in the right spawn/respawn point
-    /// </summary>
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        var player = GameObject.FindGameObjectWithTag("Player");
-        if (_newLevel == false)
-        {
-            Vector3 spawnPos = new Vector3(CheckPointPos.x, CheckPointPos.y, player.transform.position.z);
-            player.transform.position = spawnPos;
-        }
-        else
-        {
-            CheckPointPos = player.transform.position;
-        }
-        
-        FollowCamera cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowCamera>();
-        Vector2 playerTarget = cam.GetPlayerTarget();
-        cam.transform.position = new Vector3(playerTarget.x, playerTarget.y, cam.transform.position.z);
+        sceneTransitionCanvas.InvokeFadeOut();
+        Time.timeScale = 1f;
     }
 
+    /// <summary>
+    /// Resets core components like player, Knitby, camera, etc to the state at
+    /// the last checkpoint
+    /// </summary>
     public void Respawn()
     {
-        _newLevel = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        sceneTransitionCanvas.FadeIn += OnFadeIn;
+        sceneTransitionCanvas.InvokeFadeInAndOut();
+    }
+
+    private void OnFadeIn()
+    {
+        Reset?.Invoke();
+        sceneTransitionCanvas.FadeIn -= OnFadeIn;
+    }
+
+    [YarnCommand("load_scene")]
+    public static void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }

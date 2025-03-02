@@ -6,9 +6,11 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     #region Serialized Private Fields
-    
+
+    // @formatter:off
     [Header("References")]
     [SerializeField] private Animator anim;
+
     [SerializeField] private GameObject deathSmoke;
     [SerializeField] private SpriteRenderer sprite;
 
@@ -17,22 +19,25 @@ public class PlayerAnimator : MonoBehaviour
     // [SerializeField] private ParticleSystem _moveParticles;
     // [SerializeField] private ParticleSystem _landParticles;
 
-    [Header("Audio Clips")]
-    [SerializeField] private AudioClip runSound;
+    [Header("Audio Clips")] [SerializeField]
+    private AudioClip runSound;
+
     [SerializeField] private AudioClip jumpSound;
     [SerializeField] private AudioClip landSound;
     [SerializeField] private AudioClip wallSlideSound;
     [SerializeField] private AudioClip[] deathSounds;
-    
+    // @formatter:on
+
     #endregion
-    
+
     #region Private Fields
-    
+
     private AudioSource _source;
     private PlayerController _player;
+
     private bool _grounded;
     // private ParticleSystem.MinMaxGradient _currentGradient;
-    
+
     #endregion
 
     #region Animation Keys
@@ -43,15 +48,20 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int WallChangedKey = Animator.StringToHash("WallChanged");
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int DeathKey = Animator.StringToHash("Dead");
-    
+
     #endregion
 
     #region Unity Event Handlers
-    
+
     private void Awake()
     {
         _source = GetComponent<AudioSource>();
         _player = GetComponentInParent<PlayerController>();
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.Reset += OnReset;
     }
 
     private void OnEnable()
@@ -72,6 +82,8 @@ public class PlayerAnimator : MonoBehaviour
         _player.GroundedChanged -= OnGroundedChanged;
         _player.WallChanged -= OnWallChanged;
         _player.Death -= OnDeath;
+        
+        GameManager.Instance.Reset += OnReset;
 
         // _moveParticles.Stop();
     }
@@ -84,9 +96,9 @@ public class PlayerAnimator : MonoBehaviour
         HandleSpriteFlip();
         HandleVerticalSpeed();
     }
-    
+
     #endregion
-    
+
     #region Event Handlers
 
     private void HandleSpriteFlip()
@@ -101,7 +113,7 @@ public class PlayerAnimator : MonoBehaviour
     }
 
     /// <summary>
-    /// If hitting wall, set wall changed to true and reset jump trigger because not jumping when holding onto wall
+    ///     If hitting wall, set wall changed to true and reset jump trigger because not jumping when holding onto wall
     /// </summary>
     /// <param name="wallChanged">True if hitting wall, false otherwise</param>
     private void OnWallChanged(bool wallChanged)
@@ -117,12 +129,14 @@ public class PlayerAnimator : MonoBehaviour
             }
         }
         else if (_source.clip == wallSlideSound)
+        {
             _source.Stop();
+        }
     }
 
     /// <summary>
-    /// Set jump trigger
-    /// If jumping, no longer hitting ground, so reset grounded
+    ///     Set jump trigger
+    ///     If jumping, no longer hitting ground, so reset grounded
     /// </summary>
     private void OnJumped()
     {
@@ -141,9 +155,9 @@ public class PlayerAnimator : MonoBehaviour
     }
 
     /// <summary>
-    /// If hitting ground, no longer jumping, so reset jump trigger
-    /// Set grounded to true
-    /// Play footstep audio
+    ///     If hitting ground, no longer jumping, so reset jump trigger
+    ///     Set grounded to true
+    ///     Play footstep audio
     /// </summary>
     /// <param name="grounded">True if hitting ground, false otherwise</param>
     /// <param name="impact">Y velocity upon hitting ground</param>
@@ -158,7 +172,7 @@ public class PlayerAnimator : MonoBehaviour
 
             anim.ResetTrigger(JumpKey);
             anim.SetBool(GroundedKey, true);
-            
+
             if (_source.clip == wallSlideSound)
                 _source.Stop();
             _source.PlayOneShot(landSound);
@@ -182,11 +196,11 @@ public class PlayerAnimator : MonoBehaviour
     }
 
     /// <summary>
-    /// Instantiates a death smoke object and sets the animation state to dead
+    ///     Instantiates a death smoke object and sets the animation state to dead
     /// </summary>
     private void OnDeath()
     {
-        foreach (AudioClip sound in deathSounds)
+        foreach (var sound in deathSounds)
             _source.PlayOneShot(sound);
         Instantiate(deathSmoke, transform);
         anim.SetBool(DeathKey, true);
@@ -207,6 +221,21 @@ public class PlayerAnimator : MonoBehaviour
     //     var main = ps.main;
     //     main.startColor = _currentGradient;
     // }
-    
+
+    /// <summary>
+    /// On reset, re-activate sprites and make them full opacity
+    /// </summary>
+    private void OnReset()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+            var material = child.GetComponent<Renderer>().material;
+            Color color = material.color;
+            color.a = 1;
+            material.color = color;
+        }
+    }
+
     #endregion
 }

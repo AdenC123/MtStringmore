@@ -7,8 +7,10 @@ TagManager:
   - SwingArea
   - Death
   - ParallaxBackground
+  - Knitby
   - BounceArea
   - Trampoline
+  - Resetter
   layers:
   - Default
   - TransparentFX
