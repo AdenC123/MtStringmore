@@ -67,7 +67,8 @@ public class PlayerController : MonoBehaviour
         RightWallSlide,
         Dead,
         Swing,
-        Dash
+        Dash,
+        OnObject
     }
 
     // TODO: PlayerState set should be a function that fires an action
@@ -86,7 +87,22 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Active velocity effector.
     /// </summary>
-    public IPlayerVelocityEffector ActiveVelocityEffector { get; set; }
+    public IPlayerVelocityEffector ActiveVelocityEffector
+    {
+        get => _activeEffector;
+        set
+        {
+            if (_activeEffector != null && value != null && _activeEffector != value
+                && _activeEffector.IgnoreOtherEffectors)
+            {
+                Debug.LogWarning("Ignoring other effector as current active effector ignores other effectors.");
+            }
+            else
+            {
+                _activeEffector = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Fires when the player becomes grounded or leaves the ground.
@@ -112,12 +128,18 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public bool DebugIgnoreDeath { get; set; }
 
+    /// <summary>
+    /// Current interactable in range.
+    /// </summary>
+    public AbstractPlayerInteractable CurrentInteractableArea { get; set; }
+
     #endregion
 
     #region Private Properties
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
+    private IPlayerVelocityEffector _activeEffector;
 
     private float _time;
     private float _timeButtonPressed;
@@ -212,6 +234,7 @@ public class PlayerController : MonoBehaviour
         CheckCollisions();
         HandleWallJump();
         HandleSwing();
+        HandleInteractables();
         HandleJump();
         if (doubleJumpEnabled) HandleDoubleJump();
         HandleEarlyRelease();
@@ -424,6 +447,24 @@ public class PlayerController : MonoBehaviour
 
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, accel * Time.fixedDeltaTime);
                 break;
+        }
+    }
+
+    /// <summary>
+    /// Handle logic of interactable objects.
+    /// </summary>
+    private void HandleInteractables()
+    {
+        if (!CurrentInteractableArea) return;
+        if (CanUseButton())
+        {
+            PlayerState = PlayerStateEnum.OnObject;
+            CurrentInteractableArea.StartInteract(this);
+        } else if (PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)
+        {
+            _buttonUsed = true;
+            CurrentInteractableArea.EndInteract(this);
+            PlayerState = PlayerStateEnum.Air;
         }
     }
 
