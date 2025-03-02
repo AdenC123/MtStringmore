@@ -84,6 +84,23 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     }
 
     /// <summary>
+    /// Returns the distance along the path.
+    /// </summary>
+    /// <remarks>
+    /// Since people may or may not adjust the position in the editor while moving,
+    /// this computes the vector projection along the actual path in case someone changes the direction while running.
+    /// </remarks>
+    private float DistanceAlongPath
+    {
+        get
+        {
+            Vector2 direction = secondPosition - firstPosition;
+            Vector2 travelled = _rigidbody.position - firstPosition;
+            return Vector2.Dot(direction, travelled) / direction.magnitude;
+        }
+    }
+
+    /// <summary>
     /// Evaluates the velocity at a specific time since motion start.
     /// </summary>
     /// <param name="time">Time since motion start</param>
@@ -104,7 +121,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         // so I have to check *literally every frame*.
         float time = 0;
         for (Vector2 diff = secondPosition - firstPosition;
-             diff.sqrMagnitude > 0;
+             DistanceAlongPath <= diff.magnitude;
              diff = secondPosition - firstPosition)
         {
             yield return new WaitForFixedUpdate();
