@@ -43,12 +43,12 @@ AudioSource:
   m_GameObject: {fileID: 687209003304850376}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 7445090876735969629, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -164,8 +164,9 @@ GameObject:
   - component: {fileID: 3175786740816282053}
   - component: {fileID: 5301496585393855472}
   - component: {fileID: 8627366452016212239}
+  - component: {fileID: 4348829522379409488}
   m_Layer: 7
-  m_Name: Player
+  m_Name: Cutscene Marshmallow
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -195,7 +196,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4217790213014453210}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7436c926f8d254e69adf04aebd819228, type: 3}
   m_Name: 
@@ -299,6 +300,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0.2042942, y: 0.2758975}
   m_Size: {x: 1.3070427, y: 2.1032066}
   m_Direction: 0
+--- !u!114 &4348829522379409488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4217790213014453210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72ffc402e70f4e65b8ad67be2880f35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4714043931189080348
 GameObject:
   m_ObjectHideFlags: 0
