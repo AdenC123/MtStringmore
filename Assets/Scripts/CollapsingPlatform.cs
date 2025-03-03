@@ -6,58 +6,39 @@ public class NewBehaviourScript : MonoBehaviour
 {
     #region Serialized Public Fields
     [Header("Collapse Time")] 
-    [SerializeField] public float collapsePlatTimer;
-    [SerializeField] public float restorePlatTimer;
-    [SerializeField] public float destroyTimer;
-    [SerializeField] public Rigidbody2D _rb;
+    [SerializeField] float collapsePlatTimer;
+    [SerializeField] float restorePlatTimer;
+    [SerializeField] Rigidbody2D rb;
     #endregion
 
     #region Private Properties
-    private bool _isOnPlatform;
-    private float _deltaCollapseTimer;
     private Vector2 _originalPosition;
+    private IEnumerator _activeRoutine;
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _originalPosition = transform.position;
-        _deltaCollapseTimer = collapsePlatTimer;
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(_isOnPlatform) 
-        {
-            _deltaCollapseTimer-=Time.deltaTime;
-
-            if(_deltaCollapseTimer<=0) 
-            {
-                StartCoroutine(Falling());
-            }
-        }
-    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            _isOnPlatform = true;
+           StartCoroutine(_activeRoutine = Falling());    
         }
     }
 
     IEnumerator Falling() 
     {
-        _isOnPlatform = false;
-        //apply gravity on platform then wait for timers
-        _rb.bodyType = RigidbodyType2D.Dynamic;
-        yield return new WaitForSeconds(destroyTimer);
-        yield return new WaitForSeconds(restorePlatTimer);
+        //remember the platform's original position
+        _originalPosition = transform.position;
+
+        //wait for timer then drop platform by applying gravity
+        yield return new WaitForSeconds(collapsePlatTimer);
+        rb.bodyType = RigidbodyType2D.Dynamic;
 
         //put platfrom back into place and freeze it
-        _rb.bodyType = RigidbodyType2D.Static;
+        yield return new WaitForSeconds(restorePlatTimer);
+        rb.bodyType = RigidbodyType2D.Static;
         transform.position = _originalPosition;
+        _activeRoutine = null;
     }
+
 }

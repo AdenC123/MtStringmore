@@ -233,11 +233,6 @@ public class PlayerController : MonoBehaviour
             //get the exact bouncy platform the player touched to get its public variables
             _bouncyPlatform = other.gameObject.GetComponent<BouncyPlatform>();
         }
-        else if(other.gameObject.CompareTag("CollapsingPlatform")) 
-        {   
-            _playerState = PlayerStateEnum.Run;
-            Debug.Log(_playerState);
-        }
     }
 
     private void FixedUpdate()

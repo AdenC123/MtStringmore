@@ -146,9 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collapsePlatTimer: 0.5
-  restorePlatTimer: 1
-  destroyTimer: 1.5
-  _rb: {fileID: 879769820943251829}
+  restorePlatTimer: 2
+  rb: {fileID: 879769820943251829}
 --- !u!251 &768450171500632734
 PlatformEffector2D:
   m_ObjectHideFlags: 0
