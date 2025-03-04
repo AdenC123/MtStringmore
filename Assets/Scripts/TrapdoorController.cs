@@ -6,7 +6,7 @@ using UnityEngine;
 public class TrapdoorController : MonoBehaviour
 {
     #region Serialized Public Fields
-    [Header("Collapse Time")] 
+    [Header("Platform Properties")] 
     [SerializeField] float collapsePlatTimer;
     [SerializeField] float restorePlatTimer;
     [SerializeField] bool isLeftWall;
@@ -37,6 +37,8 @@ public class TrapdoorController : MonoBehaviour
         yield return new WaitForSeconds(collapsePlatTimer);
         _motor.motorSpeed = motorSpeed;
         _motor.maxMotorTorque = motorForce;
+        
+        //assign motor back to hinge object for updated motor properties to be applied to the hinge object
         _hinge.motor = _motor;
 
         //restore the platform after time has passed

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class CollapsingPlatform : MonoBehaviour
 {
     #region Serialized Public Fields
-    [Header("Collapse Time")] 
+    [Header("Platform Properties")] 
     [SerializeField] float collapsePlatTimer;
     [SerializeField] float restorePlatTimer;
     [SerializeField] Rigidbody2D rb;
