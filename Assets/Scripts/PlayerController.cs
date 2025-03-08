@@ -211,7 +211,7 @@ public class PlayerController : MonoBehaviour
             _inTrampolineArea = true;
             //get the exact trampoline that the player touched to get its public variables
             _trampoline = other.gameObject.GetComponent<Trampoline>();
-        }
+        } 
     }
 
 
