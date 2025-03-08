@@ -8,7 +8,6 @@ using UnityEngine.UI;
 /// </summary>
 public class FadeEffects : MonoBehaviour
 {
-    private Material _material;
     [SerializeField, Min(0)] private float fadeDuration = 0.3f;
 
     [Tooltip("Delay between fading in and fading out, if applicable")] [SerializeField]
@@ -16,6 +15,8 @@ public class FadeEffects : MonoBehaviour
 
     [SerializeField] private bool destroyOnFade;
     public Action FadeIn;
+    
+    private Material _material;
 
     private void Awake()
     {

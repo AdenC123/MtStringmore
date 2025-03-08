@@ -228,11 +228,6 @@ public class PlayerController : MonoBehaviour
             {
                 HandleDeath();
             }
-        } else if(other.gameObject.CompareTag("Trampoline")) {
-            _inTrampolineArea = true;
-            //get the exact trampoline that the player touched to get its public variables
-            _trampoline = other.gameObject.GetComponent<Trampoline>();
-
         }
     }
 
@@ -575,7 +570,7 @@ public class PlayerController : MonoBehaviour
         var checkpointPos = GameManager.Instance.CheckPointPos;
         var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
         transform.position = spawnPos;
-        _lastDirection = GameManager.Instance.RespawnFacingLeft ? -1.0f : 1.0f;
+        Direction = GameManager.Instance.RespawnFacingLeft ? -1.0f : 1.0f;
         PlayerState = PlayerStateEnum.Run;
     }
 }
