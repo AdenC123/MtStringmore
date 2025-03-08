@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LineRenderer ropeRenderer;
     [SerializeField] private int deathTime;
     [Header("Balloon")]
-    [SerializeField] private GameObject _balloon;
+    [SerializeField] private GameObject Balloon;
     [SerializeField] private float _verticalBalloonOffset = -3f;
     [Header("Debug")]
     [SerializeField] private bool stateDebugLog;
@@ -123,12 +123,6 @@ public class PlayerController : MonoBehaviour
     /// If true, skips death logic.
     /// </summary>
     public bool DebugIgnoreDeath { get; set; }
-
-    /// <summary>
-    /// Access to the balloon game object
-    /// </summary>
-    public GameObject _balloonObject;
-
     #endregion
 
     #region Private Properties

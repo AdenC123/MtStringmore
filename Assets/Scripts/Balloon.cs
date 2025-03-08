@@ -6,33 +6,50 @@ using UnityEngine.Tilemaps;
 
 public class Balloon : MonoBehaviour
 {
-
     [SerializeField] public float floatForce = 5f;
     [SerializeField] public bool isFloating = false;
-    [SerializeField] private float maxHeight = 20f;
+	[SerializeField] public bool shouldRespawn = false;
+    [SerializeField] private float maxHeight = 20f; //height balloon can go with player
+    [SerializeField] private float  maxRespawnHeight = 30f; //height balloon can go before respawning
     [SerializeField] private string colliderTag = "Player";
     [SerializeField] private LayerMask collisionLayer;
+	[SerializeField] private Vector3 respawnCoord = <-40, -6, 0>;
 
     public float groundDistance;
+
+    public bool playerAttached = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == colliderTag)
         {
             isFloating = true;
+            playerAttached = true;
         }
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         HandleFloat();
         HandleDistanceToGround();
+		HandleRespawn();
     }
 
     void HandleFloat()
     {
-        if (isFloating && transform.position.y <= maxHeight)
+        if (playerAttached)
+        {
+            BalloonFloat(maxHeight);
+        }
+        else
+        {
+            BalloonFloat(maxRespawnHeight);
+        }
+    }
+
+    void BalloonFloat(float Height) //maxHeight when player attached, maxRespawnHeight when player not attached
+    {
+        if (isFloating && transform.position.y <= Height)
         {
             transform.position += Vector3.up * (floatForce * Time.deltaTime);
         }
@@ -57,6 +74,21 @@ public class Balloon : MonoBehaviour
         else
         {
             Debug.Log("No hit detected");
+        }
+    }
+
+    void HandleRespawn()
+    {
+        if (transform.position.y >= maxRespawnHeight)
+        {
+            shouldRespawn = true;
+            isFloating = false;
+        }
+        
+        if (shouldRespawn)
+        {
+            transform.position = respawnCoord;
+            shouldRespawn = false;
         }
     }
 }
