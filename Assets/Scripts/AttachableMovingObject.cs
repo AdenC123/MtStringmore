@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -233,16 +234,17 @@ public class AttachableMovingObject : AbstractPlayerInteractable
             Debug.LogWarning("Rigidbody isn't kinematic: may cause problems!");
         }
 
-        bool prev = Physics2D.queriesStartInColliders;
-        Physics2D.queriesStartInColliders = false;
-        RaycastHit2D hit = Physics2D.Linecast(firstPosition, secondPosition);
-        if (hit)
+        if (body)
         {
-            // some wack things may happen if the player collides with something while moving
-            Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
+            List<RaycastHit2D> hits = new();
+            body.position = firstPosition;
+            body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition-firstPosition).magnitude);
+            foreach (RaycastHit2D hit in hits)
+            {
+                // some wack things may happen if the player collides with something while moving
+                Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
+            }
         }
-
-        Physics2D.queriesStartInColliders = prev; // in case it was set to false previously, don't just set to true
     }
 
     private void OnDrawGizmosSelected()
