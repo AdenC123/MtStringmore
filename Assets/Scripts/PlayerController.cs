@@ -49,11 +49,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minSwingReleaseX;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
-    [SerializeField] private int deathTime;
+    [SerializeField] private float deathTime;
     // this is just here for battle of the concepts
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
     // @formatter:on
+
+
 
     #endregion
 
@@ -77,6 +79,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Current velocity of the player.
     /// </summary>
+
     public Vector2 Velocity => _velocity;
 
     /// <summary>
@@ -172,6 +175,16 @@ public class PlayerController : MonoBehaviour
         _col = GetComponent<CapsuleCollider2D>();
         _buttonUsed = true;
         Direction = startDirection;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.Reset += OnReset;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.Reset -= OnReset;
     }
 
     private void Update()
@@ -546,4 +559,16 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    /// <summary>
+    /// On reset, respawn at checkpoint with the direction we faced at that checkpoint
+    /// </summary>
+    private void OnReset()
+    {
+        var checkpointPos = GameManager.Instance.CheckPointPos;
+        var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
+        transform.position = spawnPos;
+        Direction = GameManager.Instance.RespawnFacingLeft ? -1.0f : 1.0f;
+        PlayerState = PlayerStateEnum.Run;
+    }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-///     Handles player animation
+/// Handles player animation
 /// </summary>
 public class PlayerAnimator : MonoBehaviour
 {
@@ -59,6 +59,11 @@ public class PlayerAnimator : MonoBehaviour
         _player = GetComponentInParent<PlayerController>();
     }
 
+    private void Start()
+    {
+        GameManager.Instance.Reset += OnReset;
+    }
+
     private void OnEnable()
     {
         _player.Jumped += OnJumped;
@@ -77,6 +82,8 @@ public class PlayerAnimator : MonoBehaviour
         _player.GroundedChanged -= OnGroundedChanged;
         _player.WallChanged -= OnWallChanged;
         _player.Death -= OnDeath;
+        
+        GameManager.Instance.Reset += OnReset;
 
         // _moveParticles.Stop();
     }
@@ -214,6 +221,21 @@ public class PlayerAnimator : MonoBehaviour
     //     var main = ps.main;
     //     main.startColor = _currentGradient;
     // }
+
+    /// <summary>
+    /// On reset, re-activate sprites and make them full opacity
+    /// </summary>
+    private void OnReset()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+            var material = child.GetComponent<Renderer>().material;
+            Color color = material.color;
+            color.a = 1;
+            material.color = color;
+        }
+    }
 
     #endregion
 }
