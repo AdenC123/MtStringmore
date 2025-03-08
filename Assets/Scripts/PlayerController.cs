@@ -50,8 +50,6 @@ public class PlayerController : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
     [SerializeField] private float deathTime;
-    [Header("Debug")]
-    [SerializeField] private bool stateDebugLog;
     // this is just here for battle of the concepts
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
@@ -71,20 +69,14 @@ public class PlayerController : MonoBehaviour
         RightWallSlide,
         Dead,
         Swing,
-        Dash
+        Dash,
+        OnObject
     }
 
     // TODO: PlayerState set should be a function that fires an action
-    public PlayerStateEnum PlayerState
-    {
-        get => _playerState;
+    public PlayerStateEnum PlayerState { get;
          private set
-        {
-            if (stateDebugLog)
-                Debug.Log($"PlayerState: {value}");
-            _playerState = value;
-        }
-    }
+        ; }
 
     /// <summary>
     /// Current velocity of the player.
@@ -95,7 +87,27 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Facing direction of the player. -1.0 for left, 1.0 for right.
     /// </summary>
-    public float Direction => _lastDirection;
+    public float Direction { get; private set; }
+
+    /// <summary>
+    /// Active velocity effector.
+    /// </summary>
+    public IPlayerVelocityEffector ActiveVelocityEffector
+    {
+        get => _activeEffector;
+        set
+        {
+            if (_activeEffector != null && value != null && _activeEffector != value
+                && _activeEffector.IgnoreOtherEffectors)
+            {
+                Debug.LogWarning("Ignoring other effector as current active effector ignores other effectors.");
+            }
+            else
+            {
+                _activeEffector = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Fires when the player becomes grounded or leaves the ground.
@@ -121,14 +133,18 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public bool DebugIgnoreDeath { get; set; }
 
+    /// <summary>
+    /// Current interactable in range.
+    /// </summary>
+    public AbstractPlayerInteractable CurrentInteractableArea { get; set; }
+
     #endregion
 
     #region Private Properties
 
-    private PlayerStateEnum _playerState;
-
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
+    private IPlayerVelocityEffector _activeEffector;
 
     private float _time;
     private float _timeButtonPressed;
@@ -143,7 +159,6 @@ public class PlayerController : MonoBehaviour
     private bool _canDash;
 
     private Vector2 _velocity;
-    private float _lastDirection;
     private bool _closeToWall;
     private Vector2 _groundNormal;
 
@@ -151,12 +166,6 @@ public class PlayerController : MonoBehaviour
     private float _swingRadius;
     private bool _canSwing;
     private bool _swingStarted;
-
-    private bool _inTrampolineArea;
-    private bool _inBouncePlatformArea;
-    private Collision2D _bounceArea;
-    private Trampoline _trampoline;
-    private BouncyPlatform _bouncyPlatform;
 
     #endregion
 
@@ -167,7 +176,7 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
         _buttonUsed = true;
-        _lastDirection = startDirection;
+        Direction = startDirection;
     }
 
     private void Start()
@@ -183,6 +192,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _time += Time.deltaTime;
+
         GetInput();
         RedrawRope(); // TODO this should be moved outside player controller when knitby is real
     }
@@ -224,36 +234,15 @@ public class PlayerController : MonoBehaviour
             _trampoline = other.gameObject.GetComponent<Trampoline>();
 
         }
-        else if (other.gameObject.CompareTag("Trampoline"))
-        {
-            _inTrampolineArea = true;
-            //get the exact trampoline that the player touched to get its public variables
-            _trampoline = other.gameObject.GetComponent<Trampoline>();
-        }
     }
 
-
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("BounceArea"))
+        if (other.gameObject.CompareTag("SwingArea"))
         {
-            //put player in air state for proper bouncy platform interactions
-            if (_playerState == PlayerStateEnum.Dash)
-            {
-                _playerState = PlayerStateEnum.Air;
-            }
-
-            _inBouncePlatformArea = true;
-            _bounceArea = other;
-            //get the exact bouncy platform the player touched to get its public variables
-            _bouncyPlatform = other.gameObject.GetComponent<BouncyPlatform>();
-        }
-    }
-    
-    private void OnTriggerExit2D(Collider2D other) {
-        if(other.gameObject.CompareTag("Trampoline"))
-        {
-            _inTrampolineArea = false;
+            // can't swing if outside swing area
+            // assumes swing areas are not overlapping
+            _canSwing = false;
         }
     }
 
@@ -261,15 +250,18 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerState == PlayerStateEnum.Dead)
             return;
+
         CheckCollisions();
         HandleWallJump();
         HandleSwing();
+        HandleInteractables();
         HandleJump();
         if (doubleJumpEnabled) HandleDoubleJump();
         HandleEarlyRelease();
         HandleWalk();
         HandleGravity();
-        HandleBounce();
+        if (ActiveVelocityEffector != null)
+            _velocity = ActiveVelocityEffector.ApplyVelocity(_velocity);
         if (dashEnabled) HandleDash();
         ApplyMovement();
     }
@@ -402,12 +394,12 @@ public class PlayerController : MonoBehaviour
         {
             // move player forward at dash speed
             _velocity.y = 0;
-            _velocity.x = dashSpeed * _lastDirection;
+            _velocity.x = dashSpeed * Direction;
             // check if dash is over
             if (_time - _timeDashed >= dashTime)
             {
                 PlayerState = PlayerStateEnum.Air;
-                _velocity.x = endDashSpeed * _lastDirection;
+                _velocity.x = endDashSpeed * Direction;
             }
         }
         else if (PlayerState is PlayerStateEnum.Run or PlayerStateEnum.Swing)
@@ -435,7 +427,7 @@ public class PlayerController : MonoBehaviour
         {
             case PlayerStateEnum.Run:
                 // rotate ground normal vector 90 degrees towards facing direction
-                Vector2 walkTarget = new Vector2(_groundNormal.y * _lastDirection, _groundNormal.x * -_lastDirection) *
+                Vector2 walkTarget = new Vector2(_groundNormal.y * Direction, _groundNormal.x * -Direction) *
                                      maxGroundSpeed;
                 float newX = Mathf.MoveTowards(_velocity.x, walkTarget.x, groundAcceleration * Time.fixedDeltaTime);
                 float newY = walkTarget.y;
@@ -443,49 +435,15 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerStateEnum.Air:
                 if (Mathf.Abs(_velocity.x) < maxAirSpeed)
-                    _velocity.x = Mathf.MoveTowards(_velocity.x, maxAirSpeed * _lastDirection,
+                    _velocity.x = Mathf.MoveTowards(_velocity.x, maxAirSpeed * Direction,
                         airAcceleration * Time.fixedDeltaTime);
                 break;
         }
     }
 
-    private void HandleBounce()
-    {
-        //handle trampoline bounces
-        if (_inTrampolineArea)
-        {
-            _velocity = new Vector2(_trampoline.xBounceForce * _lastDirection, _trampoline.yBounceForce);
-        }
-
-        //handle bouncy platform bounces
-        if (_inBouncePlatformArea)
-        {
-            //on first contact determine the players new direction
-            Vector2 directionVector = Vector2.Reflect(_velocity, _bounceArea.contacts[0].normal);
-
-            //ensure the player bounces correctly when hitting the platform coming from the left
-            if (_velocity.x < 0 && directionVector.x < 0 && _velocity.y < 0 &&
-                directionVector.y < 0)
-            {
-                _velocity = new Vector2(-_bouncyPlatform.xBounceForce, _bouncyPlatform.yBounceForce);
-            }
-            else
-            {
-                _velocity = new Vector2(_bouncyPlatform.xBounceForce * Mathf.Sign(directionVector.x), _bouncyPlatform.yBounceForce);
-            }
-            _inBouncePlatformArea = false;
-        }
-
-    }
-
-
     private void HandleGravity()
     {
-        //temporarily "turn off gravity" for auto trampoline bounce
-        if (_inTrampolineArea)
-        {
-            return;
-        }
+        if (ActiveVelocityEffector?.IgnoreGravity ?? false) return;
         switch (PlayerState)
         {
             case PlayerStateEnum.Run:
@@ -512,6 +470,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handle logic of interactable objects.
+    /// </summary>
+    private void HandleInteractables()
+    {
+        if (!CurrentInteractableArea) return;
+        if (CanUseButton())
+        {
+            PlayerState = PlayerStateEnum.OnObject;
+            CurrentInteractableArea.StartInteract(this);
+        }
+        else if (PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)
+        {
+            _buttonUsed = true;
+            CurrentInteractableArea.EndInteract(this);
+            PlayerState = PlayerStateEnum.Air;
+        }
+    }
+
     private void HandleSwing()
     {
         if (_canSwing && CanUseButton())
@@ -529,6 +506,7 @@ public class PlayerController : MonoBehaviour
                 // reached max radius, start swing
                 _swingStarted = true;
             }
+
             if (_swingStarted)
             {
                 // swinging at max radius
@@ -578,7 +556,7 @@ public class PlayerController : MonoBehaviour
     private void ApplyMovement()
     {
         _rb.velocity = _velocity;
-        if (_velocity.x != 0f) _lastDirection = Mathf.Sign(_velocity.x);
+        if (_velocity.x != 0f) Direction = Mathf.Sign(_velocity.x);
         Debug.DrawRay(transform.position, _velocity, Color.magenta);
     }
 
