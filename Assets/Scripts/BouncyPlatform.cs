@@ -6,11 +6,11 @@ using UnityEngine;
 [DisallowMultipleComponent, RequireComponent(typeof(Collider2D))]
 public class BouncyPlatform : MonoBehaviour, IPlayerVelocityEffector
 {
-    #region Serialized Public Fields
+    #region Serialized Private Fields
 
     [Header("Bouncing")]
-    [SerializeField] public float yBounceForce;
-    [SerializeField] public float xBounceForce;
+    [SerializeField] private float yBounceForce;
+    [SerializeField] private float xBounceForce;
 
     #endregion
 

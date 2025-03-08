@@ -9,8 +9,8 @@ using UnityEngine;
 public class FixCameraTrigger : MonoBehaviour
 {
     [SerializeField] private Vector2 targetOffset;
-    [SerializeField] public bool fixX = true;
-    [SerializeField] public bool fixY = true;
+    public bool fixX = true;
+    public bool fixY = true;
 
     public Vector2 Target { get; private set; }
 

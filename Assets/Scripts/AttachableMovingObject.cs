@@ -53,7 +53,8 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     [Tooltip("Second position (world space)")]
     public Vector2 secondPosition;
 
-    [Tooltip("Path renderer")] public MovingObjectPathRenderer pathRenderer;
+    [Tooltip("Path renderer")]
+    public MovingObjectPathRenderer pathRenderer;
 
     /// <remarks>
     /// I know the new reset logic hasn't been merged in yet,
