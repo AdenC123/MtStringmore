@@ -74,9 +74,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // TODO: PlayerState set should be a function that fires an action
-    public PlayerStateEnum PlayerState { get;
-         private set
-        ; }
+    public PlayerStateEnum PlayerState { get; private set; }
 
     /// <summary>
     /// Current velocity of the player.

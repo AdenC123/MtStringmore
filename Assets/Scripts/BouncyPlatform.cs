@@ -3,9 +3,11 @@ using UnityEngine;
 /// <summary>
 /// Class represents a bouncy platform that is a 2D collider
 /// </summary>
-[DisallowMultipleComponent, RequireComponent(typeof(Collider2D))]
+[DisallowMultipleComponent, RequireComponent(typeof(Collider2D), typeof(Animator))]
 public class BouncyPlatform : MonoBehaviour, IPlayerVelocityEffector
 {
+    private static readonly int BounceHash = Animator.StringToHash("Bounce");
+
     #region Serialized Private Fields
 
     [Header("Bouncing")]
@@ -16,6 +18,7 @@ public class BouncyPlatform : MonoBehaviour, IPlayerVelocityEffector
 
     private PlayerController _player;
     private Collision2D _bounceArea;
+    private Animator _animator;
 
     /// <inheritdoc />
     public Vector2 ApplyVelocity(Vector2 velocity)
@@ -34,12 +37,10 @@ public class BouncyPlatform : MonoBehaviour, IPlayerVelocityEffector
         _bounceArea = other;
         _player.ActiveVelocityEffector = this;
     }
-    
-    private Animator animator;
 
-    private void Start()
+    private void Awake()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -47,7 +48,7 @@ public class BouncyPlatform : MonoBehaviour, IPlayerVelocityEffector
         // Check if the player touched the object
         if (other.CompareTag("Player"))
             // Trigger the animation
-            animator.SetTrigger("Bounce");
+            _animator.SetTrigger(BounceHash);
     }
     
     private void OnTriggerExit2D(Collider2D other)
@@ -55,6 +56,6 @@ public class BouncyPlatform : MonoBehaviour, IPlayerVelocityEffector
         // Check if the player touched the object
         if (other.CompareTag("Player"))
             // Trigger the animation
-            animator.ResetTrigger("Bounce");
+            _animator.ResetTrigger(BounceHash);
     }
 }
