@@ -1,5 +1,7 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Controls player movement and invokes events for different player states
@@ -53,9 +55,11 @@ public class PlayerController : MonoBehaviour
     // this is just here for battle of the concepts
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
+    [FormerlySerializedAs("maxDownSpeed")]
     [Header("Down")]
-    [SerializeField] private float maxDownSpeed;
+    [SerializeField] private float downSpeed;
     [SerializeField] private float downAcceleration;
+    [SerializeField] private float maxDownSpeed;
    
     
    
@@ -468,9 +472,13 @@ public class PlayerController : MonoBehaviour
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, accel * Time.fixedDeltaTime);
                 break;
             case PlayerStateEnum.Down:
-                if (_velocity.y >= -20f)
+                if (_velocity.y > -downSpeed)
                 {
-                    _velocity.y = -20f;
+                    _velocity.y = -downSpeed;
+                }
+                else
+                {
+                    _velocity.y = math.max(_velocity.y * downAcceleration, -maxDownSpeed);
                 }
                 if (!Input.GetKeyDown(KeyCode.S)) //reverts to air if not holding 
                 {

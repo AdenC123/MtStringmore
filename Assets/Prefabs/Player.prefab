@@ -231,14 +231,13 @@ MonoBehaviour:
   swingBoostMultiplier: 1.2
   maxSwingSpeed: 47
   swingAcceleration: 75
-  swingGravity: 110
   minSwingReleaseX: 25
   ropeRenderer: {fileID: 8739561083334380143}
   deathTime: 2
-  stateDebugLog: 0
   poofSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
-  maxDownSpeed: 180
-  downAcceleration: 1.2
+  downSpeed: 30
+  downAcceleration: 1.15
+  maxDownSpeed: 60
 --- !u!50 &5301496585393855472
 Rigidbody2D:
   serializedVersion: 4
@@ -421,6 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeDuration: 0.3
+  destroyOnFadeOut: 0
 --- !u!1 &8704445144224804026
 GameObject:
   m_ObjectHideFlags: 0
