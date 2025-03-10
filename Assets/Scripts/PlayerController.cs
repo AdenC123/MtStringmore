@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Controls player movement and invokes events for different player states
@@ -29,7 +30,6 @@ public class PlayerController : MonoBehaviour
     [Header("Air")]
     [SerializeField] private float maxFallSpeed;
     [SerializeField] private float fallAccelerationUp;
-    [SerializeField] private float fallAccelerationDown;
     [SerializeField] private float earlyReleaseFallAcceleration;
     [SerializeField] private float maxAirSpeed;
     [SerializeField] private float airAcceleration;
@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour
             GameManager.Instance.Respawn();
         }
 
-        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && !(DistanceToGround() < 0.5f))
+        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && DistanceToGround() >= 0.5f)
         {
             PlayerState = PlayerStateEnum.Down;
         }
@@ -304,11 +304,11 @@ public class PlayerController : MonoBehaviour
             if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
         }
 
-        if (PlayerState == PlayerStateEnum.Air)
-        {
-            if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
-            if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
-        }
+        // if (PlayerState == PlayerStateEnum.Air)
+        // {
+        //     if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
+        //     if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
+        // }
 
         if (PlayerState != PlayerStateEnum.Run && groundHit)
         {
@@ -344,7 +344,10 @@ public class PlayerController : MonoBehaviour
             if (PlayerState == PlayerStateEnum.RightWallSlide) _velocity.x = -_velocity.x;
 
             _buttonUsed = true;
-            PlayerState = PlayerStateEnum.Air;
+            if (Input.GetKey(KeyCode.S) && DistanceToGround() >= 0.5f)
+                PlayerState = PlayerStateEnum.Down;
+            else
+                PlayerState = PlayerStateEnum.Air;
             _canReleaseEarly = false;
             _releasedEarly = false;
             _canDoubleJump = true;
@@ -499,19 +502,14 @@ public class PlayerController : MonoBehaviour
                 float accel;
                 if (_releasedEarly) accel = earlyReleaseFallAcceleration;
                 else if (_velocity.y >= 0f) accel = fallAccelerationUp;
-                else accel = fallAccelerationDown;
-
+                else accel = -10f;
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, accel * Time.fixedDeltaTime);
                 break;
             case PlayerStateEnum.Down:
-                if (_velocity.y >= -5)
+                if (_velocity.y >= -20f)
                 {
-                    _velocity.y = -5f;
+                    _velocity.y = -20f;
                 }
-
-                accel = fallAccelerationDown * downAcceleration;
-                ;
-                _velocity.y = Mathf.MoveTowards(_velocity.y, -maxDownSpeed, accel * Time.fixedDeltaTime);
                 if (!Input.GetKeyDown(KeyCode.S)) //reverts to air if not holding 
                 {
                     PlayerState = PlayerStateEnum.Air;
@@ -587,7 +585,7 @@ public class PlayerController : MonoBehaviour
     private float DistanceToGround()
     {
         Vector2 direction = Vector2.down;
-        float rayDistance = 10f; // Maximum distance to check
+        float rayDistance = 100f; // Maximum distance to check
         RaycastHit2D hit = CapsuleCastCollision(direction, rayDistance);
         return hit.distance;
     }
