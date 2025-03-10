@@ -1,5 +1,7 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Controls player movement and invokes events for different player states
@@ -53,6 +55,14 @@ public class PlayerController : MonoBehaviour
     // this is just here for battle of the concepts
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
+    [FormerlySerializedAs("maxDownSpeed")]
+    [Header("Down")]
+    [SerializeField] private float downSpeed;
+    [SerializeField] private float downAcceleration;
+    [SerializeField] private float maxDownSpeed;
+   
+    
+   
     // @formatter:on
 
     #endregion
@@ -68,7 +78,8 @@ public class PlayerController : MonoBehaviour
         Dead,
         Swing,
         Dash,
-        OnObject
+        OnObject,
+        Down
     }
 
     // TODO: PlayerState set should be a function that fires an action
@@ -196,6 +207,16 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.Respawn();
         }
+
+        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && DistanceToGround() >= 0.5f)
+        {
+            PlayerState = PlayerStateEnum.Down;
+        }
+
+        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && DistanceToGround() >= 0.5f)
+        {
+            PlayerState = PlayerStateEnum.Down;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -282,7 +303,7 @@ public class PlayerController : MonoBehaviour
             GroundedChanged?.Invoke(false, 0);
         }
 
-        if (PlayerState == PlayerStateEnum.Air)
+        if (PlayerState is PlayerStateEnum.Air or PlayerStateEnum.Down) // Add Down state here
         {
             if (leftWallHit) PlayerState = PlayerStateEnum.LeftWallSlide;
             if (rightWallHit) PlayerState = PlayerStateEnum.RightWallSlide;
@@ -323,7 +344,10 @@ public class PlayerController : MonoBehaviour
             if (PlayerState == PlayerStateEnum.RightWallSlide) _velocity.x = -_velocity.x;
 
             _buttonUsed = true;
-            PlayerState = PlayerStateEnum.Air;
+            if (Input.GetKey(KeyCode.S) && DistanceToGround() >= 0.5f)
+                PlayerState = PlayerStateEnum.Down;
+            else
+                PlayerState = PlayerStateEnum.Air;
             _canReleaseEarly = false;
             _releasedEarly = false;
             _canDoubleJump = true;
@@ -447,6 +471,21 @@ public class PlayerController : MonoBehaviour
 
                 _velocity.y = Mathf.MoveTowards(_velocity.y, -maxFallSpeed, accel * Time.fixedDeltaTime);
                 break;
+            case PlayerStateEnum.Down:
+                if (_velocity.y > -downSpeed)
+                {
+                    _velocity.y = -downSpeed;
+                }
+                else
+                {
+                    _velocity.y = math.max(_velocity.y * downAcceleration, -maxDownSpeed);
+                }
+                if (!Input.GetKeyDown(KeyCode.S)) //reverts to air if not holding 
+                {
+                    PlayerState = PlayerStateEnum.Air;
+                }
+
+                break;
         }
     }
 
@@ -545,5 +584,15 @@ public class PlayerController : MonoBehaviour
         return !_buttonUsed && _time <= _timeButtonPressed + buttonBufferTime;
     }
 
+
+    private float DistanceToGround()
+    {
+        Vector2 direction = Vector2.down;
+        float rayDistance = 100f; // Maximum distance to check
+        RaycastHit2D hit = CapsuleCastCollision(direction, rayDistance);
+        return hit.distance;
+    }
+
     #endregion
 }
+
