@@ -11,7 +11,10 @@ public class ExplosionParticleController : MonoBehaviour
 
     private void Start()
     {
-        explosionParticles = GetComponent<ParticleSystem>();
+        if (explosionParticles == null)
+        {
+            explosionParticles = GetComponent<ParticleSystem>();
+        }
 
         if (explosionParticles != null)
         {
@@ -21,15 +24,6 @@ public class ExplosionParticleController : MonoBehaviour
             var collisionModule = explosionParticles.collision;
             collisionModule.enabled = true;
             collisionModule.collidesWith = LayerMask.GetMask("Player", "Terrain");
-        }
-    }
-
-    private void Update()
-    {
-        if (explosionParticles != null)
-        {
-            var shapeModule = explosionParticles.shape;
-            shapeModule.radius = emissionRadius;
         }
     }
 }

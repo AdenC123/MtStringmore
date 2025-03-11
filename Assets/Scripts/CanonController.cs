@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -9,19 +10,20 @@ public class CanonController : MonoBehaviour
     private float _maxTimeBetweenShots;
     private float _timeBetweenShots;
     
-    [SerializeField] private float angle = 45f; // angle in DEGREES
+    [SerializeField, Tooltip("Angle in degrees"), Range(-180, 180)] private float angle = 45f;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float minTimeBetweenShots = 1f;
     [SerializeField] private float maxTimeBetweenShots = 3f;
-    void Start()
+    private void Awake()
     {
-        SetRandomShotInterval();
+        StartCoroutine(RandomShotCoroutine());
     }
-
-    void Update()
-    {
-        if (_timeBetweenShots <= 0)
-        {
+    
+    private IEnumerator RandomShotCoroutine() {
+        while (true) {
+            float timeBetweenShots = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
+            yield return new WaitForSeconds(timeBetweenShots);
+             
             GameObject newBoulder = Instantiate(boulder, transform.position, Quaternion.identity);
             Rigidbody2D boulderRb = newBoulder.GetComponent<Rigidbody2D>();
 
@@ -29,17 +31,7 @@ public class CanonController : MonoBehaviour
             float angleInRadians = angle * Mathf.Deg2Rad;
             Vector2 velocity = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)) * speed;
             boulderRb.velocity = velocity;
-            SetRandomShotInterval();
         }
-        else
-        {
-            _timeBetweenShots -= Time.deltaTime;
-        }
-    }
-    
-    private void SetRandomShotInterval()
-    {
-        _timeBetweenShots = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
     }
     
 }
