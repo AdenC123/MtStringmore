@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
+using Action = System.Action;
 
 /// <summary>
 /// Singleton class for global game settings. Persists between scenes and reloads.
@@ -21,9 +21,9 @@ public class GameManager : MonoBehaviour
     public bool RespawnFacingLeft { get; set; }
 
     /// <summary>
-    /// Object that contains all objects that need to be reset when the player respawns
+    /// Action that gets invoked when level reloads, e.g. respawns
     /// </summary>
-    private List<Resettable> _resetters = new();
+    public event Action Reset;
 
     /// <summary>
     /// Canvas to fade in/out when transitioning between scenes
@@ -58,9 +58,6 @@ public class GameManager : MonoBehaviour
     {
         sceneTransitionCanvas.InvokeFadeOut();
         Time.timeScale = 1f;
-        foreach (var resetObject in GameObject.FindGameObjectsWithTag("Resetter"))
-            _resetters.Add(resetObject.GetComponent<Resettable>());
-        // Z0rb14n: do we ever... drop the references to these in case they get destroyed on a second scene change?
     }
 
     /// <summary>
@@ -75,8 +72,7 @@ public class GameManager : MonoBehaviour
 
     private void OnFadeIn()
     {
-        foreach (var resetObject in _resetters)
-            resetObject.Reset();
+        Reset?.Invoke();
         sceneTransitionCanvas.FadeIn -= OnFadeIn;
     }
 

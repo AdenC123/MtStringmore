@@ -231,8 +231,11 @@ MonoBehaviour:
   swingBoostMultiplier: 1.2
   maxSwingSpeed: 47
   swingAcceleration: 75
+  swingGravity: 110
   minSwingReleaseX: 25
   ropeRenderer: {fileID: 8739561083334380143}
+  yBounceForce: 0
+  xBounceForce: 0
   deathTime: 1
   stateDebugLog: 0
   poofSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}

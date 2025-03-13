@@ -1,9 +1,9 @@
 using UnityEngine;
 
 /// <summary>
-///     Handles player animation
+/// Handles player animation
 /// </summary>
-public class PlayerAnimator : Resettable
+public class PlayerAnimator : MonoBehaviour
 {
     #region Serialized Private Fields
 
@@ -59,6 +59,11 @@ public class PlayerAnimator : Resettable
         _player = GetComponentInParent<PlayerController>();
     }
 
+    private void Start()
+    {
+        GameManager.Instance.Reset += OnReset;
+    }
+
     private void OnEnable()
     {
         _player.Jumped += OnJumped;
@@ -77,6 +82,8 @@ public class PlayerAnimator : Resettable
         _player.GroundedChanged -= OnGroundedChanged;
         _player.WallChanged -= OnWallChanged;
         _player.Death -= OnDeath;
+        
+        GameManager.Instance.Reset += OnReset;
 
         // _moveParticles.Stop();
     }
@@ -215,8 +222,10 @@ public class PlayerAnimator : Resettable
     //     main.startColor = _currentGradient;
     // }
 
-    /// <inheritdoc />
-    public override void Reset()
+    /// <summary>
+    /// On reset, re-activate sprites and make them full opacity
+    /// </summary>
+    private void OnReset()
     {
         foreach (Transform child in transform)
         {
@@ -226,8 +235,6 @@ public class PlayerAnimator : Resettable
             color.a = 1;
             material.color = color;
         }
-        
-        base.Reset();
     }
 
     #endregion

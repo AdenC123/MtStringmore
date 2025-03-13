@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Handles Knitby's animation
 /// </summary>
-public class KnitbyAnimator : Resettable
+public class KnitbyAnimator : MonoBehaviour
 {
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject deathSmoke;
@@ -25,6 +25,11 @@ public class KnitbyAnimator : Resettable
         _knitbyController = GetComponentInParent<KnitbyController>();
     }
 
+    private void Start()
+    {
+        GameManager.Instance.Reset += OnReset;
+    }
+
     private void OnEnable()
     {
         _knitbyController.DirectionUpdated += OnMove;
@@ -41,6 +46,8 @@ public class KnitbyAnimator : Resettable
         _knitbyController.WallHitChanged -= OnWallHitChanged;
         _knitbyController.Swing -= OnSwing;
         _knitbyController.PlayerDeath -= OnPlayerDeath;
+        
+        GameManager.Instance.Reset -= OnReset;
     }
 
     private void OnMove(float x, float y)
@@ -71,10 +78,11 @@ public class KnitbyAnimator : Resettable
         anim.enabled = false;
     }
 
-    /// <inheritdoc />
-    public override void Reset()
+    /// <summary>
+    /// On reset, re-enable animation
+    /// </summary>
+    public void OnReset()
     {
         anim.enabled = true;
-        base.Reset();
     }
 }
