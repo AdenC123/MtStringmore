@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Handles the physics and features behind the boulders 
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D))]
 public class BoulderController : MonoBehaviour
 {
     private Rigidbody2D _rb;

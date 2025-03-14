@@ -225,30 +225,6 @@ public class PlayerController : MonoBehaviour
                 HandleDeath();
             }
         }
-        else if (other.gameObject.CompareTag("Trampoline"))
-        {
-            _inTrampolineArea = true;
-            //get the exact trampoline that the player touched to get its public variables
-            _trampoline = other.gameObject.GetComponent<Trampoline>();
-        }
-    }
-
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("BounceArea"))
-        {
-            //put player in air state for proper bouncy platform interactions
-            if (_playerState == PlayerStateEnum.Dash)
-            {
-                _playerState = PlayerStateEnum.Air;
-            }
-
-            _inBouncePlatformArea = true;
-            _bounceArea = other;
-            //get the exact bouncy platform the player touched to get its public variables
-            _bouncyPlatform = other.gameObject.GetComponent<BouncyPlatform>();
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
