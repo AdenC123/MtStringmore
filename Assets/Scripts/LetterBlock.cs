@@ -33,7 +33,7 @@ public class LetterBlock : MonoBehaviour
         
         for (float timer = 0; timer < blockBreakDelay; timer += Time.deltaTime)
         {
-            transform.position = startPos + (Random.insideUnitSphere * distance);;
+            transform.position = startPos + (Random.insideUnitSphere * distance);
 
             if (delayBetweenShakes > 0f)
             {
