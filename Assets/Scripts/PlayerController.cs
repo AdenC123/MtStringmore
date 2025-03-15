@@ -263,8 +263,11 @@ public class PlayerController : MonoBehaviour
         HandleWalk();
         HandleGravity();
         if (ActiveVelocityEffector != null)
+        {
             _velocity = ActiveVelocityEffector.ApplyVelocity(_velocity);
-        if (dashEnabled) HandleDash();
+            PlayerState = PlayerStateEnum.Air;
+        }
+        else if (dashEnabled) HandleDash();
         ApplyMovement();
     }
 
