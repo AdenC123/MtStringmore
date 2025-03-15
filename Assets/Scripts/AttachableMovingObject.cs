@@ -38,8 +38,11 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     [SerializeField, Min(0), Tooltip("Acceleration time (seconds)")]
     private float accelerationTime = 1;
 
-    [SerializeField, Min(0), Tooltip("Additional velocity boost on exit")]
+    [SerializeField, Tooltip("Additional velocity boost on exit")]
     private Vector2 exitVelBoost = new(10, 10);
+    
+    [SerializeField, Tooltip("Player offset on attach")]
+    private Vector2 playerOffset = new(0, -1);
 
     /// <remarks>
     /// Has to be public to allow the editor to modify this without reflection.
@@ -180,8 +183,14 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         Vector2 vel = _rigidbody.velocity;
         if (_activeMotion == null)
         {
-            if (ReferenceEquals(_player.ActiveVelocityEffector, this))
+            if (_player.ActiveVelocityEffector is AttachableMovingObject)
+            {
+                if (!ReferenceEquals(_player.ActiveVelocityEffector, this))
+                {
+                    Debug.LogWarning("Removing other attachable moving object - this is likely a bug!");
+                }
                 _player.ActiveVelocityEffector = null;
+            }
             vel += new Vector2(_player.Direction * exitVelBoost.x, exitVelBoost.y);
             _rigidbody.velocity = Vector2.zero;
         }
@@ -194,6 +203,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     {
         _player = player;
         player.ActiveVelocityEffector = this;
+        _player.transform.position = transform.position + (Vector3)playerOffset;
         StartMotion();
     }
 

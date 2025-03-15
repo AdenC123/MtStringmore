@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447cfd83798d4c35bae8b6edc47d8945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0.9}
 --- !u!1 &1119878718924480491
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +253,7 @@ BoxCollider2D:
   m_Offset: {x: 0.67750907, y: 0.044101954}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.7986111, y: 0.7765152}
     oldSize: {x: 2.88, y: 2.64}
     newSize: {x: 2.88, y: 2.64}
     adaptiveTilingThreshold: 0.5
@@ -302,8 +303,9 @@ MonoBehaviour:
   maxSpeed: 100
   accelerationTime: 5
   exitVelBoost: {x: 10, y: 10}
-  firstPosition: {x: 18.726677, y: 4.25}
-  secondPosition: {x: -1.938571, y: 4.25}
+  playerOffset: {x: 0, y: -2.5}
+  firstPosition: {x: 1.39, y: -0.89}
+  secondPosition: {x: -18, y: -0.89}
   pathRenderer: {fileID: 7425019369357927073}
 --- !u!50 &4405664681451709143
 Rigidbody2D:
