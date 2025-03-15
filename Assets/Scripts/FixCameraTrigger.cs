@@ -50,6 +50,17 @@ public class FixCameraTrigger : MonoBehaviour
     private void OnValidate()
     {
         SetValidFixType();
+        // listen, i wanted it to be modified on change but custom property drawers can easily crash the editor and
+        // this is HOPEFULLY a one-off change.
+        if ((fixTypeX == FixCameraType.AllowEqual && !fixX) || (fixTypeX == FixCameraType.None && fixX))
+        {
+            Debug.LogWarning("Mismatch between deprecated field fixX and fixTypeX.");
+        }
+
+        if ((fixTypeY == FixCameraType.AllowEqual && !fixY) || (fixTypeY == FixCameraType.None && fixY))
+        {
+            Debug.LogWarning("Mismatch between deprecated field fixY and fixTypeY.");
+        }
     }
 #pragma warning restore CS0618 // Type or member is obsolete
 
