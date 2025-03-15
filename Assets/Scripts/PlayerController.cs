@@ -135,6 +135,15 @@ public class PlayerController : MonoBehaviour
     /// Current interactable in range.
     /// </summary>
     public AbstractPlayerInteractable CurrentInteractableArea { get; set; }
+    
+    /// <summary>
+    /// Whether the player can use their dash in the air.
+    /// </summary>
+    public bool CanDash
+    {
+        get => _canDash;
+        set => _canDash = value;
+    }
 
     #endregion
 

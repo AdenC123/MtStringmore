@@ -36,6 +36,7 @@ public class BouncyPlatform : MonoBehaviour, IPlayerVelocityEffector
         if (!other.gameObject.TryGetComponent(out _player)) return;
         _bounceArea = other;
         _player.ActiveVelocityEffector = this;
+        _player.CanDash = true;
     }
 
     private void Awake()
