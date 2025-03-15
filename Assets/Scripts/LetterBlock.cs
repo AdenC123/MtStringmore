@@ -4,21 +4,19 @@ using UnityEngine;
 /// <summary>
 /// Choose letter block color, handle shake and break animation
 /// </summary>
+[RequireComponent(typeof(SpriteRenderer))]
 public class LetterBlock : MonoBehaviour
 {
     [SerializeField] private GameObject letter;
     [SerializeField] private GameObject particles;
-    [SerializeField] private float blockBreakDelay;
+    [SerializeField] [Min(0)] private float blockBreakDelay;
     [SerializeField] [Range(0f, 0.1f)] private float delayBetweenShakes = 0f;
     [SerializeField] [Range(0f, 2f)] private float distance = 0.1f;
 
     private SpriteRenderer _renderer;
-    private Vector3 _startPos;
-    private float _timer;
 
     private void Awake()
     {
-        _startPos = transform.position;
         _renderer = GetComponent<SpriteRenderer>();
     }
 
@@ -31,15 +29,11 @@ public class LetterBlock : MonoBehaviour
     
     private IEnumerator Shake()
     {
-        _timer = 0f;
-
-        while (_timer < blockBreakDelay)
+        Vector3 startPos = transform.position;
+        
+        for (float timer = 0; timer < blockBreakDelay; timer += Time.deltaTime)
         {
-            _timer += Time.deltaTime;
-
-            Vector3 randomPos = _startPos + (Random.insideUnitSphere * distance);
-
-            transform.position = randomPos;
+            transform.position = startPos + (Random.insideUnitSphere * distance);;
 
             if (delayBetweenShakes > 0f)
             {
@@ -51,7 +45,7 @@ public class LetterBlock : MonoBehaviour
             }
         }
 
-        transform.position = _startPos;
+        transform.position = startPos;
     }
 
     private IEnumerator Break()
@@ -61,7 +55,6 @@ public class LetterBlock : MonoBehaviour
         _renderer.enabled = false;
         letter.SetActive(false);
         // Give time for particles to spawn, then destroy object and children
-        yield return new WaitForSeconds(blockBreakDelay / 2);
-        Destroy(gameObject);
+        Destroy(gameObject, blockBreakDelay / 2);
     }
 }
