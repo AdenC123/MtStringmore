@@ -38,12 +38,12 @@ public class FixCameraTrigger : MonoBehaviour
     {
         if (fixTypeX == FixCameraType.Invalid)
         {
-            fixTypeX = fixX ? FixCameraType.AllowEqual : FixCameraType.None;
+            fixTypeX = fixX ? FixCameraType.RequireEqual : FixCameraType.None;
             Debug.LogWarning($"Invalid Camera FixType - importing from {fixX}");
         }
         if (fixTypeY == FixCameraType.Invalid)
         {
-            fixTypeY = fixY ? FixCameraType.AllowEqual : FixCameraType.None;
+            fixTypeY = fixY ? FixCameraType.RequireEqual : FixCameraType.None;
             Debug.LogWarning($"Invalid Camera FixType - importing from {fixY}");
         }
     }
@@ -52,12 +52,12 @@ public class FixCameraTrigger : MonoBehaviour
         SetValidFixType();
         // listen, i wanted it to be modified on change but custom property drawers can easily crash the editor and
         // this is HOPEFULLY a one-off change.
-        if ((fixTypeX == FixCameraType.AllowEqual && !fixX) || (fixTypeX == FixCameraType.None && fixX))
+        if ((fixTypeX == FixCameraType.RequireEqual && !fixX) || (fixTypeX == FixCameraType.None && fixX))
         {
             Debug.LogWarning("Mismatch between deprecated field fixX and fixTypeX.");
         }
 
-        if ((fixTypeY == FixCameraType.AllowEqual && !fixY) || (fixTypeY == FixCameraType.None && fixY))
+        if ((fixTypeY == FixCameraType.RequireEqual && !fixY) || (fixTypeY == FixCameraType.None && fixY))
         {
             Debug.LogWarning("Mismatch between deprecated field fixY and fixTypeY.");
         }
@@ -68,7 +68,7 @@ public class FixCameraTrigger : MonoBehaviour
     {
         return fixType switch
         {
-            FixCameraType.AllowEqual => target,
+            FixCameraType.RequireEqual => target,
             FixCameraType.None => original,
             FixCameraType.AllowGreater => Mathf.Min(original, target),
             FixCameraType.AllowLess => Mathf.Max(original, target),
@@ -101,6 +101,6 @@ public class FixCameraTrigger : MonoBehaviour
 
     public enum FixCameraType
     {
-        Invalid, AllowEqual, AllowLess, AllowGreater, None
+        Invalid, RequireEqual, AllowLess, AllowGreater, None
     }
 }
