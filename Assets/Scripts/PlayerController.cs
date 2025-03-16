@@ -472,6 +472,10 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogWarning($"ActiveVelocityEffector == CurrentInteractableArea while State != PlayerStateEnum.OnObject, actual state: {PlayerState}");
             PlayerState = PlayerStateEnum.OnObject;
+            
+            // not sure if we know the player's not gonna be on the ground so this is commented out
+            // _timeLeftGround = _time;
+            // GroundedChanged?.Invoke(false, 0);
         }
         
         if (!CanUseButton() && PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)

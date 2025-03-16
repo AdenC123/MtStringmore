@@ -40,6 +40,9 @@ public class AttachableMovingObject : AbstractPlayerInteractable
 
     [SerializeField, Tooltip("Additional velocity boost on exit")]
     private Vector2 exitVelBoost = new(10, 10);
+
+    [SerializeField, Min(0), Tooltip("Tolerance after zero velocity exit to keep max velocity")]
+    private float exitDelayTime = 0.5f;
     
     [SerializeField, Tooltip("Player offset on attach")]
     private Vector2 playerOffset = new(0, -1);
@@ -66,6 +69,12 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     private Coroutine _activeMotion;
 
     private Rigidbody2D _rigidbody;
+    /// <summary>
+    /// Saved copy of the previous moving rigidbody velocity since we want a short <see cref="exitDelayTime"/>
+    /// where the player would *somehow* still have velocity.
+    ///
+    /// Physics.
+    /// </summary>
     private Vector2 _prevVelocity;
     private PlayerController _player;
 
@@ -132,11 +141,14 @@ public class AttachableMovingObject : AbstractPlayerInteractable
             yield return new WaitForFixedUpdate();
             // yes, I could use possibly use FixedJoint2D, but I suspect that PlayerController may cause problems
             _rigidbody.velocity = EvaluateAt(time) * diff.normalized;
+            _prevVelocity = _rigidbody.velocity;
             time += Time.fixedDeltaTime;
         }
 
         _rigidbody.position = secondPosition;
         _rigidbody.velocity = Vector2.zero;
+        yield return new WaitForSeconds(exitDelayTime);
+        _prevVelocity = _rigidbody.velocity;
     }
 
     /// <summary>
@@ -191,7 +203,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
                 }
                 _player.ActiveVelocityEffector = null;
             }
-            vel += new Vector2(_player.Direction * exitVelBoost.x, exitVelBoost.y);
+            vel = _prevVelocity + new Vector2(_player.Direction * exitVelBoost.x, exitVelBoost.y);
             _rigidbody.velocity = Vector2.zero;
         }
 
