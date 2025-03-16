@@ -458,10 +458,23 @@ public class PlayerController : MonoBehaviour
         if (!CurrentInteractableArea) return;
         if (CanUseButton())
         {
+            // CanUseButton can be true multiple frames so don't re-call StartInteract jic
+            if (PlayerState == PlayerStateEnum.OnObject) return;
             PlayerState = PlayerStateEnum.OnObject;
             CurrentInteractableArea.StartInteract(this);
         }
-        else if (PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)
+
+        // fix for occasional race condition where state changes after moving sometimes
+        // (such as due to weird quirks in how unity persists collision data for 1 additional tick)
+        // thus setting the state to Run/Air without re-setting the player object state
+        // I suspect the swing may have this problem but who puts the swing in contact with the ground?
+        if (ReferenceEquals(ActiveVelocityEffector, CurrentInteractableArea) && PlayerState != PlayerStateEnum.OnObject)
+        {
+            Debug.LogWarning($"ActiveVelocityEffector == CurrentInteractableArea while State != PlayerStateEnum.OnObject, actual state: {PlayerState}");
+            PlayerState = PlayerStateEnum.OnObject;
+        }
+        
+        if (!CanUseButton() && PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)
         {
             _buttonUsed = true;
             CurrentInteractableArea.EndInteract(this);

@@ -202,6 +202,24 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     public override void StartInteract(PlayerController player)
     {
         _player = player;
+        if (_rigidbody.position == secondPosition)
+        {
+            Debug.LogWarning("Attempted interact when motion was finished.");
+            if (player.ActiveVelocityEffector != null)
+            {
+                Debug.LogWarning("Player has active velocity effector when motion is finished!");
+            }
+            if (player.CurrentInteractableArea == this)
+            {
+                player.CurrentInteractableArea = null;
+            }
+            else
+            {
+                Debug.LogWarning("Player current interactable area mismatch on interact final position check");
+            }
+
+            return;
+        }
         player.ActiveVelocityEffector = this;
         _player.transform.position = transform.position + (Vector3)playerOffset;
         StartMotion();
