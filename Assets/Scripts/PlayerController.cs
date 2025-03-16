@@ -248,6 +248,22 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    /// <summary>
+    /// Stops interacting with the interactable.
+    /// </summary>
+    /// <param name="interactable">Requesting interactable, only used to check activity.</param>
+    /// <remarks>
+    /// We could possibly remove the parameter since it's only used for a precondition check,
+    /// but I've left it here in case I screwed up somewhere.
+    /// </remarks>
+    public void StopInteraction(AbstractPlayerInteractable interactable)
+    {
+        Debug.Assert(CurrentInteractableArea == interactable, $"Requested to stop interaction on inactive interactable: {interactable} vs Current {CurrentInteractableArea}");
+        _buttonUsed = true;
+        CurrentInteractableArea.EndInteract(this);
+        PlayerState = PlayerStateEnum.Air;
+    }
+    
     #region Private Methods
 
     private RaycastHit2D CapsuleCastCollision(Vector2 direction, float distance)
@@ -456,28 +472,34 @@ public class PlayerController : MonoBehaviour
     private void HandleInteractables()
     {
         if (!CurrentInteractableArea) return;
+        bool previouslyGrounded = PlayerState == PlayerStateEnum.Run;
         if (CanUseButton())
         {
             // CanUseButton can be true multiple frames so don't re-call StartInteract jic
             if (PlayerState == PlayerStateEnum.OnObject) return;
             PlayerState = PlayerStateEnum.OnObject;
             CurrentInteractableArea.StartInteract(this);
+            if (previouslyGrounded)
+            {
+                _timeLeftGround = _time;
+                GroundedChanged?.Invoke(false, 0);
+            }
         }
 
         // fix for occasional race condition where state changes after moving sometimes
         // (such as due to weird quirks in how unity persists collision data for 1 additional tick)
         // thus setting the state to Run/Air without re-setting the player object state
         // I suspect the swing may have this problem but who puts the swing in contact with the ground?
+        // should we just have the grounded check first check if you're on an object?
         if (ReferenceEquals(ActiveVelocityEffector, CurrentInteractableArea) && PlayerState != PlayerStateEnum.OnObject)
         {
             Debug.LogWarning($"ActiveVelocityEffector == CurrentInteractableArea while State != PlayerStateEnum.OnObject, actual state: {PlayerState}");
-            bool groundedRaceConditionCheck = PlayerState == PlayerStateEnum.Run;
             PlayerState = PlayerStateEnum.OnObject;
             
             // not sure if it's guaranteed for the player to not be on the ground when on the object
             // (e.g. if we build objects that push the player along the ground or something like that)
             // but this is required to stop the footsteps from playing.
-            if (groundedRaceConditionCheck)
+            if (previouslyGrounded)
             {
                 _timeLeftGround = _time;
                 GroundedChanged?.Invoke(false, 0);
@@ -486,9 +508,7 @@ public class PlayerController : MonoBehaviour
         
         if (!CanUseButton() && PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)
         {
-            _buttonUsed = true;
-            CurrentInteractableArea.EndInteract(this);
-            PlayerState = PlayerStateEnum.Air;
+            StopInteraction(CurrentInteractableArea);
         }
     }
 

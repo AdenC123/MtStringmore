@@ -149,6 +149,12 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         _rigidbody.velocity = Vector2.zero;
         yield return new WaitForSeconds(exitDelayTime);
         _prevVelocity = _rigidbody.velocity;
+        _player.StopInteraction(this);
+        EndInteract(_player);
+        // This does two things:
+        //  - Disallows interaction
+        //  - Stops the race condition check from happening
+        if (_player.CurrentInteractableArea == this) _player.CurrentInteractableArea = null;
     }
 
     /// <summary>
