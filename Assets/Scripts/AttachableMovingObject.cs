@@ -43,7 +43,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
 
     [SerializeField, Min(0), Tooltip("Tolerance after zero velocity exit to keep max velocity")]
     private float exitDelayTime = 0.5f;
-    
+
     [SerializeField, Tooltip("Player offset on attach")]
     private Vector2 playerOffset = new(0, -1);
 
@@ -59,8 +59,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     [Tooltip("Second position (world space)")]
     public Vector2 secondPosition;
 
-    [Tooltip("Path renderer")]
-    public MovingObjectPathRenderer pathRenderer;
+    [Tooltip("Path renderer")] public MovingObjectPathRenderer pathRenderer;
 
     /// <remarks>
     /// I know the new reset logic hasn't been merged in yet,
@@ -69,6 +68,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     private Coroutine _activeMotion;
 
     private Rigidbody2D _rigidbody;
+
     /// <summary>
     /// Saved copy of the previous moving rigidbody velocity since we want a short <see cref="exitDelayTime"/>
     /// where the player would *somehow* still have velocity.
@@ -76,6 +76,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     /// Physics.
     /// </summary>
     private Vector2 _prevVelocity;
+
     private PlayerController _player;
 
     /// <inheritdoc />
@@ -207,8 +208,10 @@ public class AttachableMovingObject : AbstractPlayerInteractable
                 {
                     Debug.LogWarning("Removing other attachable moving object - this is likely a bug!");
                 }
+
                 _player.ActiveVelocityEffector = null;
             }
+
             vel = _prevVelocity + new Vector2(_player.Direction * exitVelBoost.x, exitVelBoost.y);
             _rigidbody.velocity = Vector2.zero;
         }
@@ -227,6 +230,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
             {
                 Debug.LogWarning("Player has active velocity effector when motion is finished!");
             }
+
             if (player.CurrentInteractableArea == this)
             {
                 player.CurrentInteractableArea = null;
@@ -238,6 +242,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
 
             return;
         }
+
         player.ActiveVelocityEffector = this;
         _player.transform.position = transform.position + (Vector3)playerOffset;
         StartMotion();
@@ -285,7 +290,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         {
             List<RaycastHit2D> hits = new();
             body.position = firstPosition;
-            body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition-firstPosition).magnitude);
+            body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition - firstPosition).magnitude);
             foreach (RaycastHit2D hit in hits)
             {
                 // some wack things may happen if the player collides with something while moving

@@ -10,14 +10,15 @@ using UnityEngine;
 public class FixCameraTrigger : MonoBehaviour
 {
     [SerializeField] private Vector2 targetOffset;
+
     [Obsolete("Please use fixTypeX"), Tooltip("Obsolete: please use fixTypeX")]
     public bool fixX = true;
 
     public FixCameraType fixTypeX = FixCameraType.Invalid;
 
-    [Obsolete("Please use fixTypeY"), Tooltip("Obsolete: please use fixTypeY")]  
+    [Obsolete("Please use fixTypeY"), Tooltip("Obsolete: please use fixTypeY")]
     public bool fixY = true;
-    
+
     public FixCameraType fixTypeY = FixCameraType.Invalid;
 
     private Vector2 _bound;
@@ -31,7 +32,7 @@ public class FixCameraTrigger : MonoBehaviour
         SetValidFixType();
     }
 
-    
+
 #pragma warning disable CS0618 // Type or member is obsolete
 
     private void SetValidFixType()
@@ -41,12 +42,14 @@ public class FixCameraTrigger : MonoBehaviour
             fixTypeX = fixX ? FixCameraType.RequireEqual : FixCameraType.None;
             Debug.LogWarning($"Invalid Camera FixType - importing from fixX: {fixTypeX}");
         }
+
         if (fixTypeY == FixCameraType.Invalid)
         {
             fixTypeY = fixY ? FixCameraType.RequireEqual : FixCameraType.None;
             Debug.LogWarning($"Invalid Camera FixType - importing from fixY: {fixTypeY}");
         }
     }
+
     private void OnValidate()
     {
         SetValidFixType();
@@ -75,7 +78,7 @@ public class FixCameraTrigger : MonoBehaviour
             _ => original
         };
     }
-    
+
     public Vector2 AffectTarget(Vector2 target)
     {
         target.x = AffectField(target.x, _bound.x, fixTypeX);
@@ -102,18 +105,19 @@ public class FixCameraTrigger : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Awake();
-        
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(_bound, Vector3.one);
         Gizmos.color = Color.white;
         Camera cam = _cam.GetComponent<Camera>();
-        Vector3 cameraBounds = new(cam.orthographicSize * cam.aspect*2, cam.orthographicSize*2, 1);
+        Vector3 cameraBounds = new(cam.orthographicSize * cam.aspect * 2, cam.orthographicSize * 2, 1);
         Gizmos.DrawWireCube(_bound, cameraBounds);
         Gizmos.color = Color.green;
         if (fixTypeX is FixCameraType.AllowGreater or FixCameraType.None)
         {
             Gizmos.DrawRay(_bound, Vector3.right);
         }
+
         if (fixTypeX is FixCameraType.AllowLess or FixCameraType.None)
         {
             Gizmos.DrawRay(_bound, Vector3.left);
@@ -124,6 +128,7 @@ public class FixCameraTrigger : MonoBehaviour
         {
             Gizmos.DrawRay(_bound, Vector3.up);
         }
+
         if (fixTypeY is FixCameraType.AllowLess or FixCameraType.None)
         {
             Gizmos.DrawRay(_bound, Vector3.down);
@@ -132,6 +137,10 @@ public class FixCameraTrigger : MonoBehaviour
 
     public enum FixCameraType
     {
-        Invalid, RequireEqual, AllowLess, AllowGreater, None
+        Invalid,
+        RequireEqual,
+        AllowLess,
+        AllowGreater,
+        None
     }
 }
