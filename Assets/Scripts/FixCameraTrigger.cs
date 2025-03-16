@@ -39,12 +39,12 @@ public class FixCameraTrigger : MonoBehaviour
         if (fixTypeX == FixCameraType.Invalid)
         {
             fixTypeX = fixX ? FixCameraType.RequireEqual : FixCameraType.None;
-            Debug.LogWarning($"Invalid Camera FixType - importing from {fixX}");
+            Debug.LogWarning($"Invalid Camera FixType - importing from fixX: {fixTypeX}");
         }
         if (fixTypeY == FixCameraType.Invalid)
         {
             fixTypeY = fixY ? FixCameraType.RequireEqual : FixCameraType.None;
-            Debug.LogWarning($"Invalid Camera FixType - importing from {fixY}");
+            Debug.LogWarning($"Invalid Camera FixType - importing from fixY: {fixTypeY}");
         }
     }
     private void OnValidate()
