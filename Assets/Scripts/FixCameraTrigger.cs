@@ -70,8 +70,8 @@ public class FixCameraTrigger : MonoBehaviour
         {
             FixCameraType.RequireEqual => target,
             FixCameraType.None => original,
-            FixCameraType.AllowGreater => Mathf.Min(original, target),
-            FixCameraType.AllowLess => Mathf.Max(original, target),
+            FixCameraType.AllowGreater => Mathf.Max(original, target),
+            FixCameraType.AllowLess => Mathf.Min(original, target),
             _ => original
         };
     }
@@ -96,6 +96,37 @@ public class FixCameraTrigger : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             _cam.ExitFixCameraTrigger(this);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Awake();
+        
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(_bound, Vector3.one);
+        Gizmos.color = Color.white;
+        Camera cam = _cam.GetComponent<Camera>();
+        Vector3 cameraBounds = new(cam.orthographicSize * cam.aspect*2, cam.orthographicSize*2, 1);
+        Gizmos.DrawWireCube(_bound, cameraBounds);
+        Gizmos.color = Color.green;
+        if (fixTypeX is FixCameraType.AllowGreater or FixCameraType.None)
+        {
+            Gizmos.DrawRay(_bound, Vector3.right);
+        }
+        if (fixTypeX is FixCameraType.AllowLess or FixCameraType.None)
+        {
+            Gizmos.DrawRay(_bound, Vector3.left);
+        }
+
+        Gizmos.color = Color.red;
+        if (fixTypeY is FixCameraType.AllowGreater or FixCameraType.None)
+        {
+            Gizmos.DrawRay(_bound, Vector3.up);
+        }
+        if (fixTypeY is FixCameraType.AllowLess or FixCameraType.None)
+        {
+            Gizmos.DrawRay(_bound, Vector3.down);
         }
     }
 
