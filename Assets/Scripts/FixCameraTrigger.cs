@@ -67,18 +67,30 @@ public class FixCameraTrigger : MonoBehaviour
     }
 #pragma warning restore CS0618 // Type or member is obsolete
 
-    private static float AffectField(float original, float target, FixCameraType fixType)
+    /// <summary>
+    /// Locks a specific field/value within the provided FixCameraType settings.
+    /// </summary>
+    /// <param name="original">Original value</param>
+    /// <param name="bound">Bound for the fix type</param>
+    /// <param name="fixType">FixCameraType lock type</param>
+    /// <returns>Original field adjusted</returns>
+    private static float AffectField(float original, float bound, FixCameraType fixType)
     {
         return fixType switch
         {
-            FixCameraType.RequireEqual => target,
+            FixCameraType.RequireEqual => bound,
             FixCameraType.None => original,
-            FixCameraType.AllowGreater => Mathf.Max(original, target),
-            FixCameraType.AllowLess => Mathf.Min(original, target),
+            FixCameraType.AllowGreater => Mathf.Max(original, bound),
+            FixCameraType.AllowLess => Mathf.Min(original, bound),
             _ => original
         };
     }
 
+    /// <summary>
+    /// Locks the target camera viewpoint with this trigger's settings.
+    /// </summary>
+    /// <param name="target">Target camera viewpoint</param>
+    /// <returns>Target adjusted for lock settings</returns>
     public Vector2 AffectTarget(Vector2 target)
     {
         target.x = AffectField(target.x, _bound.x, fixTypeX);
@@ -135,12 +147,33 @@ public class FixCameraTrigger : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Enumeration of the types of camera locks.
+    /// </summary>
     public enum FixCameraType
     {
+        /// <summary>
+        /// Type is undefined - imports from <see cref="fixX"/> and <see cref="fixY"/>
+        /// </summary>
+        /// <remarks>
+        /// Needed to maintain compatibility - gets auto-set to <see cref="RequireEqual"/> or <see cref="None"/>.
+        /// </remarks>
         Invalid,
+        /// <summary>
+        /// Fixes the target to a specific coordinate.
+        /// </summary>
         RequireEqual,
+        /// <summary>
+        /// Allows the target value to be less than or equal to a specific coordinate.
+        /// </summary>
         AllowLess,
+        /// <summary>
+        /// Allows the target value to be greater than or equal to a specific coordinate.
+        /// </summary>
         AllowGreater,
+        /// <summary>
+        /// Does not perform locking at all.
+        /// </summary>
         None
     }
 }
