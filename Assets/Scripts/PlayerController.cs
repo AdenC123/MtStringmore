@@ -471,11 +471,17 @@ public class PlayerController : MonoBehaviour
         if (ReferenceEquals(ActiveVelocityEffector, CurrentInteractableArea) && PlayerState != PlayerStateEnum.OnObject)
         {
             Debug.LogWarning($"ActiveVelocityEffector == CurrentInteractableArea while State != PlayerStateEnum.OnObject, actual state: {PlayerState}");
+            bool groundedRaceConditionCheck = PlayerState == PlayerStateEnum.Run;
             PlayerState = PlayerStateEnum.OnObject;
             
-            // not sure if we know the player's not gonna be on the ground so this is commented out
-            // _timeLeftGround = _time;
-            // GroundedChanged?.Invoke(false, 0);
+            // not sure if it's guaranteed for the player to not be on the ground when on the object
+            // (e.g. if we build objects that push the player along the ground or something like that)
+            // but this is required to stop the footsteps from playing.
+            if (groundedRaceConditionCheck)
+            {
+                _timeLeftGround = _time;
+                GroundedChanged?.Invoke(false, 0);
+            }
         }
         
         if (!CanUseButton() && PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)
