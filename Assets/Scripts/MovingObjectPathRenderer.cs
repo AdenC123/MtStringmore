@@ -28,5 +28,8 @@ public class MovingObjectPathRenderer : MonoBehaviour
         spriteRenderer.size = size;
         transform.position = attachableMovingObject.firstPosition + offset + distance / 2;
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(distance.y, distance.x) * Mathf.Rad2Deg);
+        float movingObjectAngle = Mathf.Atan2(distance.y, distance.x) * Mathf.Rad2Deg;
+        if (Mathf.Abs(movingObjectAngle) > 90) movingObjectAngle -= Mathf.Sign(movingObjectAngle) * 180;
+        attachableMovingObject.transform.rotation = Quaternion.Euler(0, 0, movingObjectAngle);
     }
 }

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 976494770330979980}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: -0.00000004371139}
-  m_LocalPosition: {x: -8, y: 0, z: 1}
+  m_LocalPosition: {x: -8, y: -0.89, z: 0}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447cfd83798d4c35bae8b6edc47d8945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0.9}
+  offset: {x: 0, y: 0}
 --- !u!1 &1119878718924480491
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +250,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.67750907, y: 0.044101954}
+  m_Offset: {x: -0.15, y: -0.75}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.7986111, y: 0.7765152}
@@ -261,7 +261,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7732139, y: 2.732418}
+  m_Size: {x: 1.6, y: 2.7}
   m_EdgeRadius: 0
 --- !u!114 &4584647155902881460
 MonoBehaviour:
@@ -303,6 +303,7 @@ MonoBehaviour:
   maxSpeed: 100
   accelerationTime: 5
   exitVelBoost: {x: 10, y: 10}
+  exitDelayTime: 0.5
   playerOffset: {x: 0, y: -2.5}
   firstPosition: {x: 1.39, y: -0.89}
   secondPosition: {x: -18, y: -0.89}

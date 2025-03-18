@@ -244,7 +244,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         }
 
         player.ActiveVelocityEffector = this;
-        _player.transform.position = transform.position + (Vector3)playerOffset;
+        _player.transform.position = transform.position + transform.TransformDirection(playerOffset);
         StartMotion();
     }
 
