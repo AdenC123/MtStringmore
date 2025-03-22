@@ -46,9 +46,8 @@ public class GrahamCrackerBehaviour : MonoBehaviour
         if (other.collider.TryGetComponent(out PlayerController playerController))
         {
             playerController.ForceKill();
-        }
-
-        StartCoroutine(RecoverCoroutine());
+            _rigidbody2D.bodyType = RigidbodyType2D.Static;
+        } else StartCoroutine(RecoverCoroutine());
     }
 
     private void FixedUpdate()
