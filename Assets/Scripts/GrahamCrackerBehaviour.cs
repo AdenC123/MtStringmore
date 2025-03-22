@@ -15,15 +15,19 @@ public class GrahamCrackerBehaviour : MonoBehaviour
 {
     [SerializeField, Min(0), Tooltip("Time in up state, seconds")]
     private float timeStayUp = 4;
+
     [SerializeField, Min(0), Tooltip("Velocity down, m/s")]
     private float velocityDown = 10;
+
     [SerializeField, Min(0), Tooltip("Velocity up, m/s")]
     private float velocityUp = 5;
+
     [SerializeField, Min(0), Tooltip("Time staying down, seconds")]
     private float timeStayDown;
+
     [SerializeField, Tooltip("Bottom collider")]
     private Collider2D bottomCollider;
-    
+
     private Rigidbody2D _rigidbody2D;
     private float _startingY;
     private State _state;
@@ -82,6 +86,7 @@ public class GrahamCrackerBehaviour : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
         }
+
         _rigidbody2D.velocity = Vector2.zero;
         StartCoroutine(SlamRoutine());
     }
@@ -95,14 +100,17 @@ public class GrahamCrackerBehaviour : MonoBehaviour
         /// Currently waiting at the top.
         /// </summary>
         WaitTop,
+
         /// <summary>
         /// Currently waiting at the bottom.
         /// </summary>
         WaitBottom,
+
         /// <summary>
         /// Currently moving down.
         /// </summary>
         MoveDown,
+
         /// <summary>
         /// Currently moving up.
         /// </summary>

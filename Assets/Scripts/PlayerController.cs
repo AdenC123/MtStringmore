@@ -271,7 +271,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleDeath();
     }
-    
+
     #region Private Methods
 
     private RaycastHit2D CapsuleCastCollision(Vector2 direction, float distance)
