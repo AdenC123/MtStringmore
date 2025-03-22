@@ -140,6 +140,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
     private IPlayerVelocityEffector _activeEffector;
+    private ParticleSystem _landingDust;
 
     private float _time;
     private float _timeButtonPressed;
@@ -170,6 +171,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
+        _landingDust = GetComponentInChildren<ParticleSystem>();
         _buttonUsed = true;
         Direction = startDirection;
     }
@@ -293,6 +295,7 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Run;
             _canDoubleJump = true;
             GroundedChanged?.Invoke(true, Mathf.Abs(_velocity.y));
+            _landingDust.Play();
         }
 
         if (PlayerState == PlayerStateEnum.RightWallSlide && !rightWallHit ||
