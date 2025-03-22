@@ -269,7 +269,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void ForceKill()
     {
-        HandleDash();
+        HandleDeath();
     }
     
     #region Private Methods
