@@ -27,6 +27,8 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private AudioClip landSound;
     [SerializeField] private AudioClip wallSlideSound;
     [SerializeField] private AudioClip[] deathSounds;
+    [SerializeField] private AudioClip swingAttachSound;
+    [SerializeField] private AudioClip swingDetachSound;
     // @formatter:on
 
     #endregion
@@ -68,6 +70,8 @@ public class PlayerAnimator : MonoBehaviour
         _player.WallChanged += OnWallChanged;
         _player.Death += OnDeath;
         _player.Dashed += OnDash;
+        _player.SwingAttached += OnSwingAttach;
+        _player.SwingDetached += OnSwingDetach;
 
         // _moveParticles.Play();
     }
@@ -206,6 +210,22 @@ public class PlayerAnimator : MonoBehaviour
     {
         _source.clip = dashSound;
         _source.PlayOneShot(dashSound);
+    }
+
+    private void OnSwingAttach()
+    {
+        if (!_source.isPlaying || _source.clip != swingAttachSound) // to avoid triggering the audio twice at the same time
+        {
+            _source.clip = swingAttachSound;
+            _source.PlayOneShot(swingAttachSound);
+        }
+    }
+
+
+    private void OnSwingDetach()
+    {
+        _source.clip = swingDetachSound;
+        _source.PlayOneShot(swingDetachSound);
     }
 
     // private void DetectGroundColor()

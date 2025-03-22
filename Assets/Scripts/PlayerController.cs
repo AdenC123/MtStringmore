@@ -123,6 +123,8 @@ public class PlayerController : MonoBehaviour
     public event Action Dashed;
     public event Action DoubleJumped;
     public event Action Death;
+    public event Action SwingAttached;
+    public event Action SwingDetached;
 
     /// <summary>
     /// If true, skips death logic.
@@ -478,6 +480,7 @@ public class PlayerController : MonoBehaviour
             // in swing area, button pressed
             PlayerState = PlayerStateEnum.Swing;
             ropeRenderer.enabled = true;
+            SwingAttached?.Invoke();
         }
         else if (PlayerState is PlayerStateEnum.Swing && _isButtonHeld)
         {
@@ -512,6 +515,8 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Air;
             ropeRenderer.enabled = false;
             _canSwing = false;
+
+            SwingDetached?.Invoke();
 
             if (_swingStarted)
             {

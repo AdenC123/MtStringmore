@@ -157,6 +157,8 @@ MonoBehaviour:
   deathSounds:
   - {fileID: 8300000, guid: c81b8a0512e132e4cbdff16ff3c341e9, type: 3}
   - {fileID: 8300000, guid: e9de9b181cfc6804e9e615db52c9d7ad, type: 3}
+  swingAttachSound: {fileID: 8300000, guid: 82afc0648246a294abeeb2afc5506006, type: 3}
+  swingDetachSound: {fileID: 8300000, guid: 61d82935011edfa4786aeb22c3a5da8d, type: 3}
 --- !u!1 &4217790213014453210
 GameObject:
   m_ObjectHideFlags: 0
