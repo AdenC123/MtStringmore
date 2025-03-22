@@ -2191,7 +2191,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2.5
 --- !u!212 &87838741
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2305,8 +2305,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   offset: {x: 0, y: -1, z: 0}
-  minSpeed: 1
-  maxSpeed: 1
+  minSpeed: 10
+  maxSpeed: 10
   accelerationTime: 1
   exitVelBoost: {x: 10, y: 10}
   attachRayDistance: 0.1

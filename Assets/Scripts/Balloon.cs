@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -55,6 +56,7 @@ public class Balloon : AbstractPlayerInteractable
     private Vector2 _prevVelocity;
     private PlayerController _player;
     private float positionTolerance = 0.1f; //distance between curr position and second position before respawning
+    private bool playerAttached = false;
 
     
     /// <inheritdoc />
@@ -120,8 +122,8 @@ public class Balloon : AbstractPlayerInteractable
             yield return new WaitForFixedUpdate();
             // yes, I could use possibly use FixedJoint2D, but I suspect that PlayerController may cause problems
             
-            // respawn logic, if balloon at second position w/o player, then respawn balloon in start position
-            if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance)
+            // respawn logic, if balloon reaches second position w/o player, then respawn balloon in start position
+            if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance && !playerAttached)
             {
                 RespawnBalloon();
                 yield break;
@@ -161,6 +163,7 @@ public class Balloon : AbstractPlayerInteractable
     /// <inheritdoc />
     public override void OnPlayerEnter(PlayerController player)
     {
+        playerAttached = true;
         if (_rigidbody.position == secondPosition)
         {
             // disallow re-attaching if reached
@@ -174,6 +177,11 @@ public class Balloon : AbstractPlayerInteractable
     /// <inheritdoc />
     public override void OnPlayerExit(PlayerController player)
     {
+        playerAttached = false;
+        if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance)
+        {
+            RespawnBalloon();
+        }
     }
 
     /// <inheritdoc />
@@ -275,6 +283,7 @@ public class Balloon : AbstractPlayerInteractable
     
     private void RespawnBalloon()
     {
+        playerAttached = false;
         _rigidbody.position = firstPosition;
         StopMotion();
         Debug.Log("Balloon has respawned at the first position.");
