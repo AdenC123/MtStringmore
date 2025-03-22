@@ -141,6 +141,8 @@ public class PlayerController : MonoBehaviour
     private CapsuleCollider2D _col;
     private IPlayerVelocityEffector _activeEffector;
     private ParticleSystem _landingDust;
+    private ParticleSystem _leftWallSlideDust;
+    private ParticleSystem _rightWallSlideDust;
 
     private float _time;
     private float _timeButtonPressed;
@@ -171,7 +173,23 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
-        _landingDust = GetComponentInChildren<ParticleSystem>();
+        ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
+        
+        foreach (ParticleSystem ps in particleSystems)
+        {
+            switch (ps.gameObject.name)
+            {
+                case "LandingDust":
+                    _landingDust = ps;
+                    break;
+                case "LeftWallSlidingDust":
+                    _leftWallSlideDust = ps;
+                    break;
+                case "RightWallSlidingDust":
+                    _rightWallSlideDust = ps;
+                    break;
+            }
+        }
         _buttonUsed = true;
         Direction = startDirection;
     }
@@ -301,6 +319,36 @@ public class PlayerController : MonoBehaviour
         if (PlayerState == PlayerStateEnum.RightWallSlide && !rightWallHit ||
             PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit)
             PlayerState = PlayerStateEnum.Air;
+        
+        if (PlayerState == PlayerStateEnum.LeftWallSlide)
+        {
+            if (!_leftWallSlideDust.isPlaying)
+            {
+                _leftWallSlideDust.Play();
+            }
+        }
+        else
+        {
+            if (_leftWallSlideDust.isPlaying)
+            {
+                _leftWallSlideDust.Stop();
+            }
+        }
+        
+        if (PlayerState == PlayerStateEnum.RightWallSlide)
+        {
+            if (!_rightWallSlideDust.isPlaying)
+            {
+                _rightWallSlideDust.Play();
+            }
+        }
+        else
+        {
+            if (_rightWallSlideDust.isPlaying)
+            {
+                _rightWallSlideDust.Stop();
+            }
+        }
     }
 
     private void HandleDeath()
