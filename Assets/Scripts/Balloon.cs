@@ -23,6 +23,12 @@ public class Balloon : AbstractPlayerInteractable
  
     [SerializeField, Min(0), Tooltip("Additional velocity boost on exit")]
     private Vector2 exitVelBoost = new(10, 10);
+    
+    [SerializeField, Tooltip("Distance to ensure player does not clip into ground")]
+    private float attachRayDistance = 0.1f;
+    
+    [SerializeField, Tooltip("Access to groundlayer to make check attach requirements")]
+    private LayerMask groundLayerMask;
 
     /// <remarks>
     /// Has to be public to allow the editor to modify this without reflection.
@@ -48,7 +54,7 @@ public class Balloon : AbstractPlayerInteractable
     private Rigidbody2D _rigidbody;
     private Vector2 _prevVelocity;
     private PlayerController _player;
-
+    
     /// <inheritdoc />
     public override bool IgnoreGravity => true;
 
@@ -174,15 +180,37 @@ public class Balloon : AbstractPlayerInteractable
 
         return vel;
     }
-
+    
+    /// <summary>
+    /// Ensures character will not clip into the ground when attachting to balloon.
+    /// </summary>
     /// <inheritdoc />
     public override void StartInteract(PlayerController player)
     {
         _player = player;
-        player.ActiveVelocityEffector = this;
-        player.transform.position = transform.position + offset;
-        StartMotion();
+        
+        Vector2 targetPosition  = (Vector2)transform.position + (Vector2)offset;
+        if (CanAttachAtPosition(targetPosition))
+        {
+            player.transform.position = targetPosition;
+            player.ActiveVelocityEffector = this;
+            StartMotion();
+        }
+        else
+        {
+            Debug.Log("Cannot attach, distance to ground too small");
+        }
     }
+    
+    private bool CanAttachAtPosition(Vector2 targetPosition)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(targetPosition, Vector2.down, attachRayDistance, groundLayerMask);
+
+        // If the ray hits ground and it's too close, do not attach
+        return hit.collider == null;
+    }
+    
+
 
     /// <inheritdoc />
     public override void EndInteract(PlayerController player)
