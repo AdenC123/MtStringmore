@@ -1,12 +1,18 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
 
 public class CutsceneManager : MonoBehaviour
 {
+    private static AudioSource _source;
     [SerializeField] private string nextScene;
+
+    private void Awake()
+    {
+        _source = GetComponent<AudioSource>();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.K)) NextScene();
@@ -16,5 +22,15 @@ public class CutsceneManager : MonoBehaviour
     public void NextScene()
     {
         if (nextScene != "") SceneManager.LoadScene(nextScene);
+    }
+
+    [YarnCommand("play_sound")]
+    public static IEnumerator PlaySound(string soundName, bool blockUntilDone = true)
+    {
+        _source.PlayOneShot(Resources.Load<AudioClip>(soundName));
+        while (blockUntilDone && _source.isPlaying)
+        {
+            yield return null;
+        }
     }
 }

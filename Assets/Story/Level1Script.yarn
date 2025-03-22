@@ -4,7 +4,9 @@ setting: outside Knitby's house
 <<follow_object Marshmallow>>
 <<move Marshmallow 2 1 10 true>>
 // marshmallow knocks on Knitby's door
-// knitby opens the door with a creak
+<<play_sound door_knock>>
+// knitby opens the door
+<<play_sound door_open>>
 <<show Knitby>>
 <<wait 0.5>>
 <<fix_object Knitby>>
