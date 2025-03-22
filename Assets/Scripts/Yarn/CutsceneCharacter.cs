@@ -58,10 +58,9 @@ namespace Yarn
         {
             // wait until current animation is finished
             var finishTime = Mathf.CeilToInt(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-            yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= finishTime ||
-                                             Mathf.Approximately(
+            yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= finishTime &&
+                                             !Mathf.Approximately(
                                                  _animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 0.0f));
-            Debug.Log(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
             _animator.enabled = state;
         }
     }

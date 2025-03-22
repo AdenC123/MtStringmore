@@ -1,5 +1,5 @@
 ﻿title: SummitCutscene
-setting: the summit
+setting: the summit of mt. stringmore
 ---
 Marshmallow: You did a lot of stretching there, are you alright?
 Knitby: 
@@ -26,3 +26,5 @@ Knitby: So... how do we get down?
 Marshmallow: Uhhh... 
 // end
 // <<load_scene Credits>>
+
+===
