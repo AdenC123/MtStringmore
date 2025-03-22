@@ -215,7 +215,7 @@ public class Balloon : AbstractPlayerInteractable
     /// <inheritdoc />
     public override void EndInteract(PlayerController player)
     {
-        StopMotion();
+        player.ActiveVelocityEffector = null;
     }
 
     private void Awake()
