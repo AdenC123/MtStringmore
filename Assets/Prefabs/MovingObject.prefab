@@ -303,7 +303,7 @@ MonoBehaviour:
   maxSpeed: 100
   accelerationTime: 5
   exitVelBoost: {x: 10, y: 10}
-  exitDelayTime: 0.5
+  exitDelayTime: 0.1
   playerOffset: {x: 0, y: -2.5}
   firstPosition: {x: 1.39, y: -0.89}
   secondPosition: {x: -18, y: -0.89}
