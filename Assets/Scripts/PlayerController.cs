@@ -263,6 +263,14 @@ public class PlayerController : MonoBehaviour
         CurrentInteractableArea.EndInteract(this);
         PlayerState = PlayerStateEnum.Air;
     }
+
+    /// <summary>
+    /// Force kills the player.
+    /// </summary>
+    public void ForceKill()
+    {
+        HandleDash();
+    }
     
     #region Private Methods
 

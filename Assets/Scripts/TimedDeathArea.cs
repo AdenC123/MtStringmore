@@ -43,7 +43,7 @@ public class TimedDeathArea : MonoBehaviour
             yield return new WaitForSeconds(timeToDeath / PlayerAnimator.NumRoastStates);
         }
 
-        _playerController.SendMessage("HandleDeath");
+        _playerController.ForceKill();
         _coroutine = null;
     }
 }
