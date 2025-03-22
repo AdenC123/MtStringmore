@@ -92,4 +92,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetOffset: {x: 0, y: 0}
   fixX: 1
+  fixTypeX: 0
   fixY: 1
+  fixTypeY: 0
