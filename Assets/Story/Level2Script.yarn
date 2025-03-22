@@ -1,15 +1,27 @@
 ﻿title: Level2Cutscene
 setting: on the way up the mountain 
 ---
-Knitby_relieved: Whew, that was close! It's getting more and more dangerous up here
+Knitby_relieved: Whew, that was close! It's getting more and more dangerous up here.
 Marshmallow: And we're only just getting started!
-Knitby_frown: You don't know the half of it. The steepest cliffs and treacherous drops are still ahead of us.
-Marshmallow: Don't <i>lecture</i> me, Knitby!
+Knitby_frown: You don't know the half of it. The steepest cliffs and most treacherous drops are still ahead of us.
+Marshmallow_frown: Don't <i>lecture</i> me, Knitby!
+// knitby sighs
 Knitby: I'm just trying to look out for you, Marshmallow. You need to be more watchful.
+// i sorta imagine marshmallow with a "hmpf" expression, like the triumph emoji
 Marshmallow: Nope! No hesitation allowed, or we won't make it to the summit.
 Knitby: That attitude is going to get you hurt, Marshmallow, or worse!
-Knitby: Look, just... don't abandon me, okay?
-Marshmallow: I would never leave you behind, you have my word. Now, shall we go?
+// knitby is like pleading
+Knitby: Look, there's no shame in turning back if it gets too hard. 
+Knitby: Promise me you're going to be more careful from here on out?
+Marshmallow: C'mon Knitby, it really hasn't been that bad so far.
+Marshmallow: Like, what is there to be worried about?
+Knitby: What if my grip slips and you fall? What if <i>I</i> fall? What if—
+// a determined marshmallow
+Marshmallow: Look, Knitby, I'm getting to the top, risks and all.
+// knitby, worried about abandonment, holding back tears
+Knitby: ... but, with me, right?
+Marshmallow: Of course. Now, shall we go?
+// a sniffling knitby agrees
 Knitby: ... okay.
 // <<load_scene Level2>>
 
