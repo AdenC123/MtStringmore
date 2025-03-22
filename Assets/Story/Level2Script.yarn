@@ -15,14 +15,14 @@ Knitby: Look, there's no shame in turning back if it gets too hard.
 Knitby: Promise me you're going to be more careful from here on out?
 Marshmallow: C'mon Knitby, it really hasn't been that bad so far.
 Marshmallow: Like, what is there to be worried about?
-Knitby: What if my grip slips and you fall? What if <i>I</i> fall? What if—
+Knitby: <i>So</i> much could go wrong. We really shouldn't have come here, this is too dangerous. What if— 
 // a determined marshmallow
 Marshmallow: Look, Knitby, I'm getting to the top, risks and all.
 // knitby, worried about abandonment, holding back tears
-Knitby: ... but, with me, right?
-Marshmallow: Of course. Now, shall we go?
-// a sniffling knitby agrees
-Knitby: ... okay.
+Knitby: ... You're absolutely sure you still want to do this?
+Marshmallow: As sure as ever. Now, shall we go?
+// knitby reluctantly agrees
+Knitby: ... Okay.
 // <<load_scene Level2>>
 
 ===
