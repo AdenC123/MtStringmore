@@ -27,7 +27,7 @@ public class Balloon : AbstractPlayerInteractable
     [SerializeField, Tooltip("Distance to ensure player does not clip into ground")]
     private float attachRayDistance = 0.1f;
     
-    [SerializeField, Tooltip("Access to groundlayer to make check attach requirements")]
+    [SerializeField, Tooltip("Access to groundLayer to check attach requirements")]
     private LayerMask groundLayerMask;
 
     /// <remarks>
@@ -54,6 +54,8 @@ public class Balloon : AbstractPlayerInteractable
     private Rigidbody2D _rigidbody;
     private Vector2 _prevVelocity;
     private PlayerController _player;
+    private float positionTolerance = 0.1f; //distance between curr position and second position before respawning
+
     
     /// <inheritdoc />
     public override bool IgnoreGravity => true;
@@ -117,6 +119,14 @@ public class Balloon : AbstractPlayerInteractable
         {
             yield return new WaitForFixedUpdate();
             // yes, I could use possibly use FixedJoint2D, but I suspect that PlayerController may cause problems
+            
+            // respawn logic, if balloon at second position w/o player, then respawn balloon in start position
+            if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance)
+            {
+                RespawnBalloon();
+                yield break;
+            }
+            
             _rigidbody.velocity = EvaluateAt(time) * diff.normalized;
             time += Time.fixedDeltaTime;
         }
@@ -261,6 +271,13 @@ public class Balloon : AbstractPlayerInteractable
                 Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
             }
         }
+    }
+    
+    private void RespawnBalloon()
+    {
+        _rigidbody.position = firstPosition;
+        StopMotion();
+        Debug.Log("Balloon has respawned at the first position.");
     }
 
     private void OnDrawGizmosSelected()
