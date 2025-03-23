@@ -10,6 +10,7 @@ setting: outside Knitby's house
 <<show Knitby>>
 <<wait 0.5>>
 <<fix_object Knitby>>
+<<resize_camera CutsceneCamera 4 10>>
 <<move Knitby 1.5 1 10>>
 <<move Marshmallow 3 1 10>>
 Marshmallow: Hiya Knitby, how's it going?
@@ -25,10 +26,9 @@ Marshmallow_frown: I have a <i>what</i> on my shoulder?
 Knitby: Let me rephrase. Just because you want to prove yourself doesn't mean you should recklessly endanger yourself—
 Marshmallow: Well, okay then. Bye!
 <<run Marshmallow 45 1 20 true>>
+<<resize_camera CutsceneCamera 8 10>>
 Knitby: Wait, where are you going in such a hurry?
-<<resize_camera CutsceneCamera 14 10>>
 Marshmallow_faraway: Up the mountain, duh!
-<<resize_camera_block 8 10>>
 // knitby shouting
 Knitby: But why?
 // marshmallow is very far away now 
