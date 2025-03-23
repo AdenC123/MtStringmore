@@ -324,52 +324,17 @@ public class PlayerController : MonoBehaviour
             PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit)
             PlayerState = PlayerStateEnum.Air;
         
-        if (PlayerState == PlayerStateEnum.Run)
-        {
-            if (!_runningDust.isPlaying)
-            {
-                _runningDust.Play();
-            }
-        }
-        else
-        {
-            if (_runningDust.isPlaying)
-            {
-                _runningDust.Stop();
-            }
-        }
-        
-        // left wall particle
-        if (PlayerState == PlayerStateEnum.LeftWallSlide)
-        {
-            if (!_leftWallSlideDust.isPlaying)
-            {
-                _leftWallSlideDust.Play();
-            }
-        }
-        else
-        {
-            if (_leftWallSlideDust.isPlaying)
-            {
-                _leftWallSlideDust.Stop();
-            }
-        }
-        
-        // right wall particle
-        if (PlayerState == PlayerStateEnum.RightWallSlide)
-        {
-            if (!_rightWallSlideDust.isPlaying)
-            {
-                _rightWallSlideDust.Play();
-            }
-        }
-        else
-        {
-            if (_rightWallSlideDust.isPlaying)
-            {
-                _rightWallSlideDust.Stop();
-            }
-        }
+        UpdateParticleSystemState(_runningDust, PlayerStateEnum.Run);
+        UpdateParticleSystemState(_leftWallSlideDust, PlayerStateEnum.LeftWallSlide);
+        UpdateParticleSystemState(_rightWallSlideDust, PlayerStateEnum.RightWallSlide);
+    }
+
+    private void UpdateParticleSystemState(ParticleSystem system, PlayerStateEnum targetState) {
+      if (PlayerState == targetState) {
+        if (!system.isPlaying) system.Play();
+      } else if (system.isPlaying) {
+        system.Stop();
+      }
     }
 
     private void HandleDeath()
