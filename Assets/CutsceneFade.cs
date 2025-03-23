@@ -10,7 +10,7 @@ public class CutsceneFade : MonoBehaviour
 
     private void Awake()
     {
-        _image = GetComponentInChildren<Image>();
+        _image = GetComponent<Image>();
     }
 
     private void LateUpdate()
