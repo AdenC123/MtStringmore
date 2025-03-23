@@ -1,8 +1,10 @@
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
 
+[RequireComponent(typeof(AudioSource)), DisallowMultipleComponent]
 public class CutsceneManager : MonoBehaviour
 {
     private static AudioSource _source;
@@ -28,9 +30,7 @@ public class CutsceneManager : MonoBehaviour
     public static IEnumerator PlaySound(string soundName, bool blockUntilDone = true)
     {
         _source.PlayOneShot(Resources.Load<AudioClip>(soundName));
-        while (blockUntilDone && _source.isPlaying)
-        {
-            yield return null;
-        }
+        if (blockUntilDone)
+            yield return new WaitUntil(() => !_source.isPlaying);
     }
 }

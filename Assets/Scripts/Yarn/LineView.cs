@@ -419,7 +419,7 @@ namespace Yarn
                 continueButton?.SetActive(false);
 
                 var text = dialogueLine.TextWithoutCharacterName;
-                if (characterNameContainer is not null && characterNameText is not null)
+                if (characterNameContainer && characterNameText)
                 {
                     // we are set up to show a character name, but there isn't one
                     // so just hide the container
@@ -442,7 +442,7 @@ namespace Yarn
                 }
 
                 // if we have a palette file need to add those colours into the text
-                lineText.text = palette is not null ? PaletteMarkedUpText(text, palette) : AddLineBreaks(text);
+                lineText.text = palette ? PaletteMarkedUpText(text, palette) : AddLineBreaks(text);
 
                 // If we're using the typewriter effect, hide all of the
                 // text before we begin any possible fade (so we don't fade
