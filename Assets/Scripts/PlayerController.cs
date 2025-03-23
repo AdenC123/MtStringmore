@@ -140,6 +140,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
     private IPlayerVelocityEffector _activeEffector;
+    private ParticleSystem _runningDust;
     private ParticleSystem _landingDust;
     private ParticleSystem _leftWallSlideDust;
     private ParticleSystem _rightWallSlideDust;
@@ -179,6 +180,9 @@ public class PlayerController : MonoBehaviour
         {
             switch (ps.gameObject.name)
             {
+                case "RunningDust":
+                    _runningDust = ps;
+                    break;
                 case "LandingDust":
                     _landingDust = ps;
                     break;
@@ -320,6 +324,22 @@ public class PlayerController : MonoBehaviour
             PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit)
             PlayerState = PlayerStateEnum.Air;
         
+        if (PlayerState == PlayerStateEnum.Run)
+        {
+            if (!_runningDust.isPlaying)
+            {
+                _runningDust.Play();
+            }
+        }
+        else
+        {
+            if (_runningDust.isPlaying)
+            {
+                _runningDust.Stop();
+            }
+        }
+        
+        // left wall particle
         if (PlayerState == PlayerStateEnum.LeftWallSlide)
         {
             if (!_leftWallSlideDust.isPlaying)
@@ -335,6 +355,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         
+        // right wall particle
         if (PlayerState == PlayerStateEnum.RightWallSlide)
         {
             if (!_rightWallSlideDust.isPlaying)
