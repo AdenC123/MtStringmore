@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Controls the canon that shoots the boulders
+/// Controls the cannon that shoots the boulders
 /// </summary>
-public class CanonController : MonoBehaviour
+public class CannonController : MonoBehaviour
 {
     public GameObject boulder;
     private float _maxTimeBetweenShots;
