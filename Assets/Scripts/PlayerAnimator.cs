@@ -88,6 +88,7 @@ public class PlayerAnimator : MonoBehaviour
         _player.WallChanged += OnWallChanged;
         _player.Death += OnDeath;
         _player.Dashed += OnDash;
+        _player.SwingDifferentDirection += OnSwingDifferentDirection;
 
         // _moveParticles.Play();
     }
@@ -224,6 +225,11 @@ public class PlayerAnimator : MonoBehaviour
     {
         _source.clip = dashSound;
         _source.PlayOneShot(dashSound);
+    }
+
+    private void OnSwingDifferentDirection()
+    {
+        // TODO FILL IN BY AUDIO PERSON
     }
 
     // private void DetectGroundColor()

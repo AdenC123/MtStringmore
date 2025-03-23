@@ -126,6 +126,7 @@ public class PlayerController : MonoBehaviour
     public event Action Dashed;
     public event Action DoubleJumped;
     public event Action Death;
+    public event Action SwingDifferentDirection;
 
     /// <summary>
     /// If true, skips death logic.
@@ -174,6 +175,7 @@ public class PlayerController : MonoBehaviour
     private float _swingRadius;
     private bool _canSwing;
     private bool _swingStarted;
+    private bool _wasSwingClockwise;
 
     #endregion
 
@@ -574,6 +576,8 @@ public class PlayerController : MonoBehaviour
             {
                 // reached max radius, start swing
                 _swingStarted = true;
+                Vector2 relPos = transform.position - _swingArea.transform.position;
+                _wasSwingClockwise = Vector3.Cross(relPos, _velocity).z > 0f;
             }
 
             if (_swingStarted)
@@ -590,6 +594,11 @@ public class PlayerController : MonoBehaviour
                 Vector2 testPos = relPos + _velocity * Time.fixedDeltaTime;
                 Vector2 newPos = testPos.normalized * _swingRadius;
                 _velocity = (newPos - relPos) / Time.fixedDeltaTime;
+                if (_wasSwingClockwise ^ Vector3.Cross(relPos, _velocity).z > 0f)
+                {
+                    SwingDifferentDirection?.Invoke();
+                    _wasSwingClockwise = !_wasSwingClockwise;
+                }
             }
         }
         else if (PlayerState is PlayerStateEnum.Swing && !_isButtonHeld)
