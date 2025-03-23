@@ -7,11 +7,8 @@ TagManager:
   - SwingArea
   - Death
   - ParallaxBackground
-  - Boulder
-  - Explosion
   - Knitby
   - BounceArea
-  - Trampoline
   layers:
   - Default
   - TransparentFX
