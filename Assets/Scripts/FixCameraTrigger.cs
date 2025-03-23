@@ -9,9 +9,8 @@ using UnityEngine;
 public class FixCameraTrigger : MonoBehaviour
 {
     [SerializeField] private Vector2 targetOffset;
-
-    public FixCameraType fixTypeX = FixCameraType.None;
-    public FixCameraType fixTypeY = FixCameraType.None;
+    public FixCameraType fixTypeX = FixCameraType.RequireEqual;
+    public FixCameraType fixTypeY = FixCameraType.RequireEqual;
 
     private Vector2 _bound;
     private FollowCamera _cam;
@@ -112,14 +111,17 @@ public class FixCameraTrigger : MonoBehaviour
         /// Fixes the target to a specific coordinate.
         /// </summary>
         RequireEqual,
+
         /// <summary>
         /// Allows the target value to be less than or equal to a specific coordinate.
         /// </summary>
         AllowLess,
+
         /// <summary>
         /// Allows the target value to be greater than or equal to a specific coordinate.
         /// </summary>
         AllowGreater,
+
         /// <summary>
         /// Does not perform locking at all.
         /// </summary>
