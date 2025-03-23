@@ -23,7 +23,7 @@ namespace Yarn
             bool disableAnimation = true)
         {
             _animator.enabled = true;
-            var position = new Vector3(x, y);
+            Vector3 position = new(x, y);
             if (flipSprite) _spriteRenderer.flipX = !_spriteRenderer.flipX;
             while (transform.position != position)
             {
@@ -57,7 +57,7 @@ namespace Yarn
         public IEnumerator SetAnimation(bool state)
         {
             // wait until current animation is finished
-            var finishTime = Mathf.CeilToInt(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            int finishTime = Mathf.CeilToInt(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
             yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= finishTime &&
                                              !Mathf.Approximately(
                                                  _animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 0.0f));

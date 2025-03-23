@@ -25,8 +25,10 @@ Marshmallow_frown: I have a <i>what</i> on my shoulder?
 Knitby: Let me rephrase. Just because you want to prove yourself doesn't mean you should recklessly endanger yourself—
 Marshmallow: Well, okay then. Bye!
 <<run Marshmallow 45 1 20 true>>
-Knitby: Wait, where are you going in such a hurry? 
+Knitby: Wait, where are you going in such a hurry?
+<<resize_camera CutsceneCamera 14 10>>
 Marshmallow_faraway: Up the mountain, duh!
+<<resize_camera_block 8 10>>
 // knitby shouting
 Knitby: But why?
 // marshmallow is very far away now 
