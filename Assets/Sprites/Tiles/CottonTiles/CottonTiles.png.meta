@@ -122,10 +122,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -108, y: 60}
+      - - {x: -108, y: 108}
         - {x: -108, y: -108}
         - {x: 108, y: -108}
-        - {x: 108, y: 60}
+        - {x: 108, y: 108}
       tessellationDetail: 0
       bones: []
       spriteID: fdbce84482f4d59489e162906c46ab35
@@ -188,6 +188,31 @@ TextureImporter:
       name: CottonTiles_3
       rect:
         serializedVersion: 2
+        x: 648
+        y: 432
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -108, y: 60}
+        - {x: -108, y: -108}
+        - {x: 108, y: -108}
+        - {x: 108, y: 60}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c139ac20d48d5854aab562d10a14103d
+      internalID: -442353925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CottonTiles_4
+      rect:
+        serializedVersion: 2
         x: 0
         y: 216
         width: 216
@@ -203,17 +228,42 @@ TextureImporter:
         - {x: 108, y: 108}
       tessellationDetail: 0
       bones: []
-      spriteID: c139ac20d48d5854aab562d10a14103d
-      internalID: -442353925
+      spriteID: 9dcfa4feb285b6f4ca0b6449bbdfa185
+      internalID: -1351399543
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CottonTiles_4
+      name: CottonTiles_5
       rect:
         serializedVersion: 2
         x: 216
+        y: 216
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -108, y: 108}
+        - {x: -108, y: -108}
+        - {x: 108, y: -108}
+        - {x: 108, y: 108}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71900cea64cc02541bbd96f5777657bc
+      internalID: -987203153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CottonTiles_6
+      rect:
+        serializedVersion: 2
+        x: 432
         y: 216
         width: 216
         height: 216
@@ -227,17 +277,17 @@ TextureImporter:
         - {x: 108, y: 56}
       tessellationDetail: 0
       bones: []
-      spriteID: 9dcfa4feb285b6f4ca0b6449bbdfa185
-      internalID: -1351399543
+      spriteID: 4b0a821c02be6a7469cefc7f9db1d36f
+      internalID: 1037130467
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CottonTiles_5
+      name: CottonTiles_7
       rect:
         serializedVersion: 2
-        x: 432
+        x: 648
         y: 216
         width: 216
         height: 216
@@ -251,14 +301,14 @@ TextureImporter:
         - {x: 71, y: -108}
       tessellationDetail: 0
       bones: []
-      spriteID: 71900cea64cc02541bbd96f5777657bc
-      internalID: -987203153
+      spriteID: c41340c48a34b1342982000b5f26d6b1
+      internalID: -931787765
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CottonTiles_6
+      name: CottonTiles_8
       rect:
         serializedVersion: 2
         x: 0
@@ -269,20 +319,49 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -108, y: 108}
+        - {x: -108, y: -108}
+        - {x: 108, y: -108}
+        - {x: 108, y: 108}
       tessellationDetail: 0
       bones: []
-      spriteID: 4b0a821c02be6a7469cefc7f9db1d36f
-      internalID: 1037130467
+      spriteID: 75887c05e7f83d14db570f2befe45196
+      internalID: -237110974
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CottonTiles_7
+      name: CottonTiles_9
       rect:
         serializedVersion: 2
         x: 216
+        y: 0
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -108, y: 108}
+        - {x: -108, y: -108}
+        - {x: 108, y: -108}
+        - {x: 108, y: 108}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d256480520b08014ab8afb37d885a463
+      internalID: -472122116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CottonTiles_10
+      rect:
+        serializedVersion: 2
+        x: 432
         y: 0
         width: 216
         height: 216
@@ -298,17 +377,17 @@ TextureImporter:
         - {x: 108, y: 108}
       tessellationDetail: 0
       bones: []
-      spriteID: c41340c48a34b1342982000b5f26d6b1
-      internalID: -931787765
+      spriteID: e60b5080a3e027f47bf90c3bb601d2b1
+      internalID: 1560641124
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CottonTiles_8
+      name: CottonTiles_11
       rect:
         serializedVersion: 2
-        x: 432
+        x: 648
         y: 0
         width: 216
         height: 216
@@ -324,8 +403,8 @@ TextureImporter:
         - {x: 72, y: 108}
       tessellationDetail: 0
       bones: []
-      spriteID: 75887c05e7f83d14db570f2befe45196
-      internalID: -237110974
+      spriteID: d421c31830dea464094f469240c9eee0
+      internalID: 2079557454
       vertices: []
       indices: 
       edges: []
@@ -343,6 +422,8 @@ TextureImporter:
     nameFileIdTable:
       CottonTiles_0: -1334399939
       CottonTiles_1: 219364640
+      CottonTiles_10: 1560641124
+      CottonTiles_11: 2079557454
       CottonTiles_2: -665645478
       CottonTiles_3: -442353925
       CottonTiles_4: -1351399543
@@ -350,6 +431,7 @@ TextureImporter:
       CottonTiles_6: 1037130467
       CottonTiles_7: -931787765
       CottonTiles_8: -237110974
+      CottonTiles_9: -472122116
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
