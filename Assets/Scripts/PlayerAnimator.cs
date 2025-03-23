@@ -195,10 +195,6 @@ public class PlayerAnimator : MonoBehaviour
                 _source.Stop();
             _source.PlayOneShot(landSound);
 
-            _source.clip = runSound;
-            _source.loop = true;
-            _source.Play();
-
             // _moveParticles.Play();
 
             // _landParticles.transform.localScale = Vector3.one * Mathf.InverseLerp(0, 40, impact);
