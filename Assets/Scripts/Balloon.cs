@@ -11,7 +11,7 @@ public class Balloon : AbstractPlayerInteractable
     private AnimationCurve accelerationCurve;
     
     [SerializeField, Tooltip("Player offset from balloon")]
-    private Vector3 offset = new(0, -1, 0);
+    private Vector3 offset = new(0, -3, 0);
 
     [SerializeField, Min(0), Tooltip("Minimum speed")]
     private float minSpeed = 1;
@@ -30,6 +30,12 @@ public class Balloon : AbstractPlayerInteractable
     
     [SerializeField, Tooltip("Access to groundLayer to check attach requirements")]
     private LayerMask groundLayerMask;
+    
+    [SerializeField, Tooltip("Access to Animator")]
+    private Animator playerAnimator;
+    
+    [SerializeField, Tooltip("Access to Player Sound Effect")]
+    private AudioSource playerAudio;
 
     /// <remarks>
     /// Has to be public to allow the editor to modify this without reflection.
@@ -200,12 +206,14 @@ public class Balloon : AbstractPlayerInteractable
     }
     
     /// <summary>
-    /// Ensures character will not clip into the ground when attachting to balloon.
+    /// Ensures character will not clip into the ground when attaching to balloon.
     /// </summary>
     /// <inheritdoc />
     public override void StartInteract(PlayerController player)
     {
         _player = player;
+        playerAnimator.enabled = false; //to-do, set to balloon anim
+        playerAudio.enabled = false; //to-do, set to balloon sfx
         
         Vector2 targetPosition  = (Vector2)transform.position + (Vector2)offset;
         if (CanAttachAtPosition(targetPosition))
@@ -234,6 +242,8 @@ public class Balloon : AbstractPlayerInteractable
     public override void EndInteract(PlayerController player)
     {
         player.ActiveVelocityEffector = null;
+        playerAnimator.enabled = true;
+        playerAudio.enabled = true; // to-do, handle the balloon sound effect ending here
     }
 
     private void Awake()
