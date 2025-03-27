@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 ///     Handles player animation
@@ -22,13 +22,28 @@ public class PlayerAnimator : MonoBehaviour
     [Header("Audio Clips")] [SerializeField]
     private AudioClip runSound;
 
-    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip[] jumpSound;
+    [SerializeField] private AudioClip dashSound;
     [SerializeField] private AudioClip landSound;
     [SerializeField] private AudioClip wallSlideSound;
     [SerializeField] private AudioClip[] deathSounds;
     // @formatter:on
 
     #endregion
+
+    /// <summary>
+    /// Max number of roasted states.
+    /// </summary>
+    public const int NumRoastStates = 6;
+
+    /// <summary>
+    /// RoastState of the player (i.e. how cooked they are) on a scale of 0 (not cooked) to <see cref="NumRoastStates"/>
+    /// (very cooked).
+    /// </summary>
+    public int RoastState
+    {
+        set => anim.SetInteger(RoastKey, value);
+    }
 
     #region Private Fields
 
@@ -48,6 +63,7 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int WallChangedKey = Animator.StringToHash("WallChanged");
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int DeathKey = Animator.StringToHash("Dead");
+    private static readonly int RoastKey = Animator.StringToHash("Roast");
 
     #endregion
 
@@ -66,6 +82,7 @@ public class PlayerAnimator : MonoBehaviour
         _player.GroundedChanged += OnGroundedChanged;
         _player.WallChanged += OnWallChanged;
         _player.Death += OnDeath;
+        _player.Dashed += OnDash;
 
         // _moveParticles.Play();
     }
@@ -136,8 +153,9 @@ public class PlayerAnimator : MonoBehaviour
         anim.SetTrigger(JumpKey);
         anim.SetBool(GroundedKey, false);
 
-        _source.clip = jumpSound;
-        _source.PlayOneShot(jumpSound);
+        int randomSound = Random.Range(0, jumpSound.Length);
+        _source.clip = jumpSound[randomSound];
+        _source.PlayOneShot(jumpSound[randomSound]);
 
         // if (_grounded) // Avoid coyote
         // {
@@ -197,6 +215,12 @@ public class PlayerAnimator : MonoBehaviour
             _source.PlayOneShot(sound);
         Instantiate(deathSmoke, transform);
         anim.SetBool(DeathKey, true);
+    }
+
+    private void OnDash()
+    {
+        _source.clip = dashSound;
+        _source.PlayOneShot(dashSound);
     }
 
     // private void DetectGroundColor()
