@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -48,10 +47,7 @@ public class Balloon : AbstractPlayerInteractable
     /// </remarks>
     [Tooltip("Second position (world space)")]
     public Vector2 secondPosition;
-
-    [Tooltip("Path renderer")]
-    public MovingObjectPathRenderer pathRenderer;
-
+    
     /// <remarks>
     /// I know the new reset logic hasn't been merged in yet,
     /// but we need to save a copy of the enumerator to reset the object later.
@@ -59,7 +55,6 @@ public class Balloon : AbstractPlayerInteractable
     private Coroutine _activeMotion;
 
     private Rigidbody2D _rigidbody;
-    private Vector2 _prevVelocity;
     private PlayerController _player;
     private float positionTolerance = 0.1f; //distance between curr position and second position before respawning
     private bool playerAttached = false;
