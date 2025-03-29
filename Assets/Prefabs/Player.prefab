@@ -242,6 +242,7 @@ MonoBehaviour:
   swingAcceleration: 75
   minSwingReleaseX: 25
   ropeRenderer: {fileID: 8739561083334380143}
+  ropeOffset: {x: 0.5, y: 0.3}
   deathTime: 2
   poofSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
 --- !u!50 &5301496585393855472
@@ -381,7 +382,7 @@ SpriteRenderer:
   m_SortingLayerID: -1748061247
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8ca02fa30897b5f46b8141b0ffea614b, type: 3}
+  m_Sprite: {fileID: -1670557411, guid: 8ca02fa30897b5f46b8141b0ffea614b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
