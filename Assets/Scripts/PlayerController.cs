@@ -49,6 +49,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minSwingReleaseX;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
+    [Tooltip("Player position offset when hanging onto rope (small red wire sphere gizmo)")]
+    [SerializeField] private Vector2 ropeOffset;
     [SerializeField] private int deathTime;
     // this is just here for battle of the concepts
     [Header("Temporary")]
@@ -121,6 +123,7 @@ public class PlayerController : MonoBehaviour
 
     public event Action Jumped;
     public event Action Dashed;
+    public event Action<bool> HangChanged;
     public event Action DoubleJumped;
     public event Action Death;
 
@@ -256,6 +259,12 @@ public class PlayerController : MonoBehaviour
             _velocity = ActiveVelocityEffector.ApplyVelocity(_velocity);
         if (dashEnabled) HandleDash();
         ApplyMovement();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + new Vector3(ropeOffset.x, ropeOffset.y, 0f), 0.2f);
     }
 
     #endregion
@@ -540,6 +549,7 @@ public class PlayerController : MonoBehaviour
             // in swing area, button pressed
             PlayerState = PlayerStateEnum.Swing;
             ropeRenderer.enabled = true;
+            HangChanged?.Invoke(true);
         }
         else if (PlayerState is PlayerStateEnum.Swing && _isButtonHeld)
         {
@@ -574,6 +584,7 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Air;
             ropeRenderer.enabled = false;
             _canSwing = false;
+            HangChanged?.Invoke(false);
 
             if (_swingStarted)
             {
@@ -592,7 +603,8 @@ public class PlayerController : MonoBehaviour
         if (PlayerState == PlayerStateEnum.Swing)
         {
             ropeRenderer.positionCount = 2;
-            ropeRenderer.SetPosition(0, transform.position);
+            Vector3 playerHandPosition = transform.position + new Vector3(ropeOffset.x, ropeOffset.y, 0f);
+            ropeRenderer.SetPosition(0, playerHandPosition);
             ropeRenderer.SetPosition(1, _swingArea.transform.position);
         }
     }

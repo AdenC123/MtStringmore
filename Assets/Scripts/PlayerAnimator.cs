@@ -61,6 +61,7 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int XSpeedKey = Animator.StringToHash("XSpeed");
     private static readonly int YVelocityKey = Animator.StringToHash("YVelocity");
     private static readonly int WallChangedKey = Animator.StringToHash("WallChanged");
+    private static readonly int HangKey = Animator.StringToHash("Hang");
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int DeathKey = Animator.StringToHash("Dead");
     private static readonly int RoastKey = Animator.StringToHash("Roast");
@@ -81,6 +82,7 @@ public class PlayerAnimator : MonoBehaviour
         _player.DoubleJumped += OnJumped;
         _player.GroundedChanged += OnGroundedChanged;
         _player.WallChanged += OnWallChanged;
+        _player.HangChanged += OnHangChanged;
         _player.Death += OnDeath;
         _player.Dashed += OnDash;
 
@@ -93,7 +95,9 @@ public class PlayerAnimator : MonoBehaviour
         _player.DoubleJumped -= OnJumped;
         _player.GroundedChanged -= OnGroundedChanged;
         _player.WallChanged -= OnWallChanged;
+        _player.HangChanged += OnHangChanged;
         _player.Death -= OnDeath;
+        _player.Dashed -= OnDash;
 
         // _moveParticles.Stop();
     }
@@ -113,7 +117,8 @@ public class PlayerAnimator : MonoBehaviour
 
     private void HandleSpriteFlip()
     {
-        if (_player.Velocity.x != 0) sprite.flipX = _player.Velocity.x < 0;
+        if (!anim.GetBool(HangKey) && _player.Velocity.x != 0)
+            sprite.flipX = _player.Velocity.x < 0;
     }
 
     private void HandleVerticalSpeed()
@@ -204,6 +209,11 @@ public class PlayerAnimator : MonoBehaviour
             anim.SetBool(GroundedKey, false);
             // _moveParticles.Stop();
         }
+    }
+
+    private void OnHangChanged(bool hang)
+    {
+        anim.SetBool(HangKey, hang);
     }
 
     /// <summary>
