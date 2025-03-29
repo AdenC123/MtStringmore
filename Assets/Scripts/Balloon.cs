@@ -53,10 +53,15 @@ public class Balloon : AbstractPlayerInteractable
     /// but we need to save a copy of the enumerator to reset the object later.
     /// </remarks>
     private Coroutine _activeMotion;
-
+    
+    [SerializeField, Tooltip("Handles attachable region of balloon")]
     private Rigidbody2D _rigidbody;
+    
+    [SerializeField, Tooltip("Access to Player Controller")]
     private PlayerController _player;
-    private float positionTolerance = 0.1f; //distance between curr position and second position before respawning
+    
+    [SerializeField, Tooltip("Allowed error of player to balloon before respawning")]
+    private float positionTolerance = 0.1f;
     private bool playerAttached = false;
 
     
