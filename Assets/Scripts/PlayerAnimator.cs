@@ -127,10 +127,11 @@ public class PlayerAnimator : MonoBehaviour
     {
         if (_player.PlayerState != PlayerController.PlayerStateEnum.Swing && _player.Velocity.x != 0)
         {
-            transform.localPosition = new Vector3(
-                -_spriteOriginalPosition.x,
-                transform.localPosition.y,
-                transform.localPosition.z);
+            // float xPos = _player.Velocity.x < 0 ? -_spriteOriginalPosition.x : _spriteOriginalPosition.x;
+            // transform.localPosition = new Vector3(
+            //     xPos,
+            //     transform.localPosition.y,
+            //     transform.localPosition.z);
             sprite.flipX = _player.Velocity.x < 0;
         }
     }
