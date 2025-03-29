@@ -27,10 +27,16 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private AudioClip landSound;
     [SerializeField] private AudioClip wallSlideSound;
     [SerializeField] private AudioClip[] deathSounds;
+    
+    [Header("Visual")]
+    [Tooltip("Player position offset when hanging onto object (small red wire sphere gizmo)")]
+    [SerializeField] private Vector2 hangOffset;
     // @formatter:on
 
     #endregion
 
+    private Vector3 _spriteOriginalPosition;
+    
     /// <summary>
     /// Max number of roasted states.
     /// </summary>
@@ -74,6 +80,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         _source = GetComponent<AudioSource>();
         _player = GetComponentInParent<PlayerController>();
+        _spriteOriginalPosition = transform.localPosition;
     }
 
     private void OnEnable()
@@ -85,6 +92,7 @@ public class PlayerAnimator : MonoBehaviour
         _player.HangChanged += OnHangChanged;
         _player.Death += OnDeath;
         _player.Dashed += OnDash;
+        _player.SwingDifferentDirection += OnSwingDifferentDirection;
 
         // _moveParticles.Play();
     }
@@ -117,8 +125,14 @@ public class PlayerAnimator : MonoBehaviour
 
     private void HandleSpriteFlip()
     {
-        if (!anim.GetBool(HangKey) && _player.Velocity.x != 0)
+        if (_player.PlayerState != PlayerController.PlayerStateEnum.Swing && _player.Velocity.x != 0)
+        {
+            transform.localPosition = new Vector3(
+                -_spriteOriginalPosition.x,
+                transform.localPosition.y,
+                transform.localPosition.z);
             sprite.flipX = _player.Velocity.x < 0;
+        }
     }
 
     private void HandleVerticalSpeed()
@@ -211,9 +225,24 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
-    private void OnHangChanged(bool hang)
+    private void OnHangChanged(bool hanging, bool facingLeft)
     {
-        anim.SetBool(HangKey, hang);
+        anim.SetBool(HangKey, hanging);
+        if (hanging)
+        {
+            if (facingLeft)
+                transform.localPosition = new Vector3(
+                    -_spriteOriginalPosition.x + hangOffset.x,
+                    transform.localPosition.y,
+                    transform.localPosition.z);
+            else
+                transform.localPosition = new Vector3(
+                    _spriteOriginalPosition.x - hangOffset.x,
+                    transform.localPosition.y,
+                    transform.localPosition.z);
+        }
+        else
+            transform.localPosition = _spriteOriginalPosition;
     }
 
     /// <summary>
@@ -231,6 +260,22 @@ public class PlayerAnimator : MonoBehaviour
     {
         _source.clip = dashSound;
         _source.PlayOneShot(dashSound);
+    }
+    
+    private void OnSwingDifferentDirection(bool clockwise)
+    {
+        // TODO FILL IN BY AUDIO PERSON
+        transform.localPosition = new Vector3(
+            -transform.localPosition.x,
+            transform.localPosition.y, 
+            transform.localPosition.z);
+        sprite.flipX = clockwise;
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + new Vector3(hangOffset.x, hangOffset.y, 0f), 0.2f);
     }
 
     // private void DetectGroundColor()
