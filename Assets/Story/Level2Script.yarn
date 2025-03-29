@@ -23,6 +23,7 @@ Knitby: ... You're absolutely sure you still want to do this?
 Marshmallow: Yes, 100%. Now, let's go!
 // knitby reluctantly agrees
 Knitby: ... Okay.
+<<fade_out 1>>
 // <<load_scene Level2>>
 
 ===
