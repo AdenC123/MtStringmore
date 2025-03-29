@@ -54,7 +54,7 @@ public class Balloon : AbstractPlayerInteractable
     /// </remarks>
     private Coroutine _activeMotion;
     
-    [SerializeField, Tooltip("Handles attachable region of balloon")]
+    //Retrieves balloon's rigidbody on awake
     private Rigidbody2D _rigidbody;
     
     [SerializeField, Tooltip("Access to Player Controller")]
@@ -202,6 +202,7 @@ public class Balloon : AbstractPlayerInteractable
             _rigidbody.velocity = Vector2.zero;
         }
 
+        Debug.Log(vel);
         return vel;
     }
     
