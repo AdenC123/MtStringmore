@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -3303350482682159041}
   - component: {fileID: 7843742360369607039}
   m_Layer: 0
-  m_Name: Bounce Platform
+  m_Name: Spring
   m_TagString: BounceArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

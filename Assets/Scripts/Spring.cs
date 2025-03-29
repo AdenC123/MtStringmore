@@ -4,7 +4,7 @@ using UnityEngine;
 /// Class represents a bouncy platform that is a 2D collider
 /// </summary>
 [DisallowMultipleComponent, RequireComponent(typeof(Collider2D), typeof(Animator))]
-public class BouncyPlatform : MonoBehaviour, IPlayerVelocityEffector
+public class Spring : MonoBehaviour, IPlayerVelocityEffector
 {
     private static readonly int BounceHash = Animator.StringToHash("Bounce");
 
