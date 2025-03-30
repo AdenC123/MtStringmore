@@ -1,7 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
-///     Handles player animation
+/// Handles player animation
 /// </summary>
 public class PlayerAnimator : MonoBehaviour
 {
@@ -22,13 +22,34 @@ public class PlayerAnimator : MonoBehaviour
     [Header("Audio Clips")] [SerializeField]
     private AudioClip runSound;
 
-    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip[] jumpSound;
+    [SerializeField] private AudioClip dashSound;
     [SerializeField] private AudioClip landSound;
     [SerializeField] private AudioClip wallSlideSound;
     [SerializeField] private AudioClip[] deathSounds;
+    
+    [Header("Visual")]
+    [Tooltip("Player position offset when hanging onto object (small red wire sphere gizmo)")]
+    [SerializeField] private Vector2 hangOffset;
     // @formatter:on
 
     #endregion
+
+    private Vector3 _spriteOriginalPosition;
+    
+    /// <summary>
+    /// Max number of roasted states.
+    /// </summary>
+    public const int NumRoastStates = 6;
+
+    /// <summary>
+    /// RoastState of the player (i.e. how cooked they are) on a scale of 0 (not cooked) to <see cref="NumRoastStates"/>
+    /// (very cooked).
+    /// </summary>
+    public int RoastState
+    {
+        set => anim.SetInteger(RoastKey, value);
+    }
 
     #region Private Fields
 
@@ -46,8 +67,10 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int XSpeedKey = Animator.StringToHash("XSpeed");
     private static readonly int YVelocityKey = Animator.StringToHash("YVelocity");
     private static readonly int WallChangedKey = Animator.StringToHash("WallChanged");
+    private static readonly int HangKey = Animator.StringToHash("Hang");
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int DeathKey = Animator.StringToHash("Dead");
+    private static readonly int RoastKey = Animator.StringToHash("Roast");
 
     #endregion
 
@@ -57,6 +80,12 @@ public class PlayerAnimator : MonoBehaviour
     {
         _source = GetComponent<AudioSource>();
         _player = GetComponentInParent<PlayerController>();
+        _spriteOriginalPosition = transform.localPosition;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.Reset += OnReset;
     }
 
     private void OnEnable()
@@ -65,7 +94,10 @@ public class PlayerAnimator : MonoBehaviour
         _player.DoubleJumped += OnJumped;
         _player.GroundedChanged += OnGroundedChanged;
         _player.WallChanged += OnWallChanged;
+        _player.HangChanged += OnHangChanged;
         _player.Death += OnDeath;
+        _player.Dashed += OnDash;
+        _player.SwingDifferentDirection += OnSwingDifferentDirection;
 
         // _moveParticles.Play();
     }
@@ -76,7 +108,11 @@ public class PlayerAnimator : MonoBehaviour
         _player.DoubleJumped -= OnJumped;
         _player.GroundedChanged -= OnGroundedChanged;
         _player.WallChanged -= OnWallChanged;
+        _player.HangChanged -= OnHangChanged;
         _player.Death -= OnDeath;
+        _player.Dashed -= OnDash;
+        
+        GameManager.Instance.Reset -= OnReset;
 
         // _moveParticles.Stop();
     }
@@ -96,7 +132,10 @@ public class PlayerAnimator : MonoBehaviour
 
     private void HandleSpriteFlip()
     {
-        if (_player.Velocity.x != 0) sprite.flipX = _player.Velocity.x < 0;
+        if (_player.PlayerState != PlayerController.PlayerStateEnum.Swing && _player.Velocity.x != 0)
+        {
+            sprite.flipX = _player.Velocity.x < 0;
+        }
     }
 
     private void HandleVerticalSpeed()
@@ -136,8 +175,9 @@ public class PlayerAnimator : MonoBehaviour
         anim.SetTrigger(JumpKey);
         anim.SetBool(GroundedKey, false);
 
-        _source.clip = jumpSound;
-        _source.PlayOneShot(jumpSound);
+        int randomSound = Random.Range(0, jumpSound.Length);
+        _source.clip = jumpSound[randomSound];
+        _source.PlayOneShot(jumpSound[randomSound]);
 
         // if (_grounded) // Avoid coyote
         // {
@@ -170,10 +210,6 @@ public class PlayerAnimator : MonoBehaviour
                 _source.Stop();
             _source.PlayOneShot(landSound);
 
-            _source.clip = runSound;
-            _source.loop = true;
-            _source.Play();
-
             // _moveParticles.Play();
 
             // _landParticles.transform.localScale = Vector3.one * Mathf.InverseLerp(0, 40, impact);
@@ -188,6 +224,26 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
+    private void OnHangChanged(bool hanging, bool facingLeft)
+    {
+        anim.SetBool(HangKey, hanging);
+        if (hanging)
+        {
+            if (facingLeft)
+                transform.localPosition = new Vector3(
+                    -_spriteOriginalPosition.x + hangOffset.x,
+                    transform.localPosition.y,
+                    transform.localPosition.z);
+            else
+                transform.localPosition = new Vector3(
+                    _spriteOriginalPosition.x - hangOffset.x,
+                    transform.localPosition.y,
+                    transform.localPosition.z);
+        }
+        else
+            transform.localPosition = _spriteOriginalPosition;
+    }
+
     /// <summary>
     ///     Instantiates a death smoke object and sets the animation state to dead
     /// </summary>
@@ -197,6 +253,28 @@ public class PlayerAnimator : MonoBehaviour
             _source.PlayOneShot(sound);
         Instantiate(deathSmoke, transform);
         anim.SetBool(DeathKey, true);
+    }
+
+    private void OnDash()
+    {
+        _source.clip = dashSound;
+        _source.PlayOneShot(dashSound);
+    }
+    
+    private void OnSwingDifferentDirection(bool clockwise)
+    {
+        // TODO FILL IN BY AUDIO PERSON
+        transform.localPosition = new Vector3(
+            -transform.localPosition.x,
+            transform.localPosition.y, 
+            transform.localPosition.z);
+        sprite.flipX = clockwise;
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + new Vector3(hangOffset.x, hangOffset.y, 0f), 0.2f);
     }
 
     // private void DetectGroundColor()
@@ -214,6 +292,21 @@ public class PlayerAnimator : MonoBehaviour
     //     var main = ps.main;
     //     main.startColor = _currentGradient;
     // }
+
+    /// <summary>
+    /// On reset, re-activate sprites and make them full opacity
+    /// </summary>
+    private void OnReset()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+            var material = child.GetComponent<Renderer>().material;
+            Color color = material.color;
+            color.a = 1;
+            material.color = color;
+        }
+    }
 
     #endregion
 }
