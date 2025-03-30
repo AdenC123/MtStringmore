@@ -42,7 +42,6 @@ public class KnitbyAnimator : MonoBehaviour
 
     private void OnIdle(bool value)
     {
-        Debug.Log($"on idle called with val {value}");
         anim.SetBool(IdleKey, value);
     }
 
