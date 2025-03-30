@@ -21,6 +21,40 @@ public class KnitbyController : MonoBehaviour
     private LayerMask collisionLayer;
 
     [SerializeField] private float collisionDistance;
+    
+    
+    public event Action<bool> SetIdle;
+
+    /// <summary>
+    ///     Fires when direction updates.
+    ///     Parameters: x and y, distances from position in previous frame
+    /// </summary>
+    public event Action<float, float> DirectionUpdated;
+
+    /// <summary>
+    ///     Fires when Knitby becomes grounded or leaves the ground.
+    ///     Parameters:
+    ///     bool: false if leaving the ground, true if becoming grounded
+    ///     float: player's Y velocity
+    /// </summary>
+    public event Action<bool> GroundedChanged;
+
+    /// <summary>
+    ///     Fires continuously; true when currently in swing, false otherwise
+    /// </summary>
+    public event Action<bool> Swing;
+
+    /// <summary>
+    ///     Fires when player is dead
+    /// </summary>
+    public event Action PlayerDeath;
+
+    /// <summary>
+    ///     Fires when Knitby hits a wall or leaves a wall.
+    ///     False if leaving the wall, true if hitting a wall
+    /// </summary>
+    public event Action<bool> WallHitChanged;
+    
     private readonly Queue<Vector3> _path = new();
     private CapsuleCollider2D _col;
     private Vector3 _currentPathPosition;
@@ -94,38 +128,6 @@ public class KnitbyController : MonoBehaviour
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.Death -= PlayerDeath;
     }
-
-    public event Action<bool> SetIdle;
-
-    /// <summary>
-    ///     Fires when direction updates.
-    ///     Parameters: x and y, distances from position in previous frame
-    /// </summary>
-    public event Action<float, float> DirectionUpdated;
-
-    /// <summary>
-    ///     Fires when Knitby becomes grounded or leaves the ground.
-    ///     Parameters:
-    ///     bool: false if leaving the ground, true if becoming grounded
-    ///     float: player's Y velocity
-    /// </summary>
-    public event Action<bool> GroundedChanged;
-
-    /// <summary>
-    ///     Fires continuously; true when currently in swing, false otherwise
-    /// </summary>
-    public event Action<bool> Swing;
-
-    /// <summary>
-    ///     Fires when player is dead
-    /// </summary>
-    public event Action PlayerDeath;
-
-    /// <summary>
-    ///     Fires when Knitby hits a wall or leaves a wall.
-    ///     False if leaving the wall, true if hitting a wall
-    /// </summary>
-    public event Action<bool> WallHitChanged;
 
     private RaycastHit2D CapsuleCastCollision(Vector2 dir, float distance)
     {
