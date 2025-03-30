@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
     // @formatter:on
-    
+
     #endregion
 
     #region Public Properties and Actions
@@ -121,9 +121,16 @@ public class PlayerController : MonoBehaviour
 
     public event Action Jumped;
     public event Action Dashed;
+    /// <summary>
+    /// Fires when the player hangs onto an interactable object.
+    /// Parameters:
+    ///     bool (hanging): True when player attaches, false when player lets go
+    ///     bool (facingLeft): True when facing left, false otherwise
+    /// </summary>
+    public event Action<bool, bool> HangChanged;
     public event Action DoubleJumped;
     public event Action Death;
-    public event Action SwingDifferentDirection;
+    public event Action<bool> SwingDifferentDirection;
 
     /// <summary>
     /// If true, skips death logic.
@@ -322,6 +329,7 @@ public class PlayerController : MonoBehaviour
         _buttonUsed = true;
         CurrentInteractableArea.EndInteract(this);
         PlayerState = PlayerStateEnum.Air;
+        HangChanged?.Invoke(false, _velocity.x < 0);
     }
 
     /// <summary>
@@ -561,6 +569,7 @@ public class PlayerController : MonoBehaviour
             if (PlayerState == PlayerStateEnum.OnObject) return;
             PlayerState = PlayerStateEnum.OnObject;
             CurrentInteractableArea.StartInteract(this);
+            HangChanged?.Invoke(true, _velocity.x < 0);
             if (previouslyGrounded)
             {
                 _timeLeftGround = _time;
@@ -601,6 +610,7 @@ public class PlayerController : MonoBehaviour
             // in swing area, button pressed
             PlayerState = PlayerStateEnum.Swing;
             ropeRenderer.enabled = true;
+            HangChanged?.Invoke(true, _velocity.x < 0);
         }
         else if (PlayerState is PlayerStateEnum.Swing && _isButtonHeld)
         {
@@ -630,7 +640,7 @@ public class PlayerController : MonoBehaviour
                 _velocity = Vector2.ClampMagnitude((newPos - relPos) / Time.fixedDeltaTime, maxSwingSpeed);
                 if (_wasSwingClockwise ^ Vector3.Cross(relPos, _velocity).z > 0f)
                 {
-                    SwingDifferentDirection?.Invoke();
+                    SwingDifferentDirection?.Invoke(_wasSwingClockwise);
                     _wasSwingClockwise = !_wasSwingClockwise;
                 }
             }
@@ -642,6 +652,7 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Air;
             ropeRenderer.enabled = false;
             _canSwing = false;
+            HangChanged?.Invoke(false, _velocity.x < 0);
 
             if (_swingStarted)
             {
