@@ -42,7 +42,7 @@ public class KnitbyController : MonoBehaviour
     private void Update()
     {
         if (_currentPathPosition == Vector3.zero) return;
-        SetIdle?.Invoke(Mathf.Approximately(Vector3.Distance(transform.position, _currentPathPosition), 0));
+        SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= 0.01);
         Vector3 direction = _currentPathPosition - transform.position;
 
         DirectionUpdated?.Invoke(direction.x, direction.y);
