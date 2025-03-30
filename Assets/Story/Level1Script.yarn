@@ -5,7 +5,7 @@ setting: outside Knitby's house
 <<move Marshmallow 2 1 15 true>>
 // marshmallow knocks on Knitby's door
 <<play_sound door_knock>>
-<<move Marshmallow 5.5 1 10>>
+<<move Marshmallow 6 1 10>>
 // knitby opens the door
 <<play_sound door_open false>>
 <<show KnitbyHouseDoor>>
@@ -14,7 +14,7 @@ setting: outside Knitby's house
 <<follow_object Knitby>>
 <<resize_camera 4 5>>
 <<wait 0.5>>
-<<move Knitby 3.5 1 10>>
+<<move Knitby 4 1 10>>
 Marshmallow: Hiya Knitby, how's it going?
 Knitby: Hey, good to see you, Marshmallow! It's going well, I'm still reveling in our glorious victory on the football field the other day.   
 Marshmallow_smile: Those teddy bears didn't know what hit them! 

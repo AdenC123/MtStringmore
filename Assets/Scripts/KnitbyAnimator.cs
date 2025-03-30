@@ -1,21 +1,21 @@
 using UnityEngine;
 
 /// <summary>
-/// Handles Knitby's animation
+///     Handles Knitby's animation
 /// </summary>
 public class KnitbyAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
-    [SerializeField] private GameObject deathSmoke;
-    
-    private SpriteRenderer _spriteRenderer;
-    private KnitbyController _knitbyController;
-    
+    private static readonly int IdleKey = Animator.StringToHash("Idle");
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int GroundedKey = Animator.StringToHash("Land");
     private static readonly int YVelocityKey = Animator.StringToHash("YVelocity");
     private static readonly int SwingKey = Animator.StringToHash("InSwing");
-    
+    [SerializeField] private Animator anim;
+    [SerializeField] private GameObject deathSmoke;
+    private KnitbyController _knitbyController;
+
+    private SpriteRenderer _spriteRenderer;
+
     private void Awake()
     {
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -28,6 +28,7 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.GroundedChanged += OnGroundedChanged;
         _knitbyController.Swing += OnSwing;
         _knitbyController.PlayerDeath += OnPlayerDeath;
+        _knitbyController.SetIdle += OnIdle;
     }
 
     private void OnDisable()
@@ -36,6 +37,13 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.GroundedChanged -= OnGroundedChanged;
         _knitbyController.Swing -= OnSwing;
         _knitbyController.PlayerDeath -= OnPlayerDeath;
+        _knitbyController.SetIdle += OnIdle;
+    }
+
+    private void OnIdle(bool value)
+    {
+        Debug.Log($"on idle called with val {value}");
+        anim.SetBool(IdleKey, value);
     }
 
     private void OnMove(float x, float y)
