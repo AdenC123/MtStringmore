@@ -1,7 +1,7 @@
 using System;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
+
 
 /// <summary>
 /// Controls player movement and invokes events for different player states
@@ -206,11 +206,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Debug Reset"))
         {
             GameManager.Instance.Respawn();
-        }
-
-        if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && DistanceToGround() >= 0.5f)
-        {
-            PlayerState = PlayerStateEnum.Down;
         }
 
         if (Input.GetKey(KeyCode.S) && PlayerState == PlayerStateEnum.Air && DistanceToGround() >= 0.5f)
@@ -478,7 +473,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    _velocity.y = math.max(_velocity.y * downAcceleration, -maxDownSpeed);
+                    _velocity.y = Mathf.Max(_velocity.y * downAcceleration, -maxDownSpeed);
                 }
                 if (!Input.GetKeyDown(KeyCode.S)) //reverts to air if not holding 
                 {
