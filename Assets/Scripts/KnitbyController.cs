@@ -3,31 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-///     Updates Knitby's position to follow the player's path
+/// Updates Knitby's position to follow the player's path
 /// </summary>
 public class KnitbyController : MonoBehaviour
-{
-    [Header("References")] [SerializeField]
-    private GameObject deathSmoke;
-
-    [Header("Follow Settings")] [SerializeField]
-    private float timeOffset = 0.1f;
-
+{ 
+    [Header("References")]
+    [SerializeField] private GameObject deathSmoke;
+    [Header("Follow Settings")]
+    [SerializeField] private float timeOffset = 0.1f;
     [SerializeField] private int granularity = 10;
     [SerializeField] private float interpolationSpeed = 20;
-
-    [Header("Collisions")] [SerializeField]
-    private LayerMask collisionLayer;
-
+    [Header("Collisions")] 
+    [SerializeField] private LayerMask collisionLayer;
     [SerializeField] private float collisionDistance;
+    
+    private GameObject _player;
+    private LineRenderer _lineRenderer;
     private readonly Queue<Vector3> _path = new();
     private CapsuleCollider2D _col;
     private Vector3 _currentPathPosition;
     private bool _grounded;
-    private LineRenderer _lineRenderer;
-
-
-    private GameObject _player;
+    private bool _wallHit;
     private float _queueTimer;
 
     private void Start()
@@ -37,6 +33,8 @@ public class KnitbyController : MonoBehaviour
         _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.Death += PlayerDeath;
+        
+        GameManager.Instance.Reset += OnReset;
     }
 
     private void Update()
@@ -47,6 +45,14 @@ public class KnitbyController : MonoBehaviour
 
         DirectionUpdated?.Invoke(direction.x, direction.y);
         transform.position += direction * (Time.deltaTime * interpolationSpeed);
+    }
+    
+    private void OnDisable()
+    {
+        GameManager.Instance.Reset -= OnReset;
+        if (_player == null || _player) return;
+        var playerController = _player.GetComponent<PlayerController>();
+        playerController.Death -= PlayerDeath;
     }
 
     private void FixedUpdate()
@@ -70,14 +76,14 @@ public class KnitbyController : MonoBehaviour
             GroundedChanged?.Invoke(groundHit);
         }
 
+        bool wallHit = CapsuleCastCollision(Vector2.right, collisionDistance) ||
+                       CapsuleCastCollision(Vector2.left, collisionDistance);
+        if (_wallHit != wallHit)
+        {
+            _wallHit = wallHit;
+            WallHitChanged?.Invoke(wallHit);
+        }
         Swing?.Invoke(_lineRenderer.isVisible);
-    }
-
-    private void OnDisable()
-    {
-        if (_player == null || _player) return;
-        PlayerController playerController = _player.GetComponent<PlayerController>();
-        playerController.Death -= PlayerDeath;
     }
 
     public event Action<bool> SetIdle;
@@ -106,9 +112,27 @@ public class KnitbyController : MonoBehaviour
     /// </summary>
     public event Action PlayerDeath;
 
+    /// <summary>
+    /// Fires when Knitby hits a wall or leaves a wall.
+    /// False if leaving the wall, true if hitting a wall
+    /// </summary>
+    public event Action<bool> WallHitChanged;
+    
     private RaycastHit2D CapsuleCastCollision(Vector2 dir, float distance)
     {
         return Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0,
             dir, distance, collisionLayer);
+    }
+    
+    /// <summary>
+    /// On reset, clear follow path and respawn at checkpoint position
+    /// </summary>
+    private void OnReset()
+    {
+        _path.Clear();
+        Vector2 checkpointPos = GameManager.Instance.CheckPointPos;
+        Vector3 spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
+        _currentPathPosition = spawnPos;
+        transform.position = spawnPos;
     }
 }
