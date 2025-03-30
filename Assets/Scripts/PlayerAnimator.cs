@@ -2,7 +2,7 @@
 using Random = UnityEngine.Random;
 
 /// <summary>
-/// Handles player animation
+///     Handles player animation
 /// </summary>
 public class PlayerAnimator : MonoBehaviour
 {
@@ -114,7 +114,7 @@ public class PlayerAnimator : MonoBehaviour
         _player.HangChanged -= OnHangChanged;
         _player.Death -= OnDeath;
         _player.Dashed -= OnDash;
-        
+
         GameManager.Instance.Reset -= OnReset;
 
         // _moveParticles.Stop();
@@ -146,9 +146,7 @@ public class PlayerAnimator : MonoBehaviour
     private void HandleSpriteFlip()
     {
         if (_player.PlayerState != PlayerController.PlayerStateEnum.Swing && _player.Velocity.x != 0)
-        {
             sprite.flipX = _player.Velocity.x < 0;
-        }
     }
 
     private void HandleVerticalSpeed()
@@ -309,14 +307,14 @@ public class PlayerAnimator : MonoBehaviour
     // }
 
     /// <summary>
-    /// On reset, re-activate sprites and make them full opacity
+    ///     On reset, re-activate sprites and make them full opacity
     /// </summary>
     private void OnReset()
     {
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
-            var material = child.GetComponent<Renderer>().material;
+            Material material = child.GetComponent<Renderer>().material;
             Color color = material.color;
             color.a = 1;
             material.color = color;

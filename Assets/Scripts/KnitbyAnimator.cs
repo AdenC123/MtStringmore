@@ -5,12 +5,6 @@ using UnityEngine;
 /// </summary>
 public class KnitbyAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
-    [SerializeField] private GameObject deathSmoke;
-
-    private SpriteRenderer _spriteRenderer;
-    private KnitbyController _knitbyController;
-
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int LandKey = Animator.StringToHash("Land");
     private static readonly int GroundedKey = Animator.StringToHash("Grounded");
@@ -19,6 +13,11 @@ public class KnitbyAnimator : MonoBehaviour
     private static readonly int LeaveWallKey = Animator.StringToHash("LeaveWall");
     private static readonly int SwingKey = Animator.StringToHash("InSwing");
     private static readonly int IdleKey = Animator.StringToHash("Idle");
+    [SerializeField] private Animator anim;
+    [SerializeField] private GameObject deathSmoke;
+    private KnitbyController _knitbyController;
+
+    private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
@@ -49,12 +48,13 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.Swing -= OnSwing;
         _knitbyController.PlayerDeath -= OnPlayerDeath;
         _knitbyController.SetIdle += OnIdle;
-        
+
         GameManager.Instance.Reset -= OnReset;
     }
 
     private void OnIdle(bool value)
     {
+        Debug.Log($"onidle called with {value}");
         anim.SetBool(IdleKey, value);
     }
 
@@ -87,7 +87,7 @@ public class KnitbyAnimator : MonoBehaviour
     }
 
     /// <summary>
-    /// On reset, re-enable animation
+    ///     On reset, re-enable animation
     /// </summary>
     public void OnReset()
     {
