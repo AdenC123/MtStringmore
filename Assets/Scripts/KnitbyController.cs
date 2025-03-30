@@ -38,8 +38,6 @@ public class KnitbyController : MonoBehaviour
         _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.Death += PlayerDeath;
-
-        GameManager.Instance.Reset += OnReset;
     }
 
     private void Update()
@@ -84,10 +82,15 @@ public class KnitbyController : MonoBehaviour
         Swing?.Invoke(_lineRenderer.isVisible);
     }
 
+    private void OnEnable()
+    {
+        GameManager.Instance.Reset += OnReset;
+    }
+
     private void OnDisable()
     {
         GameManager.Instance.Reset -= OnReset;
-        if (_player == null || _player) return;
+        if (_player == null) return;
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.Death -= PlayerDeath;
     }
