@@ -47,14 +47,13 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.WallHitChanged -= OnWallHitChanged;
         _knitbyController.Swing -= OnSwing;
         _knitbyController.PlayerDeath -= OnPlayerDeath;
-        _knitbyController.SetIdle += OnIdle;
+        _knitbyController.SetIdle -= OnIdle;
 
         GameManager.Instance.Reset -= OnReset;
     }
 
     private void OnIdle(bool value)
     {
-        Debug.Log($"onidle called with {value}");
         anim.SetBool(IdleKey, value);
     }
 

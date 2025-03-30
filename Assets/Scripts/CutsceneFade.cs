@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
+[RequireComponent(typeof(Image))]
 public class CutsceneFade : MonoBehaviour
 {
     private static Image _image;

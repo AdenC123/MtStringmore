@@ -13,6 +13,7 @@ public class KnitbyController : MonoBehaviour
     [Header("Follow Settings")] [SerializeField]
     private float timeOffset = 0.1f;
 
+    [SerializeField] private float idleThreshold = 0.07f;
     [SerializeField] private int granularity = 10;
     [SerializeField] private float interpolationSpeed = 20;
 
@@ -44,7 +45,7 @@ public class KnitbyController : MonoBehaviour
     private void Update()
     {
         if (_currentPathPosition == Vector3.zero) return;
-        SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= 0.07);
+        SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
         Vector3 direction = _currentPathPosition - transform.position;
 
         DirectionUpdated?.Invoke(direction.x, direction.y);

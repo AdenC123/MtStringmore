@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using Yarn.Unity;
 
+[RequireComponent(typeof(Camera))]
 public class CutsceneCamera : MonoBehaviour
 {
     [CanBeNull] private static GameObject _targetObject;
@@ -12,10 +13,8 @@ public class CutsceneCamera : MonoBehaviour
     private static float _cameraResizeSpeed;
     private static float _cameraSize;
 
-    [SerializeField] private float xSmoothTime;
-    [SerializeField] private float ySmoothTime;
-    private float _xVelocity;
-    private float _yVelocity;
+    [SerializeField] private float smoothTime = 0.5f;
+    private Vector2 _velocity;
 
     private void Awake()
     {
@@ -29,9 +28,8 @@ public class CutsceneCamera : MonoBehaviour
 
         // apply smoothing to the camera
         Vector3 camPosition = transform.position;
-        float smoothedX = Mathf.SmoothDamp(camPosition.x, _target.x, ref _xVelocity, xSmoothTime);
-        float smoothedY = Mathf.SmoothDamp(camPosition.y, _target.y, ref _yVelocity, ySmoothTime);
-        transform.position = new Vector3(smoothedX, smoothedY, camPosition.z);
+        Vector2 smoothed = Vector2.SmoothDamp(camPosition, _target, ref _velocity, smoothTime);
+        transform.position = new Vector3(smoothed.x, smoothed.y, camPosition.z);
 
         // resize camera
         _camera.orthographicSize =
