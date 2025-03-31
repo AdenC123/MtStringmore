@@ -9,6 +9,7 @@ public class DashDestructibleObject : MonoBehaviour
 {
     [SerializeField] private bool destroyed;
     [SerializeField] private UnityEvent onDestroyed;
+    [SerializeField, Min(0)] private float dashEndTolerance = 1f;
 
     private Collider2D _collider;
 
@@ -21,7 +22,8 @@ public class DashDestructibleObject : MonoBehaviour
     {
         if (destroyed) return;
         if (collision.collider.TryGetComponent(out PlayerController playerController) &&
-            playerController.PlayerState == PlayerController.PlayerStateEnum.Dash)
+            (playerController.PlayerState == PlayerController.PlayerStateEnum.Dash ||
+             Time.time - playerController.TimeDashEnded <= dashEndTolerance))
         {
             destroyed = true;
             _collider.enabled = false;
