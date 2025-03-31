@@ -2,14 +2,13 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Handles Knitby's animation
+///     Handles Knitby's animation
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
 public class KnitbyAnimator : MonoBehaviour
 {
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject deathSmoke;
-    [SerializeField] private float dashFadeDuration = 0.1f;
     
     private SpriteRenderer _spriteRenderer;
     private Material _material;
@@ -33,16 +32,6 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController = GetComponentInParent<KnitbyController>();
     }
 
-    private void Start()
-    {
-        GameManager.Instance.Reset += OnReset;
-    }
-
-    private void FixedUpdate()
-    {
-        HandleIdle();
-    }
-
     private void OnEnable()
     {
         _knitbyController.DirectionUpdated += OnMove;
@@ -51,6 +40,8 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.Swing += OnSwing;
         _knitbyController.CanDash += OnPlayerCanDash;
         _knitbyController.PlayerDeath += OnPlayerDeath;
+        _knitbyController.SetIdle += OnIdle;
+        GameManager.Instance.Reset += OnReset;
     }
 
     private void OnDisable()
@@ -61,8 +52,14 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.Swing -= OnSwing;
         _knitbyController.CanDash += OnPlayerCanDash;
         _knitbyController.PlayerDeath -= OnPlayerDeath;
-        
+        _knitbyController.SetIdle -= OnIdle;
+
         GameManager.Instance.Reset -= OnReset;
+    }
+
+    private void OnIdle(bool value)
+    {
+        anim.SetBool(IdleKey, value);
     }
 
     private void OnMove(float x, float y)
@@ -100,19 +97,9 @@ public class KnitbyAnimator : MonoBehaviour
         Instantiate(deathSmoke, transform);
         anim.enabled = false;
     }
-    
-    private void HandleIdle()
-    {
-        // if paused, don't change the idle state
-        if (Time.deltaTime == 0) return;
-        // update idle state to whether position changed 
-        float movement = Vector3.Distance(_lastPosition, transform.position);
-        anim.SetBool(IdleKey, Mathf.Abs(movement) < 0.01);
-        _lastPosition = transform.position;
-    }
 
     /// <summary>
-    /// On reset, re-enable animation
+    ///     On reset, re-enable animation
     /// </summary>
     private void OnReset()
     {
