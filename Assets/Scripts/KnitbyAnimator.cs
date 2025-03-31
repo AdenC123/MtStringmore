@@ -16,7 +16,6 @@ public class KnitbyAnimator : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject deathSmoke;
     private KnitbyController _knitbyController;
-    private bool _wasSwinging = false;
 
     private SpriteRenderer _spriteRenderer;
 
@@ -80,10 +79,7 @@ public class KnitbyAnimator : MonoBehaviour
 
     private void OnSwing(bool inSwing)
     {
-        if (_wasSwinging != inSwing) { // Only update if state changes
-            anim.SetBool(SwingKey, inSwing);
-            _wasSwinging = inSwing;
-        }
+        anim.SetBool(SwingKey, inSwing);
     }
 
     private void OnPlayerDeath()
