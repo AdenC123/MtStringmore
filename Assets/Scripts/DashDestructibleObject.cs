@@ -9,7 +9,8 @@ public class DashDestructibleObject : MonoBehaviour
 {
     [SerializeField] private bool destroyed;
     [SerializeField] private UnityEvent onDestroyed;
-    [SerializeField, Min(0)] private float dashEndTolerance = 1f;
+    [SerializeField, Tooltip("Tolerance to allow destruction after player dash (seconds)"), Min(0)]
+    private float dashEndTolerance = 1f;
 
     private Collider2D _collider;
 
