@@ -48,7 +48,7 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.GroundedChanged -= OnGroundedChanged;
         _knitbyController.WallHitChanged -= OnWallHitChanged;
         _knitbyController.Swing -= OnSwing;
-        _knitbyController.CanDash += OnPlayerCanDash;
+        _knitbyController.CanDash -= OnPlayerCanDash;
         _knitbyController.PlayerDeath -= OnPlayerDeath;
         _knitbyController.SetIdle -= OnIdle;
 
