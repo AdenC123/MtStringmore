@@ -43,13 +43,10 @@ public class Balloon : AbstractPlayerInteractable
     /// Has to be public to allow the editor to modify this without reflection.
     /// </remarks>
     [Tooltip("First position (world space)")]
-    public Vector2 firstPosition;
+    public Vector2 positionOffset;
 
-    /// <remarks>
-    /// Has to be public to allow the editor to modify this without reflection.
-    /// </remarks>
-    [Tooltip("Second position (world space)")]
-    public Vector2 secondPosition;
+    private Vector2 firstPosition;
+    private Vector2 secondPosition;
     
     /// <remarks>
     /// I know the new reset logic hasn't been merged in yet,
@@ -59,8 +56,6 @@ public class Balloon : AbstractPlayerInteractable
     
     //Retrieves balloon's rigidbody on awake
     private Rigidbody2D _rigidbody;
-    
-    [SerializeField, Tooltip("Access to Player Controller")]
     private PlayerController _player;
     
     [SerializeField, Tooltip("Allowed error of player to balloon before respawning")]
@@ -295,6 +290,9 @@ public class Balloon : AbstractPlayerInteractable
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        firstPosition = new Vector2(transform.position.x, transform.position.y);
+        secondPosition = firstPosition + positionOffset;
     }
 
     private void OnValidate()

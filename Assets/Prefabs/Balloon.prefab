@@ -179,8 +179,6 @@ MonoBehaviour:
   playerAnimator: {fileID: 0}
   playerAudio: {fileID: 0}
   isPlayerInteractable: 0
-  firstPosition: {x: 6, y: 5}
-  secondPosition: {x: 6, y: 20.5}
-  _player: {fileID: 0}
+  positionOffset: {x: 0, y: 10}
   positionTolerance: 0.1
   boostTimer: 1
