@@ -6,7 +6,6 @@ namespace Yarn
 {
     public class CutsceneCharacter : MonoBehaviour
     {
-        private static readonly int JumpKey = Animator.StringToHash("Jump");
         private Animator _animator;
         private SpriteRenderer _spriteRenderer;
 
@@ -35,9 +34,15 @@ namespace Yarn
             if (disableAnimation) yield return SetAnimation(false);
         }
 
+        [YarnCommand("flip")]
+        public void Flip()
+        {
+            _spriteRenderer.flipX = !_spriteRenderer.flipX;
+        }
+
         // run is a non-blocking version of move with identical syntax
         [YarnCommand("run")]
-        public void Run(float x, float y, float speed, bool flipSprite = false, bool disableAnimation = true)
+        public void Run(float x, float y, float speed, bool flipSprite = false, bool disableAnimation = false)
         {
             StartCoroutine(MoveCoroutine(x, y, speed, flipSprite, disableAnimation));
         }
