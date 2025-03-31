@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Yarn.Unity;
 
 /// <summary>
 /// Applies fade effects to a game object
@@ -34,12 +33,11 @@ public class FadeEffects : MonoBehaviour
         }
     }
 
-    
     public void InvokeFadeOut()
     {
         StartCoroutine(FadeOutCoroutine());
     }
-    
+
     public void InvokeFadeIn()
     {
         StartCoroutine(FadeInCoroutine());
@@ -49,8 +47,8 @@ public class FadeEffects : MonoBehaviour
     {
         StartCoroutine(FadeInAndOutCoroutine());
     }
-    
-    public IEnumerator FadeOutCoroutine()
+
+    private IEnumerator FadeOutCoroutine()
     {
         Color color = _material.color;
         float startAlpha = color.a;
