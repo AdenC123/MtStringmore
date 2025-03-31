@@ -30,11 +30,10 @@ public class Balloon : AbstractPlayerInteractable
     [SerializeField, Tooltip("Access to groundLayer to check attach requirements")]
     private LayerMask groundLayerMask;
     
-    [SerializeField, Tooltip("Access to Animator")]
     private Animator playerAnimator;
     
-    [SerializeField, Tooltip("Access to Player Sound Effect")]
-    private AudioSource playerAudio;
+    // [SerializeField, Tooltip("Access to Player Sound Effect")]
+    // private AudioSource playerAudio;
     
     [SerializeField, Tooltip("Boolean to check if the player is still on the interactable object")]
     private bool isPlayerInteractable;
@@ -220,7 +219,7 @@ public class Balloon : AbstractPlayerInteractable
     {
         _player = player;
         playerAnimator.enabled = false; //to-do, set to balloon anim
-        playerAudio.enabled = false; //to-do, set to balloon sfx
+        // playerAudio.enabled = false; //to-do, set to balloon sfx
         
         Vector2 targetPosition  = (Vector2)transform.position + (Vector2)offset;
         if (CanAttachAtPosition(targetPosition))
@@ -249,7 +248,7 @@ public class Balloon : AbstractPlayerInteractable
     {
         player.ActiveVelocityEffector = null;
         playerAnimator.enabled = true;
-        playerAudio.enabled = true; // to-do, handle the balloon sound effect ending here
+        // playerAudio.enabled = true; // to-do, handle the balloon sound effect ending here
         isPlayerInteractable = false;   
         isBoosted = true;
 
@@ -291,6 +290,7 @@ public class Balloon : AbstractPlayerInteractable
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        playerAnimator = GameObject.FindWithTag("Player").GetComponentInChildren<Animator>();
         firstPosition = new Vector2(transform.position.x, transform.position.y);
         secondPosition = firstPosition + positionOffset;
     }
@@ -322,17 +322,17 @@ public class Balloon : AbstractPlayerInteractable
             Debug.LogWarning("Rigidbody isn't kinematic: may cause problems!");
         }
 
-        if (body)
-        {
-            List<RaycastHit2D> hits = new();
-            body.position = firstPosition;
-            body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition-firstPosition).magnitude);
-            foreach (RaycastHit2D hit in hits)
-            {
-                // some wack things may happen if the player collides with something while moving
-                Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
-            }
-        }
+        // if (body)
+        // {
+        //     List<RaycastHit2D> hits = new();
+        //     body.position = firstPosition;
+        //     body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition-firstPosition).magnitude);
+        //     foreach (RaycastHit2D hit in hits)
+        //     {
+        //         // some wack things may happen if the player collides with something while moving
+        //         Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
+        //     }
+        // }
     }
     
     private void RespawnBalloon()
