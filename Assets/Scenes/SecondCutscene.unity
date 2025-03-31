@@ -3397,6 +3397,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CutsceneFade
       objectReference: {fileID: 0}
+    - target: {fileID: 6424395082036937350, guid: d0738f8adb5244ba0a5801b609442fc4, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

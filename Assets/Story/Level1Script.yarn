@@ -61,9 +61,9 @@ title: SwingTutorial
 Knitby: Press space to attach and release from the swing!
 ===
 
-title: DemoEnd
+title: Level1End
 ---
-Knitby: Hey, not too shabby!
-Marshmallow: ...thanks?
+<<fade FadeCanvas>>
+<<load_scene_nonblock Manager SecondCutscene 0.5>>
 ===
 
