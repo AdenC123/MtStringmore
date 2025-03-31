@@ -18,14 +18,13 @@ public class KnitbyAnimator : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject deathSmoke;
     private KnitbyController _knitbyController;
-    private Vector3 _lastPosition;
     private Material _material;
 
     private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
-        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _material = _spriteRenderer.material;
         _knitbyController = GetComponentInParent<KnitbyController>();
     }
