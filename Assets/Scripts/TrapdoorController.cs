@@ -22,6 +22,11 @@ public class TrapdoorController : MonoBehaviour
     private IEnumerator _activeRoutine;
     #endregion
 
+    void Awake()
+    {
+        _hinge = GetComponent<HingeJoint2D>();
+        _motor = _hinge.motor;
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -33,8 +38,6 @@ public class TrapdoorController : MonoBehaviour
 
     IEnumerator Folding()
     {
-        _hinge = GetComponent<HingeJoint2D>();
-        _motor = _hinge.motor;
         //freeze platform to prevent motor from running prematurely
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
