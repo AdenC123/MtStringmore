@@ -10,7 +10,6 @@ TagManager:
   - Knitby
   - BounceArea
   - Trampoline
-  - Balloon
   layers:
   - Default
   - TransparentFX
