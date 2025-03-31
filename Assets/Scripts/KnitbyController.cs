@@ -37,11 +37,16 @@ public class KnitbyController : MonoBehaviour
     /// </summary>
     public event Action<bool> Swing;
     /// <summary>
+    /// Fires continuously; true when player can dash, false otherwise
+    /// </summary>
+    public event Action<bool> CanDash;
+    /// <summary>
     /// Fires when player is dead
     /// </summary>
     public event Action PlayerDeath;
     
     private GameObject _player;
+    private PlayerController _playerController;
     private LineRenderer _lineRenderer;
     private CapsuleCollider2D _col;
     private Vector3 _currentPathPosition;
@@ -56,8 +61,8 @@ public class KnitbyController : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player");
         _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
         
-        var playerController = _player.GetComponent<PlayerController>();
-        playerController.Death += PlayerDeath;
+        _playerController = _player.GetComponent<PlayerController>();
+        _playerController.Death += PlayerDeath;
         
         GameManager.Instance.Reset += OnReset;
     }
@@ -70,14 +75,6 @@ public class KnitbyController : MonoBehaviour
             DirectionUpdated?.Invoke(direction.x, direction.y);
             transform.position += direction * (Time.deltaTime * interpolationSpeed);
         }
-    }
-    
-    private void OnDisable()
-    {
-        GameManager.Instance.Reset -= OnReset;
-        if (_player == null || _player) return;
-        var playerController = _player.GetComponent<PlayerController>();
-        playerController.Death -= PlayerDeath;
     }
 
     private void FixedUpdate()
@@ -109,6 +106,15 @@ public class KnitbyController : MonoBehaviour
             WallHitChanged?.Invoke(wallHit);
         }
         Swing?.Invoke(_lineRenderer.isVisible);
+
+        CanDash?.Invoke(_playerController.CanDash);
+    }
+    
+    private void OnDisable()
+    {
+        GameManager.Instance.Reset -= OnReset;
+        if (_player == null || _player) return;
+        _playerController.Death -= PlayerDeath;
     }
 
     private RaycastHit2D CapsuleCastCollision(Vector2 dir, float distance)

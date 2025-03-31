@@ -1,14 +1,18 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
 /// Handles Knitby's animation
 /// </summary>
+[RequireComponent(typeof(SpriteRenderer))]
 public class KnitbyAnimator : MonoBehaviour
 {
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject deathSmoke;
-
+    [SerializeField] private float dashFadeDuration = 0.1f;
+    
     private SpriteRenderer _spriteRenderer;
+    private Material _material;
     private KnitbyController _knitbyController;
     private Vector3 _lastPosition;
 
@@ -20,10 +24,12 @@ public class KnitbyAnimator : MonoBehaviour
     private static readonly int LeaveWallKey = Animator.StringToHash("LeaveWall");
     private static readonly int SwingKey = Animator.StringToHash("InSwing");
     private static readonly int IdleKey = Animator.StringToHash("Idle");
-
+    private static readonly int FadeControl = Shader.PropertyToID("_FadeControl");
+    
     private void Awake()
     {
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        _material = _spriteRenderer.material;
         _knitbyController = GetComponentInParent<KnitbyController>();
     }
 
@@ -43,6 +49,7 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.GroundedChanged += OnGroundedChanged;
         _knitbyController.WallHitChanged += OnWallHitChanged;
         _knitbyController.Swing += OnSwing;
+        _knitbyController.CanDash += OnPlayerCanDash;
         _knitbyController.PlayerDeath += OnPlayerDeath;
     }
 
@@ -52,6 +59,7 @@ public class KnitbyAnimator : MonoBehaviour
         _knitbyController.GroundedChanged -= OnGroundedChanged;
         _knitbyController.WallHitChanged -= OnWallHitChanged;
         _knitbyController.Swing -= OnSwing;
+        _knitbyController.CanDash += OnPlayerCanDash;
         _knitbyController.PlayerDeath -= OnPlayerDeath;
         
         GameManager.Instance.Reset -= OnReset;
@@ -79,6 +87,14 @@ public class KnitbyAnimator : MonoBehaviour
         anim.SetBool(SwingKey, inSwing);
     }
 
+    private void OnPlayerCanDash(bool canDash)
+    {
+        if (canDash && Mathf.Approximately(_material.GetFloat(FadeControl), 0))
+            _material.SetFloat(FadeControl, 1);
+        else if (!canDash && Mathf.Approximately(_material.GetFloat(FadeControl), 1))
+            _material.SetFloat(FadeControl, 0);
+    }
+
     private void OnPlayerDeath()
     {
         Instantiate(deathSmoke, transform);
@@ -98,7 +114,7 @@ public class KnitbyAnimator : MonoBehaviour
     /// <summary>
     /// On reset, re-enable animation
     /// </summary>
-    public void OnReset()
+    private void OnReset()
     {
         anim.enabled = true;
     }
