@@ -171,13 +171,16 @@ MonoBehaviour:
   minSpeed: 10
   maxSpeed: 10
   accelerationTime: 1
-  exitVelBoost: {x: 10, y: 10}
+  exitVelBoost: {x: 15, y: 5}
   attachRayDistance: 0.1
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 256
   playerAnimator: {fileID: 0}
   playerAudio: {fileID: 0}
+  isPlayerInteractable: 0
   firstPosition: {x: 6, y: 5}
   secondPosition: {x: 6, y: 20.5}
-  pathRenderer: {fileID: 0}
+  _player: {fileID: 0}
+  positionTolerance: 0.1
+  boostTimer: 1
