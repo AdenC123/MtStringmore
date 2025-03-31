@@ -18,12 +18,30 @@ public class DashDestructibleObject : MonoBehaviour
         _collider = GetComponent<Collider2D>();
     }
 
+    /// <summary>
+    /// Determines whether the player should 'destroy' this object (is dashing or was recently dashing).
+    /// </summary>
+    /// <param name="player">Player in question</param>
+    /// <returns>True if the player is/was recently dashing.</returns>
+    /// <remarks>
+    /// To avoid the player destroying this object while walking after having just dashed,
+    /// we check for whether they're in the air as well.
+    /// </remarks>
+    private bool ShouldPlayerDestroy(PlayerController player)
+    {
+        return player.PlayerState switch
+        {
+            PlayerController.PlayerStateEnum.Dash => true,
+            PlayerController.PlayerStateEnum.Air => Time.time - player.TimeDashEnded <= dashEndTolerance,
+            _ => false
+        };
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (destroyed) return;
         if (collision.collider.TryGetComponent(out PlayerController playerController) &&
-            (playerController.PlayerState == PlayerController.PlayerStateEnum.Dash ||
-             Time.time - playerController.TimeDashEnded <= dashEndTolerance))
+            ShouldPlayerDestroy(playerController))
         {
             destroyed = true;
             _collider.enabled = false;
