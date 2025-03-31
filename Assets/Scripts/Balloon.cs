@@ -35,6 +35,9 @@ public class Balloon : AbstractPlayerInteractable
     
     [SerializeField, Tooltip("Access to Player Sound Effect")]
     private AudioSource playerAudio;
+    
+    [SerializeField, Tooltip("Boolean to check if the player is still on the interactable object")]
+    private bool isPlayerInteractable;
 
     /// <remarks>
     /// Has to be public to allow the editor to modify this without reflection.
@@ -63,6 +66,10 @@ public class Balloon : AbstractPlayerInteractable
     [SerializeField, Tooltip("Allowed error of player to balloon before respawning")]
     private float positionTolerance = 0.1f;
     private bool playerAttached = false;
+    
+    [SerializeField, Tooltip("Variable for how long the boost lasts after jumping off")]
+    private float boostTimer;
+    private bool isBoosted;
 
     
     /// <inheritdoc />
@@ -149,6 +156,7 @@ public class Balloon : AbstractPlayerInteractable
     private void StartMotion()
     {
         _activeMotion ??= StartCoroutine(MotionCoroutine());
+        isPlayerInteractable = true;
     }
 
     /// <summary>
@@ -184,26 +192,29 @@ public class Balloon : AbstractPlayerInteractable
     public override void OnPlayerExit(PlayerController player)
     {
         playerAttached = false;
-        if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance)
-        {
-            RespawnBalloon();
-        }
+        if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance) RespawnBalloon();
     }
 
     /// <inheritdoc />
     public override Vector2 ApplyVelocity(Vector2 velocity)
     {
-        Vector2 vel = _rigidbody.velocity;
-        if (_activeMotion == null)
+        Vector2 balloonVelocity = _rigidbody.velocity;
+
+        if (!isPlayerInteractable)
         {
             if (ReferenceEquals(_player.ActiveVelocityEffector, this))
                 _player.ActiveVelocityEffector = null;
-            vel += new Vector2(_player.Direction * exitVelBoost.x, exitVelBoost.y);
-            _rigidbody.velocity = Vector2.zero;
-        }
 
-        Debug.Log(vel);
-        return vel;
+            // Use the balloon's velocity to determine the exit boost direction
+            Vector2 boostDirection = balloonVelocity.normalized;
+            if (boostDirection == Vector2.zero) // Fallback in case balloon is stationary
+                boostDirection = Vector2.up; // Default to an upward boost
+
+            Vector2 boost = new(_player.Direction * exitVelBoost.x, boostDirection.y * exitVelBoost.y);
+            return boost; // Apply only the boost since player is stationary
+        }
+        
+        return balloonVelocity;
     }
     
     /// <summary>
@@ -237,14 +248,48 @@ public class Balloon : AbstractPlayerInteractable
         return hit.collider == null;
     }
     
-
-
+    
     /// <inheritdoc />
     public override void EndInteract(PlayerController player)
     {
         player.ActiveVelocityEffector = null;
         playerAnimator.enabled = true;
         playerAudio.enabled = true; // to-do, handle the balloon sound effect ending here
+        isPlayerInteractable = false;   
+        isBoosted = true;
+
+        // if (player.TryGetComponent(out Rigidbody2D playerRb)) {
+        //     Vector2 boostedVelocity = ApplyVelocity(playerRb.velocity);
+        //     Debug.Log($"Applying exit boost: {boostedVelocity}");
+        //     playerRb.AddForce(boostedVelocity);
+        // }
+    }
+
+    private void FixedUpdate()
+    {
+        if (_player &&
+            !isPlayerInteractable &&
+            _player.TryGetComponent(out Rigidbody2D playerRb) &&
+            isBoosted)
+        {
+            Vector2 boostedVelocity = ApplyVelocity(playerRb.velocity);
+            playerRb.velocity += new Vector2(boostedVelocity.x, boostedVelocity.y);
+            StartCoroutine(ResetBoostAfterTime(playerRb, boostTimer));
+        }
+    }
+
+    private IEnumerator ResetBoostAfterTime(Rigidbody2D playerRb, float duration)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            // Keep applying the horizontal velocity boost (preserving Y motion)
+            playerRb.velocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        isBoosted = false;
     }
 
     private void Awake()
