@@ -132,7 +132,7 @@ public class KnitbyController : MonoBehaviour
     private void OnDisable()
     {
         GameManager.Instance.Reset -= OnReset;
-        if (_player == null) return;
+        if (!_player) return;
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.Death -= PlayerDeath;
     }

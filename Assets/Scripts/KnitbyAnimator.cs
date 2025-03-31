@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -7,14 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class KnitbyAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
-    [SerializeField] private GameObject deathSmoke;
-    
-    private SpriteRenderer _spriteRenderer;
-    private Material _material;
-    private KnitbyController _knitbyController;
-    private Vector3 _lastPosition;
-
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int LandKey = Animator.StringToHash("Land");
     private static readonly int GroundedKey = Animator.StringToHash("Grounded");
@@ -24,7 +15,14 @@ public class KnitbyAnimator : MonoBehaviour
     private static readonly int SwingKey = Animator.StringToHash("InSwing");
     private static readonly int IdleKey = Animator.StringToHash("Idle");
     private static readonly int FadeControl = Shader.PropertyToID("_FadeControl");
-    
+    [SerializeField] private Animator anim;
+    [SerializeField] private GameObject deathSmoke;
+    private KnitbyController _knitbyController;
+    private Vector3 _lastPosition;
+    private Material _material;
+
+    private SpriteRenderer _spriteRenderer;
+
     private void Awake()
     {
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
