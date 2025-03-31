@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1610325147306674782}
   - component: {fileID: -4005145457818515912}
   - component: {fileID: -2182251645974586623}
-  - component: {fileID: -1936076007787096751}
   - component: {fileID: 768450171500632734}
+  - component: {fileID: 2186365399623317024}
   - component: {fileID: 879769820943251829}
   m_Layer: 8
   m_Name: Collapsing Platform
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 1}
+  m_LocalScale: {x: 7, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -133,21 +133,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-1936076007787096751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5031320007073257951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ed629248306b5746838c13067ea0bf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collapsePlatTimer: 0.5
-  restorePlatTimer: 2
-  rb: {fileID: 879769820943251829}
 --- !u!251 &768450171500632734
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -167,6 +152,21 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &2186365399623317024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5031320007073257951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f82cb9cafcf13b4428467a13b433dced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collapsePlatTimer: 0.5
+  restorePlatTimer: 2
+  rb: {fileID: 879769820943251829}
 --- !u!50 &879769820943251829
 Rigidbody2D:
   serializedVersion: 4

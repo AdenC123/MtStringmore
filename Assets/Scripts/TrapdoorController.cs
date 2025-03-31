@@ -13,6 +13,7 @@ public class TrapdoorController : MonoBehaviour
     //this value should be smaller than the player/rb's "weight"
     [SerializeField] float motorForce;
     [SerializeField] float motorSpeed;
+    [SerializeField] Rigidbody2D rb;
     #endregion
 
     #region Private Properties
@@ -20,6 +21,7 @@ public class TrapdoorController : MonoBehaviour
     private JointMotor2D _motor;
     private IEnumerator _activeRoutine;
     #endregion
+
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -33,14 +35,18 @@ public class TrapdoorController : MonoBehaviour
     {
         _hinge = GetComponent<HingeJoint2D>();
         _motor = _hinge.motor;
-        //collapse the platform after time has passed
+        //freeze platform to prevent motor from running prematurely
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
         yield return new WaitForSeconds(collapsePlatTimer);
+        rb.constraints = RigidbodyConstraints2D.None;
+        _hinge.useMotor = false;
         _motor.motorSpeed = motorSpeed;
         _motor.maxMotorTorque = motorForce;
         
         //assign motor back to hinge object for updated motor properties to be applied to the hinge object
         _hinge.motor = _motor;
-
+         _hinge.useMotor = true;
         //restore the platform after time has passed
         yield return new WaitForSeconds(restorePlatTimer);
         

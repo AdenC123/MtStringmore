@@ -216,7 +216,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 1.9, y: -0.1}
-  m_ConnectedAnchor: {x: 67.87175, y: 10.568432}
+  m_ConnectedAnchor: {x: 67.520004, y: 10.704727}
   m_UseMotor: 1
   m_Motor:
     m_MotorSpeed: 100
@@ -282,8 +282,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2722ed92b065fbf40b5af9edd751dd5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collapsePlatTimer: 0.5
+  collapsePlatTimer: 1
   restorePlatTimer: 1
   isLeftWall: 0
   motorForce: 1
-  motorSpeed: -90
+  motorSpeed: 90
+  rb: {fileID: 268937351057325694}
