@@ -9,7 +9,7 @@ Marshmallow: We're going to be fine, don't be such a wet blanket!
 // knitby sighs
 Knitby: Hey, that's uncalled for! I'm just trying to look out for you, Marshmallow. You need to be more watchful.
 // i sorta imagine marshmallow with a "hmpf" expression, like the triumph emoji
-Marshmallow: Nope! No hesitation allowed, or we won't make it to the summit.
+Marshmallow_frown: <b>Nope!</b> No hesitation allowed, or we won't make it to the summit.
 Knitby: That attitude is going to get you hurt, Marshmallow, or worse!
 // knitby is like pleading
 Knitby: Look, there's no shame in turning back if it gets too hard. 
@@ -20,10 +20,13 @@ Knitby: <i>So</i> much could go wrong. We really shouldn't have come here, this 
 // a determined marshmallow
 Marshmallow: What if we make it to the summit? What if our climb goes down in history and we become famous? You really worry too much, Knitby.    
 // knitby, worried about abandonment, holding back tears
-Knitby: ... You're absolutely sure you still want to do this?
+Knitby_relieved: ... You're absolutely sure you still want to do this?
 Marshmallow: Yes, 100%. Now, let's go!
 // knitby reluctantly agrees
-Knitby: ... Okay.
+Knitby_relieved: ... Okay.
+<<run Marshmallow 44 1 15>>
+<<wait 0.5>>
+<<run Knitby 44 1 15>>
 <<fade_out 1>>
 // <<load_scene Level2>>
 

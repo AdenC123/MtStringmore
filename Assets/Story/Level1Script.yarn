@@ -25,18 +25,18 @@ Knitby_confused: ... Why would you think that? Clouds are just... water??
 Marshmallow: Do you not trust me? Have I ever led you wrong? 
 Knitby_frown: Marshmallow, these peaks have claimed many adventurers before you. Just because you have a chip on your shoulder—
 Marshmallow_frown: I have a <i>what</i> on my shoulder?
-Knitby: Let me rephrase. Just because you want to prove yourself doesn't mean you should recklessly endanger yourself—
-Marshmallow: Well, okay then. Bye!
+Knitby_relieved: Let me rephrase. Just because you want to prove yourself doesn't mean you should recklessly endanger yourself—
+Marshmallow_frown: Well, okay then. <b>Bye!</b>
 <<run Marshmallow 45 1 20 true>>
 <<follow_object Knitby 4.5>>
 <<wait 0.35>>
 <<resize_camera 7 5>>
 Knitby: Wait, where are you going in such a hurry?
-Marshmallow_faraway: Up the mountain, duh!
+Marshmallow_smile: Up the mountain, duh!
 // knitby shouting
 Knitby: But why?
 // marshmallow is very far away now 
-Marshmallow_faraway: Because I know you can't help but follow me anyway!
+Marshmallow: Because I know you can't help but follow me anyway!
 Knitby: <i>*sighs*</i> ...
 <<run Knitby 44 1 15>>
 <<wait 1>>
