@@ -77,7 +77,10 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Current velocity of the player.
     /// </summary>
-    public Vector2 Velocity => _velocity;
+    public Vector2 Velocity {
+        get => _velocity;
+        set => _velocity = value;
+    }
 
     /// <summary>
     /// Facing direction of the player. -1.0 for left, 1.0 for right.

@@ -168,17 +168,13 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   offset: {x: 0, y: -5, z: 0}
-  minSpeed: 10
-  maxSpeed: 10
+  minSpeed: 15
+  maxSpeed: 15
   accelerationTime: 1
-  exitVelBoost: {x: 15, y: 5}
+  exitVel: {x: 20, y: 15}
   attachRayDistance: 0.1
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  playerAnimator: {fileID: 0}
-  playerAudio: {fileID: 0}
-  isPlayerInteractable: 0
-  positionOffset: {x: 0, y: 10}
+  positionOffset: {x: 0, y: 20}
   positionTolerance: 0.1
-  boostTimer: 1
