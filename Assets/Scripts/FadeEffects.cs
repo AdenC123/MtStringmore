@@ -39,8 +39,7 @@ public class FadeEffects : MonoBehaviour
     {
         StartCoroutine(FadeOutCoroutine());
     }
-
-    [YarnCommand("fade")]
+    
     public void InvokeFadeIn()
     {
         StartCoroutine(FadeInCoroutine());
@@ -59,7 +58,7 @@ public class FadeEffects : MonoBehaviour
 
         while (elapsedTime < fadeDuration)
         {
-            elapsedTime += Time.unscaledDeltaTime;
+            elapsedTime += Time.deltaTime;
             color.a = Mathf.Lerp(startAlpha, 0, elapsedTime / fadeDuration);
             _material.color = color;
             yield return null;
@@ -81,7 +80,7 @@ public class FadeEffects : MonoBehaviour
 
         while (elapsedTime < fadeDuration)
         {
-            elapsedTime += Time.unscaledDeltaTime;
+            elapsedTime += Time.deltaTime;
             color.a = Mathf.Lerp(startAlpha, 1, elapsedTime / fadeDuration);
             _material.color = color;
             yield return null;

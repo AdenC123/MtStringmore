@@ -17,7 +17,7 @@ public class CutsceneFade : MonoBehaviour
     private void LateUpdate()
     {
         // apply fade
-        float newAlpha = Mathf.MoveTowards(_image.color.a, _opacity, Time.deltaTime * _fadeSpeed);
+        float newAlpha = Mathf.MoveTowards(_image.color.a, _opacity, Time.unscaledDeltaTime * _fadeSpeed);
         _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, newAlpha);
     }
 

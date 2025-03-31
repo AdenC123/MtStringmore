@@ -1,7 +1,7 @@
 ﻿title: IntroCutscene
 setting: outside Knitby's house
 ---
-<<fix_coords 6.7 2>>
+<<fix_coords 6.9 2>>
 <<move Marshmallow 2 1 15 true>>
 // marshmallow knocks on Knitby's door
 <<play_sound door_knock>>
@@ -63,7 +63,7 @@ Knitby: Press space to attach and release from the swing!
 
 title: Level1End
 ---
-<<fade FadeCanvas>>
+<<fade_out>>
 <<load_scene_nonblock Manager SecondCutscene 0.5>>
 ===
 
