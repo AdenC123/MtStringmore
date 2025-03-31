@@ -11,7 +11,8 @@ public class KnitbyAnimator : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private KnitbyController _knitbyController;
     private Vector3 _lastPosition;
-
+    private bool _wasSwinging = false;
+    
     private static readonly int JumpKey = Animator.StringToHash("Jump");
     private static readonly int LandKey = Animator.StringToHash("Land");
     private static readonly int GroundedKey = Animator.StringToHash("Grounded");
@@ -76,7 +77,10 @@ public class KnitbyAnimator : MonoBehaviour
 
     private void OnSwing(bool inSwing)
     {
-        anim.SetBool(SwingKey, inSwing);
+        if (_wasSwinging != inSwing) { // Only update if state changes
+            anim.SetBool(SwingKey, inSwing);
+            _wasSwinging = inSwing;
+        }
     }
 
     private void OnPlayerDeath()
