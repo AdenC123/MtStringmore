@@ -19,9 +19,11 @@ Marshmallow_frown: <b>NOPE!</b> No hesitation allowed, or we won't make it to th
 Knitby_frown: That attitude is going to get you hurt, Marshmallow, or <i>worse</i>!
 // knitby is like pleading
 <<flip Knitby>>
-Knitby_confused: Look, there's no shame in turning back if it gets too hard.
 <<move Knitby -2 1 7>>
 <<wait 1>>
+Knitby_confused: ...
+<<flip Knitby>>
+Knitby: Look, there's no shame in turning back if it gets too hard.
 <<flip Knitby>>
 Knitby_relieved: Promise me you're going to be more careful from here on out?
 <<run Marshmallow 0.5 1 10>>
