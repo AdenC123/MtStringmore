@@ -6608,37 +6608,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1255259163684253, guid: 5fc5939230fad5f43bd670d04ad3ca12, type: 3}
-      propertyPath: yParallaxFactor
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 371582189032759357, guid: 5fc5939230fad5f43bd670d04ad3ca12, type: 3}
-      propertyPath: yParallaxFactor
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 977074357613203200, guid: 5fc5939230fad5f43bd670d04ad3ca12, type: 3}
-      propertyPath: yParallaxFactor
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 2592965395899682772, guid: 5fc5939230fad5f43bd670d04ad3ca12, type: 3}
       propertyPath: m_Name
       value: JunkPileBackground
-      objectReference: {fileID: 0}
-    - target: {fileID: 2837160952015628056, guid: 5fc5939230fad5f43bd670d04ad3ca12, type: 3}
-      propertyPath: yParallaxFactor
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236526310524582553, guid: 5fc5939230fad5f43bd670d04ad3ca12, type: 3}
-      propertyPath: yParallaxFactor
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5010482690932590513, guid: 5fc5939230fad5f43bd670d04ad3ca12, type: 3}
-      propertyPath: yParallaxFactor
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7516078029421986220, guid: 5fc5939230fad5f43bd670d04ad3ca12, type: 3}
-      propertyPath: yParallaxFactor
-      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8774407748746017285, guid: 5fc5939230fad5f43bd670d04ad3ca12, type: 3}
       propertyPath: m_LocalPosition.x
