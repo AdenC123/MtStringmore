@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
@@ -35,31 +36,31 @@ public class CutsceneManager : MonoBehaviour
     [YarnCommand("play_sound")]
     public static IEnumerator PlaySound(string soundName, bool blockUntilDone = true)
     {
-        if (_source.volume == 0)
-            _source.volume = 1;
-        
         _source.PlayOneShot(Resources.Load<AudioClip>(soundName));
         if (blockUntilDone)
             yield return new WaitUntil(() => !_source.isPlaying);
     }
 
     [YarnCommand("stop_sound")]
-    public static IEnumerator StopSound(float fadeDuration = 0)
+    public static async void StopSound(float fadeDuration = 0)
     {
         if (fadeDuration == 0)
         {
             _source.Stop();
-            yield return null;
+            return;
         }
-        else
+        
+        float startVolume = _source.volume;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeDuration)
         {
-            float elapsedTime = 0f;
-            while (elapsedTime < fadeDuration)
-            {
-                elapsedTime += Time.unscaledDeltaTime;
-                _source.volume = Mathf.Lerp(_source.volume, 0, elapsedTime / fadeDuration);
-                yield return null;
-            }
+            elapsedTime += Time.unscaledDeltaTime;
+            _source.volume = Mathf.Lerp(startVolume, 0, elapsedTime / fadeDuration);
+            await Task.Yield(); // Non-blocking
         }
+
+        _source.Stop();
+        _source.volume = startVolume;
     }
 }

@@ -47,14 +47,12 @@ Knitby_relieved: ... Okay.
 <<wait 1>>
 <<flip Knitby>>
 <<run Knitby 44 1 15>>
-<<wait 1>>
 <<stop_sound 4>>
+<<wait 2>>
 <<hide Knitby>>
 <<hide Marshmallow>>
 <<resize_camera 16 2>>
-<<fix_coords 110 10>>
-// <<fix_coords 110 10>>
-// <<resize_camera 16 2>>
+<<fix_coords 110 10 4>>
 <<wait 7>>
 <<fade_out 1>>
 // <<load_scene Level2>>
