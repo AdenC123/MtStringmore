@@ -85,6 +85,11 @@ public class PlayerController : MonoBehaviour
     public float Direction { get; private set; }
 
     /// <summary>
+    /// Time when the most recent dash would have ended (may be a time in the future).
+    /// </summary>
+    public float TimeDashEnded { get; private set; }
+
+    /// <summary>
     /// Active velocity effector.
     /// </summary>
     public IPlayerVelocityEffector ActiveVelocityEffector
@@ -305,10 +310,7 @@ public class PlayerController : MonoBehaviour
         HandleWalk();
         HandleGravity();
         if (ActiveVelocityEffector != null)
-        {
             _velocity = ActiveVelocityEffector.ApplyVelocity(_velocity);
-            PlayerState = PlayerStateEnum.Air;
-        }
         else if (dashEnabled) HandleDash();
         ApplyMovement();
     }
@@ -330,6 +332,21 @@ public class PlayerController : MonoBehaviour
         CurrentInteractableArea.EndInteract(this);
         PlayerState = PlayerStateEnum.Air;
         HangChanged?.Invoke(false, _velocity.x < 0);
+    }
+
+    /// <summary>
+    /// Stops dashing if the player is currently dashing.
+    /// </summary>
+    public void ForceCancelDash()
+    {
+        if (PlayerState != PlayerStateEnum.Dash)
+        {
+            Debug.LogWarning("ForceCancelDash called but PlayerState is not Dash");
+            return;
+        }
+
+        PlayerState = PlayerStateEnum.Air;
+        TimeDashEnded = Time.time;
     }
 
     /// <summary>
@@ -473,6 +490,7 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Dash;
             Dashed?.Invoke();
             _timeDashed = _time;
+            TimeDashEnded = Time.time + dashTime;
             // for battle of the concepts: add temp dash anim
             Instantiate(poofSmoke, transform.position, new Quaternion());
         }
@@ -486,6 +504,7 @@ public class PlayerController : MonoBehaviour
             {
                 PlayerState = PlayerStateEnum.Air;
                 _velocity.x = endDashSpeed * Direction;
+                TimeDashEnded = Time.time;
             }
         }
         else if (PlayerState is PlayerStateEnum.Run or PlayerStateEnum.Swing)
