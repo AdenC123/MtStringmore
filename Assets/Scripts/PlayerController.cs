@@ -409,6 +409,7 @@ public class PlayerController : MonoBehaviour
         {
             PlayerState = PlayerStateEnum.Run;
             _canDoubleJump = true;
+            _canDash = true;
             GroundedChanged?.Invoke(true, Mathf.Abs(_velocity.y));
             _landingDust.Play();
         }
