@@ -55,6 +55,6 @@ Knitby_relieved: ... Okay.
 <<fix_coords 110 10 4>>
 <<wait 7>>
 <<fade_out 1>>
-// <<load_scene Level2>>
+<<load_scene Level2>>
 
 ===
