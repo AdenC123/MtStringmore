@@ -39,6 +39,11 @@ public class BGMManager : MonoBehaviour
         InitializeDictionary();
     }
 
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     /// <summary>
     /// Gets the next background music clip to play.
     /// </summary>
