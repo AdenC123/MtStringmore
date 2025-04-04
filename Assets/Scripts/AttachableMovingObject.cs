@@ -222,6 +222,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     /// <inheritdoc />
     public override void StartInteract(PlayerController player)
     {
+        player.CanDash = true;
         _player = player;
         if (_rigidbody.position == secondPosition)
         {
