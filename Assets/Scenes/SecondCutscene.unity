@@ -135,6 +135,18 @@ PrefabInstance:
       value: JunkPileBackground
       objectReference: {fileID: 0}
     - target: {fileID: 8774407748746017285, guid: 17b92da15fce9f74a999e2514a289e14, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774407748746017285, guid: 17b92da15fce9f74a999e2514a289e14, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774407748746017285, guid: 17b92da15fce9f74a999e2514a289e14, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774407748746017285, guid: 17b92da15fce9f74a999e2514a289e14, type: 3}
       propertyPath: m_LocalPosition.x
       value: 121.8
       objectReference: {fileID: 0}
