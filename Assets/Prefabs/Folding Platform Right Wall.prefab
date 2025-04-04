@@ -219,7 +219,7 @@ HingeJoint2D:
   m_ConnectedAnchor: {x: 312.99124, y: 84.757965}
   m_UseMotor: 1
   m_Motor:
-    m_MotorSpeed: 100
+    m_MotorSpeed: 200
     m_MaximumMotorForce: 30
   m_UseLimits: 1
   m_AngleLimits:
@@ -257,7 +257,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0042676926, y: 0.051965833}
+  m_Offset: {x: 0.0042676926, y: 0.07536358}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -268,7 +268,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.2914872, y: 0.1}
+  m_Size: {x: 3.2914872, y: 0.3807984}
   m_EdgeRadius: 0
 --- !u!114 &2742231268343928539
 MonoBehaviour:
@@ -282,8 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2722ed92b065fbf40b5af9edd751dd5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collapsePlatTimer: 0.3
-  restorePlatTimer: 1
+  collapsePlatTimer: 0.15
+  restorePlatTimer: 2
   isLeftWall: 0
   motorForce: 1
   motorSpeed: 90
