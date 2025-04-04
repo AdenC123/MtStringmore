@@ -358,6 +358,7 @@ public class PlayerController : MonoBehaviour
     public void ForceCancelEarlyRelease()
     {
         _canReleaseEarly = false;
+        _releasedEarly = false;
     }
 
     /// <summary>
