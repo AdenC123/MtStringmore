@@ -8,7 +8,7 @@ public class Balloon : AbstractPlayerInteractable
 {
     [SerializeField, Tooltip("Acceleration curve over time, in [0, 1]")]
     private AnimationCurve accelerationCurve;
-    
+
     [SerializeField, Tooltip("Player offset from balloon")]
     private Vector3 offset = new(0, -3, 0);
 
@@ -20,47 +20,57 @@ public class Balloon : AbstractPlayerInteractable
 
     [SerializeField, Min(0), Tooltip("Acceleration time (seconds)")]
     private float accelerationTime = 1;
- 
-    [SerializeField, Tooltip("Exit velocity to set the player on release")]
-    private Vector2 exitVel = new(10, 10);
-    
+
+    [SerializeField, Min(0), Tooltip("Additional velocity boost on exit")]
+    private Vector2 exitVelBoost = new(10, 10);
+
     [SerializeField, Tooltip("Distance to ensure player does not clip into ground")]
     private float attachRayDistance = 0.1f;
-    
+
     [SerializeField, Tooltip("Access to groundLayer to check attach requirements")]
     private LayerMask groundLayerMask;
-    
-    private Animator playerAnimator;
-    
-    // [SerializeField, Tooltip("Access to Player Sound Effect")]
-    // private AudioSource playerAudio;
-    
+
+    [SerializeField] private AudioSource windAudioSource;
+    [SerializeField] private AudioSource attachAudioSource;
+
+    [SerializeField, Tooltip("Boolean to check if the player is still on the interactable object")]
     private bool isPlayerInteractable;
 
     /// <remarks>
     /// Has to be public to allow the editor to modify this without reflection.
     /// </remarks>
-    [Tooltip("Offset from initial position to travel to")]
-    public Vector2 positionOffset;
+    [Tooltip("First position (world space)")]
+    public Vector2 firstPosition;
 
-    private Vector2 firstPosition;
-    private Vector2 secondPosition;
-    
+    /// <remarks>
+    /// Has to be public to allow the editor to modify this without reflection.
+    /// </remarks>
+    [Tooltip("Second position (world space)")]
+    public Vector2 secondPosition;
+
+    [SerializeField] private AudioClip[] attachSounds;
+
+    [SerializeField, Tooltip("Allowed error of player to balloon before respawning")]
+    private float positionTolerance = 0.1f;
+
+    [SerializeField, Tooltip("Variable for how long the boost lasts after jumping off")]
+    private float boostTimer;
+
     /// <remarks>
     /// I know the new reset logic hasn't been merged in yet,
     /// but we need to save a copy of the enumerator to reset the object later.
     /// </remarks>
     private Coroutine _activeMotion;
-    
+
     //Retrieves balloon's rigidbody on awake
     private Rigidbody2D _rigidbody;
     private PlayerController _player;
-    
-    [SerializeField, Tooltip("Allowed error of player to balloon before respawning")]
-    private float positionTolerance = 0.1f;
+
     private bool playerAttached = false;
 
-    
+    private bool isBoosted;
+
+
     /// <inheritdoc />
     public override bool IgnoreGravity => true;
 
@@ -123,14 +133,14 @@ public class Balloon : AbstractPlayerInteractable
         {
             yield return new WaitForFixedUpdate();
             // yes, I could use possibly use FixedJoint2D, but I suspect that PlayerController may cause problems
-            
+
             // respawn logic, if balloon reaches second position w/o player, then respawn balloon in start position
             if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance && !playerAttached)
             {
                 RespawnBalloon();
                 yield break;
             }
-            
+
             _rigidbody.velocity = EvaluateAt(time) * diff.normalized;
             time += Time.fixedDeltaTime;
         }
@@ -171,7 +181,8 @@ public class Balloon : AbstractPlayerInteractable
         {
             // disallow re-attaching if reached
             player.CurrentInteractableArea = null;
-        } else
+        }
+        else
         {
             player.CurrentInteractableArea = this;
         }
@@ -199,13 +210,13 @@ public class Balloon : AbstractPlayerInteractable
             if (boostDirection == Vector2.zero) // Fallback in case balloon is stationary
                 boostDirection = Vector2.up; // Default to an upward boost
 
-            Vector2 boost = new(_player.Direction * exitVel.x, boostDirection.y * exitVel.y);
+            Vector2 boost = new(_player.Direction * exitVelBoost.x, boostDirection.y * exitVelBoost.y);
             return boost; // Apply only the boost since player is stationary
         }
-        
+
         return balloonVelocity;
     }
-    
+
     /// <summary>
     /// Ensures character will not clip into the ground when attaching to balloon.
     /// </summary>
@@ -213,10 +224,12 @@ public class Balloon : AbstractPlayerInteractable
     public override void StartInteract(PlayerController player)
     {
         _player = player;
-        playerAnimator.enabled = false; //to-do, set to balloon anim
-        // playerAudio.enabled = false; //to-do, set to balloon sfx
-        
-        Vector2 targetPosition  = (Vector2)transform.position + (Vector2)offset;
+        // TODO set player anim
+
+        attachAudioSource.clip = RandomUtil.SelectRandom(attachSounds);
+        attachAudioSource.Play();
+        windAudioSource.Play();
+        Vector2 targetPosition = (Vector2)transform.position + (Vector2)offset;
         if (CanAttachAtPosition(targetPosition))
         {
             player.transform.position = targetPosition;
@@ -228,7 +241,7 @@ public class Balloon : AbstractPlayerInteractable
             Debug.Log("Cannot attach, distance to ground too small");
         }
     }
-    
+
     private bool CanAttachAtPosition(Vector2 targetPosition)
     {
         RaycastHit2D hit = Physics2D.Raycast(targetPosition, Vector2.down, attachRayDistance, groundLayerMask);
@@ -236,16 +249,16 @@ public class Balloon : AbstractPlayerInteractable
         // If the ray hits ground and it's too close, do not attach
         return hit.collider == null;
     }
-    
-    
+
+
     /// <inheritdoc />
     public override void EndInteract(PlayerController player)
     {
         player.ActiveVelocityEffector = null;
-        playerAnimator.enabled = true;
-        // playerAudio.enabled = true; // to-do, handle the balloon sound effect ending here
+        // TODO unset player anim
         isPlayerInteractable = false;
-        player.Velocity = exitVel;
+        isBoosted = true;
+        windAudioSource.Stop();
 
         // if (player.TryGetComponent(out Rigidbody2D playerRb)) {
         //     Vector2 boostedVelocity = ApplyVelocity(playerRb.velocity);
@@ -254,18 +267,18 @@ public class Balloon : AbstractPlayerInteractable
         // }
     }
 
-    // private void FixedUpdate()
-    // {
-    //     if (_player &&
-    //         !isPlayerInteractable &&
-    //         _player.TryGetComponent(out Rigidbody2D playerRb) &&
-    //         isBoosted)
-    //     {
-    //         Vector2 boostedVelocity = ApplyVelocity(playerRb.velocity);
-    //         playerRb.velocity += new Vector2(boostedVelocity.x, boostedVelocity.y);
-    //         StartCoroutine(ResetBoostAfterTime(playerRb, boostTimer));
-    //     }
-    // }
+    private void FixedUpdate()
+    {
+        if (_player &&
+            !isPlayerInteractable &&
+            _player.TryGetComponent(out Rigidbody2D playerRb) &&
+            isBoosted)
+        {
+            Vector2 boostedVelocity = ApplyVelocity(playerRb.velocity);
+            playerRb.velocity += new Vector2(boostedVelocity.x, boostedVelocity.y);
+            StartCoroutine(ResetBoostAfterTime(playerRb, boostTimer));
+        }
+    }
 
     private IEnumerator ResetBoostAfterTime(Rigidbody2D playerRb, float duration)
     {
@@ -278,15 +291,13 @@ public class Balloon : AbstractPlayerInteractable
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        isBoosted = false;
     }
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-        playerAnimator = GameObject.FindWithTag("Player").GetComponentInChildren<Animator>();
-        firstPosition = new Vector2(transform.position.x, transform.position.y);
-        secondPosition = firstPosition + positionOffset;
     }
 
     private void OnValidate()
@@ -316,19 +327,19 @@ public class Balloon : AbstractPlayerInteractable
             Debug.LogWarning("Rigidbody isn't kinematic: may cause problems!");
         }
 
-        // if (body)
-        // {
-        //     List<RaycastHit2D> hits = new();
-        //     body.position = firstPosition;
-        //     body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition-firstPosition).magnitude);
-        //     foreach (RaycastHit2D hit in hits)
-        //     {
-        //         // some wack things may happen if the player collides with something while moving
-        //         Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
-        //     }
-        // }
+        if (body)
+        {
+            List<RaycastHit2D> hits = new();
+            body.position = firstPosition;
+            body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition - firstPosition).magnitude);
+            foreach (RaycastHit2D hit in hits)
+            {
+                // some wack things may happen if the player collides with something while moving
+                Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
+            }
+        }
     }
-    
+
     private void RespawnBalloon()
     {
         playerAttached = false;
