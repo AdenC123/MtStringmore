@@ -102460,6 +102460,10 @@ PrefabInstance:
       propertyPath: respawnFacingLeft
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
+      propertyPath: conversationStartNode
+      value: Level2End
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
