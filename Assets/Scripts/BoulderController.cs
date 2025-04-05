@@ -6,20 +6,20 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(AudioSource))]
 public class BoulderController : MonoBehaviour
 {
-    [SerializeField, Tooltip("ParticleSystem prefab to instantiate")] private ParticleSystem liquidMolecule;
-    [SerializeField, Tooltip("Whether the projectile explodes")] private bool toExplode;
+    [SerializeField, Tooltip("ParticleSystem prefab to instantiate")]
+    private ParticleSystem liquidMolecule;
+
+    [SerializeField, Tooltip("Whether the projectile explodes")]
+    private bool toExplode;
 
     [Range(0, 5)] [SerializeField] private float minGravityScale = 3f;
     [Range(0, 5)] [SerializeField] private float maxGravityScale = 5f;
 
     private Rigidbody2D _rb;
-    private AudioSource _audioSource;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _audioSource = GetComponent<AudioSource>();
-
         float randomGravityScale = Random.Range(minGravityScale, maxGravityScale);
         _rb.gravityScale = randomGravityScale;
     }
@@ -31,7 +31,6 @@ public class BoulderController : MonoBehaviour
             if (toExplode)
             {
                 TurnIntoParticles();
-                _audioSource.Play();
             }
 
             Destroy(gameObject);
