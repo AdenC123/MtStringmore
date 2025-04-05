@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(AudioSource))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Balloon : AbstractPlayerInteractable
 {
     [SerializeField, Tooltip("Acceleration curve over time, in [0, 1]")]
