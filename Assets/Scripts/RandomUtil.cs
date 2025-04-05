@@ -15,6 +15,7 @@ public static class RandomUtil
     {
         if (array == null || array.Length == 0)
         {
+            Debug.LogWarning("Attempted to randomly select from an empty array.");
             return default;
         }
         int index = Random.Range(0, array.Length);
