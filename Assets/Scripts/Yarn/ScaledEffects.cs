@@ -229,9 +229,9 @@ namespace Yarn
                     if (pausePositions != null && pausePositions.Count != 0)
                         if (text.maxVisibleCharacters == pausePositions.Peek().Item1)
                         {
-                            (int position, float duration) pause = pausePositions.Pop();
+                            (_, float duration) = pausePositions.Pop();
                             onPauseStarted?.Invoke();
-                            yield return InterruptableWait(pause.Item2, stopToken);
+                            yield return InterruptableWait(duration, stopToken);
                             onPauseEnded?.Invoke();
 
                             // need to reset the accumulator
