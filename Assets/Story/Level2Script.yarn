@@ -59,3 +59,9 @@ Knitby_relieved: ... Okay.
 <<load_scene Level2>>
 
 ===
+
+title: Level2End
+---
+<<fade_out>>
+<<load_scene_nonblock Manager EndCutscene 0.5>>
+===
