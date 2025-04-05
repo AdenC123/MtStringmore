@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 1459545833730764350}
   - component: {fileID: 6921396668239575660}
   m_Layer: 0
-  m_Name: Folding Platform (Right)
+  m_Name: Folding Platform Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
