@@ -82,10 +82,15 @@ public class TrapdoorController : MonoBehaviour
 
     private void OnReset()
     {
-        StopCoroutine(_activeRoutine);
-        _activeRoutine = null;
+        if (_activeRoutine != null)
+        {
+            StopCoroutine(_activeRoutine);
+            _activeRoutine = null;
+        }
         _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         transform.position = _initPos;
         transform.rotation = _initRot;
+        _colliders[0].enabled = true;
+        _colliders[1].enabled = true;
     }
 }
