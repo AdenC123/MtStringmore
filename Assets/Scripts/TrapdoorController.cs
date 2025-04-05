@@ -15,7 +15,7 @@ public class TrapdoorController : MonoBehaviour
     #endregion
 
     #region Private Properties
-    private JointMotor2D _motor;
+    private HingeJoint2D _hinge;
     private Rigidbody2D _rb;
     private BoxCollider2D[] _colliders;
     private float _motorSpeed;
@@ -27,11 +27,11 @@ public class TrapdoorController : MonoBehaviour
 
     void Awake()
     {
-        _motor = GetComponent<HingeJoint2D>().motor;
+        _hinge = GetComponent<HingeJoint2D>();
         _rb = GetComponent<Rigidbody2D>();
         _colliders = GetComponents<BoxCollider2D>();
         _rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        _motorSpeed = _motor.motorSpeed;
+        _motorSpeed = _hinge.motor.motorSpeed;
         _initPos = transform.position;
         _initRot = transform.rotation;
 
@@ -52,7 +52,7 @@ public class TrapdoorController : MonoBehaviour
         
         // collapse
         _rb.constraints = RigidbodyConstraints2D.None;
-        _motor.motorSpeed = -_motorSpeed;
+        SetMotorSpeed(_motorSpeed);
         yield return new WaitForSeconds(removeCollisionTimer);
         
         // remove collision from platform
@@ -63,7 +63,7 @@ public class TrapdoorController : MonoBehaviour
         // restore platform
         _colliders[0].enabled = true;
         _colliders[1].enabled = true;
-        _motor.motorSpeed = _motorSpeed;
+        SetMotorSpeed(-_motorSpeed);
         yield return new WaitForSeconds(fixPlatTimer);
         
         // fix platform rb back in place and end
@@ -73,11 +73,17 @@ public class TrapdoorController : MonoBehaviour
         _activeRoutine = null;
     }
 
+    private void SetMotorSpeed(float speed)
+    {
+        var motor = _hinge.motor;
+        motor.motorSpeed = speed;
+        _hinge.motor = motor;
+    }
+
     private void OnReset()
     {
         StopCoroutine(_activeRoutine);
         _activeRoutine = null;
-        _motor.motorSpeed = _motorSpeed;
         _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         transform.position = _initPos;
         transform.rotation = _initRot;
