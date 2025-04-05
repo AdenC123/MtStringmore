@@ -92431,10 +92431,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: R
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283608237
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (23)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -92610,10 +92634,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: T
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283608493
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (60)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -92675,10 +92723,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: O
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283608493
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (53)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -92802,10 +92874,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: E
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.3921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.69411767
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284767409
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (67)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -93069,10 +93165,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: H
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283608493
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (32)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -93196,10 +93316,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: S
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.67058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283607981
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -93596,10 +93740,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: L
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898485
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (37)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -93779,6 +93947,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: D
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (57)
@@ -93844,10 +94016,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: E
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (65)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -93909,10 +94105,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: R
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.7058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898484
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (78)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -94150,10 +94370,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: N
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.38823533
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284702133
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -94442,6 +94686,10 @@ PrefabInstance:
     - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: T
       objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
@@ -94784,10 +95032,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: F
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (39)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -94848,6 +95120,10 @@ PrefabInstance:
     - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: T
       objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
@@ -94914,10 +95190,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: N
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40784317
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.36862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.7058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4285030068
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (76)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -95048,10 +95348,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: I
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.67058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283804591
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (62)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -95431,6 +95755,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: O
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (34)
@@ -95496,10 +95824,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: D
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.39607847
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284833205
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (79)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -95675,10 +96027,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: S
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (61)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -96162,6 +96538,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: N
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (46)
@@ -96227,10 +96607,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: R
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283608493
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -96664,10 +97068,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: G
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.4039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284964277
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (81)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -96799,6 +97227,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: S
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (68)
@@ -96926,10 +97358,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: S
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (26)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -97450,10 +97906,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: E
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.67058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283607981
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (40)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -97629,10 +98109,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40784317
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4285030837
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (77)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -97952,10 +98452,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: L
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (33)
       objectReference: {fileID: 0}
+    - target: {fileID: 3250976360280083530, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: dashEndTolerance
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -98017,10 +98545,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: T
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (52)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a658043534d6e624cac8584a92c03e1a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -98082,10 +98618,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: L
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898485
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (38)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -98525,6 +99085,66 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7263870473811980632, guid: 47bc7be3f5f4a5340997093bd83ef1c3, type: 3}
   m_PrefabInstance: {fileID: 1064086556}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1073067511
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1822552943}
+    m_Modifications:
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 451.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 124.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Name
+      value: LetterBlock (41)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9049336575698353907, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
 --- !u!1001 &1079277241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98704,10 +99324,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: K
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283608493
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (47)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -98883,10 +99527,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: O
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40784317
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.37254903
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4285030325
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (56)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -99062,6 +99730,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5375058723995496907, guid: ecbae29f5f6393b4c8321b00c39c29c0, type: 3}
   m_PrefabInstance: {fileID: 1114825609}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1132430921 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+  m_PrefabInstance: {fileID: 1073067511}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1137615791
 PrefabInstance:
@@ -99386,10 +100059,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: M
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.37254903
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284899253
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (29)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -99513,10 +100210,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: R
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283607725
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -99905,10 +100626,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: L
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898485
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (35)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -99970,10 +100715,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: E
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.65882355
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.67058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283607211
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -100167,10 +100936,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: P
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40784317
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.36862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4285030069
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (63)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -100232,10 +101025,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: E
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283607725
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (30)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -100297,10 +101114,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: B
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (24)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -100492,6 +101333,10 @@ PrefabInstance:
     - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: G
       objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
@@ -100928,6 +101773,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: O
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (58)
@@ -101058,10 +101907,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: N
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.38823533
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284702133
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (55)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -101189,10 +102062,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: P
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -101316,10 +102213,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: R
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898485
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (49)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -101381,10 +102302,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: E
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (50)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -101515,6 +102444,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: I
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (16)
@@ -101580,10 +102513,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: E
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898485
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (80)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -101645,10 +102602,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: M
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (31)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -102287,10 +103268,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: L
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (66)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -102351,6 +103356,10 @@ PrefabInstance:
     - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: K
       objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
@@ -102903,6 +103912,7 @@ Transform:
   - {fileID: 580094436}
   - {fileID: 989166608}
   - {fileID: 1575201768}
+  - {fileID: 1132430921}
   - {fileID: 661109387}
   - {fileID: 2068793288}
   - {fileID: 1263280573}
@@ -103044,6 +104054,10 @@ PrefabInstance:
     - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: N
       objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
@@ -103480,6 +104494,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: O
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (51)
@@ -103544,6 +104562,10 @@ PrefabInstance:
     - target: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: W
       objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
@@ -103610,10 +104632,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: P
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.40000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4284898741
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (69)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -103675,10 +104721,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_text
+      value: B
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.32941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.67058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924148805428131441, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283739055
+      objectReference: {fileID: 0}
     - target: {fileID: 3223535448160816699, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
       propertyPath: m_Name
       value: LetterBlock (48)
       objectReference: {fileID: 0}
+    - target: {fileID: 7907048460438451200, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
