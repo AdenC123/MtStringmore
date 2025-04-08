@@ -28,6 +28,12 @@ public class GameManager : MonoBehaviour
     /// If true, the player faces left when they respawn
     /// </summary>
     public bool RespawnFacingLeft { get; set; }
+    
+    /// <summary>
+    /// The number of collectables collected.
+    /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
+    /// </summary>
+    public int NumCollected { get; set; }
 
     /// <summary>
     /// Action that gets invoked when level reloads, e.g. respawns
@@ -95,5 +101,14 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(duration);
         SceneManager.LoadScene(sceneName);
+    }
+
+    /// <summary>
+    /// Called when a collectable is collected.
+    /// Increments the collectable counter for this scene.
+    /// </summary>
+    public void CollectCollectable()
+    {
+        
     }
 }
