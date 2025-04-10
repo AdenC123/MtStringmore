@@ -23,7 +23,7 @@ public class TrapdoorController : MonoBehaviour
     private IEnumerator _activeRoutine;
     #endregion
 
-    void Awake()
+    private void Awake()
     {
         _hinge = GetComponent<HingeJoint2D>();
         _rb = GetComponent<Rigidbody2D>();
