@@ -35,6 +35,10 @@ public class TrapdoorController : MonoBehaviour
 
         GameManager.Instance.Reset += OnReset;
     }
+    
+    private void OnDestroy() {
+        GameManager.Instance.Reset -= OnReset;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
