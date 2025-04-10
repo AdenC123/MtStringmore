@@ -102,13 +102,4 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(duration);
         SceneManager.LoadScene(sceneName);
     }
-
-    /// <summary>
-    /// Called when a collectable is collected.
-    /// Increments the collectable counter for this scene.
-    /// </summary>
-    public void CollectCollectable()
-    {
-        
-    }
 }
