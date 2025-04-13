@@ -49,7 +49,7 @@ namespace Replay
 
         private void FixedUpdate()
         {
-            _currAttempt.Add(_player.transform.position);
+            if (_player) _currAttempt.Add(_player.transform.position);
         }
 
         private void OnDestroy()
