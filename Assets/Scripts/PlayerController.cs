@@ -741,6 +741,16 @@ public class PlayerController : MonoBehaviour
         var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
         transform.position = spawnPos;
         Direction = GameManager.Instance.RespawnFacingLeft ? -1.0f : 1.0f;
+        if (CurrentInteractableArea)
+        {
+            CurrentInteractableArea.EndInteract(this);
+            CurrentInteractableArea = null;
+        }
+        if (PlayerState == PlayerStateEnum.OnObject)
+        {
+            PlayerState = PlayerStateEnum.Air;
+        }
+        ActiveVelocityEffector = null;
         PlayerState = PlayerStateEnum.Run;
     }
 }

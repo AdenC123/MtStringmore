@@ -264,6 +264,8 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     private void OnReset()
     {
         transform.position = firstPosition;
+        _audioSource.Stop();
+        StopMotion();
     }
 
     private void Awake()
