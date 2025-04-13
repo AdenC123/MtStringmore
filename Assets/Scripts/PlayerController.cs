@@ -227,10 +227,6 @@ public class PlayerController : MonoBehaviour
         }
         _buttonUsed = true;
         Direction = startDirection;
-    }
-
-    private void Start()
-    {
         GameManager.Instance.Reset += OnReset;
     }
 
@@ -242,7 +238,7 @@ public class PlayerController : MonoBehaviour
         RedrawRope(); // TODO this should be moved outside player controller when knitby is real
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameManager.Instance.Reset -= OnReset;
     }
@@ -752,5 +748,6 @@ public class PlayerController : MonoBehaviour
         }
         ActiveVelocityEffector = null;
         PlayerState = PlayerStateEnum.Run;
+        _velocity = Vector2.zero;
     }
 }
