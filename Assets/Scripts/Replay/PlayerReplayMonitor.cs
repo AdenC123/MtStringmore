@@ -63,28 +63,37 @@ namespace Replay
             if (!showPreview) return;
             if (sceneReplayPreview)
             {
-                for (int i = 0; i < sceneReplayPreview.attempts.Length; i++)
-                {
-                    if (sceneReplayPreview.attempts[i].locations.Length < 2) continue;
-                    Gizmos.color = PreviewColorCycle[i % PreviewColorCycle.Length];
-                    Gizmos.DrawLineStrip(sceneReplayPreview.attempts[i].locations, false);
-                }
+                ShowAttemptsPreview(sceneReplayPreview.attempts);
             }
             else
             {
-                for (int i = 0; i < _prevAttempts.Count; i++)
-                {
-                    if (_prevAttempts[i].locations.Length < 2) continue;
-                    Gizmos.color = PreviewColorCycle[i % PreviewColorCycle.Length];
-                    Gizmos.DrawLineStrip(_prevAttempts[i].locations, false);
-                }
+                ShowAttemptsPreview(_prevAttempts);
+                // note: VERY performance intensive
+                ShowAttemptPreview(_currAttempt.ToArray(), _prevAttempts.Count);
+            }
+        }
 
-                if (_currAttempt.Count >= 2)
-                {
-                    Gizmos.color = PreviewColorCycle[_prevAttempts.Count % PreviewColorCycle.Length];
-                    // note: VERY performance intensive
-                    Gizmos.DrawLineStrip(_currAttempt.ToArray(), false);
-                }
+        /// <summary>
+        /// Draw gizmos preview of a single attempt with an index into the preview color cycle.
+        /// </summary>
+        /// <param name="attempt">Attempt to draw</param>
+        /// <param name="index">Index into color cycle</param>
+        private static void ShowAttemptPreview(ReadOnlySpan<Vector3> attempt, int index)
+        {
+            if (attempt.Length < 2) return;
+            Gizmos.color = PreviewColorCycle[index % PreviewColorCycle.Length];
+            Gizmos.DrawLineStrip(attempt, false);
+        }
+
+        /// <summary>
+        /// Draw gizmos preview of a list of attempts.
+        /// </summary>
+        /// <param name="attempts">List or array of attempts</param>
+        private static void ShowAttemptsPreview(IList<SceneReplay.Attempt> attempts)
+        {
+            for (int i = 0; i < attempts.Count; i++)
+            {
+                ShowAttemptPreview(attempts[i].locations, i);
             }
         }
 
