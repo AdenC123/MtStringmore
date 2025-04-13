@@ -265,7 +265,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     {
         transform.position = firstPosition;
         _audioSource.Stop();
-        StopMotion();
+        if (_player) StopMotion();
     }
 
     private void Awake()
