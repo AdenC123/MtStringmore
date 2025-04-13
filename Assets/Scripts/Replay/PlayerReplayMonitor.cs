@@ -112,8 +112,8 @@ namespace Replay
         /// <param name="loadSceneMode">Scene load mode</param>
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
-            if (_currAttempt.Count > 0) AddCurrentAttempt();
-            if (_currAttempt.Count != 0 && _prevAttempts.Count != 0) WriteOutSceneReplay();
+            AddCurrentAttempt();
+            WriteOutSceneReplay();
             _activeSceneName = scene.name;
             _currAttempt.Clear();
             _prevAttempts.Clear();
@@ -125,7 +125,8 @@ namespace Replay
         /// </summary>
         private void AddCurrentAttempt()
         {
-            _prevAttempts.Add(new SceneReplay.Attempt { locations = _currAttempt.ToArray() });
+            if (_currAttempt.Count > 0)
+                _prevAttempts.Add(new SceneReplay.Attempt { locations = _currAttempt.ToArray() });
             _currAttempt.Clear();
         }
 
@@ -137,6 +138,7 @@ namespace Replay
         /// </remarks>
         private void WriteOutSceneReplay()
         {
+            if (_currAttempt.Count == 0 && _prevAttempts.Count == 0) return;
             SceneReplay sceneReplay = ScriptableObject.CreateInstance<SceneReplay>();
             sceneReplay.sceneName = _activeSceneName;
             sceneReplay.attempts = _prevAttempts.ToArray();
