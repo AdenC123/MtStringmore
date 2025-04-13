@@ -17,12 +17,14 @@ namespace Replay
         /// <summary>
         /// Colors to render the different attempts with.
         /// </summary>
-        private static readonly Color[] PreviewColorCycle = { Color.yellow, Color.red, Color.green, Color.blue, Color.magenta, Color.cyan };
-        [SerializeField]
-        private SceneReplay sceneReplayPreview;
+        private static readonly Color[] PreviewColorCycle =
+            { Color.yellow, Color.red, Color.green, Color.blue, Color.magenta, Color.cyan };
 
-        [SerializeField, Tooltip("Warning: likely performance intensive!")] private bool showPreview = true;
-    
+        [SerializeField] private SceneReplay sceneReplayPreview;
+
+        [SerializeField, Tooltip("Warning: likely performance intensive!")]
+        private bool showPreview = true;
+
         private PlayerController _player;
         private string _activeSceneName;
         private readonly List<SceneReplay.Attempt> _prevAttempts = new();
@@ -129,7 +131,8 @@ namespace Replay
             SceneReplay sceneReplay = ScriptableObject.CreateInstance<SceneReplay>();
             sceneReplay.sceneName = _activeSceneName;
             sceneReplay.attempts = _prevAttempts.ToArray();
-            string filePath = $"Assets/Editor/Replays/Replay-{_activeSceneName}-{DateTime.Now.ToString("s").Replace(':','-')}.asset";
+            string filePath =
+                $"Assets/Editor/Replays/Replay-{_activeSceneName}-{DateTime.Now.ToString("s").Replace(':', '-')}.asset";
 #if UNITY_EDITOR
             if (!AssetDatabase.IsValidFolder("Assets/Editor/Replays"))
                 AssetDatabase.CreateFolder("Assets/Editor", "Replays");

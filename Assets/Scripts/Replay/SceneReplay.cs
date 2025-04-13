@@ -13,6 +13,7 @@ namespace Replay
         /// </summary>
         // ReSharper disable once NotAccessedField.Global
         public string sceneName;
+
         /// <summary>
         /// List of previous attempts.
         /// </summary>
