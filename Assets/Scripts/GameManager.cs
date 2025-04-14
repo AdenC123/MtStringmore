@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
@@ -22,22 +24,34 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Last checkpoint position. The player should respawn here if they die.
     /// </summary>
-    public Vector2 CheckPointPos { get; set; }
+    public Vector2 CheckPointPos { get; private set; }
 
     /// <summary>
     /// If true, the player faces left when they respawn
     /// </summary>
-    public bool RespawnFacingLeft { get; set; }
+    public bool RespawnFacingLeft { get; private set; }
+    
+    /// <summary>
+    /// Number of checkpoints reached.
+    /// </summary>
+    public int CheckpointsReached { get; private set; }
 
     /// <summary>
     /// Action that gets invoked when level reloads, e.g. respawns
     /// </summary>
     public event Action Reset;
+    
+    /// <summary>
+    /// Action invoked on new checkpoint reached.
+    /// </summary>
+    public event Action<Vector2> NewCheckpointReached;
 
     /// <summary>
     /// Canvas to fade in/out when transitioning between scenes
     /// </summary>
     [SerializeField] private FadeEffects sceneTransitionCanvas;
+    
+    private readonly HashSet<Vector2> _prevCheckpoints = new();
 
     private void Awake()
     {
@@ -66,6 +80,31 @@ public class GameManager : MonoBehaviour
     {
         sceneTransitionCanvas.InvokeFadeOut();
         Time.timeScale = 1f;
+        CheckpointsReached = 0;
+        _prevCheckpoints.Clear();
+    }
+
+    /// <summary>
+    /// Sets the checkpoint location and left facing spawn point.
+    /// 
+    /// Checks if we've already visited this checkpoint before setting spawn (to avoid backtracking).
+    /// </summary>
+    /// <param name="newCheckpointLocation">New checkpoint location</param>
+    /// <param name="shouldFaceLeft">Whether respawn should face left</param>
+    /// <param name="checkpointsReached">If there's a specific number of checkpoints reached we want to set (-1 if not)</param>
+    public void UpdateCheckpointData(Vector2 newCheckpointLocation, bool shouldFaceLeft = false, int checkpointsReached = -1)
+    {
+        if (!_prevCheckpoints.Add(newCheckpointLocation))
+        {
+            Debug.Log("Reached previous checkpoint.");
+            return;
+        }
+
+        CheckPointPos = newCheckpointLocation;
+        RespawnFacingLeft = shouldFaceLeft;
+        if (checkpointsReached < 0) CheckpointsReached++;
+        else CheckpointsReached = checkpointsReached;
+        NewCheckpointReached?.Invoke(CheckPointPos);
     }
 
     /// <summary>
