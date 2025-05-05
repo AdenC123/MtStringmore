@@ -3,63 +3,69 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerController;
 
-//TODO deprecate this after refactoring
+/// <summary>
+/// Adds a rumbling shake to the MainCamera
+/// </summary>
 public class ShakeCamera : MonoBehaviour
 {   
-     #region Serialized Private Fields
-    [Header("Shakey-Shakey")]
-    [SerializeField] private float shakeDuration;
-    [SerializeField] private float shakeIntensity;
-    [SerializeField] private float shakeDecay;      //rapid or slow decay overtime
-    #endregion
+    //TODO: possibly convert class to be a "camera effector" with more methods to cause different camera effects (shakes,zooms in/out etc)
+    private Coroutine _shakeCoroutine;
 
-    #region Private Fields
-    private PlayerController _playerControl;
-    private IEnumerator _activeRoutine;
-    #endregion
-
-    void Start()
+    /// <summary>
+    /// Public method that any class can shake the camera.
+    /// </summary>
+    ///<param>
+    /// shakeDuration: the length of time to shake the camera for
+    /// shakeIntensity: the level of intensity to shake the camera (higher values cause more aggressive/violent shaking)
+    /// shakeDecay: how quickly the camera shake dissipates (large values cause shake to quickly dissapate)
+    /// xShake/yShake: biases the direction in which the camera should shake for
+    /// </param>
+    public void Shake(float shakeDuration, float shakeIntensity, float shakeDecay, bool xShake, bool yShake) 
     {
-        GameObject _player = GameObject.FindWithTag("Player");
-        _playerControl=_player.GetComponent<PlayerController>();
-    }
-    void Update()
-    {
-        if(_playerControl.PlayerState == PlayerStateEnum.Dash) 
+        //TODO: trying to prevent coroutines from overlapping need to fix
+        if(_shakeCoroutine != null) 
         {
-            //Debug.Log("We dashin");
-            StartCoroutine(Shake()); 
-        }  
+            StopCoroutine(_shakeCoroutine);
+        }
+        _shakeCoroutine = StartCoroutine(ShakeRoutine(shakeDuration,shakeIntensity,shakeDecay,xShake,yShake));
     }
 
-    IEnumerator Shake()
+    //corroutine to shake the camera
+    private IEnumerator ShakeRoutine(float shakeDuration, float shakeIntensity, float shakeDecay, bool xShake, bool yShake)
     {
-        // Debug.Log("We shakin");
         Vector2 _originalCameraPos = transform.localPosition;  
         float _elapsed = 0.0f;  
-        Debug.Log(_originalCameraPos);
+        Vector2 _shakeOffset;
         while (_elapsed < shakeDuration)  
         {
-            //perlin noise used for smooth randomness
-            Vector2 shakeOffset = new Vector2(
-                Mathf.PerlinNoise(Time.time * 10f, 0) * 2 - 1,  
-                Mathf.PerlinNoise(Time.time * 10f, 1) * 2 - 1   
-            ) * shakeIntensity;
+            if(xShake && yShake)    //shake camera both directions
+            {
+                //perlin noise used for smooth randomness
+                _shakeOffset = new Vector2(
+                    Mathf.PerlinNoise(Time.time * 10f, 0) * 2 - 1,  
+                    Mathf.PerlinNoise(Time.time * 10f, 1) * 2 - 1   
+                ) * shakeIntensity;
+            } else if(xShake)   //shake camera only in x direction
+            {
+                _shakeOffset = new Vector2(Mathf.PerlinNoise(Time.time * 10f, 0) * 2 - 1, 0) * shakeIntensity;
+            } else  //shake camera only in y direction
+            {
+                _shakeOffset = new Vector2(0,Mathf.PerlinNoise(Time.time * 10f, 1) * 2 - 1 ) * shakeIntensity;
+            }
 
             // lerp between the original camera position and the shake offset
             transform.localPosition = Vector2.Lerp(
                 transform.localPosition,                            // start pos
-                _originalCameraPos + shakeOffset,                   // target pos
+                _originalCameraPos + _shakeOffset,                   // target pos
                 shakeDecay * Time.deltaTime                        // reduce shaking over time
             );
 
             _elapsed += Time.deltaTime;
-
-            yield return null;
+            yield return new WaitForSeconds(0.01f); //TODO this value might need tweaking based on performance issues
         }
 
-    
         transform.localPosition = _originalCameraPos;
+        _shakeCoroutine = null;
     }
 
 }
