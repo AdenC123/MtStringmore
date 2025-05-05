@@ -23,7 +23,7 @@ using UnityEngine;
 /// Also, there's shared code among the #cloth branch as well - upon merger of one of the branches, this should be
 /// refactored as well.
 /// </remarks>
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(AudioSource))]
 public class AttachableMovingObject : AbstractPlayerInteractable
 {
     [SerializeField, Tooltip("Acceleration curve over time, in [0, 1]")]
@@ -78,6 +78,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     private Vector2 _prevVelocity;
 
     private PlayerController _player;
+    private AudioSource _audioSource;
 
     /// <inheritdoc />
     public override bool IgnoreGravity => true;
@@ -222,7 +223,9 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     /// <inheritdoc />
     public override void StartInteract(PlayerController player)
     {
+        player.CanDash = true;
         _player = player;
+        _audioSource.Play();
         if (_rigidbody.position == secondPosition)
         {
             Debug.LogWarning("Attempted interact when motion was finished.");
@@ -251,12 +254,28 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     /// <inheritdoc />
     public override void EndInteract(PlayerController player)
     {
+        _audioSource.Stop();
         StopMotion();
+    }
+    
+    /// <summary>
+    /// Called on reset: resets back to the first position.
+    /// </summary>
+    private void OnReset()
+    {
+        transform.position = firstPosition;
     }
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _audioSource = GetComponent<AudioSource>();
+        GameManager.Instance.Reset += OnReset;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.Reset -= OnReset;
     }
 
     private void OnValidate()

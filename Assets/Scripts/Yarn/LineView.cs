@@ -209,29 +209,6 @@ namespace Yarn
         [SerializeField] [Min(0)] internal float typewriterEffectSpeed;
 
         /// <summary>
-        ///     The game object that represents an on-screen button that the user
-        ///     can click to continue to the next piece of dialogue.
-        /// </summary>
-        /// <remarks>
-        ///     <para>
-        ///         This game object will be made inactive when a line begins
-        ///         appearing, and active when the line has finished appearing.
-        ///     </para>
-        ///     <para>
-        ///         This field will generally refer to an object that has a
-        ///         <see
-        ///             cref="Button" />
-        ///         component on it that, when clicked, calls
-        ///         <see
-        ///             cref="OnContinueClicked" />
-        ///         . However, if your game requires specific
-        ///         UI needs, you can provide any object you need.
-        ///     </para>
-        /// </remarks>
-        /// <seealso cref="autoAdvance" />
-        [SerializeField] internal GameObject continueButton;
-
-        /// <summary>
         ///     The amount of time to wait after any line
         /// </summary>
         [SerializeField] [Min(0)] internal float holdTime = 1f;
@@ -278,7 +255,7 @@ namespace Yarn
         /// <summary>
         ///     A stop token that is used to interrupt the current animation.
         /// </summary>
-        private readonly UnscaledEffects.CoroutineInterruptToken currentStopToken = new();
+        private readonly ScaledEffects.CoroutineInterruptToken currentStopToken = new();
 
         /// <summary>
         ///     The current <see cref="LocalizedLine" /> that this line view is
@@ -299,8 +276,8 @@ namespace Yarn
 
         private void Update()
         {
-            // if hitting spacebar during update, trigger dialogue advancement
-            if (Input.GetButtonDown("Jump")) UserRequestedViewAdvancement();
+            // if hitting spacebar during update and not paused, trigger dialogue advancement
+            if (Input.GetButtonDown("Jump") && Time.timeScale != 0) UserRequestedViewAdvancement();
         }
 
         /// <inheritdoc />
@@ -315,14 +292,14 @@ namespace Yarn
         {
             // disabling interaction temporarily while dismissing the line
             // we don't want people to interrupt a dismissal
-            var interactable = canvasGroup.interactable;
+            bool interactable = canvasGroup.interactable;
             canvasGroup.interactable = false;
 
             // If we're using a fade effect, run it, and wait for it to finish.
             if (useFadeEffect)
             {
                 yield return
-                    StartCoroutine(UnscaledEffects.FadeAlpha(canvasGroup, 1, 0, fadeOutTime, currentStopToken));
+                    StartCoroutine(ScaledEffects.FadeAlpha(canvasGroup, 1, 0, fadeOutTime, currentStopToken));
                 currentStopToken.Complete();
             }
 
@@ -365,7 +342,7 @@ namespace Yarn
             }
             else
             {
-                characterNameText.text = dialogueLine.CharacterName;
+                UpdateAvatarAndName(dialogueLine);
                 lineText.text = dialogueLine.TextWithoutCharacterName.Text;
                 length = dialogueLine.TextWithoutCharacterName.Text.Length;
             }
@@ -393,6 +370,20 @@ namespace Yarn
             StartCoroutine(RunLineInternal(dialogueLine, onDialogueLineFinished));
         }
 
+        private void UpdateAvatarAndName(LocalizedLine dialogueLine)
+        {
+            string[] charName = dialogueLine.CharacterName.Split("_", 2);
+            // we have a character name text view, show the character name
+
+            characterNameText.text = charName[0];
+            characterNameContainer.SetActive(true);
+
+            // switch avatar image to new character
+            // labels can be for different character expressions in the future
+            image.sprite = spriteLibrary.GetSprite(charName[0],
+                charName.Length > 1 ? charName[1] : "Default");
+        }
+
         private IEnumerator RunLineInternal(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             IEnumerator PresentLine()
@@ -400,29 +391,15 @@ namespace Yarn
                 lineText.gameObject.SetActive(true);
                 canvasGroup.gameObject.SetActive(true);
 
-                // Hide the continue button until presentation is complete (if
-                // we have one).
-                if (continueButton != null) continueButton.SetActive(false);
-
-                var text = dialogueLine.TextWithoutCharacterName;
-                if (characterNameContainer != null && characterNameText != null)
+                MarkupParseResult text = dialogueLine.TextWithoutCharacterName;
+                if (characterNameContainer && characterNameText)
                 {
                     // we are set up to show a character name, but there isn't one
                     // so just hide the container
                     if (string.IsNullOrWhiteSpace(dialogueLine.CharacterName))
-                    {
                         characterNameContainer.SetActive(false);
-                    }
                     else
-                    {
-                        // we have a character name text view, show the character name
-                        characterNameText.text = dialogueLine.CharacterName;
-                        characterNameContainer.SetActive(true);
-
-                        // switch avatar image to new character
-                        // labels can be for different character expressions in the future
-                        image.sprite = spriteLibrary.GetSprite(dialogueLine.CharacterName, "Default");
-                    }
+                        UpdateAvatarAndName(dialogueLine);
                 }
                 else
                 {
@@ -434,10 +411,7 @@ namespace Yarn
                 }
 
                 // if we have a palette file need to add those colours into the text
-                if (palette != null)
-                    lineText.text = PaletteMarkedUpText(text, palette);
-                else
-                    lineText.text = AddLineBreaks(text);
+                lineText.text = palette ? PaletteMarkedUpText(text, palette) : AddLineBreaks(text);
 
                 // If we're using the typewriter effect, hide all of the
                 // text before we begin any possible fade (so we don't fade
@@ -453,7 +427,7 @@ namespace Yarn
                 // finish.
                 if (useFadeEffect)
                 {
-                    yield return StartCoroutine(UnscaledEffects.FadeAlpha(canvasGroup, 0, 1, fadeInTime,
+                    yield return StartCoroutine(ScaledEffects.FadeAlpha(canvasGroup, 0, 1, fadeInTime,
                         currentStopToken));
                     if (currentStopToken.WasInterrupted)
                         // The fade effect was interrupted. Stop this entire
@@ -465,14 +439,14 @@ namespace Yarn
                 // it to finish.
                 if (useTypewriterEffect)
                 {
-                    var pauses = GetPauseDurationsInsideLine(text);
+                    Stack<(int position, float duration)> pauses = GetPauseDurationsInsideLine(text);
 
                     // setting the canvas all back to its defaults because if we didn't also fade we don't have anything visible
                     canvasGroup.alpha = 1f;
                     canvasGroup.interactable = true;
                     canvasGroup.blocksRaycasts = true;
 
-                    yield return StartCoroutine(UnscaledEffects.PausableTypewriter(
+                    yield return StartCoroutine(ScaledEffects.PausableTypewriter(
                         lineText,
                         typewriterEffectSpeed,
                         () => onCharacterTyped.Invoke(),
@@ -504,10 +478,7 @@ namespace Yarn
             // Our view should at be at full opacity.
             canvasGroup.alpha = 1f;
             canvasGroup.blocksRaycasts = true;
-
-            // Show the continue button, if we have one.
-            continueButton?.SetActive(true);
-
+            
             // If we have a hold time, wait that amount of time, and then
             // continue.
             if (holdTime > 0) yield return new WaitForSeconds(holdTime);
@@ -548,17 +519,6 @@ namespace Yarn
                 requestInterrupt?.Invoke();
         }
 
-        /// <summary>
-        ///     Called when the <see cref="continueButton" /> is clicked.
-        /// </summary>
-        public void OnContinueClicked()
-        {
-            // When the Continue button is clicked, we'll do the same thing as
-            // if we'd received a signal from any other part of the game (for
-            // example, if a DialogueAdvanceInput had signalled us.)
-            UserRequestedViewAdvancement();
-        }
-
         /// <inheritdoc />
         /// <remarks>
         ///     If a line is still being shown dismisses it.
@@ -566,12 +526,10 @@ namespace Yarn
         public override void DialogueComplete()
         {
             // do we still have a line lying around?
-            if (currentLine != null)
-            {
-                currentLine = null;
-                StopAllCoroutines();
-                StartCoroutine(DismissLineInternal(null));
-            }
+            if (currentLine == null) return;
+            currentLine = null;
+            StopAllCoroutines();
+            StartCoroutine(DismissLineInternal(null));
         }
 
         /// <summary>
@@ -588,12 +546,12 @@ namespace Yarn
         private static string PaletteMarkedUpText(MarkupParseResult line, MarkupPalette palette,
             bool applyLineBreaks = true)
         {
-            var lineOfText = line.Text;
+            string lineOfText = line.Text;
             line.Attributes.Sort((a, b) => b.Position.CompareTo(a.Position));
-            foreach (var attribute in line.Attributes)
+            foreach (MarkupAttribute attribute in line.Attributes)
             {
                 // we have a colour that matches the current marker
-                if (palette.ColorForMarker(attribute.Name, out var markerColour))
+                if (palette.ColorForMarker(attribute.Name, out Color markerColour))
                 {
                     // we use the range on the marker to insert the TMP <color> tags
                     // not the best approach but will work ok for this use case
@@ -611,7 +569,7 @@ namespace Yarn
 
         private static string AddLineBreaks(MarkupParseResult line)
         {
-            var lineOfText = line.Text;
+            string lineOfText = line.Text;
             line.Attributes.Sort((a, b) => b.Position.CompareTo(a.Position));
             return line.Attributes.Where(a => a.Name == "br").Aggregate(lineOfText,
                 (current, attribute) => current.Insert(attribute.Position, "<br>"));
@@ -621,7 +579,7 @@ namespace Yarn
         ///     Creates a stack of typewriter pauses to use to temporarily halt the typewriter effect.
         /// </summary>
         /// <remarks>
-        ///     This is intended to be used in conjunction with the <see cref="UnscaledEffects.PausableTypewriter" /> effect.
+        ///     This is intended to be used in conjunction with the <see cref="ScaledEffects.PausableTypewriter" /> effect.
         ///     The stack of tuples created are how the typewriter effect knows when, and for how long, to halt the effect.
         ///     <para>
         ///         The pause duration property is in milliseconds but all the effects code assumes seconds
@@ -632,19 +590,19 @@ namespace Yarn
         /// <returns>A stack of positions and duration pause tuples from within the line</returns>
         public static Stack<(int position, float duration)> GetPauseDurationsInsideLine(MarkupParseResult line)
         {
-            var pausePositions = new Stack<(int, float)>();
+            Stack<(int, float)> pausePositions = new();
             const string label = "pause";
 
             // sorting all the attributes in reverse positional order
             // this is so we can build the stack up in the right positioning
-            var attributes = line.Attributes;
+            List<MarkupAttribute> attributes = line.Attributes;
             attributes.Sort((a, b) => b.Position.CompareTo(a.Position));
-            foreach (var attribute in line.Attributes.Where(attribute => attribute.Name == label))
+            foreach (MarkupAttribute attribute in line.Attributes.Where(attribute => attribute.Name == label))
                 // did they set a custom duration or not, as in did they do this:
                 //     Alice: this is my line with a [pause = 1000 /]pause in the middle
                 // or did they go:
                 //     Alice: this is my line with a [pause /]pause in the middle
-                if (attribute.Properties.TryGetValue(label, out var value))
+                if (attribute.Properties.TryGetValue(label, out MarkupValue value))
                     // depending on the property value we need to take a different path
                     // this is because they have made it an integer or a float which are roughly the same
                     // note to self: integer and float really ought to be convertible...

@@ -16,14 +16,14 @@ namespace Yarn
         }
 
         // move character within cutscene
-        // yarn syntax is <<move CharacterObjectName x y speed [flip]>>
-        // e.g. <<move Knitby 3 1 20 true>>
+        // yarn syntax is <<move CharacterObjectName x y speed [flip] [disable] [z]>>
+        // e.g. <<move Knitby 3 1 20 true false 1>>
         [YarnCommand("move")]
         public IEnumerator MoveCoroutine(float x, float y, float speed, bool flipSprite = false,
-            bool disableAnimation = true)
+            bool disableAnimation = false, float z = 0)
         {
             _animator.enabled = true;
-            var position = new Vector3(x, y);
+            Vector3 position = new(x, y, z == 0 ? transform.position.z : z);
             if (flipSprite) _spriteRenderer.flipX = !_spriteRenderer.flipX;
             while (transform.position != position)
             {
@@ -34,11 +34,18 @@ namespace Yarn
             if (disableAnimation) yield return SetAnimation(false);
         }
 
+        [YarnCommand("flip")]
+        public void Flip()
+        {
+            _spriteRenderer.flipX = !_spriteRenderer.flipX;
+        }
+
         // run is a non-blocking version of move with identical syntax
         [YarnCommand("run")]
-        public void Run(float x, float y, float speed, bool flipSprite = false, bool disableAnimation = true)
+        public void Run(float x, float y, float speed, bool flipSprite = false, bool disableAnimation = false,
+            float z = 0)
         {
-            StartCoroutine(MoveCoroutine(x, y, speed, flipSprite, disableAnimation));
+            StartCoroutine(MoveCoroutine(x, y, speed, flipSprite, disableAnimation, z));
         }
 
         [YarnCommand("hide")]
@@ -57,11 +64,10 @@ namespace Yarn
         public IEnumerator SetAnimation(bool state)
         {
             // wait until current animation is finished
-            var finishTime = Mathf.CeilToInt(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-            yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= finishTime ||
-                                             Mathf.Approximately(
+            int finishTime = Mathf.CeilToInt(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= finishTime &&
+                                             !Mathf.Approximately(
                                                  _animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 0.0f));
-            Debug.Log(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
             _animator.enabled = state;
         }
     }
