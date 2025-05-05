@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-
+using static ShakeCamera2;
 /// <summary>
 /// Controls player movement and invokes events for different player states
 /// </summary>
@@ -163,6 +163,7 @@ public class PlayerController : MonoBehaviour
     private bool _canSwing;
     private bool _swingStarted;
 
+    private ShakeCamera2 _shake;
     #endregion
 
     #region Unity Event Handlers
@@ -171,6 +172,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
+        _shake = GameObject.FindWithTag("MainCamera").GetComponent<ShakeCamera2>();
         _buttonUsed = true;
         Direction = startDirection;
     }
@@ -409,6 +411,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (PlayerState is PlayerStateEnum.Dash)
         {
+            _shake.Shake(1f,10f,0.1f,true,true);
             // move player forward at dash speed
             _velocity.y = 0;
             _velocity.x = dashSpeed * Direction;

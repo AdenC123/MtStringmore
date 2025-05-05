@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerController;
 
+//TODO deprecate this after refactoring
 public class ShakeCamera : MonoBehaviour
 {   
      #region Serialized Private Fields
