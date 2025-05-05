@@ -11,6 +11,7 @@ TagManager:
   - BounceArea
   - Trampoline
   - CameraEffector
+  - Resetter
   layers:
   - Default
   - TransparentFX

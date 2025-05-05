@@ -4,6 +4,7 @@ using static ShakeCamera2;
 /// <summary>
 /// Controls player movement and invokes events for different player states
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D), typeof(AudioSource), typeof(CapsuleCollider2D))]
 public class PlayerController : MonoBehaviour
 {
     #region Serialized Private Fields
@@ -49,10 +50,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minSwingReleaseX;
     [Header("Visual")]
     [SerializeField] private LineRenderer ropeRenderer;
-    [SerializeField] private int deathTime;
+    [SerializeField] private float deathTime;
     // this is just here for battle of the concepts
     [Header("Temporary")]
     [SerializeField] private GameObject poofSmoke;
+    [Header("Audio")]
+    [SerializeField] private AudioClip swingAttach;
+    [SerializeField] private AudioClip swingDetach;
+    [SerializeField] private AudioClip[] swingChangeDirection;
     // @formatter:on
 
     #endregion
@@ -83,6 +88,11 @@ public class PlayerController : MonoBehaviour
     /// Facing direction of the player. -1.0 for left, 1.0 for right.
     /// </summary>
     public float Direction { get; private set; }
+
+    /// <summary>
+    /// Time when the most recent dash would have ended (may be a time in the future).
+    /// </summary>
+    public float TimeDashEnded { get; private set; }
 
     /// <summary>
     /// Active velocity effector.
@@ -121,8 +131,16 @@ public class PlayerController : MonoBehaviour
 
     public event Action Jumped;
     public event Action Dashed;
+    /// <summary>
+    /// Fires when the player hangs onto an interactable object.
+    /// Parameters:
+    ///     bool (hanging): True when player attaches, false when player lets go
+    ///     bool (facingLeft): True when facing left, false otherwise
+    /// </summary>
+    public event Action<bool, bool> HangChanged;
     public event Action DoubleJumped;
     public event Action Death;
+    public event Action<bool> SwingDifferentDirection;
 
     /// <summary>
     /// If true, skips death logic.
@@ -133,6 +151,15 @@ public class PlayerController : MonoBehaviour
     /// Current interactable in range.
     /// </summary>
     public AbstractPlayerInteractable CurrentInteractableArea { get; set; }
+    
+    /// <summary>
+    /// Whether the player can use their dash in the air.
+    /// </summary>
+    public bool CanDash
+    {
+        get => _canDash;
+        set => _canDash = value;
+    }
 
     #endregion
 
@@ -140,7 +167,12 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
+    private AudioSource _audioSource;
     private IPlayerVelocityEffector _activeEffector;
+    private ParticleSystem _runningDust;
+    private ParticleSystem _landingDust;
+    private ParticleSystem _leftWallSlideDust;
+    private ParticleSystem _rightWallSlideDust;
 
     private float _time;
     private float _timeButtonPressed;
@@ -162,6 +194,7 @@ public class PlayerController : MonoBehaviour
     private float _swingRadius;
     private bool _canSwing;
     private bool _swingStarted;
+    private bool _wasSwingClockwise;
 
     private ShakeCamera2 _shake;
     #endregion
@@ -173,8 +206,34 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
         _shake = GameObject.FindWithTag("MainCamera").GetComponent<ShakeCamera2>();
+        _audioSource = GetComponent<AudioSource>();
+        ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
+        
+        foreach (ParticleSystem ps in particleSystems)
+        {
+            switch (ps.gameObject.name)
+            {
+                case "RunningDust":
+                    _runningDust = ps;
+                    break;
+                case "LandingDust":
+                    _landingDust = ps;
+                    break;
+                case "LeftWallSlidingDust":
+                    _leftWallSlideDust = ps;
+                    break;
+                case "RightWallSlidingDust":
+                    _rightWallSlideDust = ps;
+                    break;
+            }
+        }
         _buttonUsed = true;
         Direction = startDirection;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.Reset += OnReset;
     }
 
     private void Update()
@@ -183,6 +242,11 @@ public class PlayerController : MonoBehaviour
 
         GetInput();
         RedrawRope(); // TODO this should be moved outside player controller when knitby is real
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.Reset -= OnReset;
     }
 
     private void GetInput()
@@ -256,7 +320,7 @@ public class PlayerController : MonoBehaviour
         HandleGravity();
         if (ActiveVelocityEffector != null)
             _velocity = ActiveVelocityEffector.ApplyVelocity(_velocity);
-        if (dashEnabled) HandleDash();
+        else if (dashEnabled) HandleDash();
         ApplyMovement();
     }
 
@@ -276,6 +340,31 @@ public class PlayerController : MonoBehaviour
         _buttonUsed = true;
         CurrentInteractableArea.EndInteract(this);
         PlayerState = PlayerStateEnum.Air;
+        HangChanged?.Invoke(false, _velocity.x < 0);
+    }
+
+    /// <summary>
+    /// Stops dashing if the player is currently dashing.
+    /// </summary>
+    public void ForceCancelDash()
+    {
+        if (PlayerState != PlayerStateEnum.Dash)
+        {
+            Debug.LogWarning("ForceCancelDash called but PlayerState is not Dash");
+            return;
+        }
+
+        PlayerState = PlayerStateEnum.Air;
+        TimeDashEnded = Time.time;
+    }
+
+    /// <summary>
+    /// Disallows early release for this jump.
+    /// </summary>
+    public void ForceCancelEarlyRelease()
+    {
+        _canReleaseEarly = false;
+        _releasedEarly = false;
     }
 
     /// <summary>
@@ -330,12 +419,26 @@ public class PlayerController : MonoBehaviour
         {
             PlayerState = PlayerStateEnum.Run;
             _canDoubleJump = true;
+            _canDash = true;
             GroundedChanged?.Invoke(true, Mathf.Abs(_velocity.y));
+            _landingDust.Play();
         }
 
         if (PlayerState == PlayerStateEnum.RightWallSlide && !rightWallHit ||
             PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit)
             PlayerState = PlayerStateEnum.Air;
+        
+        UpdateParticleSystemState(_runningDust, PlayerStateEnum.Run);
+        UpdateParticleSystemState(_leftWallSlideDust, PlayerStateEnum.LeftWallSlide);
+        UpdateParticleSystemState(_rightWallSlideDust, PlayerStateEnum.RightWallSlide);
+    }
+
+    private void UpdateParticleSystemState(ParticleSystem system, PlayerStateEnum targetState) {
+      if (PlayerState == targetState) {
+        if (!system.isPlaying) system.Play();
+      } else if (system.isPlaying) {
+        system.Stop();
+      }
     }
 
     private void HandleDeath()
@@ -406,6 +509,7 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Dash;
             Dashed?.Invoke();
             _timeDashed = _time;
+            TimeDashEnded = Time.time + dashTime;
             // for battle of the concepts: add temp dash anim
             Instantiate(poofSmoke, transform.position, new Quaternion());
         }
@@ -420,6 +524,7 @@ public class PlayerController : MonoBehaviour
             {
                 PlayerState = PlayerStateEnum.Air;
                 _velocity.x = endDashSpeed * Direction;
+                TimeDashEnded = Time.time;
             }
         }
         else if (PlayerState is PlayerStateEnum.Run or PlayerStateEnum.Swing)
@@ -503,6 +608,7 @@ public class PlayerController : MonoBehaviour
             if (PlayerState == PlayerStateEnum.OnObject) return;
             PlayerState = PlayerStateEnum.OnObject;
             CurrentInteractableArea.StartInteract(this);
+            HangChanged?.Invoke(true, _velocity.x < 0);
             if (previouslyGrounded)
             {
                 _timeLeftGround = _time;
@@ -542,7 +648,10 @@ public class PlayerController : MonoBehaviour
         {
             // in swing area, button pressed
             PlayerState = PlayerStateEnum.Swing;
+            _audioSource.clip = swingAttach;
+            _audioSource.Play();
             ropeRenderer.enabled = true;
+            HangChanged?.Invoke(true, _velocity.x < 0);
         }
         else if (PlayerState is PlayerStateEnum.Swing && _isButtonHeld)
         {
@@ -552,6 +661,8 @@ public class PlayerController : MonoBehaviour
             {
                 // reached max radius, start swing
                 _swingStarted = true;
+                Vector2 relPos = transform.position - _swingArea.transform.position;
+                _wasSwingClockwise = Vector3.Cross(relPos, _velocity).z > 0f;
             }
 
             if (_swingStarted)
@@ -567,7 +678,14 @@ public class PlayerController : MonoBehaviour
 
                 Vector2 testPos = relPos + _velocity * Time.fixedDeltaTime;
                 Vector2 newPos = testPos.normalized * _swingRadius;
-                _velocity = (newPos - relPos) / Time.fixedDeltaTime;
+                _velocity = Vector2.ClampMagnitude((newPos - relPos) / Time.fixedDeltaTime, maxSwingSpeed);
+                if (_wasSwingClockwise ^ Vector3.Cross(relPos, _velocity).z > 0f)
+                {
+                    SwingDifferentDirection?.Invoke(_wasSwingClockwise);
+                    _wasSwingClockwise = !_wasSwingClockwise;
+                    _audioSource.clip = RandomUtil.SelectRandom(swingChangeDirection);
+                    _audioSource.Play();
+                }
             }
         }
         else if (PlayerState is PlayerStateEnum.Swing && !_isButtonHeld)
@@ -577,6 +695,9 @@ public class PlayerController : MonoBehaviour
             PlayerState = PlayerStateEnum.Air;
             ropeRenderer.enabled = false;
             _canSwing = false;
+            _audioSource.clip = swingDetach;
+            _audioSource.Play();
+            HangChanged?.Invoke(false, _velocity.x < 0);
 
             if (_swingStarted)
             {
@@ -613,4 +734,16 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    /// <summary>
+    /// On reset, respawn at checkpoint with the direction we faced at that checkpoint
+    /// </summary>
+    private void OnReset()
+    {
+        var checkpointPos = GameManager.Instance.CheckPointPos;
+        var spawnPos = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
+        transform.position = spawnPos;
+        Direction = GameManager.Instance.RespawnFacingLeft ? -1.0f : 1.0f;
+        PlayerState = PlayerStateEnum.Run;
+    }
 }
