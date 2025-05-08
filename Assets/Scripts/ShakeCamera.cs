@@ -9,12 +9,17 @@ using static PlayerController;
 public class ShakeCamera : MonoBehaviour
 {   
     //TODO: possibly convert class to be a "camera effector" with more methods to cause different camera effects (shakes,zooms in/out etc)
-    private Coroutine _shakeCoroutine;
+    private Coroutine _activeShake;
+    private Vector2 _originalCameraPos;
 
+    private void Awake()
+    {
+        _originalCameraPos = transform.localPosition;
+    }
     /// <summary>
     /// Public method that any class can shake the camera.
     /// </summary>
-    ///<param>
+    /// <param>
     /// shakeDuration: the length of time to shake the camera for
     /// shakeIntensity: the level of intensity to shake the camera (higher values cause more aggressive/violent shaking)
     /// shakeDecay: how quickly the camera shake dissipates (large values cause shake to quickly dissapate)
@@ -23,17 +28,16 @@ public class ShakeCamera : MonoBehaviour
     public void Shake(float shakeDuration, float shakeIntensity, float shakeDecay, bool xShake, bool yShake) 
     {
         //TODO: trying to prevent coroutines from overlapping need to fix
-        if(_shakeCoroutine != null) 
+        if(_activeShake != null) 
         {
-            StopCoroutine(_shakeCoroutine);
+            transform.localPosition = _originalCameraPos;
         }
-        _shakeCoroutine = StartCoroutine(ShakeRoutine(shakeDuration,shakeIntensity,shakeDecay,xShake,yShake));
+        _activeShake = StartCoroutine(ShakeRoutine(shakeDuration,shakeIntensity,shakeDecay,xShake,yShake));
     }
 
     //corroutine to shake the camera
     private IEnumerator ShakeRoutine(float shakeDuration, float shakeIntensity, float shakeDecay, bool xShake, bool yShake)
     {
-        Vector2 _originalCameraPos = transform.localPosition;  
         float _elapsed = 0.0f;  
         Vector2 _shakeOffset;
         while (_elapsed < shakeDuration)  
@@ -61,11 +65,13 @@ public class ShakeCamera : MonoBehaviour
             );
 
             _elapsed += Time.deltaTime;
-            yield return new WaitForSeconds(0.01f); //TODO this value might need tweaking based on performance issues
+            //yield return new WaitForSeconds(0.01f); //TODO this value might need tweaking based on performance issues
+            yield return null;
         }
 
         transform.localPosition = _originalCameraPos;
-        _shakeCoroutine = null;
+        _activeShake = null;
+        
     }
 
 }
