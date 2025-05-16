@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Number of checkpoints reached.
     /// </summary>
-    public int CheckpointsReached { get; private set; }
+    public List<Vector2> CheckpointsReached { get; } = new();
 
     /// <summary>
     /// Action that gets invoked when level reloads, e.g. respawns
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
     {
         sceneTransitionCanvas.InvokeFadeOut();
         Time.timeScale = 1f;
-        CheckpointsReached = 0;
+        CheckpointsReached.Clear();
         _prevCheckpoints.Clear();
     }
 
@@ -91,8 +91,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="newCheckpointLocation">New checkpoint location</param>
     /// <param name="shouldFaceLeft">Whether respawn should face left</param>
-    /// <param name="checkpointsReached">If there's a specific number of checkpoints reached we want to set (-1 if not)</param>
-    public void UpdateCheckpointData(Vector2 newCheckpointLocation, bool shouldFaceLeft = false, int checkpointsReached = -1)
+    public void UpdateCheckpointData(Vector2 newCheckpointLocation, bool shouldFaceLeft = false)
     {
         if (!_prevCheckpoints.Add(newCheckpointLocation))
         {
@@ -102,8 +101,25 @@ public class GameManager : MonoBehaviour
 
         CheckPointPos = newCheckpointLocation;
         RespawnFacingLeft = shouldFaceLeft;
-        if (checkpointsReached < 0) CheckpointsReached++;
-        else CheckpointsReached = checkpointsReached;
+        CheckpointsReached.Add(newCheckpointLocation);
+        NewCheckpointReached?.Invoke(CheckPointPos);
+    }
+
+    /// <summary>
+    /// Sets checkpoint location/data from save data.
+    /// </summary>
+    /// <param name="newCheckpointLocation">New checkpoint location</param>
+    /// <param name="shouldFaceLeft">Whether respawn should face left</param>
+    /// <param name="checkpointsReached">List of previous checkpoints reached</param>
+    public void UpdateFromSaveData(Vector2 newCheckpointLocation, bool shouldFaceLeft, Vector2[] checkpointsReached)
+    {
+        CheckPointPos = newCheckpointLocation;
+        RespawnFacingLeft = shouldFaceLeft;
+        CheckpointsReached.Clear();
+        _prevCheckpoints.Clear();
+        CheckpointsReached.AddRange(checkpointsReached);
+        foreach (Vector2 checkpointReached in checkpointsReached)
+            _prevCheckpoints.Add(checkpointReached);
         NewCheckpointReached?.Invoke(CheckPointPos);
     }
 

@@ -82,7 +82,7 @@ namespace Save
             return new SaveData
             {
                 checkpointPosition = GameManager.Instance.CheckPointPos,
-                checkpointsReached = GameManager.Instance.CheckpointsReached,
+                checkpointsReached = GameManager.Instance.CheckpointsReached.ToArray(),
                 checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                 dateTimeBinary = DateTime.Now.ToBinary(),
                 sceneName = _activeScene
@@ -104,7 +104,7 @@ namespace Save
             {
                 SaveData data = JsonUtility.FromJson<SaveData>(File.ReadAllText(filePath));
                 SceneManager.LoadScene(data.sceneName);
-                GameManager.Instance.UpdateCheckpointData(data.checkpointPosition, data.checkpointFacesLeft, data.checkpointsReached);
+                GameManager.Instance.UpdateFromSaveData(data.checkpointPosition, data.checkpointFacesLeft, data.checkpointsReached);
                 _currentSaveFile = fileName;
                 // TODO very hacky
                 _forcedNextFramePosition = data.checkpointPosition;

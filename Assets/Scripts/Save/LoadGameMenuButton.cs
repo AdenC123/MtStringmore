@@ -33,7 +33,7 @@ namespace Save
         {
             sceneNameText.text = saveData.sceneName;
             fileNameText.text = Path.GetFileNameWithoutExtension(fileName);
-            checkpointNumText.text = $"Checkpoint {saveData.checkpointsReached}";
+            checkpointNumText.text = $"Checkpoint {saveData.checkpointsReached.Length}";
             dateTimeText.text = DateTime.FromBinary(saveData.dateTimeBinary).ToString("g");
             _fileName = fileName;
         }

@@ -13,6 +13,6 @@ namespace Save
         public string sceneName;
         public Vector2 checkpointPosition;
         public bool checkpointFacesLeft;
-        public int checkpointsReached;
+        public Vector2[] checkpointsReached;
     }
 }
