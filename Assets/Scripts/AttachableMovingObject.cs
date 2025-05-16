@@ -35,6 +35,12 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     [SerializeField, Min(0), Tooltip("Maximum speed")]
     private float maxSpeed = 1;
 
+    [SerializeField, Min(0), Tooltip("Time (seconds) before unzipping starts")]
+    private float unzipDelay = 1;
+    
+    [SerializeField, Min(0), Tooltip("Reset speed")]
+    private float unzipSpeed = 10;
+
     [SerializeField, Min(0), Tooltip("Acceleration time (seconds)")]
     private float accelerationTime = 1;
 
@@ -61,11 +67,9 @@ public class AttachableMovingObject : AbstractPlayerInteractable
 
     [Tooltip("Path renderer")] public MovingObjectPathRenderer pathRenderer;
 
-    /// <remarks>
-    /// I know the new reset logic hasn't been merged in yet,
-    /// but we need to save a copy of the enumerator to reset the object later.
-    /// </remarks>
     private Coroutine _activeMotion;
+
+    private Coroutine _unzippedMotion;
 
     private Rigidbody2D _rigidbody;
 
@@ -160,6 +164,28 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     }
 
     /// <summary>
+    /// Coroutine to move the object back to start after a delay.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator UnzipCoroutine()
+    {
+        yield return new WaitForSeconds(unzipDelay);
+        // i can't guarantee that the end user *won't* change the positions during runtime
+        // so I have to check *literally every frame*.
+        for (Vector2 diff = secondPosition - firstPosition;
+             DistanceAlongPath > 0;
+             diff = secondPosition - firstPosition)
+        {
+            yield return new WaitForFixedUpdate();
+            // yes, I could use possibly use FixedJoint2D, but I suspect that PlayerController may cause problems
+            _rigidbody.velocity = -unzipSpeed * diff.normalized;
+        }
+
+        _rigidbody.position = firstPosition;
+        _rigidbody.velocity = Vector2.zero;
+    }
+
+    /// <summary>
     /// Starts moving.
     /// </summary>
     private void StartMotion()
@@ -249,6 +275,8 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         player.ActiveVelocityEffector = this;
         _player.transform.position = transform.position + transform.TransformDirection(playerOffset);
         StartMotion();
+        if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
+        _unzippedMotion = null;
     }
 
     /// <inheritdoc />
@@ -256,6 +284,8 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     {
         _audioSource.Stop();
         StopMotion();
+        if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
+        _unzippedMotion = StartCoroutine(UnzipCoroutine());
     }
     
     /// <summary>
@@ -266,6 +296,8 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         transform.position = firstPosition;
         _audioSource.Stop();
         if (_player) StopMotion();
+        if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
+        _unzippedMotion = null;
     }
 
     private void Awake()
