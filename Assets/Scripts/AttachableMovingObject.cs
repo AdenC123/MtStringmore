@@ -156,7 +156,6 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         yield return new WaitForSeconds(exitDelayTime);
         _prevVelocity = _rigidbody.velocity;
         _player.StopInteraction(this);
-        EndInteract(_player);
         // This does two things:
         //  - Disallows interaction
         //  - Stops the race condition check from happening
@@ -200,12 +199,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     {
         if (_activeMotion != null) StopCoroutine(_activeMotion);
         _activeMotion = null;
-        // defensive check to make sure velocity gets set to 0
-        // we only want to set velocity to zero after applying previous velocity.
-        if (!ReferenceEquals(_player.ActiveVelocityEffector, this))
-        {
-            _rigidbody.velocity = Vector2.zero;
-        }
+        _rigidbody.velocity = Vector2.zero;
     }
 
     /// <inheritdoc />
@@ -226,24 +220,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     /// <inheritdoc />
     public override Vector2 ApplyVelocity(Vector2 velocity)
     {
-        Vector2 vel = _rigidbody.velocity;
-        if (_activeMotion == null)
-        {
-            if (_player.ActiveVelocityEffector is AttachableMovingObject)
-            {
-                if (!ReferenceEquals(_player.ActiveVelocityEffector, this))
-                {
-                    Debug.LogWarning("Removing other attachable moving object - this is likely a bug!");
-                }
-
-                _player.ActiveVelocityEffector = null;
-            }
-
-            vel = _prevVelocity + new Vector2(_player.Direction * exitVelBoost.x, exitVelBoost.y);
-            _rigidbody.velocity = Vector2.zero;
-        }
-
-        return vel;
+        return _rigidbody.velocity;
     }
 
     /// <inheritdoc />
@@ -255,14 +232,14 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         if (_rigidbody.position == secondPosition)
         {
             Debug.LogWarning("Attempted interact when motion was finished.");
-            if (player.ActiveVelocityEffector != null)
-            {
-                Debug.LogWarning("Player has active velocity effector when motion is finished!");
-            }
 
             if (player.CurrentInteractableArea == this)
             {
+                // just in case...
+                player.StopInteraction(this);
                 player.CurrentInteractableArea = null;
+                _audioSource.Stop();
+                StopMotion();
             }
             else
             {
@@ -272,7 +249,7 @@ public class AttachableMovingObject : AbstractPlayerInteractable
             return;
         }
 
-        player.ActiveVelocityEffector = this;
+        player.AddPlayerVelocityEffector(this);
         _player.transform.position = transform.position + transform.TransformDirection(playerOffset);
         StartMotion();
         if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
@@ -282,6 +259,8 @@ public class AttachableMovingObject : AbstractPlayerInteractable
     /// <inheritdoc />
     public override void EndInteract(PlayerController player)
     {
+        _player.RemovePlayerVelocityEffector(this);
+        _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, _prevVelocity, exitVelBoost), true);
         _audioSource.Stop();
         StopMotion();
         if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
@@ -359,5 +338,24 @@ public class AttachableMovingObject : AbstractPlayerInteractable
         Gizmos.DrawLine(firstPosition, secondPosition);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(secondPosition, 1);
+    }
+
+    private class BonusEndImpulseEffector : IPlayerVelocityEffector
+    {
+        private readonly PlayerController _player;
+        private readonly Vector2 _finalVelocity;
+        private readonly Vector2 _exitBoost;
+
+        public BonusEndImpulseEffector(PlayerController player, Vector2 finalVelocity, Vector2 exitBoost)
+        {
+            _player = player;
+            _finalVelocity = finalVelocity;
+            _exitBoost = exitBoost;
+        }
+
+        public Vector2 ApplyVelocity(Vector2 velocity)
+        {
+            return _finalVelocity + new Vector2(_player.Direction * _exitBoost.x, _exitBoost.y);
+        }
     }
 }
