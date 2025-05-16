@@ -113,6 +113,7 @@ public class PlayerController : MonoBehaviour
 
     public event Action Jumped;
     public event Action Dashed;
+
     /// <summary>
     /// Fires when the player hangs onto an interactable object.
     /// Parameters:
@@ -120,6 +121,7 @@ public class PlayerController : MonoBehaviour
     ///     bool (facingLeft): True when facing left, false otherwise
     /// </summary>
     public event Action<bool, bool> HangChanged;
+
     public event Action DoubleJumped;
     public event Action Death;
     public event Action<bool> SwingDifferentDirection;
@@ -133,7 +135,7 @@ public class PlayerController : MonoBehaviour
     /// Current interactable in range.
     /// </summary>
     public AbstractPlayerInteractable CurrentInteractableArea { get; set; }
-    
+
     /// <summary>
     /// Whether the player can use their dash in the air.
     /// </summary>
@@ -174,7 +176,6 @@ public class PlayerController : MonoBehaviour
 
     private readonly List<IPlayerVelocityEffector> _playerVelocityEffectors = new();
     private readonly List<IPlayerVelocityEffector> _impulseVelocityEffectors = new();
-    private readonly List<IPlayerVelocityEffector> _removalQueue = new();
     private Collider2D _swingArea;
     private float _swingRadius;
     private bool _canSwing;
@@ -191,7 +192,7 @@ public class PlayerController : MonoBehaviour
         _col = GetComponent<CapsuleCollider2D>();
         _audioSource = GetComponent<AudioSource>();
         ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
-        
+
         foreach (ParticleSystem ps in particleSystems)
         {
             switch (ps.gameObject.name)
@@ -210,6 +211,7 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
+
         _buttonNotPressedPreviousFrame = true;
         Direction = startDirection;
         GameManager.Instance.Reset += OnReset;
@@ -261,7 +263,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+
     private void OnParticleCollision(GameObject other)
     {
         if (other.CompareTag("Death"))
@@ -297,14 +299,12 @@ public class PlayerController : MonoBehaviour
         HandleEarlyRelease();
         HandleWalk();
         HandleGravity();
-        _velocity = _playerVelocityEffectors.Aggregate(_velocity, (initial, effector) => effector.ApplyVelocity(initial));
-        _velocity = _impulseVelocityEffectors.Aggregate(_velocity, (initial, effector) => effector.ApplyVelocity(initial));
+        _velocity = _playerVelocityEffectors
+            .Aggregate(_velocity, (initial, effector) => effector.ApplyVelocity(initial));
+        _velocity = _impulseVelocityEffectors
+            .Aggregate(_velocity, (initial, effector) => effector.ApplyVelocity(initial));
         bool hadVelocityEffectors = _playerVelocityEffectors.Count > 0 || _impulseVelocityEffectors.Count > 0;
         _impulseVelocityEffectors.Clear();
-        foreach (IPlayerVelocityEffector effector in _removalQueue)
-        {
-            RemovePlayerVelocityEffector(effector);
-        }
         if (!hadVelocityEffectors && dashEnabled) HandleDash();
         ApplyMovement();
     }
@@ -313,8 +313,10 @@ public class PlayerController : MonoBehaviour
 
     public bool HasPlayerVelocityEffector(IPlayerVelocityEffector playerVelocityEffector)
     {
-        return _playerVelocityEffectors.Contains(playerVelocityEffector) || _impulseVelocityEffectors.Contains(playerVelocityEffector);
+        return _playerVelocityEffectors.Contains(playerVelocityEffector) ||
+               _impulseVelocityEffectors.Contains(playerVelocityEffector);
     }
+
     public void AddPlayerVelocityEffector(IPlayerVelocityEffector effector, bool impulse = false)
     {
         IPlayerVelocityEffector ignores =
@@ -325,22 +327,16 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning($"Ignoring effector {effector} as existing effector {ignores} ignores other effectors");
             return;
         }
+
         (impulse ? _impulseVelocityEffectors : _playerVelocityEffectors).Add(effector);
     }
 
-    public void RemovePlayerVelocityEffector(IPlayerVelocityEffector effector, bool immediate = true)
+    public void RemovePlayerVelocityEffector(IPlayerVelocityEffector effector)
     {
-        if (immediate)
-        {
-            _playerVelocityEffectors.Remove(effector);
-            _impulseVelocityEffectors.Remove(effector);
-        }
-        else
-        {
-            _removalQueue.Add(effector);
-        }
+        _playerVelocityEffectors.Remove(effector);
+        _impulseVelocityEffectors.Remove(effector);
     }
-    
+
     /// <summary>
     /// Stops interacting with the interactable.
     /// </summary>
@@ -351,7 +347,8 @@ public class PlayerController : MonoBehaviour
     /// </remarks>
     public void StopInteraction(AbstractPlayerInteractable interactable)
     {
-        Debug.Assert(CurrentInteractableArea == interactable, $"Requested to stop interaction on inactive interactable: {interactable} vs Current {CurrentInteractableArea}");
+        Debug.Assert(CurrentInteractableArea == interactable,
+            $"Requested to stop interaction on inactive interactable: {interactable} vs Current {CurrentInteractableArea}");
         _buttonNotPressedPreviousFrame = true;
         CurrentInteractableArea.EndInteract(this);
         PlayerState = PlayerStateEnum.Air;
@@ -442,18 +439,22 @@ public class PlayerController : MonoBehaviour
         if (PlayerState == PlayerStateEnum.RightWallSlide && !rightWallHit ||
             PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit)
             PlayerState = PlayerStateEnum.Air;
-        
+
         UpdateParticleSystemState(_runningDust, PlayerStateEnum.Run);
         UpdateParticleSystemState(_leftWallSlideDust, PlayerStateEnum.LeftWallSlide);
         UpdateParticleSystemState(_rightWallSlideDust, PlayerStateEnum.RightWallSlide);
     }
 
-    private void UpdateParticleSystemState(ParticleSystem system, PlayerStateEnum targetState) {
-      if (PlayerState == targetState) {
-        if (!system.isPlaying) system.Play();
-      } else if (system.isPlaying) {
-        system.Stop();
-      }
+    private void UpdateParticleSystemState(ParticleSystem system, PlayerStateEnum targetState)
+    {
+        if (PlayerState == targetState)
+        {
+            if (!system.isPlaying) system.Play();
+        }
+        else if (system.isPlaying)
+        {
+            system.Stop();
+        }
     }
 
     private void HandleDeath()
@@ -638,9 +639,10 @@ public class PlayerController : MonoBehaviour
         // should we just have the grounded check first check if you're on an object?
         if (_playerVelocityEffectors.Contains(CurrentInteractableArea) && PlayerState != PlayerStateEnum.OnObject)
         {
-            Debug.LogWarning($"_playerVelocityEffectors.Contains(CurrentInteractableArea) while State != PlayerStateEnum.OnObject, actual state: {PlayerState}");
+            Debug.LogWarning(
+                $"_playerVelocityEffectors.Contains(CurrentInteractableArea) while State != PlayerStateEnum.OnObject, actual state: {PlayerState}");
             PlayerState = PlayerStateEnum.OnObject;
-            
+
             // not sure if it's guaranteed for the player to not be on the ground when on the object
             // (e.g. if we build objects that push the player along the ground or something like that)
             // but this is required to stop the footsteps from playing.
@@ -650,7 +652,7 @@ public class PlayerController : MonoBehaviour
                 GroundedChanged?.Invoke(false, 0);
             }
         }
-        
+
         if (!IsButtonUsed() && PlayerState == PlayerStateEnum.OnObject && !_isButtonHeld)
         {
             StopInteraction(CurrentInteractableArea);
@@ -764,10 +766,12 @@ public class PlayerController : MonoBehaviour
             CurrentInteractableArea.EndInteract(this);
             CurrentInteractableArea = null;
         }
+
         if (PlayerState == PlayerStateEnum.OnObject)
         {
             PlayerState = PlayerStateEnum.Air;
         }
+
         _playerVelocityEffectors.Clear();
         _impulseVelocityEffectors.Clear();
         PlayerState = PlayerStateEnum.Run;

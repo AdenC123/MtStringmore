@@ -59,9 +59,6 @@ public class Balloon : AbstractPlayerInteractable
     private Rigidbody2D _rigidbody;
     private PlayerController _player;
 
-    private bool playerAttached;
-
-
     /// <inheritdoc />
     public override bool IgnoreGravity => true;
 
@@ -126,7 +123,7 @@ public class Balloon : AbstractPlayerInteractable
             // yes, I could use possibly use FixedJoint2D, but I suspect that PlayerController may cause problems
 
             // respawn logic, if balloon reaches second position w/o player, then respawn balloon in start position
-            if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance && !playerAttached)
+            if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance && !_player.HasPlayerVelocityEffector(this))
             {
                 RespawnBalloon();
                 yield break;
@@ -161,7 +158,6 @@ public class Balloon : AbstractPlayerInteractable
     /// <inheritdoc />
     public override void OnPlayerEnter(PlayerController player)
     {
-        playerAttached = true;
         if (_rigidbody.position == secondPosition)
         {
             // disallow re-attaching if reached
@@ -172,7 +168,6 @@ public class Balloon : AbstractPlayerInteractable
     /// <inheritdoc />
     public override void OnPlayerExit(PlayerController player)
     {
-        playerAttached = false;
         if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance) RespawnBalloon();
     }
 
@@ -189,8 +184,6 @@ public class Balloon : AbstractPlayerInteractable
     public override void StartInteract(PlayerController player)
     {
         _player = player;
-        // TODO set player anim
-
         attachAudioSource.clip = RandomUtil.SelectRandom(attachSounds);
         attachAudioSource.Play();
         windAudioSource.Play();
@@ -223,8 +216,7 @@ public class Balloon : AbstractPlayerInteractable
         Vector2 boostDirection = _rigidbody.velocity.normalized;
         if (boostDirection == Vector2.zero) // Fallback in case balloon is stationary
             boostDirection = Vector2.up; // Default to an upward boost
-        _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, boostDirection, exitVelBoost, boostTimer));
-        // TODO unset player anim
+        _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, boostDirection, exitVelBoost), true);
         windAudioSource.Stop();
     }
 
@@ -275,7 +267,6 @@ public class Balloon : AbstractPlayerInteractable
 
     private void RespawnBalloon()
     {
-        playerAttached = false;
         _rigidbody.position = firstPosition;
         StopMotion();
         Debug.Log("Balloon has respawned at the first position.");
@@ -295,24 +286,16 @@ public class Balloon : AbstractPlayerInteractable
         private readonly PlayerController _player;
         private readonly Vector2 _boostDirection;
         private readonly Vector2 _exitBoost;
-        private readonly float _duration;
-        private readonly float _startTime;
 
-        public BonusEndImpulseEffector(PlayerController player, Vector2 boostDirection, Vector2 exitBoost, float duration)
+        public BonusEndImpulseEffector(PlayerController player, Vector2 boostDirection, Vector2 exitBoost)
         {
             _player = player;
             _boostDirection = boostDirection;
             _exitBoost = exitBoost;
-            _duration = duration;
-            _startTime = Time.time;
         }
 
         public Vector2 ApplyVelocity(Vector2 velocity)
         {
-            if (Time.time - _startTime > _duration)
-            {
-                _player.RemovePlayerVelocityEffector(this, false);
-            }
             return new Vector2(_player.Direction * _exitBoost.x, _boostDirection.y * _exitBoost.y);
         }
     }
