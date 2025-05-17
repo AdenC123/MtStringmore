@@ -29,6 +29,7 @@ namespace Save
         {
             SaveFile();
             GameManager.Instance.NewCheckpointReached -= OnCheckpointReached;
+            SceneManager.sceneLoaded -= SceneManagerOnSceneLoaded;
         }
 
         /// <summary>
@@ -59,6 +60,7 @@ namespace Save
             {
                 // avoid updating the scene name to the title screen LOL
                 _activeScene = scene.name;
+                SaveFile();
             }
 
             _forcedNextFramePosition = null;
@@ -79,9 +81,9 @@ namespace Save
         /// <returns>Current save state date</returns>
         private SaveData GetCurrentSaveData()
         {
+            Debug.Assert(!string.IsNullOrWhiteSpace(_activeScene), "_activeScene null or blank");
             return new SaveData
             {
-                checkpointPosition = GameManager.Instance.CheckPointPos,
                 checkpointsReached = GameManager.Instance.CheckpointsReached.ToArray(),
                 checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                 dateTimeBinary = DateTime.Now.ToBinary(),
@@ -104,10 +106,13 @@ namespace Save
             {
                 SaveData data = JsonUtility.FromJson<SaveData>(File.ReadAllText(filePath));
                 SceneManager.LoadScene(data.sceneName);
-                GameManager.Instance.UpdateFromSaveData(data.checkpointPosition, data.checkpointFacesLeft, data.checkpointsReached);
+                GameManager.Instance.UpdateFromSaveData(data.checkpointFacesLeft, data.checkpointsReached);
                 _currentSaveFile = fileName;
-                // TODO very hacky
-                _forcedNextFramePosition = data.checkpointPosition;
+                if (data.checkpointsReached.Length > 0)
+                {
+                    // TODO very hacky
+                    _forcedNextFramePosition = data.checkpointsReached[^1];
+                }
 
                 return true;
             }
@@ -121,7 +126,7 @@ namespace Save
         /// <summary>
         /// Creates a new save file.
         /// </summary>
-        public void CreateNewSave()
+        public void CreateNewSave(string startingScene)
         {
             string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
             if (!EnsureSaveFolderExists(folderLocation)) return;
@@ -130,6 +135,7 @@ namespace Save
             for (i = 0; File.Exists(outputFile = Path.Combine(folderLocation, $"{i}.save")); i++) ;
             try
             {
+                _activeScene = startingScene;
                 File.WriteAllText(outputFile, JsonUtility.ToJson(GetCurrentSaveData()));
                 _currentSaveFile = $"{i}.save";
             }
@@ -217,6 +223,7 @@ namespace Save
         private void SaveFile()
         {
             if (_currentSaveFile == null) return;
+            if (SceneManager.GetActiveScene().name == mainMenuScene) return;
             _saveThread?.Join();
             string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
             SaveFileWriter saveFileWriter = new(folderLocation, _currentSaveFile, GetCurrentSaveData());

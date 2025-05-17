@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        _saveDataManager?.CreateNewSave();
+        _saveDataManager?.CreateNewSave(startingScene);
         SceneManager.LoadScene(startingScene);
     }
 

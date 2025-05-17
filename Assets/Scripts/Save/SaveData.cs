@@ -11,7 +11,6 @@ namespace Save
     {
         public long dateTimeBinary;
         public string sceneName;
-        public Vector2 checkpointPosition;
         public bool checkpointFacesLeft;
         public Vector2[] checkpointsReached;
     }

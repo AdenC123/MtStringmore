@@ -108,12 +108,11 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Sets checkpoint location/data from save data.
     /// </summary>
-    /// <param name="newCheckpointLocation">New checkpoint location</param>
     /// <param name="shouldFaceLeft">Whether respawn should face left</param>
     /// <param name="checkpointsReached">List of previous checkpoints reached</param>
-    public void UpdateFromSaveData(Vector2 newCheckpointLocation, bool shouldFaceLeft, Vector2[] checkpointsReached)
+    public void UpdateFromSaveData(bool shouldFaceLeft, Vector2[] checkpointsReached)
     {
-        CheckPointPos = newCheckpointLocation;
+        if (checkpointsReached.Length > 0) CheckPointPos = checkpointsReached[^1];
         RespawnFacingLeft = shouldFaceLeft;
         CheckpointsReached.Clear();
         _prevCheckpoints.Clear();
