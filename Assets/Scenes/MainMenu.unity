@@ -3558,6 +3558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingScene: IntroCutscene
+  loadGameButton: {fileID: 307654972}
 --- !u!82 &1503641520
 AudioSource:
   m_ObjectHideFlags: 0
