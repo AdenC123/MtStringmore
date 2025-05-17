@@ -13,6 +13,9 @@ public class ResultsManager : MonoBehaviour
     
     [SerializeField] private GameObject resultsPane;
     
+    [Header("References")] [SerializeField] 
+    private GameManager gameManager;
+    
     private void Start()
     {
         resultsPane.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + SceneManager.GetActiveScene().buildIndex / 2;

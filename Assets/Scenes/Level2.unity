@@ -92753,6 +92753,10 @@ PrefabInstance:
       value: Results Manager
       objectReference: {fileID: 0}
     - target: {fileID: 7499476184492949100, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1588058012}
+    - target: {fileID: 7499476184492949100, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
       propertyPath: resultsPane
       value: 
       objectReference: {fileID: 930327254}
@@ -103159,6 +103163,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+--- !u!114 &1588058012 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+  m_PrefabInstance: {fileID: 1588058011}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d47a2663ac469a49a589388c2c56409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1607584065
 PrefabInstance:
   m_ObjectHideFlags: 0
