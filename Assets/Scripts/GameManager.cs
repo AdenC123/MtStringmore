@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,11 +39,11 @@ public class GameManager : MonoBehaviour
     /// Action that gets invoked when level reloads, e.g. respawns
     /// </summary>
     public event Action Reset;
-    
+
     /// <summary>
-    /// Action invoked on new checkpoint reached.
+    /// Action invoked on game data changed.
     /// </summary>
-    public event Action<Vector2> NewCheckpointReached;
+    public event Action GameDataChanged;
 
     /// <summary>
     /// Canvas to fade in/out when transitioning between scenes
@@ -52,6 +51,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private FadeEffects sceneTransitionCanvas;
     
     private readonly HashSet<Vector2> _prevCheckpoints = new();
+    
+    /// <summary>
+    /// So it turns out that onSceneChanged happens after modifying game data on save.
+    ///
+    /// So we need to check that we're doing that LOL.
+    /// </summary>
+    private bool _dontClearDataOnSceneChanged;
 
     private void Awake()
     {
@@ -80,8 +86,13 @@ public class GameManager : MonoBehaviour
     {
         sceneTransitionCanvas.InvokeFadeOut();
         Time.timeScale = 1f;
-        CheckpointsReached.Clear();
-        _prevCheckpoints.Clear();
+        if (!_dontClearDataOnSceneChanged)
+        {
+            CheckpointsReached.Clear();
+            _prevCheckpoints.Clear();
+            GameDataChanged?.Invoke();
+        }
+        _dontClearDataOnSceneChanged = false;
     }
 
     /// <summary>
@@ -102,7 +113,7 @@ public class GameManager : MonoBehaviour
         CheckPointPos = newCheckpointLocation;
         RespawnFacingLeft = shouldFaceLeft;
         CheckpointsReached.Add(newCheckpointLocation);
-        NewCheckpointReached?.Invoke(CheckPointPos);
+        GameDataChanged?.Invoke();
     }
 
     /// <summary>
@@ -119,7 +130,8 @@ public class GameManager : MonoBehaviour
         CheckpointsReached.AddRange(checkpointsReached);
         foreach (Vector2 checkpointReached in checkpointsReached)
             _prevCheckpoints.Add(checkpointReached);
-        NewCheckpointReached?.Invoke(CheckPointPos);
+        GameDataChanged?.Invoke();
+        _dontClearDataOnSceneChanged = true;
     }
 
     /// <summary>

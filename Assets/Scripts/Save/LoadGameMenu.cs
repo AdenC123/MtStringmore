@@ -56,7 +56,7 @@ namespace Save
         // ReSharper disable once UnusedMember.Global
         public void DeleteSelectedSave()
         {
-            _saveDataManager.DeleteSave(_activeFile);
+            SaveDataManager.DeleteSave(_activeFile);
             _activeFile = null;
             RefreshView();
         }

@@ -13,22 +13,20 @@ namespace Save
     public class SaveDataManager : MonoBehaviour
     {
         [SerializeField] private string mainMenuScene;
-        
+
         private Thread _saveThread;
         private string _currentSaveFile;
-        private string _activeScene;
         private Vector2? _forcedNextFramePosition;
 
         private void Awake()
         {
-            GameManager.Instance.NewCheckpointReached += OnCheckpointReached;
+            GameManager.Instance.GameDataChanged += SaveFile;
             SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
         }
 
         private void OnDestroy()
         {
-            SaveFile();
-            GameManager.Instance.NewCheckpointReached -= OnCheckpointReached;
+            GameManager.Instance.GameDataChanged -= SaveFile;
             SceneManager.sceneLoaded -= SceneManagerOnSceneLoaded;
         }
 
@@ -42,6 +40,12 @@ namespace Save
         /// </remarks>
         private void SceneManagerOnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            if (scene.name == mainMenuScene)
+            {
+                _currentSaveFile = null;
+                return;
+            }
+
             if (_forcedNextFramePosition != null)
             {
                 // TODO sendMessage is hacky and WILL BREAK
@@ -54,40 +58,23 @@ namespace Save
                     position.y = _forcedNextFramePosition.Value.y;
                     followCamera.transform.position = position;
                 }
+
+                _forcedNextFramePosition = null;
             }
-
-            if (_activeScene != scene.name && scene.name != mainMenuScene)
-            {
-                // avoid updating the scene name to the title screen LOL
-                _activeScene = scene.name;
-                SaveFile();
-            }
-
-            _forcedNextFramePosition = null;
-        }
-
-        /// <summary>
-        /// Called when reaching a checkpoint: saves the file.
-        /// </summary>
-        /// <param name="checkpoint">New checkpoint position</param>
-        private void OnCheckpointReached(Vector2 checkpoint)
-        {
-            SaveFile();
         }
 
         /// <summary>
         /// Returns the current save state data.
         /// </summary>
         /// <returns>Current save state date</returns>
-        private SaveData GetCurrentSaveData()
+        private static SaveData GetCurrentSaveData(string sceneOverride = null)
         {
-            Debug.Assert(!string.IsNullOrWhiteSpace(_activeScene), "_activeScene null or blank");
             return new SaveData
             {
                 checkpointsReached = GameManager.Instance.CheckpointsReached.ToArray(),
                 checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                 dateTimeBinary = DateTime.Now.ToBinary(),
-                sceneName = _activeScene
+                sceneName = sceneOverride ?? SceneManager.GetActiveScene().name
             };
         }
 
@@ -105,9 +92,9 @@ namespace Save
             try
             {
                 SaveData data = JsonUtility.FromJson<SaveData>(File.ReadAllText(filePath));
-                SceneManager.LoadScene(data.sceneName);
-                GameManager.Instance.UpdateFromSaveData(data.checkpointFacesLeft, data.checkpointsReached);
                 _currentSaveFile = fileName;
+                GameManager.Instance.UpdateFromSaveData(data.checkpointFacesLeft, data.checkpointsReached);
+                SceneManager.LoadScene(data.sceneName);
                 if (data.checkpointsReached.Length > 0)
                 {
                     // TODO very hacky
@@ -119,6 +106,7 @@ namespace Save
             catch (Exception e)
             {
                 Debug.LogWarning($"Couldn't read from save data: {filePath}: {e.Message}");
+                _currentSaveFile = null;
                 return false;
             }
         }
@@ -135,8 +123,7 @@ namespace Save
             for (i = 0; File.Exists(outputFile = Path.Combine(folderLocation, $"{i}.save")); i++) ;
             try
             {
-                _activeScene = startingScene;
-                File.WriteAllText(outputFile, JsonUtility.ToJson(GetCurrentSaveData()));
+                File.WriteAllText(outputFile, JsonUtility.ToJson(GetCurrentSaveData(startingScene)));
                 _currentSaveFile = $"{i}.save";
             }
             catch (Exception e)
@@ -145,7 +132,7 @@ namespace Save
             }
         }
 
-        public void DeleteSave(string fileName)
+        public static void DeleteSave(string fileName)
         {
             string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
             if (!EnsureSaveFolderExists(folderLocation)) return;
@@ -158,6 +145,29 @@ namespace Save
             {
                 Debug.LogWarning($"Tried to delete file that doesn't exist: {filePath}");
             }
+        }
+
+        /// <summary>
+        /// Saves the file: creates the thread to save the file.
+        /// </summary>
+        /// <remarks>
+        /// TODO: do we need to do this on a separate thread? would be easier but would cause freezing at checkpoint reach
+        ///
+        /// also TODO check this works with web since javascript is singlethreaded
+        /// </remarks>
+        public void SaveFile()
+        {
+            if (_currentSaveFile == null) return;
+            if (SceneManager.GetActiveScene().name == mainMenuScene)
+            {
+                Debug.LogWarning("Saving to main menu scene. Hopefully we're loading from it and not loading to it.");
+                return;
+            }
+            _saveThread?.Join();
+            string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
+            SaveFileWriter saveFileWriter = new(folderLocation, _currentSaveFile, GetCurrentSaveData());
+            _saveThread = new Thread(saveFileWriter.SaveFile);
+            _saveThread.Start();
         }
 
         /// <summary>
@@ -210,25 +220,6 @@ namespace Save
                     Debug.LogWarning($"Failed to write out save data at {outputFilePath}: {e.Message}");
                 }
             }
-        }
-
-        /// <summary>
-        /// Saves the file: creates the thread to save the file.
-        /// </summary>
-        /// <remarks>
-        /// TODO: do we need to do this on a separate thread? would be easier but would cause freezing at checkpoint reach
-        ///
-        /// also TODO check this works with web since javascript is singlethreaded
-        /// </remarks>
-        private void SaveFile()
-        {
-            if (_currentSaveFile == null) return;
-            if (SceneManager.GetActiveScene().name == mainMenuScene) return;
-            _saveThread?.Join();
-            string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
-            SaveFileWriter saveFileWriter = new(folderLocation, _currentSaveFile, GetCurrentSaveData());
-            _saveThread = new Thread(saveFileWriter.SaveFile);
-            _saveThread.Start();
         }
 
         /// <summary>
