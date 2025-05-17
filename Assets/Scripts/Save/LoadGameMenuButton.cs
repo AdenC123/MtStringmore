@@ -34,7 +34,7 @@ namespace Save
             sceneNameText.text = saveData.sceneName;
             fileNameText.text = Path.GetFileNameWithoutExtension(fileName);
             checkpointNumText.text = $"Checkpoint {saveData.checkpointsReached.Length}";
-            dateTimeText.text = DateTime.FromBinary(saveData.dateTimeBinary).ToString("g");
+            dateTimeText.text = GetDateTimeString(DateTime.FromBinary(saveData.dateTimeBinary));
             _fileName = fileName;
         }
 
@@ -45,6 +45,45 @@ namespace Save
         public void OnButtonClick()
         {
             _loadGameMenu.SetActiveSave(_fileName);
+        }
+
+        /// <summary>
+        /// Converts a DateTime into a nicer looking "x minute(s) ago" string.
+        ///
+        /// Yes, I could have a check for ==1 and do "1 minute ago" but I'm lazy.
+        /// </summary>
+        /// <param name="dateTime">DateTime in the past</param>
+        /// <returns>Nicer looking date time string</returns>
+        /// <remarks>
+        /// Yes, I tested all cases.
+        /// </remarks>
+        private static string GetDateTimeString(DateTime dateTime)
+        {
+            DateTime now = DateTime.Now;
+            TimeSpan offset = now - dateTime;
+            Debug.Assert(offset.TotalSeconds >= 0);
+            if (offset.TotalSeconds < 60)
+            {
+                // Localization? what's that?
+                return $"{Mathf.RoundToInt((float)offset.TotalSeconds)} second(s) ago";
+            }
+
+            if (offset.TotalMinutes < 60)
+            {
+                return $"{Mathf.RoundToInt((float)offset.TotalMinutes)} minute(s) ago";
+            }
+
+            if (offset.TotalHours < 24)
+            {
+                return $"{Mathf.RoundToInt((float)offset.TotalHours)} hour(s) ago";
+            }
+
+            if (offset.TotalDays < 31)
+            {
+                return $"{Mathf.RoundToInt((float)offset.TotalDays)} days(s) ago";
+            }
+
+            return dateTime.ToString(now.Year - dateTime.Year == 0 ? "M" : "dd MMMM yyyy");
         }
     }
 }
