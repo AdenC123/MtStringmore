@@ -38,8 +38,7 @@ public class Checkpoint : MonoBehaviour
         if (!other.CompareTag("Player") || anim.GetBool(HoistKey)) return;
         hasBeenHit = true;
         anim.SetBool(HoistKey, true);
-        GameManager.Instance.CheckPointPos = transform.position;
-        GameManager.Instance.RespawnFacingLeft = respawnFacingLeft;
+        GameManager.Instance.UpdateCheckpointData(transform.position, respawnFacingLeft);
         // StartConversation();
     }
 
