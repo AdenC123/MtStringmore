@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,9 +13,10 @@ public class ResultsManager : MonoBehaviour
     [SerializeField] private bool displayResults;
     
     [SerializeField] private GameObject resultsPane;
-    
-    [Header("References")] [SerializeField] 
-    private GameManager gameManager;
+
+    [SerializeField] private GameObject collectableResults;
+
+    [SerializeField] private int maxCount;
     
     private void Start()
     {
@@ -25,9 +27,16 @@ public class ResultsManager : MonoBehaviour
     private void Update()
     {
         if (!finalCheckpoint.hasBeenHit) return;
+        UpdateCollectableCount();
         EndLevel();
     }
-    
+
+    private void UpdateCollectableCount()
+    {
+        var collectedCount = GameManager.Instance.NumCollected;
+        collectableResults.GetComponentInChildren<TextMeshProUGUI>().text = collectedCount + " / " + maxCount;
+    }
+
     private void EndLevel()
     {
         Time.timeScale = 0f;

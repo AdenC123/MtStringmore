@@ -46,4 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalCheckpoint: {fileID: 0}
   displayResults: 0
-  resultsPane: {fileID: 0}
+  resultsPane: {fileID: 255954284140678227, guid: 4942f26ab306e334a812632b072015e9, type: 3}
+  collectableResults: {fileID: 0}
