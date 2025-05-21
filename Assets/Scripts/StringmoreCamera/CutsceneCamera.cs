@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using Yarn.Unity;
 
-namespace Camera
+namespace StringmoreCamera
 {
     [RequireComponent(typeof(UnityEngine.Camera))]
     public class CutsceneCamera : MonoBehaviour

@@ -5,7 +5,7 @@ using Player;
 using UnityEngine;
 using static Player.PlayerController;
 
-namespace Camera
+namespace StringmoreCamera
 {
     /// <summary>
     /// Causes the camera to dynamically follow the player (GameObject with the Player tag).

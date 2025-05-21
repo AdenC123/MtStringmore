@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Camera
+namespace StringmoreCamera
 {
     /// <summary>
     /// Fixes the camera at a set position when the player enters the bounding box.
