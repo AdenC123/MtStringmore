@@ -43,6 +43,12 @@ public class ResultsManager : MonoBehaviour
         resultsPane.SetActive(true);
     }
 
+    public void RestartLevel() {
+        Time.timeScale = 1f;
+        GameManager.Instance.NumCollected = 0;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
     public void LoadMainMenu()
     {
         Time.timeScale = 1f;
@@ -52,6 +58,7 @@ public class ResultsManager : MonoBehaviour
     public void LoadNextLevel()
     {
         Time.timeScale = 1f;
+        GameManager.Instance.NumCollected = 0;
         resultsPane.SetActive(false);
         finalCheckpoint.StartConversation();
     }
