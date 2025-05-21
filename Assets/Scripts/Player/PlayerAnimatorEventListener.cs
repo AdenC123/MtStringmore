@@ -1,32 +1,35 @@
 ﻿using JetBrains.Annotations;
 using UnityEngine;
 
-/// <summary>
-/// Player sprite animator event listener.
-///
-/// Listens to events (e.g. walk PlaySound events).
-/// </summary>
-[RequireComponent(typeof(AudioSource))]
-public class PlayerAnimatorEventListener : MonoBehaviour
+namespace Player
 {
-    private AudioSource _audioSource;
-    
-    private void Awake()
-    {
-        _audioSource = GetComponent<AudioSource>();
-    }
-
     /// <summary>
-    /// Plays a specific audio clip.
+    /// Player sprite animator event listener.
+    ///
+    /// Listens to events (e.g. walk PlaySound events).
     /// </summary>
-    /// <param name="clip">Audio clip</param>
-    /// <remarks>
-    /// Called implicitly by an animator event.
-    /// </remarks>
-    [UsedImplicitly]
-    public void PlaySound(AudioClip clip)
+    [RequireComponent(typeof(AudioSource))]
+    public class PlayerAnimatorEventListener : MonoBehaviour
     {
-        _audioSource.clip = clip;
-        _audioSource.Play();
+        private AudioSource _audioSource;
+    
+        private void Awake()
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
+
+        /// <summary>
+        /// Plays a specific audio clip.
+        /// </summary>
+        /// <param name="clip">Audio clip</param>
+        /// <remarks>
+        /// Called implicitly by an animator event.
+        /// </remarks>
+        [UsedImplicitly]
+        public void PlaySound(AudioClip clip)
+        {
+            _audioSource.clip = clip;
+            _audioSource.Play();
+        }
     }
 }

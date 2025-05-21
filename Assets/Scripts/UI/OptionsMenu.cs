@@ -1,30 +1,34 @@
+using Managers;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class OptionsMenu : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private Slider masterSlider;
-    [SerializeField] private Slider bgmSlider;
-    [SerializeField] private Slider sfxSlider;
-
-    // Start is called before the first frame update
-    private void Start()
+    public class OptionsMenu : MonoBehaviour
     {
-        var savedMasterVolume = PlayerPrefs.GetFloat("Master");
-        var savedBgmVolume = PlayerPrefs.GetFloat("BGM");
-        var savedSfxVolume = PlayerPrefs.GetFloat("SFX");
-        masterSlider.value = savedMasterVolume;
-        bgmSlider.value = savedBgmVolume;
-        sfxSlider.value = savedSfxVolume;
+        [SerializeField] private AudioMixer audioMixer;
+        [SerializeField] private Slider masterSlider;
+        [SerializeField] private Slider bgmSlider;
+        [SerializeField] private Slider sfxSlider;
 
-        masterSlider.onValueChanged.AddListener(delegate
+        // Start is called before the first frame update
+        private void Start()
         {
-            SoundManager.Instance.SetMasterVolume(masterSlider.value);
-            audioMixer.SetFloat("Master", SoundManager.SliderToVolume(masterSlider.value));
-        });
-        bgmSlider.onValueChanged.AddListener(delegate { SoundManager.Instance.SetBgmVolume(bgmSlider.value); });
-        sfxSlider.onValueChanged.AddListener(delegate { SoundManager.Instance.SetSfxVolume(sfxSlider.value); });
+            var savedMasterVolume = PlayerPrefs.GetFloat("Master");
+            var savedBgmVolume = PlayerPrefs.GetFloat("BGM");
+            var savedSfxVolume = PlayerPrefs.GetFloat("SFX");
+            masterSlider.value = savedMasterVolume;
+            bgmSlider.value = savedBgmVolume;
+            sfxSlider.value = savedSfxVolume;
+
+            masterSlider.onValueChanged.AddListener(delegate
+            {
+                SoundManager.Instance.SetMasterVolume(masterSlider.value);
+                audioMixer.SetFloat("Master", SoundManager.SliderToVolume(masterSlider.value));
+            });
+            bgmSlider.onValueChanged.AddListener(delegate { SoundManager.Instance.SetBgmVolume(bgmSlider.value); });
+            sfxSlider.onValueChanged.AddListener(delegate { SoundManager.Instance.SetSfxVolume(sfxSlider.value); });
+        }
     }
 }

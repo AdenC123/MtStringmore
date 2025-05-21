@@ -1,41 +1,44 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// Simple utility class to invoke UnityEvents on triggers.
-/// </summary>
-[RequireComponent(typeof(Collider2D))]
-public class SimpleTriggerUtility : MonoBehaviour
+namespace Util
 {
-    [Tooltip("Layer mask to check collisions with")]
-    public LayerMask layerMask;
-
-    public UnityEvent onTriggerEnter;
-    public UnityEvent onTriggerStay;
-    public UnityEvent onTriggerExit;
-
     /// <summary>
-    /// Checks if the other collider matches the layer mask.
+    /// Simple utility class to invoke UnityEvents on triggers.
     /// </summary>
-    /// <param name="other">Other collider</param>
-    /// <returns>True if the other object is in the layer mask</returns>
-    private bool CheckLayer(Collider2D other)
+    [RequireComponent(typeof(Collider2D))]
+    public class SimpleTriggerUtility : MonoBehaviour
     {
-        return ((layerMask >> other.gameObject.layer) & 1) != 0;
-    }
+        [Tooltip("Layer mask to check collisions with")]
+        public LayerMask layerMask;
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (CheckLayer(other)) onTriggerEnter?.Invoke();
-    }
+        public UnityEvent onTriggerEnter;
+        public UnityEvent onTriggerStay;
+        public UnityEvent onTriggerExit;
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (CheckLayer(other)) onTriggerStay?.Invoke();
-    }
+        /// <summary>
+        /// Checks if the other collider matches the layer mask.
+        /// </summary>
+        /// <param name="other">Other collider</param>
+        /// <returns>True if the other object is in the layer mask</returns>
+        private bool CheckLayer(Collider2D other)
+        {
+            return ((layerMask >> other.gameObject.layer) & 1) != 0;
+        }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (CheckLayer(other)) onTriggerExit?.Invoke();
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (CheckLayer(other)) onTriggerEnter?.Invoke();
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (CheckLayer(other)) onTriggerStay?.Invoke();
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (CheckLayer(other)) onTriggerExit?.Invoke();
+        }
     }
 }
