@@ -1,4 +1,5 @@
 ﻿using System;
+using Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,15 +19,19 @@ public class ResultsManager : MonoBehaviour
 
     [SerializeField] private int maxCount;
     
+    private SaveDataManager _saveDataManager;
+    
     private void Start()
     {
-        resultsPane.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + SceneManager.GetActiveScene().buildIndex / 2;
+        resultsPane.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
         resultsPane.SetActive(false);
+        _saveDataManager = FindObjectOfType<SaveDataManager>();
     }
 
     private void Update()
     {
         if (!finalCheckpoint.hasBeenHit) return;
+        if (Input.GetKeyDown(KeyCode.R)) return;
         UpdateCollectableCount();
         EndLevel();
     }
@@ -41,6 +46,7 @@ public class ResultsManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         resultsPane.SetActive(true);
+        _saveDataManager.SaveFile();
     }
 
     public void RestartLevel() {
