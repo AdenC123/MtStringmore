@@ -8,7 +8,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Tutorial_Player_Swing
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1fa5a38b7efaca9498810154c9ec3e9e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 85c9718f92c217b44a35e53a428a866e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -74,7 +74,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0dfb3c8312cf9fe4480dc02b859f6d0f, type: 2}
+  m_Motion: {fileID: 7400000, guid: 43af471750fec8244bb4b2349a1bf277, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
