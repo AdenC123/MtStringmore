@@ -32,6 +32,7 @@
 # Visual Studio cache directory and user settings
 .vs/
 *.sln.DotSettings
+.vsconfig
 
 # Rider user settings
 .idea/
