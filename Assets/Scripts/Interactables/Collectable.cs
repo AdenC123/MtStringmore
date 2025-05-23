@@ -1,5 +1,5 @@
 using Managers;
-using UnityEditor.EditorTools;
+using Util;
 using UnityEngine;
 
 namespace Interactables
@@ -35,7 +35,7 @@ namespace Interactables
         /// </summary>
         public void RandomizeSprite()
         {
-            spriteRenderer.sprite = possibleSprites[Random.Range(0, possibleSprites.Length)];;
+            spriteRenderer.sprite = RandomUtil.SelectRandom(possibleSprites);
         }
 
         /// <summary>
