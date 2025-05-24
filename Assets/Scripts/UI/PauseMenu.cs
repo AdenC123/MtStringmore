@@ -57,9 +57,9 @@ namespace UI
                 Pause();
         }
 
-        private void OnApplicationPause(bool pauseStatus)
+        private void OnApplicationPause(bool paused)
         {
-            if (!_gameIsPaused && pauseStatus)
+            if (!_gameIsPaused && paused)
             {
                 Pause();
             }
