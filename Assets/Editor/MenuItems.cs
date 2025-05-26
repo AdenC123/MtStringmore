@@ -7,7 +7,7 @@ namespace Editor
     /// <summary>
     /// Instantiates functions and windows to be run from the Unity editor menu.
     /// </summary>
-    public class MenuItems : ScriptableObject
+    public class MenuItems
     {
         /// <summary>
         /// Randomize the rotation and sprite of all collectables in the current scene.
@@ -15,7 +15,7 @@ namespace Editor
         [MenuItem("Assets/Randomize Collectables")]
         private static void RandomizeAllCollectablesInScene()
         {
-            foreach (Collectable collectable in GameObject.FindObjectsOfType<Collectable>())
+            foreach (Collectable collectable in Object.FindObjectsOfType<Collectable>())
             {
                 collectable.RandomizeSprite();
                 collectable.RandomizeRotation();

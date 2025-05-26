@@ -12,11 +12,11 @@ namespace Interactables
     {
         [SerializeField] private Sprite[] possibleSprites;
         
-        private SpriteRenderer spriteRenderer;
+        private SpriteRenderer _spriteRenderer;
 
         private void OnValidate()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
         
         private void OnTriggerEnter2D(Collider2D other)
@@ -35,7 +35,7 @@ namespace Interactables
         /// </summary>
         public void RandomizeSprite()
         {
-            spriteRenderer.sprite = RandomUtil.SelectRandom(possibleSprites);
+            _spriteRenderer.sprite = RandomUtil.SelectRandom(possibleSprites);
         }
 
         /// <summary>
