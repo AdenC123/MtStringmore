@@ -12,19 +12,19 @@ namespace UI
         [Tooltip("When the player reaches this game object's region, it'll hide the tutorial")]
         [SerializeField] private TutorialEnd tutorialEnd;
 
-        private TutorialBox _tutorialBox;
+        private TutorialMenu _tutorialMenu;
 
-        private void Start()
+        private void Awake()
         {
-            _tutorialBox = FindObjectOfType<TutorialBox>();
+            _tutorialMenu = FindObjectOfType<TutorialMenu>();
             if (tutorialEnd)
-                tutorialEnd.OnEnd += () => _tutorialBox.HideTutorial();
+                tutorialEnd.OnEnd += () => _tutorialMenu.HideTutorial();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player") || tutorialMove == "") return;
-            _tutorialBox.ShowTutorial(tutorialMove);
+            _tutorialMenu.ShowTutorial(tutorialMove);
             tutorialMove = "";
         }
     }
