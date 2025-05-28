@@ -59,7 +59,7 @@ namespace UI
 
         private void OnApplicationPause(bool paused)
         {
-            if (!_gameIsPaused && paused)
+            if (!_gameIsPaused && paused && SceneManager.GetActiveScene().name != mainMenuSceneName)
             {
                 Pause();
             }
