@@ -26,9 +26,12 @@ namespace Interactables
         // internal properties not exposed to editor
         private DialogueRunner _dialogueRunner;
         private bool _isCurrentConversation;
-
+        
+        public bool hasBeenHit;
+        
         public void Start()
         {
+            hasBeenHit = false;
             _dialogueRunner = FindObjectOfType<DialogueRunner>();
             if (_dialogueRunner) _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
         }
@@ -36,12 +39,13 @@ namespace Interactables
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player") || anim.GetBool(HoistKey)) return;
+            hasBeenHit = true;
             anim.SetBool(HoistKey, true);
             GameManager.Instance.UpdateCheckpointData(transform.position, respawnFacingLeft);
-            StartConversation();
+            //StartConversation();
         }
 
-        private void StartConversation()
+        public void StartConversation()
         {
             if (conversationStartNode == "") return;
             Debug.Log("Started dialogue at checkpoint.");
