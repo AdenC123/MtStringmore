@@ -54,7 +54,7 @@ namespace Managers
 
         private void UpdateCollectableCount()
         {
-            var collectedCount = GameManager.Instance.NumCollected;
+            int collectedCount = GameManager.Instance.NumCollected;
             collectableResultsText.text = collectedCount + " / " + maxCount;
         }
 
