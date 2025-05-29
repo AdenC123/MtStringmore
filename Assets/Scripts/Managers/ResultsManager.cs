@@ -13,36 +13,49 @@ namespace Managers
         [SerializeField] private Checkpoint finalCheckpoint;
         
         [Header("Results Page")]
-        [Tooltip("If checked, the level has ended and the results page should be displayed")]
-        [SerializeField] private bool displayResults;
-        
         [SerializeField] private GameObject resultsPane;
+        
+        [SerializeField] private TextMeshProUGUI levelHeaderText;
 
-        [SerializeField] private GameObject collectableResults;
+        [SerializeField] private TextMeshProUGUI collectableResultsText;
 
-        [SerializeField] private int maxCount;
+        private int maxCount;
         
         private SaveDataManager _saveDataManager;
         
         private void Start()
         {
-            resultsPane.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
+            maxCount = FindObjectsOfType<Collectable>().Length;
+            levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
             resultsPane.SetActive(false);
             _saveDataManager = FindObjectOfType<SaveDataManager>();
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            if (!finalCheckpoint.hasBeenHit) return;
-            if (Input.GetKeyDown(KeyCode.R)) return;
+            finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+        }
+        
+        private void OnDisable()
+        {
+            finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+        }
+
+        private void HandleFinalCheckpointHit()
+        {
             UpdateCollectableCount();
             EndLevel();
+        }
+
+        private void Update()
+        {
+            if (Input.GetButtonDown("Debug Reset")) return;
         }
 
         private void UpdateCollectableCount()
         {
             var collectedCount = GameManager.Instance.NumCollected;
-            collectableResults.GetComponentInChildren<TextMeshProUGUI>().text = collectedCount + " / " + maxCount;
+            collectableResultsText.text = collectedCount + " / " + maxCount;
         }
 
         private void EndLevel()
@@ -52,7 +65,8 @@ namespace Managers
             _saveDataManager.SaveFile();
         }
 
-        public void RestartLevel() {
+        public void RestartLevel() 
+        {
             Time.timeScale = 1f;
             GameManager.Instance.NumCollected = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

@@ -1,3 +1,4 @@
+using System;
 using Managers;
 using UnityEngine;
 using Yarn.Unity;
@@ -28,6 +29,7 @@ namespace Interactables
         private bool _isCurrentConversation;
         
         public bool hasBeenHit;
+        public event Action OnCheckpointHit;
         
         public void Start()
         {
@@ -36,13 +38,19 @@ namespace Interactables
             if (_dialogueRunner) _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
         }
 
+        private void HitCheckpoint()
+        {
+            if (hasBeenHit) return;
+            hasBeenHit = true;
+            OnCheckpointHit?.Invoke();
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player") || anim.GetBool(HoistKey)) return;
-            hasBeenHit = true;
+            HitCheckpoint();
             anim.SetBool(HoistKey, true);
             GameManager.Instance.UpdateCheckpointData(transform.position, respawnFacingLeft);
-            //StartConversation();
         }
 
         public void StartConversation()
