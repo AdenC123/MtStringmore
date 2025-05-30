@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using Interactables;
+using Managers;
 using UnityEngine;
 
 namespace DevConsole
@@ -34,7 +36,7 @@ namespace DevConsole
 
             bool result = IDevCommand.TryGetPosOrCheckpointPos(args, sw, out Vector2 pos);
             if (!result) return;
-            GameManager.Instance.CheckPointPos = pos;
+            GameManager.Instance.UpdateCheckpointData(pos);
         }
 
         /// <inheritdoc />
