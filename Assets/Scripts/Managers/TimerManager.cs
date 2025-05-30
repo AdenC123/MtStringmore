@@ -10,7 +10,7 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private GameObject resultsWindow;
         
-        private float _elapsedTime;
+        // private float _elapsedGameTime;
         private float _elapsedLevelTime;
         
         void Start()
