@@ -197,6 +197,7 @@ namespace Player
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<CapsuleCollider2D>();
             _audioSource = GetComponent<AudioSource>();
+            _shake = FindObjectOfType<ShakeCamera>();
             ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
             foreach (ParticleSystem ps in particleSystems)
             {
