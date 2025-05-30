@@ -89,34 +89,44 @@ namespace Save
         }
 
         /// <summary>
+        /// Reads from the save file and returns the saved file data, if present.
+        /// </summary>
+        /// <returns>Save file data, or null if not present</returns>
+        public static SaveFileData? ReadExistingSave()
+        {
+            string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
+            if (!EnsureSaveFolderExists(folderLocation)) return null;
+            string filePath = Path.Combine(folderLocation, SaveFileName);
+            if (!File.Exists(filePath)) return null;
+            try
+            {
+                return JsonUtility.FromJson<SaveFileData>(File.ReadAllText(filePath));
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Couldn't read from save data: {filePath}: {e.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Loads an existing save from a file name.
         /// </summary>
         /// <returns>True if successful, false otherwise</returns>
         public bool LoadExistingSave()
         {
-            string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
-            if (!EnsureSaveFolderExists(folderLocation)) return false;
-            string filePath = Path.Combine(folderLocation, SaveFileName);
-            if (!File.Exists(filePath)) return false;
-            try
+            SaveFileData? optionalData = ReadExistingSave();
+            if (optionalData == null) return false;
+            SaveData saveData = optionalData.Value.saveData;
+            GameManager.Instance.UpdateFromSaveData(saveData.checkpointFacesLeft, saveData.checkpointsReached);
+            SceneManager.LoadScene(saveData.sceneName);
+            if (saveData.checkpointsReached.Length > 0)
             {
-                SaveFileData data = JsonUtility.FromJson<SaveFileData>(File.ReadAllText(filePath));
-                GameManager.Instance.UpdateFromSaveData(data.saveData.checkpointFacesLeft,
-                    data.saveData.checkpointsReached);
-                SceneManager.LoadScene(data.saveData.sceneName);
-                if (data.saveData.checkpointsReached.Length > 0)
-                {
-                    // TODO very hacky
-                    _forcedNextFramePosition = data.saveData.checkpointsReached[^1];
-                }
+                // TODO very hacky
+                _forcedNextFramePosition = saveData.checkpointsReached[^1];
+            }
 
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning($"Couldn't read from save data: {filePath}: {e.Message}");
-                return false;
-            }
+            return true;
         }
 
         /// <summary>
