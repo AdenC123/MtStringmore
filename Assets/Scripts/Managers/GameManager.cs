@@ -37,6 +37,11 @@ namespace Managers
         /// Number of checkpoints reached.
         /// </summary>
         public List<Vector2> CheckpointsReached { get; } = new();
+        
+        /// <summary>
+        /// Number of checkpoints reached.
+        /// </summary>
+        public List<string> levelsAccessed { get; } = new();
     
         /// <summary>
         /// The number of collectables collected.
@@ -95,6 +100,10 @@ namespace Managers
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
+            if (!levelsAccessed.Contains(scene.name))
+            {
+                levelsAccessed.Add(scene.name);
+            }
             if (!_dontClearDataOnSceneChanged)
             {
                 CheckpointsReached.Clear();

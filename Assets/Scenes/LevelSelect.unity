@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 518711232}
   - component: {fileID: 518711231}
   m_Layer: 5
-  m_Name: Level Select
+  m_Name: Level SelectText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -674,6 +674,10 @@ MonoBehaviour:
   level2: Level1Trial
   level3: Level1Trial
   level4: Level1Trial
+  level1button: {fileID: 1376126709}
+  level2button: {fileID: 1196047690}
+  level3button: {fileID: 925367342}
+  level4button: {fileID: 1054291697}
 --- !u!1 &890784952
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,7 +848,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: -112}
+  m_AnchoredPosition: {x: -200, y: -110}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &925367342
@@ -1111,7 +1115,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: -112}
+  m_AnchoredPosition: {x: 200, y: -110}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1054291697
@@ -1514,7 +1518,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: 70}
+  m_AnchoredPosition: {x: 200, y: 75}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1196047690

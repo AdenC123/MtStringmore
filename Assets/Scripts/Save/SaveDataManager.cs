@@ -77,7 +77,8 @@ namespace Save
                 checkpointsReached = GameManager.Instance.CheckpointsReached.ToArray(),
                 checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                 dateTimeBinary = DateTime.Now.ToBinary(),
-                sceneName = sceneOverride ?? SceneManager.GetActiveScene().name
+                sceneName = sceneOverride ?? SceneManager.GetActiveScene().name,
+                levelsAccessed = GameManager.Instance.levelsAccessed
             };
         }
 

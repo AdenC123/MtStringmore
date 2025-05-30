@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Save
@@ -13,5 +14,6 @@ namespace Save
         public string sceneName;
         public bool checkpointFacesLeft;
         public Vector2[] checkpointsReached;
+        public List<string> levelsAccessed;
     }
 }
