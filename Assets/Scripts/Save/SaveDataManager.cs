@@ -17,6 +17,8 @@ namespace Save
         private static readonly string SaveFileName = "data.save";
         [SerializeField] private string mainMenuScene;
 
+        private int _farthestSceneIndexReached;
+        private string _farthestSceneName;
         private Thread _saveThread;
         private Vector2? _forcedNextFramePosition;
 
@@ -44,6 +46,12 @@ namespace Save
         {
             if (scene.name == mainMenuScene) return;
 
+            if (scene.buildIndex > _farthestSceneIndexReached)
+            {
+                _farthestSceneName = scene.name;
+                _farthestSceneIndexReached = scene.buildIndex;
+            }
+
             if (_forcedNextFramePosition != null)
             {
                 // TODO sendMessage is hacky and WILL BREAK
@@ -65,10 +73,11 @@ namespace Save
         /// Returns the current save state data.
         /// </summary>
         /// <returns>Current save state date</returns>
-        private static SaveFileData GetCurrentSaveData(string sceneOverride = null)
+        private SaveFileData GetCurrentSaveData(string sceneOverride = null)
         {
             return new SaveFileData
             {
+                farthestSceneReached = _farthestSceneName,
                 saveData = new SaveData
                 {
                     candiesCollected = GameManager.Instance.NumCollected,
@@ -93,7 +102,7 @@ namespace Save
         /// Reads from the save file and returns the saved file data, if present.
         /// </summary>
         /// <returns>Save file data, or null if not present</returns>
-        public static SaveFileData? ReadExistingSave()
+        public SaveFileData? ReadExistingSave()
         {
             string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
             if (!EnsureSaveFolderExists(folderLocation)) return null;
@@ -101,7 +110,10 @@ namespace Save
             if (!File.Exists(filePath)) return null;
             try
             {
-                return JsonUtility.FromJson<SaveFileData>(File.ReadAllText(filePath));
+                SaveFileData saveFileData = JsonUtility.FromJson<SaveFileData>(File.ReadAllText(filePath));
+                _farthestSceneName = saveFileData.farthestSceneReached;
+                _farthestSceneIndexReached = saveFileData.farthestSceneIndexReached;
+                return saveFileData;
             }
             catch (Exception e)
             {

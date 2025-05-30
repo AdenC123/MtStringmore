@@ -24,6 +24,7 @@ namespace Save
     public struct SaveFileData
     {
         public string farthestSceneReached;
+        public int farthestSceneIndexReached;
         public long[] fastestTimes;
         public SaveData saveData;
     }

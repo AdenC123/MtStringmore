@@ -22,7 +22,7 @@ namespace Save
             }
             else
             {
-                SaveFileData? saveFileData = SaveDataManager.ReadExistingSave();
+                SaveFileData? saveFileData = _saveDataManager.ReadExistingSave();
                 if (saveFileData != null)
                 {
                     string sceneName = saveFileData.Value.saveData.sceneName;
