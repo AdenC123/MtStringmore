@@ -49,7 +49,7 @@ namespace Managers
 
         private void Update()
         {
-            if (Input.GetButtonDown("Debug Reset")) return;
+            if (resultsPane.activeSelf && Input.GetButtonDown("Debug Reset")) return;
         }
 
         private void UpdateCollectableCount()
