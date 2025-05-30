@@ -1,6 +1,6 @@
 using Managers;
-using Util;
 using UnityEngine;
+using Util;
 
 namespace Interactables
 {
@@ -23,7 +23,7 @@ namespace Interactables
         {
             if (other.CompareTag("Player"))
             {
-                GameManager.Instance.NumCollected++;
+                GameManager.Instance.IncrementCandyCollected();
                 // TODO: play a visual/particle effect before destroying
                 Destroy(gameObject);
             }

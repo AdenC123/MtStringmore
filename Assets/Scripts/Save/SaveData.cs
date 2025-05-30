@@ -11,6 +11,7 @@ namespace Save
     {
         public long dateTimeBinary;
         public long timeTaken;
+        public int candiesCollected;
         public string sceneName;
         public bool checkpointFacesLeft;
         public Vector2[] checkpointsReached;

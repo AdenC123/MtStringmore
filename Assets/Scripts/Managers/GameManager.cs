@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Save;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -42,7 +43,7 @@ namespace Managers
         /// The number of collectables collected.
         /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
         /// </summary>
-        public int NumCollected { get; set; }
+        public int NumCollected { get; private set; }
 
         /// <summary>
         /// Action that gets invoked when level reloads, e.g. respawns
@@ -132,12 +133,13 @@ namespace Managers
         }
 
         /// <summary>
-        /// Sets checkpoint location/data from save data.
+        /// Sets game information from save data.
         /// </summary>
-        /// <param name="shouldFaceLeft">Whether respawn should face left</param>
-        /// <param name="checkpointsReached">List of previous checkpoints reached</param>
-        public void UpdateFromSaveData(bool shouldFaceLeft, Vector2[] checkpointsReached)
+        /// <param name="saveData">Save data from file</param>
+        public void UpdateFromSaveData(SaveData saveData)
         {
+            Vector2[] checkpointsReached = saveData.checkpointsReached;
+            bool shouldFaceLeft = saveData.checkpointFacesLeft;
             if (checkpointsReached.Length > 0) CheckPointPos = checkpointsReached[^1];
             RespawnFacingLeft = shouldFaceLeft;
             CheckpointsReached.Clear();
@@ -145,8 +147,27 @@ namespace Managers
             CheckpointsReached.AddRange(checkpointsReached);
             foreach (Vector2 checkpointReached in checkpointsReached)
                 _prevCheckpoints.Add(checkpointReached);
+            NumCollected = saveData.candiesCollected;
             GameDataChanged?.Invoke();
             _dontClearDataOnSceneChanged = true;
+        }
+
+        /// <summary>
+        /// Increments the number of candy collected.
+        /// </summary>
+        public void IncrementCandyCollected()
+        {
+            NumCollected++;
+            GameDataChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Resets the number of candy collected.
+        /// </summary>
+        public void ResetCandyCollected()
+        {
+            NumCollected = 0;
+            GameDataChanged?.Invoke();
         }
 
         /// <summary>

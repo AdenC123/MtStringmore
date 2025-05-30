@@ -71,6 +71,7 @@ namespace Save
             {
                 saveData = new SaveData
                 {
+                    candiesCollected = GameManager.Instance.NumCollected,
                     checkpointsReached = GameManager.Instance.CheckpointsReached.ToArray(),
                     checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                     dateTimeBinary = DateTime.Now.ToBinary(),
@@ -118,7 +119,7 @@ namespace Save
             SaveFileData? optionalData = ReadExistingSave();
             if (optionalData == null) return false;
             SaveData saveData = optionalData.Value.saveData;
-            GameManager.Instance.UpdateFromSaveData(saveData.checkpointFacesLeft, saveData.checkpointsReached);
+            GameManager.Instance.UpdateFromSaveData(saveData);
             SceneManager.LoadScene(saveData.sceneName);
             if (saveData.checkpointsReached.Length > 0)
             {
