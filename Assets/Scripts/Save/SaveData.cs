@@ -10,6 +10,7 @@ namespace Save
     public struct SaveData
     {
         public long dateTimeBinary;
+        public long timeTaken;
         public string sceneName;
         public bool checkpointFacesLeft;
         public Vector2[] checkpointsReached;
