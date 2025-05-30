@@ -23,6 +23,8 @@ namespace Managers
         
         private SaveDataManager _saveDataManager;
         
+        public static bool isResultsPageOpen = false;
+        
         private void Start()
         {
             maxCount = FindObjectsOfType<Collectable>().Length;
@@ -47,11 +49,6 @@ namespace Managers
             EndLevel();
         }
 
-        private void Update()
-        {
-            if (resultsPane.activeSelf && Input.GetButtonDown("Debug Reset")) return;
-        }
-
         private void UpdateCollectableCount()
         {
             int collectedCount = GameManager.Instance.NumCollected;
@@ -62,6 +59,7 @@ namespace Managers
         {
             Time.timeScale = 0f;
             resultsPane.SetActive(true);
+            isResultsPageOpen = true;
             _saveDataManager.SaveFile();
         }
 
@@ -69,6 +67,7 @@ namespace Managers
         {
             Time.timeScale = 1f;
             GameManager.Instance.NumCollected = 0;
+            isResultsPageOpen = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         
@@ -81,6 +80,7 @@ namespace Managers
         public void LoadNextLevel()
         {
             resultsPane.SetActive(false);
+            isResultsPageOpen = false;
             Time.timeScale = 1f;
             GameManager.Instance.NumCollected = 0;
             finalCheckpoint.StartConversation();

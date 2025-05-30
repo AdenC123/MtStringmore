@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Timers;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,7 +22,7 @@ namespace Managers
         /// Bypasses the lifetime check since it's DontDestroyOnLoad.
         /// </remarks>
         public static GameManager Instance => _instance ??= FindObjectOfType<GameManager>();
-        
+
         /// <summary>
         /// Last checkpoint position. The player should respawn here if they die.
         /// </summary>
@@ -84,7 +83,7 @@ namespace Managers
 
         private void Update()
         {
-            if (Input.GetButtonDown("Debug Reset")) Respawn();
+            if (Input.GetButtonDown("Debug Reset") && !ResultsManager.isResultsPageOpen) Respawn();
         }
 
         private void OnDestroy()
