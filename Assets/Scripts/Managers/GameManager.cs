@@ -84,6 +84,7 @@ namespace Managers
                 // TODO make maxFrameRate a setting
                 Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
             }
+            Debug.Log("Application version: " + Application.version);
         }
 
         private void Update()
