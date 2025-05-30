@@ -83,7 +83,7 @@ namespace Managers
 
         private void Update()
         {
-            if (Input.GetButtonDown("Debug Reset") && !ResultsManager.isResultsPageOpen) Respawn();
+            if (Input.GetButtonDown("Debug Reset")) Respawn();
         }
 
         private void OnDestroy()
