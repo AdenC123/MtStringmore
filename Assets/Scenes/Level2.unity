@@ -92708,6 +92708,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 690300548862798927, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 197.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 690300548862798927, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -162.1999
+      objectReference: {fileID: 0}
+    - target: {fileID: 690300548862798927, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1620775784866583158, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1520.4772
@@ -92751,6 +92763,26 @@ PrefabInstance:
     - target: {fileID: 4579114898537606062, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
       propertyPath: m_Name
       value: Results Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492487600313364365, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 526.8642
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492487600313364365, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938153675029007940, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 331.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938153675029007940, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 102
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938153675029007940, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7499476184492949100, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
       propertyPath: gameManager
