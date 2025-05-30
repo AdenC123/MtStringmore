@@ -5,6 +5,7 @@ using Interactables;
 using Managers;
 using UnityEngine;
 using Util;
+using StringmoreCamera;
 
 namespace Player
 {
@@ -197,7 +198,6 @@ namespace Player
             _col = GetComponent<CapsuleCollider2D>();
             _audioSource = GetComponent<AudioSource>();
             ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
-            _shake = FindObjectOfType<ShakeCamera>();
             foreach (ParticleSystem ps in particleSystems)
             {
                 switch (ps.gameObject.name)
@@ -536,7 +536,7 @@ namespace Player
             }
             else if (PlayerState is PlayerStateEnum.Dash)
             {
-                _shake.Shake(2f,10f,0.1f,true,true); //TODO: change temp parameters for visual testing
+                _shake.Shake(1f,2f,true,true); //TODO: change temp parameters for visual testing
                 // move player forward at dash speed
                 _velocity.y = 0;
                 _velocity.x = dashSpeed * Direction;
