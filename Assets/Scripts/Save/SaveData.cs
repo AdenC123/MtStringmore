@@ -14,4 +14,15 @@ namespace Save
         public bool checkpointFacesLeft;
         public Vector2[] checkpointsReached;
     }
+
+    /// <summary>
+    /// Data saved in the save file.
+    /// </summary>
+    [Serializable]
+    public struct SaveFileData
+    {
+        public string farthestSceneReached;
+        public long[] fastestTimes;
+        public SaveData saveData;
+    }
 }
