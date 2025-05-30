@@ -22,19 +22,8 @@ namespace UI
 
         private void Awake()
         {
-            if (TryGetComponent(out Image image))
-            {
-                _fadeEffectHandler = new ImageFadeHandler(image);
-            }
-            else if (TryGetComponent(out SpriteRenderer spriteRenderer))
-            {
-                _fadeEffectHandler = new SpriteFadeHandler(spriteRenderer);
-            }
-            else if (TryGetComponent(out Renderer componentRenderer))
-            {
-                _fadeEffectHandler = new FallbackEffectHandler(componentRenderer);
-            }
-            else
+            _fadeEffectHandler = GetFadeEffectHandler(transform);
+            if (_fadeEffectHandler == null)
             {
                 Debug.LogWarning("Fade effect handler not found");
             }
@@ -89,6 +78,32 @@ namespace UI
         }
 
         /// <summary>
+        /// Get the fade effect handler of an object.
+        /// </summary>
+        /// <param name="go">GameObject to get fade effect of</param>
+        /// <param name="startAlpha">Starting alpha, -1 if unspecified</param>
+        /// <returns>Fade effect handler</returns>
+        public static IFadeEffectHandler GetFadeEffectHandler(Transform go, float startAlpha = -1)
+        {
+            if (go.TryGetComponent(out Image image))
+            {
+                return new ImageFadeHandler(image, startAlpha);
+            }
+
+            if (go.TryGetComponent(out SpriteRenderer spriteRenderer))
+            {
+                return new SpriteFadeHandler(spriteRenderer, startAlpha);
+            }
+
+            if (go.TryGetComponent(out Renderer componentRenderer))
+            {
+                return new FallbackEffectHandler(componentRenderer, startAlpha);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Handles changing the alpha of sprite renderers.
         /// </summary>
         private class SpriteFadeHandler : IFadeEffectHandler
@@ -100,10 +115,11 @@ namespace UI
             /// Constructor.
             /// </summary>
             /// <param name="spriteRenderer">Sprite renderer to change alpha of</param>
-            public SpriteFadeHandler(SpriteRenderer spriteRenderer)
+            /// <param name="startAlpha">Starting alpha: -1 if unspecified</param>
+            public SpriteFadeHandler(SpriteRenderer spriteRenderer, float startAlpha = -1)
             {
                 _spriteRenderer = spriteRenderer;
-                _startAlpha = _spriteRenderer.color.a;
+                _startAlpha = startAlpha < 0 ? _spriteRenderer.color.a : startAlpha;
             }
 
             public void SetAlpha(float alpha)
@@ -124,10 +140,11 @@ namespace UI
             /// Constructor.
             /// </summary>
             /// <param name="image">Image to set the alpha of</param>
-            public ImageFadeHandler(Image image)
+            /// <param name="startAlpha">Starting alpha: -1 if unspecified</param>
+            public ImageFadeHandler(Image image, float startAlpha = -1)
             {
                 _image = image;
-                _startAlpha = _image.color.a;
+                _startAlpha = startAlpha < 0 ? _image.color.a : startAlpha;
             }
 
             /// <inheritdoc />
@@ -151,10 +168,11 @@ namespace UI
             /// Constructor.
             /// </summary>
             /// <param name="renderer">Renderer to get material of</param>
-            public FallbackEffectHandler(Renderer renderer)
+            /// <param name="startAlpha">Starting alpha: -1 if unspecified</param>
+            public FallbackEffectHandler(Renderer renderer, float startAlpha = -1)
             {
                 _material = renderer.material;
-                _startAlpha = _material.color.a;
+                _startAlpha = startAlpha < 0 ? _material.color.a : startAlpha;
             }
 
             /// <inheritdoc />
@@ -167,7 +185,7 @@ namespace UI
         /// <summary>
         /// Interface to handle fading objects.
         /// </summary>
-        private interface IFadeEffectHandler
+        public interface IFadeEffectHandler
         {
             /// <summary>
             /// Creates a color with a specified alpha.
