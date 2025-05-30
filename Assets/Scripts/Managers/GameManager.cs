@@ -81,8 +81,7 @@ namespace Managers
             SceneManager.sceneLoaded += OnSceneLoaded;
             if (SystemInfo.deviceType == DeviceType.Handheld)
             {
-                // TODO make vSync and maxFrameRate a setting
-                QualitySettings.vSyncCount = 1;
+                // TODO make maxFrameRate a setting
                 Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
             }
         }
