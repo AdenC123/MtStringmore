@@ -10,7 +10,6 @@ TagManager:
   - Knitby
   - BounceArea
   - Trampoline
-  - CameraEffector
   - Resetter
   layers:
   - Default
