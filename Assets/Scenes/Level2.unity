@@ -92748,6 +92748,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3204417345057090832, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4579114898537606062, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
       propertyPath: m_Name
       value: Results Manager
@@ -103040,6 +103044,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6905318631001329432, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7818288281639424406, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_Name
       value: Manager
@@ -103056,8 +103064,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 2050595620073219525, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 1948058058918612093, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
