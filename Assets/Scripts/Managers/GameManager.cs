@@ -45,6 +45,11 @@ namespace Managers
         /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
         /// </summary>
         public int NumCollectablesCollected => _collectedCollectables.Count;
+        
+        /// <summary>
+        /// Max number of known collectables.
+        /// </summary>
+        public int MaxCollectablesCount { get; private set; }
 
         public IReadOnlyCollection<Vector2> CollectablePositionsCollected => _collectedCollectables;
 
@@ -116,6 +121,7 @@ namespace Managers
             }
             _collectableLookup.Clear();
             Collectable[] collectables = FindObjectsOfType<Collectable>();
+            MaxCollectablesCount = collectables.Length;
             foreach (Collectable collectable in collectables)
             {
                 Vector2 position = collectable.transform.position;
