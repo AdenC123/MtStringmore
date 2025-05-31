@@ -56,6 +56,7 @@ namespace Player
         [SerializeField] private float swingAcceleration;
         [SerializeField] private float minSwingReleaseX;
         [Header("Visual")]
+        [SerializeField, Min(0)] private float runParticleVelocityThreshold = 0.1f;
         [SerializeField] private LineRenderer ropeRenderer;
         [SerializeField] private float deathTime;
         // this is just here for battle of the concepts
@@ -445,14 +446,14 @@ namespace Player
                 PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit)
                 PlayerState = PlayerStateEnum.Air;
 
-            UpdateParticleSystemState(_runningDust, PlayerStateEnum.Run);
+            UpdateParticleSystemState(_runningDust, PlayerStateEnum.Run, () => Mathf.Abs(_rb.velocity.x) > runParticleVelocityThreshold);
             UpdateParticleSystemState(_leftWallSlideDust, PlayerStateEnum.LeftWallSlide);
             UpdateParticleSystemState(_rightWallSlideDust, PlayerStateEnum.RightWallSlide);
         }
 
-        private void UpdateParticleSystemState(ParticleSystem system, PlayerStateEnum targetState)
+        private void UpdateParticleSystemState(ParticleSystem system, PlayerStateEnum targetState, Func<bool> optionalPredicate = null)
         {
-            if (PlayerState == targetState)
+            if (PlayerState == targetState && (optionalPredicate == null || optionalPredicate()))
             {
                 if (!system.isPlaying) system.Play();
             }
