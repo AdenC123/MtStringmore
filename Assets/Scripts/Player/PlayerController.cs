@@ -152,6 +152,11 @@ namespace Player
             set => _canDash = value;
         }
 
+        /// <summary>
+        /// Current ground Y level; null if none.
+        /// </summary>
+        public float? CurrentGroundY { get; private set; }
+
         #endregion
 
         #region Private Properties
@@ -179,6 +184,7 @@ namespace Player
 
         private Vector2 _velocity;
         private bool _closeToWall;
+        private float? _groundY;
         private Vector2 _groundNormal;
 
         private readonly List<IPlayerVelocityEffector> _playerVelocityEffectors = new();
@@ -412,6 +418,7 @@ namespace Player
             _closeToWall = CapsuleCastCollision(_velocity, wallCloseDistance);
 
             if (groundCast) _groundNormal = groundCast.normal;
+            CurrentGroundY = groundCast ? groundCast.point.y : null;
 
             if (ceilingHit) _velocity.y = Mathf.Min(0, _velocity.y);
 
