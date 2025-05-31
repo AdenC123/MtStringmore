@@ -13,6 +13,8 @@ namespace DevConsole
         /// <inheritdoc />
         public string Name => "checkpoint";
 
+        public string[] Aliases => new[] { "cp" };
+
         /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
