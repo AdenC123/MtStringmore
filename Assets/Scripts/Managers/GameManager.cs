@@ -95,7 +95,7 @@ namespace Managers
 
         private void Update()
         {
-            if (Input.GetButtonDown("Debug Reset")) Respawn();
+            if (Input.GetButtonDown("Debug Reset") && !ResultsManager.isResultsPageOpen) Respawn();
         }
 
         private void OnDestroy()
