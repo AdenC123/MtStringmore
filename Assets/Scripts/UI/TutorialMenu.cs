@@ -10,6 +10,12 @@ namespace UI
     [RequireComponent(typeof(CanvasGroup))]
     public class TutorialMenu : MonoBehaviour
     {
+        private static TutorialMenu _instance;
+        /// <summary>
+        /// Access the 'singleton' instance of this object.
+        /// </summary>
+        public static TutorialMenu Instance => _instance ??= FindObjectOfType<TutorialMenu>();
+
         [SerializeField] private Animator animator;
         [SerializeField, Min(0), Tooltip("Fade duration (sec)")] private float fadeDuration = 0.5f;
         
