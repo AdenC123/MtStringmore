@@ -670,7 +670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenu: MainMenu
-  level1: IntroCutScene
+  level1: Level1Trial
   level2: Level1Trial
   level3: Level1Trial
   level4: Level1Trial

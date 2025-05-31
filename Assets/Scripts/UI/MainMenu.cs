@@ -11,6 +11,7 @@ namespace UI
     public class MainMenu : MonoBehaviour
     {
         [SerializeField] private string startingScene;
+        [SerializeField] private string levelSelectScene;
         [SerializeField] private Button loadGameButton;
 
         private SaveDataManager _saveDataManager;
@@ -28,6 +29,10 @@ namespace UI
         {
             _saveDataManager?.CreateNewSave(startingScene);
             SceneManager.LoadScene(startingScene);
+        }
+        public void LevelSelect()
+        {
+            SceneManager.LoadScene(levelSelectScene);
         }
 
         public void QuitGame()

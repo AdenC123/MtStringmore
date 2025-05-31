@@ -20,6 +20,8 @@ namespace Save
         private Thread _saveThread;
         private string _currentSaveFile;
         private Vector2? _forcedNextFramePosition;
+        public string CurrentSaveFileName => _currentSaveFile; //getter for level select
+
 
         private void Awake()
         {
@@ -97,7 +99,7 @@ namespace Save
             {
                 SaveData data = JsonUtility.FromJson<SaveData>(File.ReadAllText(filePath));
                 _currentSaveFile = fileName;
-                GameManager.Instance.UpdateFromSaveData(data.checkpointFacesLeft, data.checkpointsReached);
+                GameManager.Instance.UpdateFromSaveData(data.checkpointFacesLeft, data.checkpointsReached, data.levelsAccessed);
                 SceneManager.LoadScene(data.sceneName);
                 if (data.checkpointsReached.Length > 0)
                 {

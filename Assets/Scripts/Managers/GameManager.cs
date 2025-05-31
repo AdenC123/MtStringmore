@@ -139,7 +139,8 @@ namespace Managers
         /// </summary>
         /// <param name="shouldFaceLeft">Whether respawn should face left</param>
         /// <param name="checkpointsReached">List of previous checkpoints reached</param>
-        public void UpdateFromSaveData(bool shouldFaceLeft, Vector2[] checkpointsReached)
+        /// <param name="levelsAccessed">List of previous levels reached</param>
+        public void UpdateFromSaveData(bool shouldFaceLeft, Vector2[] checkpointsReached, List<string> accessedLevels)
         {
             if (checkpointsReached.Length > 0) CheckPointPos = checkpointsReached[^1];
             RespawnFacingLeft = shouldFaceLeft;
@@ -148,6 +149,10 @@ namespace Managers
             CheckpointsReached.AddRange(checkpointsReached);
             foreach (Vector2 checkpointReached in checkpointsReached)
                 _prevCheckpoints.Add(checkpointReached);
+    
+            levelsAccessed.Clear();
+            levelsAccessed.AddRange(accessedLevels);
+
             GameDataChanged?.Invoke();
             _dontClearDataOnSceneChanged = true;
         }
