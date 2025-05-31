@@ -2307,8 +2307,8 @@ MonoBehaviour:
   - {fileID: -1435485583, guid: b7c86cda58369a6448426f99e751c5d1, type: 3}
   - {fileID: -364929139, guid: b7c86cda58369a6448426f99e751c5d1, type: 3}
   mobileKeySprites:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1164592886, guid: d350c18f1836a9341af07a6e366b6e50, type: 3}
+  - {fileID: 1510258920, guid: d350c18f1836a9341af07a6e366b6e50, type: 3}
 --- !u!95 &1887150882908468052
 Animator:
   serializedVersion: 5
@@ -3764,11 +3764,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3493627082972880179}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -35}
-  m_SizeDelta: {x: 140, y: 70}
-  m_Pivot: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -120}
+  m_SizeDelta: {x: 140, y: 140}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8062011286938856775
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3799,7 +3799,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 0}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
