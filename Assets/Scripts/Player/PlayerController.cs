@@ -130,6 +130,7 @@ namespace Player
 
         public event Action DoubleJumped;
         public event Action Death;
+        public event Action<Vector2> OnSwingStart;
         public event Action<bool> SwingDifferentDirection;
 
         /// <summary>
@@ -684,6 +685,7 @@ namespace Player
                 {
                     // reached max radius, start swing
                     _swingStarted = true;
+                    OnSwingStart?.Invoke(_swingArea.transform.position);
                     Vector2 relPos = transform.position - _swingArea.transform.position;
                     _wasSwingClockwise = Vector3.Cross(relPos, _velocity).z > 0f;
                 }
