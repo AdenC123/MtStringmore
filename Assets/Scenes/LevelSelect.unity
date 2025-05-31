@@ -671,9 +671,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: MainMenu
   level1: Level1Trial
-  level2: Level1Trial
-  level3: Level1Trial
-  level4: Level1Trial
+  level2: Level2
+  level3: Level3
+  level4: Level4
   level1button: {fileID: 1376126709}
   level2button: {fileID: 1196047690}
   level3button: {fileID: 925367342}
