@@ -23,7 +23,7 @@ namespace Interactables
         {
             if (other.CompareTag("Player"))
             {
-                GameManager.Instance.IncrementCandyCollected();
+                GameManager.Instance.CollectCollectable(this);
                 // TODO: play a visual/particle effect before destroying
                 Destroy(gameObject);
             }

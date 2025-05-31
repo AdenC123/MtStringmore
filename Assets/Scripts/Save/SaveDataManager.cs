@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Managers;
 using Player;
@@ -80,7 +81,7 @@ namespace Save
                 farthestSceneReached = _farthestSceneName,
                 saveData = new SaveData
                 {
-                    candiesCollected = GameManager.Instance.NumCollected,
+                    candiesCollected = GameManager.Instance.CollectablePositionsCollected.ToArray(),
                     checkpointsReached = GameManager.Instance.CheckpointsReached.ToArray(),
                     checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                     dateTimeBinary = DateTime.Now.ToBinary(),

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Interactables;
 using Save;
 using UI;
 using UnityEngine;
@@ -38,12 +39,14 @@ namespace Managers
         /// Number of checkpoints reached.
         /// </summary>
         public List<Vector2> CheckpointsReached { get; } = new();
-    
+
         /// <summary>
         /// The number of collectables collected.
         /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
         /// </summary>
-        public int NumCollected { get; private set; }
+        public int NumCollectablesCollected => _collectedCollectables.Count;
+
+        public IReadOnlyCollection<Vector2> CollectablePositionsCollected => _collectedCollectables;
 
         /// <summary>
         /// Action that gets invoked when level reloads, e.g. respawns
@@ -59,8 +62,10 @@ namespace Managers
         /// Canvas to fade in/out when transitioning between scenes
         /// </summary>
         [SerializeField] private FadeEffects sceneTransitionCanvas;
-    
+
+        private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
         private readonly HashSet<Vector2> _prevCheckpoints = new();
+        private readonly HashSet<Vector2> _collectedCollectables = new();
     
         /// <summary>
         /// So it turns out that onSceneChanged happens after modifying game data on save.
@@ -106,7 +111,22 @@ namespace Managers
             {
                 CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
+                _collectedCollectables.Clear();
                 GameDataChanged?.Invoke();
+            }
+            _collectableLookup.Clear();
+            Collectable[] collectables = FindObjectsOfType<Collectable>();
+            foreach (Collectable collectable in collectables)
+            {
+                Vector2 position = collectable.transform.position;
+                if (_collectedCollectables.Contains(position))
+                {
+                    Destroy(collectable.gameObject);
+                }
+                else
+                {
+                    _collectableLookup.Add(position, collectable);
+                }
             }
             _dontClearDataOnSceneChanged = false;
         }
@@ -147,7 +167,9 @@ namespace Managers
             CheckpointsReached.AddRange(checkpointsReached);
             foreach (Vector2 checkpointReached in checkpointsReached)
                 _prevCheckpoints.Add(checkpointReached);
-            NumCollected = saveData.candiesCollected;
+            _collectedCollectables.Clear();
+            foreach (Vector2 candyCollected in saveData.candiesCollected)
+                _collectedCollectables.Add(candyCollected);
             GameDataChanged?.Invoke();
             _dontClearDataOnSceneChanged = true;
         }
@@ -155,9 +177,9 @@ namespace Managers
         /// <summary>
         /// Increments the number of candy collected.
         /// </summary>
-        public void IncrementCandyCollected()
+        public void CollectCollectable(Collectable collectable)
         {
-            NumCollected++;
+            _collectedCollectables.Add(collectable.transform.position);
             GameDataChanged?.Invoke();
         }
 
@@ -166,7 +188,7 @@ namespace Managers
         /// </summary>
         public void ResetCandyCollected()
         {
-            NumCollected = 0;
+            _collectedCollectables.Clear();
             GameDataChanged?.Invoke();
         }
 
