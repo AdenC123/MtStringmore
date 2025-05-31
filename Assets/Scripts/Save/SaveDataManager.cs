@@ -79,6 +79,7 @@ namespace Save
             return new SaveFileData
             {
                 farthestSceneReached = _farthestSceneName,
+                farthestSceneIndexReached = _farthestSceneIndexReached,
                 saveData = new SaveData
                 {
                     candiesCollected = GameManager.Instance.CollectablePositionsCollected.ToArray(),
