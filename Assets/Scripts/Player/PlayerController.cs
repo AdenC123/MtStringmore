@@ -779,6 +779,7 @@ namespace Player
 
             _playerVelocityEffectors.Clear();
             _impulseVelocityEffectors.Clear();
+            ropeRenderer.enabled = false;
             PlayerState = PlayerStateEnum.Run;
             _velocity = Vector2.zero;
         }
