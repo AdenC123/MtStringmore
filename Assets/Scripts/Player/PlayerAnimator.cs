@@ -53,6 +53,7 @@ namespace Player
         [Header("Visual")]
         [Tooltip("Player position offset when hanging onto object (small red wire sphere gizmo)")]
         [SerializeField] private Vector2 hangOffset;
+        [SerializeField, Range(0, 1), Tooltip("Multiplier of swing angle")] private float swingDeltaMultiplier = 0.5f;
         // @formatter:on
 
         #endregion
@@ -152,7 +153,8 @@ namespace Player
             }
             Vector2 diff = ((Vector2)transform.position) - _swingPos.Value;
             // yes, this is meant to be Atan2(x, y) as we want the vector perpendicular
-            transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(diff.x, -diff.y) * Mathf.Rad2Deg);
+            float angle = Mathf.Atan2(diff.x, -diff.y) * Mathf.Rad2Deg;
+            transform.localEulerAngles = new Vector3(0, 0, Mathf.LerpAngle(angle, 0, 1-swingDeltaMultiplier));
         }
         
         private void HandleIdle()
