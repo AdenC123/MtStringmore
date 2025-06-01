@@ -4112,7 +4112,7 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
   masterSlider: {fileID: 1221474773228130815}
   bgmSlider: {fileID: 7062846956582741004}
-  sfxSlider: {fileID: 0}
+  sfxSlider: {fileID: 5902967078041605912}
   startBgmVolume: 0.5
   startSfxVolume: 0.5
   startMasterVolume: 0.5
