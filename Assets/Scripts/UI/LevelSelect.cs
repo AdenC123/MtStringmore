@@ -8,7 +8,6 @@ using Managers;
 
 public class LevelSelect : MonoBehaviour
 {
-    [SerializeField] private string mainMenu;
     [SerializeField] private string level1;
     [SerializeField] private string level2;
     [SerializeField] private string level3;
@@ -60,23 +59,8 @@ public class LevelSelect : MonoBehaviour
 
     void UpdateLevelButtons()
     {
-        List<string> levels = new List<string>();
-
-        // Option 1: Use GameManager if available
-        if (GameManager.Instance != null && GameManager.Instance.levelsAccessed != null)
-        {
-            levels = GameManager.Instance.levelsAccessed;
-        }
-        // Option 2: Fallback to loading save manually
-        else
-        {
-            SaveDataManager saveManager = FindObjectOfType<SaveDataManager>();
-            if (saveManager != null)
-            {
-                string fileName = saveManager.CurrentSaveFileName;
-                levels = LoadLevelsAccessed(fileName);
-            }
-        }
+        List<string> levels = GameManager.Instance.levelsAccessed;
+        
 
         foreach (string level in levels)
         {
@@ -130,11 +114,6 @@ public class LevelSelect : MonoBehaviour
             level4button.GetComponent<Image>().color = originalColor4;
             level4button.interactable = true;
         }
-    }
-
-    public void backToMain()
-    {
-        SceneManager.LoadScene(mainMenu);
     }
 
     public void loadlevel1()
