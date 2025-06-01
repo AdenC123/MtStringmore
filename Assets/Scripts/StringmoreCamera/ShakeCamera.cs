@@ -25,7 +25,8 @@ namespace StringmoreCamera
         /// </summary>
         /// <param name = "shakeDuration">the length of time to shake the camera for</param>
         /// <param name = "shakeIntensity">the level of intensity to shake the camera (higher values cause more aggressive/violent shaking)</param>
-        /// <param name = "xShake/yShake">biases the direction in which the camera should shake</param>
+        /// <param name = "xShake">biases the x direction in which the camera should shake</param>
+        /// <param name = "yShake">biases the y direction in which the camera should shake</param>
         /// <param name = "breakable">set to true if object is breakable</param>
         public void Shake(float shakeDuration, float shakeIntensity, bool xShake, bool yShake, bool breakable)
         {
