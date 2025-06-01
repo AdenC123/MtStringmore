@@ -7,21 +7,21 @@ using Managers;
 
 public class LevelSelectMenu : MonoBehaviour
 {
-    public GameObject buttonPrefab;
-    public Transform buttonContainer;
-    public Button playButton;
+    private GameObject buttonPrefab;
+    private Transform buttonContainer;
+    private Button playButton;
 
-    public Sprite unlockedSprite;
-    public Sprite lockedSprite;
+    private Sprite unlockedSprite;
+    private Sprite lockedSprite;
 
     [SerializeField] List<string> allLevelSceneNames;
     
-    public List<string> unlockedScenes;
+    private List<string> unlockedScenes;
 
     private string selectedScene = null;
     private List<Button> levelButtons = new List<Button>();
 
-    void Start()
+    private void Start()
     {
         unlockedScenes = GameManager.Instance.levelsAccessed;
         playButton.interactable = false;
@@ -57,7 +57,7 @@ public class LevelSelectMenu : MonoBehaviour
         playButton.onClick.AddListener(OnPlayClicked);
     }
 
-    void OnLevelSelected(string sceneName, Button clickedButton)
+    private void OnLevelSelected(string sceneName, Button clickedButton)
     {
         selectedScene = sceneName;
         playButton.interactable = true;
@@ -80,7 +80,7 @@ public class LevelSelectMenu : MonoBehaviour
         selectedImage.color = selectedColor;
     }
 
-    void OnPlayClicked()
+    private void OnPlayClicked()
     {
         if (!string.IsNullOrEmpty(selectedScene))
         {
