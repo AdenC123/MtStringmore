@@ -14,11 +14,13 @@ namespace Interactables
         
         private SpriteRenderer _spriteRenderer;
         private AudioSource _audioSource;
+        private Collider2D _collider;
 
         private void OnValidate()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _audioSource = GetComponent<AudioSource>();
+            _collider = GetComponent<Collider2D>();
         }
         
         private void OnTriggerEnter2D(Collider2D other)
@@ -29,6 +31,7 @@ namespace Interactables
                 // TODO: play a visual/particle effect before destroying
                 _audioSource.Play();
                 _spriteRenderer.enabled = false;
+                _collider.enabled = false;
             }
         }
 
