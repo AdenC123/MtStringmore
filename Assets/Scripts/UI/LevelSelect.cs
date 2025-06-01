@@ -13,7 +13,6 @@ public class LevelSelectMenu : MonoBehaviour
 
     public Sprite unlockedSprite;
     public Sprite lockedSprite;
-    private Sprite selectedSprite;
 
     [SerializeField] List<string> allLevelSceneNames;
     
@@ -70,8 +69,15 @@ public class LevelSelectMenu : MonoBehaviour
             bool isUnlocked = unlockedScenes.Contains(thisScene);
 
             bg.sprite = isUnlocked ? unlockedSprite : lockedSprite;
+            
+            Color color = bg.color;
+            color.a = 1f;
+            bg.color = color;
         }
-        clickedButton.GetComponent<Image>().sprite = selectedSprite;
+        Image selectedImage = clickedButton.GetComponent<Image>();
+        Color selectedColor = selectedImage.color;
+        selectedColor.a = 0.5f; 
+        selectedImage.color = selectedColor;
     }
 
     void OnPlayClicked()
