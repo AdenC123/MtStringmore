@@ -69,7 +69,7 @@ namespace Interactables
         /// </summary>
         private void DestroyObject()
         {
-            _shake.Shake(1f, 0.6f, true, true,true);
+            _shake.Shake(1f, 0.3f, true, true,true);
             destroyed = true;
             _collider.enabled = false;
             _audioSource.Play();
