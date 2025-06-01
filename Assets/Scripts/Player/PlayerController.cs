@@ -537,7 +537,7 @@ namespace Player
             }
             else if (PlayerState is PlayerStateEnum.Dash)
             {
-                _shake.Shake(1f,2f,true,true); //TODO: change temp parameters for visual testing
+                _shake.Shake(1f,0.2f,true,false,false); 
                 // move player forward at dash speed
                 _velocity.y = 0;
                 _velocity.x = dashSpeed * Direction;

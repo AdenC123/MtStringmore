@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace StringmoreCamera
@@ -8,50 +9,72 @@ namespace StringmoreCamera
     /// Adds a rumbling shake to the MainCamera
     /// </summary>
     public class ShakeCamera : MonoBehaviour
-    {   
-        //TODO: possibly convert class to be a "camera effector" with more methods to cause different camera effects (shakes,zooms in/out etc)
-        private Coroutine _activeShake;
-        private Vector2 _originalCameraPos;
+    {
+        //private Vector2 _originalCameraPos;
+        private FollowCamera _followCamera;
+        private Coroutine _activeDashShake;
+        private Coroutine _activeBreakingShake;
 
         private void Awake()
         {
-            _originalCameraPos = transform.localPosition;
+            _followCamera = FindObjectOfType<FollowCamera>();
         }
+
         /// <summary>
         /// Public method that any class can shake the camera.
         /// </summary>
         /// <param name = "shakeDuration">the length of time to shake the camera for</param>
         /// <param name = "shakeIntensity">the level of intensity to shake the camera (higher values cause more aggressive/violent shaking)</param>
         /// <param name = "xShake/yShake">biases the direction in which the camera should shake</param>
-        public void Shake(float shakeDuration, float shakeIntensity, bool xShake, bool yShake) 
+        /// <param name = "breakable">set to true if object is breakable</param>
+        public void Shake(float shakeDuration, float shakeIntensity, bool xShake, bool yShake, bool breakable)
         {
-            if(_activeShake != null) 
+            // Stop previous shakes of the same type
+            if (breakable && _activeBreakingShake != null)
             {
-                transform.localPosition = _originalCameraPos;
+                StopCoroutine(_activeBreakingShake);
             }
-            _activeShake = StartCoroutine(ShakeRoutine(shakeDuration,shakeIntensity,xShake,yShake));
+            else if (!breakable && _activeDashShake != null)
+            {
+                StopCoroutine(_activeDashShake);
+            }
+            
+                
+
+            // Start new shake
+            var coroutine = StartCoroutine(ShakeRoutine(shakeDuration, shakeIntensity, xShake, yShake));
+            if (breakable)
+            {
+                _activeBreakingShake = coroutine;
+            }
+            else
+            {
+                _activeDashShake = coroutine;
+            }
+            
+                
         }
 
         //corroutine to shake the camera
         private IEnumerator ShakeRoutine(float shakeDuration, float shakeIntensity, bool xShake, bool yShake)
         {
-            Vector2 _shakeOffset;
-            for (float _elapsed = 0; _elapsed < shakeDuration; _elapsed += Time.deltaTime)  
+            for (float _elapsed = 0; _elapsed < shakeDuration; _elapsed += Time.deltaTime)
             {
-                Vector2 shakeOffset = Vector2.zero;
-                float _currentIntensity = Mathf.Lerp(shakeIntensity, 0f, _elapsed / shakeDuration); //decrease the shake over time
+                float _currentIntensity =
+                    shakeIntensity * (1f - (_elapsed / shakeDuration)); //decrease the shake over time
 
-                //perlin noise used for smooth randomness
-                if (xShake) shakeOffset.x = (Mathf.PerlinNoise1D(Time.time * 10f) * 2 - 1) * _currentIntensity;
-                if (yShake) shakeOffset.y = (Mathf.PerlinNoise(Time.time * 10f, 1) * 2 - 1) * _currentIntensity;
+                float noiseTime = Time.time * 10f;
+                Vector2 shakeOffset = new Vector2(
+                    xShake ? (Mathf.PerlinNoise(noiseTime, 0f) - 0.5f) * 2f * _currentIntensity : 0f,
+                    yShake ? (Mathf.PerlinNoise(0f, noiseTime) - 0.5f) * 2f * _currentIntensity : 0f
+                );
 
-                transform.localPosition = _originalCameraPos + shakeOffset;
+                _followCamera.SetShakeOffset(shakeOffset);
                 yield return null;
             }
-            transform.localPosition = _originalCameraPos;
-            _activeShake = null;
-            
-        }
 
+            _followCamera.SetShakeOffset(Vector2.zero); // Reset after shake
+
+        }
     }
 }

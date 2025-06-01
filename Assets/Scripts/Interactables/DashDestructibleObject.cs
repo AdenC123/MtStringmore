@@ -2,6 +2,7 @@
 using Player;
 using UnityEngine;
 using UnityEngine.Events;
+using StringmoreCamera;
 
 namespace Interactables
 {
@@ -20,12 +21,14 @@ namespace Interactables
 
         private Collider2D _collider;
         private AudioSource _audioSource;
-
+        private ShakeCamera _shake;
+        
         private void Awake()
         {
             _collider = GetComponent<Collider2D>();
             _audioSource = GetComponent<AudioSource>();
             GameManager.Instance.Reset += OnReset;
+            _shake = FindObjectOfType<ShakeCamera>(); 
         }
 
         /// <summary>
@@ -66,6 +69,7 @@ namespace Interactables
         /// </summary>
         private void DestroyObject()
         {
+            _shake.Shake(1f, 0.6f, true, true,true);
             destroyed = true;
             _collider.enabled = false;
             _audioSource.Play();
@@ -78,6 +82,7 @@ namespace Interactables
             if (collision.collider.TryGetComponent(out PlayerController playerController) &&
                 ShouldPlayerDestroy(playerController))
             {
+               
                 DestroyObject();
             }
         }
@@ -91,6 +96,7 @@ namespace Interactables
                 Vector2.Dot(transform.position - playerController.transform.position, playerController.Velocity) > 0 &&
                 playerController.PlayerState == PlayerController.PlayerStateEnum.Dash)
             {
+                
                 DestroyObject();
             }
         }
