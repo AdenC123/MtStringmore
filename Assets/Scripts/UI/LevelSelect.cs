@@ -68,30 +68,6 @@ public class LevelSelect : MonoBehaviour
         }
     }
 
-    public List<string> LoadLevelsAccessed(string fileName)
-    {
-        string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
-        string filePath = Path.Combine(folderLocation, fileName);
-
-        if (!File.Exists(filePath))
-        {
-            Debug.LogWarning($"Save file does not exist: {filePath}");
-            return new List<string>();
-        }
-
-        try
-        {
-            string json = File.ReadAllText(filePath);
-            SaveData data = JsonUtility.FromJson<SaveData>(json);
-            return data.levelsAccessed ?? new List<string>();
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"Failed to load save file {filePath}: {e.Message}");
-            return new List<string>();
-        }
-    }
-
     void enableLevelButtons(string levelName)
     {
         if (levelName == level1)
