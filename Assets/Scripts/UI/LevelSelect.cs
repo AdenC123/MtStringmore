@@ -7,18 +7,18 @@ using Managers;
 
 public class LevelSelectMenu : MonoBehaviour
 {
-    private GameObject buttonPrefab;
-    private Transform buttonContainer;
-    private Button playButton;
+    [SerializeField] GameObject buttonPrefab;
+    [SerializeField] Transform buttonContainer;
+    [SerializeField] Button playButton;
 
-    private Sprite unlockedSprite;
-    private Sprite lockedSprite;
+    [SerializeField] Sprite unlockedSprite;
+    [SerializeField] Sprite lockedSprite;
 
     [SerializeField] List<string> allLevelSceneNames;
     
     private List<string> unlockedScenes;
 
-    private string selectedScene = null;
+    private string selectedScene;
     private List<Button> levelButtons = new List<Button>();
 
     private void Start()
