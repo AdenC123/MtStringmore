@@ -7,16 +7,18 @@ namespace Interactables
     /// <summary>
     /// This object is collected upon collision with the Player, incrementing the total collectable count.
     /// </summary>
-    [RequireComponent(typeof(Collider2D), typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Collider2D), typeof(SpriteRenderer), typeof(AudioSource))]
     public class Collectable : MonoBehaviour
     {
         [SerializeField] private Sprite[] possibleSprites;
         
         private SpriteRenderer _spriteRenderer;
+        private AudioSource _audioSource;
 
         private void OnValidate()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _audioSource = GetComponent<AudioSource>();
         }
         
         private void OnTriggerEnter2D(Collider2D other)
@@ -25,7 +27,8 @@ namespace Interactables
             {
                 GameManager.Instance.CollectCollectable(this);
                 // TODO: play a visual/particle effect before destroying
-                Destroy(gameObject);
+                _audioSource.Play();
+                _spriteRenderer.enabled = false;
             }
         }
 
