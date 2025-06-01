@@ -111527,14 +111527,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3119184382528755020, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3119184382528755020, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: sceneReplayPreview
-      value: 
-      objectReference: {fileID: 11400000, guid: bae07f770ff72462097e160038ba2576, type: 2}
     - target: {fileID: 3426061127556173972, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
