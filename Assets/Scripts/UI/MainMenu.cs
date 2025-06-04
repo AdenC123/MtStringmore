@@ -20,7 +20,7 @@ namespace UI
         
         private void Start()
         {
-            _saveDataManager = FindObjectOfType<SaveData Manager>();
+            _saveDataManager = FindObjectOfType<SaveDataManager>();
             if (_saveDataManager == null)
             {
                 Debug.LogError("SaveDataManager not found in scene!");
@@ -40,10 +40,6 @@ namespace UI
         {
             _saveDataManager?.CreateNewSave(startingScene);
             SceneManager.LoadScene(startingScene);
-        }
-        public void LevelSelect()
-        {
-            SceneManager.LoadScene(levelSelectScene);
         }
 
         public void QuitGame()
