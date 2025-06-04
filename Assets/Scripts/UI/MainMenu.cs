@@ -17,10 +17,18 @@ namespace UI
         [SerializeField] private Button loadGameButton;
 
         private SaveDataManager _saveDataManager;
+        
+        private void Start()
+        {
+            _saveDataManager = FindObjectOfType<SaveData Manager>();
+            if (_saveDataManager == null)
+            {
+                Debug.LogError("SaveDataManager not found in scene!");
+            }
+        }
 
         private void Awake()
         {
-            _saveDataManager = FindObjectOfType<SaveDataManager>();
             versionNumber.text = Application.version;
 #if UNITY_WEBGL
             Debug.LogWarning("Saving and loading isn't supported on WebGL yet.");
