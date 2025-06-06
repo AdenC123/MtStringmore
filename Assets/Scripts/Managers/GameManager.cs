@@ -186,7 +186,6 @@ namespace Managers
         public void CollectCollectable(Collectable collectable)
         {
             _collectedCollectables.Add(collectable.transform.position);
-            GameDataChanged?.Invoke();
         }
 
         /// <summary>
