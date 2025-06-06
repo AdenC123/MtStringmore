@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Interactables;
+using Player;
 using Save;
 using UI;
 using UnityEngine;
@@ -114,6 +115,12 @@ namespace Managers
             Time.timeScale = 1f;
             if (!_dontClearDataOnSceneChanged)
             {
+                PlayerController player = FindObjectOfType<PlayerController>();
+                if (player)
+                {
+                    CheckPointPos = player.transform.position;
+                    Debug.Log("Hopefully set checkpoint position to be player's position: " + CheckPointPos);
+                }
                 CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
                 _collectedCollectables.Clear();
