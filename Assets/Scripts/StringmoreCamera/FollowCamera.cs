@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Managers;
@@ -33,7 +32,10 @@ namespace StringmoreCamera
         private float _yVelocity;
         private float _cameraZ;
         private float _lastGroundedY;
-        private Vector3 shakeOffset;
+        #endregion
+
+        #region Public Properties and Actions
+        public Vector3 ShakeOffset {private get; set;}
         #endregion
 
         #region Unity Event Functions
@@ -45,7 +47,7 @@ namespace StringmoreCamera
             _playerController = player.GetComponent<PlayerController>();
             _cameraZ = transform.position.z;
             _fixCameraTriggers = new List<FixCameraTrigger>();
-            shakeOffset = Vector3.zero;
+            ShakeOffset = Vector3.zero;
         }
 
         private void Start()
@@ -67,7 +69,7 @@ namespace StringmoreCamera
             Vector3 camPosition = transform.position;
             float smoothedX = Mathf.SmoothDamp(camPosition.x , _target.x, ref _xVelocity, xSmoothTime);
             float smoothedY = Mathf.SmoothDamp(camPosition.y , _target.y, ref _yVelocity, ySmoothTime);
-            transform.position = new Vector3(smoothedX + shakeOffset.x, smoothedY + shakeOffset.y, _cameraZ);
+            transform.position = new Vector3(smoothedX + ShakeOffset.x, smoothedY + ShakeOffset.y, _cameraZ);
         }
 
         #endregion
@@ -111,11 +113,7 @@ namespace StringmoreCamera
         {
             _fixCameraTriggers.Remove(trigger);
         }
-
-        public void SetShakeOffset(Vector3 offset)
-        {
-            shakeOffset = offset;
-        }
+       
         
         #endregion
 

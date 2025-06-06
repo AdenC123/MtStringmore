@@ -72,11 +72,11 @@ namespace StringmoreCamera
                     yShake ? (Mathf.PerlinNoise(0f, noiseTime) - 0.5f) * 2f * _currentIntensity : 0f
                 );
 
-                _followCamera.SetShakeOffset(shakeOffset);
+                _followCamera.ShakeOffset = new Vector3(shakeOffset.x,shakeOffset.y,0);
                 yield return null;
             }
 
-            _followCamera.SetShakeOffset(Vector2.zero); // Reset after shake
+            _followCamera.ShakeOffset = Vector3.zero; // Reset after shake
 
         }
     }
