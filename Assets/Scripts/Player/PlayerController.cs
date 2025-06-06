@@ -5,6 +5,7 @@ using Interactables;
 using Managers;
 using UnityEngine;
 using Util;
+using StringmoreCamera;
 
 namespace Player
 {
@@ -194,7 +195,7 @@ namespace Player
         private bool _canSwing;
         private bool _swingStarted;
         private bool _wasSwingClockwise;
-
+        private ShakeCamera _shake;
         #endregion
 
         #region Unity Event Handlers
@@ -204,8 +205,8 @@ namespace Player
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<CapsuleCollider2D>();
             _audioSource = GetComponent<AudioSource>();
+            _shake = FindObjectOfType<ShakeCamera>();
             ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
-
             foreach (ParticleSystem ps in particleSystems)
             {
                 switch (ps.gameObject.name)
@@ -537,6 +538,7 @@ namespace Player
                 _canDash = false;
                 _buttonNotPressedPreviousFrame = true;
                 PlayerState = PlayerStateEnum.Dash;
+                _shake?.Shake(1f,0.2f,true,false,false); 
                 Dashed?.Invoke();
                 _timeDashed = _time;
                 TimeDashEnded = Time.time + dashTime;
