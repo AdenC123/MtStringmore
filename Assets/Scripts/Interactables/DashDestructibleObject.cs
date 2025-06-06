@@ -69,7 +69,7 @@ namespace Interactables
         /// </summary>
         private void DestroyObject()
         {
-            _shake.Shake(1f, 0.3f, true, true,true);
+            _shake?.Shake(1f, 0.7f, true, true,true);
             destroyed = true;
             _collider.enabled = false;
             _audioSource.Play();
@@ -82,7 +82,6 @@ namespace Interactables
             if (collision.collider.TryGetComponent(out PlayerController playerController) &&
                 ShouldPlayerDestroy(playerController))
             {
-               
                 DestroyObject();
             }
         }
@@ -96,7 +95,7 @@ namespace Interactables
                 Vector2.Dot(transform.position - playerController.transform.position, playerController.Velocity) > 0 &&
                 playerController.PlayerState == PlayerController.PlayerStateEnum.Dash)
             {
-                
+            
                 DestroyObject();
             }
         }

@@ -18,6 +18,8 @@ namespace StringmoreCamera
         private void Awake()
         {
             _followCamera = FindObjectOfType<FollowCamera>();
+            _activeDashShake = null;
+            _activeBreakingShake = null;
         }
 
         /// <summary>
