@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Interactables;
+using Save;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -47,7 +49,9 @@ namespace Managers
         /// The number of collectables collected.
         /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
         /// </summary>
-        public int NumCollected { get; set; }
+        public int NumCollectablesCollected => _collectedCollectables.Count;
+
+        public IReadOnlyCollection<Vector2> CollectablePositionsCollected => _collectedCollectables;
 
         /// <summary>
         /// Action that gets invoked when level reloads, e.g. respawns
@@ -63,8 +67,10 @@ namespace Managers
         /// Canvas to fade in/out when transitioning between scenes
         /// </summary>
         [SerializeField] private FadeEffects sceneTransitionCanvas;
-    
+
+        private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
         private readonly HashSet<Vector2> _prevCheckpoints = new();
+        private readonly HashSet<Vector2> _collectedCollectables = new();
     
         /// <summary>
         /// So it turns out that onSceneChanged happens after modifying game data on save.
@@ -89,6 +95,7 @@ namespace Managers
                 // TODO make maxFrameRate a setting
                 Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
             }
+            Debug.Log("Application version: " + Application.version);
         }
 
         private void Update()
@@ -113,7 +120,22 @@ namespace Managers
             {
                 CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
+                _collectedCollectables.Clear();
                 GameDataChanged?.Invoke();
+            }
+            _collectableLookup.Clear();
+            Collectable[] collectables = FindObjectsOfType<Collectable>();
+            foreach (Collectable collectable in collectables)
+            {
+                Vector2 position = collectable.transform.position;
+                if (_collectedCollectables.Contains(position))
+                {
+                    Destroy(collectable.gameObject);
+                }
+                else
+                {
+                    _collectableLookup.Add(position, collectable);
+                }
             }
             _dontClearDataOnSceneChanged = false;
         }
@@ -140,13 +162,13 @@ namespace Managers
         }
 
         /// <summary>
-        /// Sets checkpoint location/data from save data.
+        /// Sets game information from save data.
         /// </summary>
-        /// <param name="shouldFaceLeft">Whether respawn should face left</param>
-        /// <param name="checkpointsReached">List of previous checkpoints reached</param>
-        /// <param name="levelsAccessed">List of previous levels reached</param>
-        public void UpdateFromSaveData(bool shouldFaceLeft, Vector2[] checkpointsReached, List<string> accessedLevels)
+        /// <param name="saveData">Save data from file</param>
+        public void UpdateFromSaveData(SaveData saveData)
         {
+            Vector2[] checkpointsReached = saveData.checkpointsReached;
+            bool shouldFaceLeft = saveData.checkpointFacesLeft;
             if (checkpointsReached.Length > 0) CheckPointPos = checkpointsReached[^1];
             RespawnFacingLeft = shouldFaceLeft;
             CheckpointsReached.Clear();
@@ -154,12 +176,33 @@ namespace Managers
             CheckpointsReached.AddRange(checkpointsReached);
             foreach (Vector2 checkpointReached in checkpointsReached)
                 _prevCheckpoints.Add(checkpointReached);
+            _collectedCollectables.Clear();
+            foreach (Vector2 candyCollected in saveData.candiesCollected)
+                _collectedCollectables.Add(candyCollected);
     
             levelsAccessed.Clear();
-            levelsAccessed.AddRange(accessedLevels);
+            levelsAccessed.AddRange(saveData.levelsAccessed);
 
             GameDataChanged?.Invoke();
             _dontClearDataOnSceneChanged = true;
+        }
+
+        /// <summary>
+        /// Increments the number of candy collected.
+        /// </summary>
+        public void CollectCollectable(Collectable collectable)
+        {
+            _collectedCollectables.Add(collectable.transform.position);
+            GameDataChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Resets the number of candy collected.
+        /// </summary>
+        public void ResetCandyCollected()
+        {
+            _collectedCollectables.Clear();
+            GameDataChanged?.Invoke();
         }
 
         /// <summary>
