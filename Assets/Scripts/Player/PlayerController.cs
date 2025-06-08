@@ -55,6 +55,9 @@ namespace Player
         [SerializeField] private float maxSwingSpeed;
         [SerializeField] private float swingAcceleration;
         [SerializeField] private float minSwingReleaseX;
+        [SerializeField] private bool enableSwingHacks = true;
+        [SerializeField] private float maxHackAcceleration = 200;
+        [SerializeField, Range(0, Mathf.PI)] private float hackRange = Mathf.PI/6;
         [Header("Visual")]
         [SerializeField, Min(0)] private float runParticleVelocityThreshold = 0.1f;
         [SerializeField] private LineRenderer ropeRenderer;
@@ -337,7 +340,8 @@ namespace Player
             ignores ??= _playerVelocityEffectors.FirstOrDefault(effect => effect.IgnoreOtherEffectors);
             if (ignores != null)
             {
-                Debug.LogWarning($"Ignoring effector {effector} as existing effector {ignores} ignores other effectors");
+                Debug.LogWarning(
+                    $"Ignoring effector {effector} as existing effector {ignores} ignores other effectors");
                 return;
             }
 
@@ -454,12 +458,14 @@ namespace Player
                 PlayerState == PlayerStateEnum.LeftWallSlide && !leftWallHit)
                 PlayerState = PlayerStateEnum.Air;
 
-            UpdateParticleSystemState(_runningDust, PlayerStateEnum.Run, () => Mathf.Abs(_rb.velocity.x) > runParticleVelocityThreshold);
+            UpdateParticleSystemState(_runningDust, PlayerStateEnum.Run,
+                () => Mathf.Abs(_rb.velocity.x) > runParticleVelocityThreshold);
             UpdateParticleSystemState(_leftWallSlideDust, PlayerStateEnum.LeftWallSlide);
             UpdateParticleSystemState(_rightWallSlideDust, PlayerStateEnum.RightWallSlide);
         }
 
-        private void UpdateParticleSystemState(ParticleSystem system, PlayerStateEnum targetState, Func<bool> optionalPredicate = null)
+        private void UpdateParticleSystemState(ParticleSystem system, PlayerStateEnum targetState,
+            Func<bool> optionalPredicate = null)
         {
             if (PlayerState == targetState && (optionalPredicate == null || optionalPredicate()))
             {
@@ -688,7 +694,8 @@ namespace Player
             {
                 // in swing and holding down button
                 // if not at max radius yet, fall normally
-                if (!_swingStarted && Vector2.Distance(_swingArea.transform.position, transform.position) >= _swingRadius)
+                if (!_swingStarted &&
+                    Vector2.Distance(_swingArea.transform.position, transform.position) >= _swingRadius)
                 {
                     // reached max radius, start swing
                     _swingStarted = true;
@@ -706,6 +713,38 @@ namespace Player
                     {
                         _velocity = _velocity.normalized * Mathf.MoveTowards(_velocity.magnitude, maxSwingSpeed,
                             swingAcceleration * Time.fixedDeltaTime);
+                    }
+
+                    if (_velocity.magnitude <= maxSwingSpeed && enableSwingHacks)
+                    {
+                        Vector2 playerDir = relPos.normalized;
+                        float angleToVertical = Mathf.Acos(Vector2.Dot(playerDir, Vector2.down));
+                        if (angleToVertical < hackRange)
+                        {
+                            float currentAngularVelocity = _velocity.magnitude / (2 * Mathf.PI * Mathf.Max(playerDir.magnitude, _swingRadius));
+                            Vector2 targetDir = new((_wasSwingClockwise ? -1 : 1) * Mathf.Sin(hackRange),
+                                -Mathf.Cos(hackRange));
+                            Debug.DrawRay(_swingArea.transform.position, targetDir, Color.red);
+                            float angleToTarget = Mathf.Acos(Vector2.Dot(playerDir, targetDir));
+                            float targetSwingSpeed = maxSwingSpeed;
+                            if (angleToTarget < hackRange)
+                            {
+                                // prevent reaching higher than it was with max swing speed
+                                float yDistFromBottom = relPos.y + relPos.magnitude;
+                                float maxKinEnergy = 0.5f * maxSwingSpeed * maxSwingSpeed;
+                                float curGravEnergy = fallAccelerationUp * yDistFromBottom;
+                                targetSwingSpeed = Mathf.Sqrt(2 * (maxKinEnergy - curGravEnergy));
+                               Debug.Log(targetSwingSpeed + "," + maxSwingSpeed);
+                            }
+
+                            float timeToVertical = angleToTarget / currentAngularVelocity;
+                            float newAccel = Mathf.Min(targetSwingSpeed / timeToVertical, maxHackAcceleration);
+                            float newVelocityMag = Mathf.MoveTowards(_velocity.magnitude, targetSwingSpeed,
+                                newAccel * Time.fixedDeltaTime);
+                            Vector2 desiredDirection = -Vector2.Perpendicular(playerDir);
+                            if (_wasSwingClockwise) desiredDirection *= -1;
+                            _velocity = desiredDirection * newVelocityMag;
+                        }
                     }
 
                     Vector2 testPos = relPos + _velocity * Time.fixedDeltaTime;
