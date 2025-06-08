@@ -57,7 +57,9 @@ namespace Player
         [SerializeField] private float minSwingReleaseX;
         [SerializeField] private bool enableSwingHacks = true;
         [SerializeField] private float maxHackAcceleration = 200;
-        [SerializeField, Range(0, Mathf.PI)] private float hackRange = Mathf.PI/6;
+        [SerializeField, Min(0)] private float hackVelocityRatio = 0.8f;
+        [SerializeField, Range(0, Mathf.PI), Tooltip("Maximum angle from bottom to apply hacky additional acceleration")]
+        private float hackRange = Mathf.PI/6;
         [Header("Visual")]
         [SerializeField, Min(0)] private float runParticleVelocityThreshold = 0.1f;
         [SerializeField] private LineRenderer ropeRenderer;
@@ -715,6 +717,14 @@ namespace Player
                             swingAcceleration * Time.fixedDeltaTime);
                     }
 
+                    // for some reason we wanna arbitrarily give the player max velocity
+                    // however we can't use an entirely energy based system to determine their velocity
+                    // since... well our system doesn't really obey physics
+                    // (gravity literally has different accelerations depending on direction)
+                    // so... we just arbitrarily accelerate to some ratio of the max swing speed
+                    // why a ratio? because 0.5v^2 > gh at max swing speed but it works since
+                    // energy gets sent to the shadow realm in the final adjustment step (testPos/newPos bs)
+                    // a ratio of 0.8 seems to work decently well though
                     if (_velocity.magnitude <= maxSwingSpeed && enableSwingHacks)
                     {
                         Vector2 playerDir = relPos.normalized;
@@ -724,9 +734,9 @@ namespace Player
                             float currentAngularVelocity = _velocity.magnitude / (2 * Mathf.PI * Mathf.Max(playerDir.magnitude, _swingRadius));
                             Vector2 targetDir = new((_wasSwingClockwise ? -1 : 1) * Mathf.Sin(hackRange),
                                 -Mathf.Cos(hackRange));
-                            Debug.DrawRay(_swingArea.transform.position, targetDir, Color.red);
                             float angleToTarget = Mathf.Acos(Vector2.Dot(playerDir, targetDir));
-                            float targetSwingSpeed = maxSwingSpeed;
+                            float targetSwingSpeed = maxSwingSpeed * hackVelocityRatio;
+                            // past the bottom, but we still may want to apply acceleration
                             if (angleToTarget < hackRange)
                             {
                                 // prevent reaching higher than it was with max swing speed
@@ -734,7 +744,7 @@ namespace Player
                                 float maxKinEnergy = 0.5f * maxSwingSpeed * maxSwingSpeed;
                                 float curGravEnergy = fallAccelerationUp * yDistFromBottom;
                                 targetSwingSpeed = Mathf.Sqrt(2 * (maxKinEnergy - curGravEnergy));
-                               Debug.Log(targetSwingSpeed + "," + maxSwingSpeed);
+                                Debug.Log(targetSwingSpeed + "," + maxSwingSpeed);
                             }
 
                             float timeToVertical = angleToTarget / currentAngularVelocity;
@@ -796,7 +806,7 @@ namespace Player
         {
             _rb.velocity = _velocity;
             if (_velocity.x != 0f) Direction = Mathf.Sign(_velocity.x);
-            Debug.DrawRay(transform.position, _velocity, Color.magenta);
+            //Debug.DrawRay(transform.position, _velocity, Color.magenta);
         }
 
         private bool IsButtonUsed()
