@@ -17,6 +17,9 @@ public class LevelSelectMenu : MonoBehaviour
 
     [SerializeField] List<string> allLevelSceneNames;
     
+    [SerializeField] private AudioSource canvasAudioSource;
+    [SerializeField] private AudioClip buttonClickSound;
+    
     private List<string> unlockedScenes;
 
     private string selectedScene;
@@ -44,8 +47,11 @@ public class LevelSelectMenu : MonoBehaviour
                 background.sprite = unlockedSprite;
                 button.interactable = true;
 
-                button.onClick.AddListener(() => OnLevelSelected(sceneName, button));
-            }
+                button.onClick.AddListener(() =>
+                {
+                    PlayClickSound();
+                    OnLevelSelected(sceneName, button);
+                });            }
             else
             {
                 label.text = "";
@@ -57,6 +63,14 @@ public class LevelSelectMenu : MonoBehaviour
         }
 
         playButton.onClick.AddListener(OnPlayClicked);
+    }
+    
+    private void PlayClickSound()
+    {
+        if (canvasAudioSource != null && buttonClickSound != null)
+        {
+            canvasAudioSource.PlayOneShot(buttonClickSound);
+        }
     }
 
     // <summary>
