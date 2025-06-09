@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
 using Managers;
+using Save;
 
 public class LevelSelectMenu : MonoBehaviour
 {
@@ -23,7 +24,8 @@ public class LevelSelectMenu : MonoBehaviour
 
     private void Start()
     {
-        unlockedScenes = GameManager.Instance.levelsAccessed;
+        LazyLoad();
+        unlockedScenes = GameManager.Instance.LevelsAccessed;
         playButton.interactable = false;
 
         foreach (string sceneName in allLevelSceneNames)
@@ -55,6 +57,14 @@ public class LevelSelectMenu : MonoBehaviour
         }
 
         playButton.onClick.AddListener(OnPlayClicked);
+    }
+
+    // <summary>
+    // Ensures GameManager load save data before loading level select menu
+    // </summary>
+    private void LazyLoad()
+    {
+        FindObjectOfType<SaveDataManager>()?.PreloadSaveData();
     }
 
     private void OnLevelSelected(string sceneName, Button clickedButton)

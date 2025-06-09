@@ -87,7 +87,7 @@ namespace Save
                     checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                     dateTimeBinary = DateTime.Now.ToBinary(),
                     sceneName = sceneOverride ?? SceneManager.GetActiveScene().name,
-                    levelsAccessed = GameManager.Instance.levelsAccessed
+                    levelsAccessed = GameManager.Instance.LevelsAccessed
                 }
             };
         }
@@ -141,6 +141,25 @@ namespace Save
                 // TODO very hacky
                 _forcedNextFramePosition = saveData.checkpointsReached[^1];
             }
+
+            return true;
+        }
+        
+        /// <summary>
+        /// Loads an existing save from a file name without loading the scene.
+        /// Essentially does the same as LoadExistingSave without loading scene
+        /// </summary>
+        /// <returns>True if successful, false otherwise</returns>
+        public bool PreloadSaveData()
+        {
+            SaveFileData? optionalData = ReadExistingSave();
+            if (optionalData == null) return false;
+
+            SaveData saveData = optionalData.Value.saveData;
+            GameManager.Instance.UpdateFromSaveData(saveData);
+    
+            _farthestSceneName = optionalData.Value.farthestSceneReached;
+            _farthestSceneIndexReached = optionalData.Value.farthestSceneIndexReached;
 
             return true;
         }
