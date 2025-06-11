@@ -66,6 +66,12 @@ namespace Player
         [SerializeField] private AudioClip swingAttach;
         [SerializeField] private AudioClip swingDetach;
         [SerializeField] private AudioClip[] swingChangeDirection;
+        [Header("Dashing Camera Shake")]
+        [SerializeField] private float shakeDuration;
+        [SerializeField] private float shakeIntensity;
+        [SerializeField, Tooltip("Set to true for shake along x-axis")] private bool xShake;
+        [SerializeField, Tooltip("Set to true for shake along y-axis")] private bool yShake;
+        [SerializeField, Tooltip("Set to true if object is destructible")] private bool destructibleObject;
         // @formatter:on
 
         #endregion
@@ -529,7 +535,7 @@ namespace Player
                 _canDash = false;
                 _buttonNotPressedPreviousFrame = true;
                 PlayerState = PlayerStateEnum.Dash;
-                _shake?.Shake(1f,0.2f,true,false,false); 
+                _shake?.Shake(shakeDuration, shakeIntensity, xShake, yShake,destructibleObject);
                 Dashed?.Invoke();
                 _timeDashed = _time;
                 TimeDashEnded = Time.time + dashTime;

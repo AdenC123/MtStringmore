@@ -16,7 +16,14 @@ namespace Interactables
     {
         [SerializeField] private bool destroyed;
         [SerializeField] private UnityEvent onDestroyed;
+        [Header("Camera Shake")]
+        [SerializeField] private float shakeDuration;
+        [SerializeField] private float shakeIntensity;
+        [SerializeField, Tooltip("Set to true for shake along x-axis")] private bool xShake;
+        [SerializeField, Tooltip("Set to true for shake along y-axis")] private bool yShake;
+        [SerializeField, Tooltip("Set to true if object is destructible")] private bool destructibleObject;
         [SerializeField, Tooltip("Tolerance to allow destruction after player dash (seconds)"), Min(0)]
+        
         private float dashEndTolerance = 1f;
 
         private Collider2D _collider;
@@ -69,7 +76,7 @@ namespace Interactables
         /// </summary>
         private void DestroyObject()
         {
-            _shake?.Shake(1f, 0.7f, true, true,true);
+            _shake?.Shake(shakeDuration, shakeIntensity, xShake, yShake,destructibleObject);
             destroyed = true;
             _collider.enabled = false;
             _audioSource.Play();
