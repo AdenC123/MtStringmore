@@ -645,8 +645,8 @@ namespace Player
                 if (PlayerState == PlayerStateEnum.OnObject) return;
                 _buttonNotPressedPreviousFrame = true;
                 PlayerState = PlayerStateEnum.OnObject;
-                CurrentInteractableArea.StartInteract(this);
                 HangChanged?.Invoke(true, _velocity.x < 0);
+                CurrentInteractableArea.StartInteract(this);
                 if (previouslyGrounded)
                 {
                     _timeLeftGround = _time;
