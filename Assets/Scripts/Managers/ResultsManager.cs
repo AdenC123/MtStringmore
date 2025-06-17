@@ -21,6 +21,8 @@ namespace Managers
         private int maxCount;
         
         private SaveDataManager _saveDataManager;
+
+        public static bool isResultsPageOpen;
         
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -41,6 +43,7 @@ namespace Managers
             maxCount = FindObjectsOfType<Collectable>().Length;
             levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
             resultsPane.SetActive(false);
+            isResultsPageOpen = false;
             _saveDataManager = FindObjectOfType<SaveDataManager>();
         }
 
@@ -76,6 +79,7 @@ namespace Managers
         {
             Time.timeScale = 0f;
             resultsPane.SetActive(true);
+            isResultsPageOpen = true;
             _saveDataManager.SaveFile();
         }
 
@@ -95,6 +99,7 @@ namespace Managers
         public void LoadNextLevel()
         {
             resultsPane.SetActive(false);
+            isResultsPageOpen = false;
             Time.timeScale = 1f;
             GameManager.Instance.ResetCandyCollected();
             finalCheckpoint.StartConversation();
