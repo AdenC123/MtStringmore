@@ -48,7 +48,7 @@ namespace Interactables
             if (_state != State.MoveDown || Vector2.Dot(other.GetContact(0).normal, Vector2.up) < 0) return;
             if (other.collider.TryGetComponent(out PlayerController playerController))
             {
-                playerController.ForceKill();
+                playerController.TryKill();
                 _rigidbody2D.bodyType = RigidbodyType2D.Static;
             } else StartCoroutine(RecoverCoroutine());
         }

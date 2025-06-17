@@ -275,10 +275,7 @@ namespace Player
             }
             else if (other.gameObject.CompareTag("Death"))
             {
-                if (PlayerState != PlayerStateEnum.Dead)
-                {
-                    HandleDeath();
-                }
+                TryKill();
             }
         }
 
@@ -286,10 +283,7 @@ namespace Player
         {
             if (other.CompareTag("Death"))
             {
-                if (PlayerState != PlayerStateEnum.Dead)
-                {
-                    HandleDeath();
-                }
+                TryKill();
             }
         }
 
@@ -396,6 +390,15 @@ namespace Player
         {
             _canReleaseEarly = false;
             _releasedEarly = false;
+        }
+
+        /// <summary>
+        /// Tries to kill the player.
+        /// </summary>
+        /// <returns>True if successfully killed; false if already being killed</returns>
+        public void TryKill()
+        {
+            if (PlayerState != PlayerStateEnum.Dead) HandleDeath();
         }
 
         /// <summary>
@@ -744,7 +747,6 @@ namespace Player
                                 float maxKinEnergy = 0.5f * maxSwingSpeed * maxSwingSpeed;
                                 float curGravEnergy = fallAccelerationUp * yDistFromBottom;
                                 targetSwingSpeed = Mathf.Sqrt(2 * (maxKinEnergy - curGravEnergy));
-                                Debug.Log(targetSwingSpeed + "," + maxSwingSpeed);
                             }
 
                             float timeToVertical = angleToTarget / currentAngularVelocity;
