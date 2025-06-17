@@ -4,7 +4,6 @@ using Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace Managers
 {
@@ -23,8 +22,22 @@ namespace Managers
         
         private SaveDataManager _saveDataManager;
         
-        private void Start()
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            if (finalCheckpoint)
+            {
+                finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+                finalCheckpoint = null;
+            }
+            
+            GameObject checkpointObj = GameObject.FindWithTag("FinalCheckpoint");
+            if (checkpointObj)
+            {
+                finalCheckpoint = checkpointObj.GetComponent<Checkpoint>();
+                if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+            }
+            else finalCheckpoint = null;
+            
             maxCount = FindObjectsOfType<Collectable>().Length;
             levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
             resultsPane.SetActive(false);
@@ -33,12 +46,13 @@ namespace Managers
 
         private void OnEnable()
         {
-            finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         
         private void OnDisable()
         {
-            finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
         }
 
         private void HandleFinalCheckpointHit()
