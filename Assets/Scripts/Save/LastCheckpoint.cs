@@ -6,11 +6,11 @@ namespace Save
     public class LastCheckpoint : MonoBehaviour
     {
         [SerializeField] private string nextLevel;
-
-        private void OnTriggerEnter(Collider other)
+        public void UpdateLevelAccess()
         {
-            if (!other.CompareTag("Player"))
-                GameManager.Instance.LevelsAccessed.Add(nextLevel);
+            GameManager.Instance.LevelsAccessed.Add(nextLevel);
+            FindObjectOfType<SaveDataManager>()?.SaveFile();
+            Debug.Log("Unlocked: " + nextLevel);
         }
     }
 }

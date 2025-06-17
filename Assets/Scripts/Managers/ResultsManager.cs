@@ -43,6 +43,7 @@ namespace Managers
 
         private void HandleFinalCheckpointHit()
         {
+            FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
             EndLevel();
         }
