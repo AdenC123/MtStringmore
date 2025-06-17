@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -38,6 +39,9 @@ namespace Managers
             inGameTimerText.enabled = previousState;
             
             _elapsedLevelTime += Time.deltaTime;
+            // Jon: consider the following
+            // TimeSpan timeSpan = TimeSpan.FromSeconds(_elapsedLevelTime);
+            // string text = timeSpan.ToString(@"mm\:ss\:ff");
             int minutes = (int) (_elapsedLevelTime / 60);
             int seconds = (int) (_elapsedLevelTime % 60);
             int milliseconds = (int) ((_elapsedLevelTime * 100) % 100);

@@ -1,37 +1,22 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Managers
 {
+    /// <summary>
+    /// Manager to manage the timer toggle setting UI.
+    /// </summary>
     public class TimerToggleManager : MonoBehaviour
     {
         [SerializeField] private Toggle toggle;
 
         private void Awake()
         {
-            DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-
-        private void Start()
-        {
-            OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-        }
-        
-        private void OnDestroy()
-        {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
             TimerManager timerManager = FindObjectOfType<TimerManager>();
 
             if (timerManager != null)
             {
-                toggle.onValueChanged.RemoveAllListeners();
+                // frankly this could be set in the editor
                 toggle.onValueChanged.AddListener(timerManager.OnToggle);
                 timerManager.OnToggle(toggle.isOn);
             }
