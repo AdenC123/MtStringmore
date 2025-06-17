@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using UnityEngine.SceneManagement;
+using Managers;
 
 namespace DevConsole
 {
@@ -16,9 +16,12 @@ namespace DevConsole
         public string Name => "reset";
 
         /// <inheritdoc />
+        public string[] Aliases => new[] { "r" };
+
+        /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameManager.Instance.Respawn();
         }
 
         /// <inheritdoc />

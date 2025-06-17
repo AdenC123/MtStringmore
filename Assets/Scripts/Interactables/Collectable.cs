@@ -1,18 +1,27 @@
 using Managers;
-using Util;
 using UnityEngine;
+using Util;
 
 namespace Interactables
 {
     /// <summary>
     /// This object is collected upon collision with the Player, incrementing the total collectable count.
     /// </summary>
-    [RequireComponent(typeof(Collider2D), typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Collider2D), typeof(SpriteRenderer), typeof(AudioSource))]
     public class Collectable : MonoBehaviour
     {
         [SerializeField] private Sprite[] possibleSprites;
         
         private SpriteRenderer _spriteRenderer;
+        private AudioSource _audioSource;
+        private Collider2D _collider;
+        
+        private void Awake()
+        {
+            _audioSource = GetComponent<AudioSource>();
+            _collider = GetComponent<Collider2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
 
         private void OnValidate()
         {
@@ -23,9 +32,11 @@ namespace Interactables
         {
             if (other.CompareTag("Player"))
             {
-                GameManager.Instance.NumCollected++;
+                GameManager.Instance.CollectCollectable(this);
                 // TODO: play a visual/particle effect before destroying
-                Destroy(gameObject);
+                _audioSource.Play();
+                _spriteRenderer.enabled = false;
+                _collider.enabled = false;
             }
         }
 
