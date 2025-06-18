@@ -35,13 +35,6 @@ namespace UI
             Destroy(loadGameButton.gameObject);
 #endif
         }
-
-        public void PlayGame()
-        {
-            _saveDataManager?.CreateNewSave(startingScene);
-            SceneManager.LoadScene(startingScene);
-        }
-
         public void QuitGame()
         {
             Debug.Log("Quit!");
