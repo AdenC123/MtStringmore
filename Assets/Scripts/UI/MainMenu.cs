@@ -11,7 +11,6 @@ namespace UI
     /// </summary>
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField] private string startingScene;
         [SerializeField] private TextMeshProUGUI versionNumber;
         [SerializeField] private string levelSelectScene;
         [SerializeField] private Button loadGameButton;
