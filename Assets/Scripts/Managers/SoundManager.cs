@@ -21,7 +21,7 @@ namespace Managers
         [Header("Collectable SFX")]
         [SerializeField] private AudioClip[] collectableClips;
         [SerializeField, Tooltip("Max time between collections to continue combo (in seconds)")]
-        private float collectableComboWindow = 1f;
+        private float collectableComboWindow = 0.6f;
 
         private float _timeSinceLastCollect = Mathf.Infinity;
         private int _audioIndex = 0;
