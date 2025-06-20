@@ -14,9 +14,9 @@ namespace Managers
         [SerializeField] private Slider masterSlider;
         [SerializeField] private Slider bgmSlider;
         [SerializeField] private Slider sfxSlider;
-        [SerializeField] private float startBgmVolume = 0.5f;
-        [SerializeField] private float startSfxVolume = 0.5f;
-        [SerializeField] private float startMasterVolume = 0.5f;
+        [SerializeField, Range(float.Epsilon, 1)] private float startBgmVolume = 0.5f;
+        [SerializeField, Range(float.Epsilon, 1)] private float startSfxVolume = 0.5f;
+        [SerializeField, Range(float.Epsilon, 1)] private float startMasterVolume = 0.5f;
 
         [Header("Collectable SFX")]
         [SerializeField] private AudioClip[] collectableClips;
@@ -33,7 +33,6 @@ namespace Managers
 
             _collectableAudioSource = gameObject.AddComponent<AudioSource>();
             _collectableAudioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
-            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()
@@ -56,6 +55,7 @@ namespace Managers
             return Mathf.Log10(sliderValue) * 20;
         }
 
+        /// <summary> Sets Master volume (0.0001 to 1). </summary>
         public void SetMasterVolume(float volume)
         {
             masterSlider.value = volume;
