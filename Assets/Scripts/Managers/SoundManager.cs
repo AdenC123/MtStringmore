@@ -7,7 +7,16 @@ namespace Managers
     public class SoundManager : MonoBehaviour
     {
         private static SoundManager _instance;
-        public static SoundManager Instance => _instance ??= FindObjectOfType<SoundManager>();
+        public static SoundManager Instance
+        {
+            get
+            {
+                if (!_instance)
+                    _instance = FindObjectOfType<SoundManager>();
+
+                return _instance;
+            }
+        }
 
         [Header("Audio Control")]
         [SerializeField] private AudioMixer audioMixer;
@@ -24,7 +33,7 @@ namespace Managers
         private float collectableComboWindow = 0.6f;
 
         private float _timeSinceLastCollect = Mathf.Infinity;
-        private int _audioIndex = 0;
+        private int _audioIndex;
         private AudioSource _collectableAudioSource;
 
         private void Awake()
