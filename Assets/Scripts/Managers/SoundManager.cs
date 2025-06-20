@@ -47,7 +47,7 @@ namespace Managers
 
         private void Update()
         {
-            _timeSinceLastCollect += Time.unscaledDeltaTime;
+            _timeSinceLastCollect += Time.deltaTime;
         }
 
         public static float SliderToVolume(float sliderValue)
@@ -98,9 +98,7 @@ namespace Managers
             }
             else
             {
-                if (_audioIndex >= collectableClips.Length - 1)
-                    _audioIndex = collectableClips.Length - 1;
-                else
+                if (_audioIndex < collectableClips.Length - 1)
                     _audioIndex++;
 
             }
