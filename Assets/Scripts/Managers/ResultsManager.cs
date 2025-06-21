@@ -1,4 +1,5 @@
-﻿using Interactables;
+using System;
+using Interactables;
 using Save;
 using TMPro;
 using UnityEngine;
@@ -20,25 +21,41 @@ namespace Managers
         private int maxCount;
         
         private SaveDataManager _saveDataManager;
+
+        public static bool isResultsPageOpen;
         
-        public static bool isResultsPageOpen = false;
-        
-        private void Start()
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            maxCount = GameManager.Instance.MaxCollectablesCount;
+            if (finalCheckpoint)
+            {
+                finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+                finalCheckpoint = null;
+            }
+            
+            GameObject checkpointObj = GameObject.FindWithTag("FinalCheckpoint");
+            if (checkpointObj)
+            {
+                finalCheckpoint = checkpointObj.GetComponent<Checkpoint>();
+                if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+            }
+            else finalCheckpoint = null;
+            
+            maxCount = FindObjectsOfType<Collectable>().Length;
             levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
             resultsPane.SetActive(false);
+            isResultsPageOpen = false;
             _saveDataManager = FindObjectOfType<SaveDataManager>();
         }
 
         private void OnEnable()
         {
-            finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         
         private void OnDisable()
         {
-            finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
         }
 
         private void HandleFinalCheckpointHit()
@@ -46,6 +63,11 @@ namespace Managers
             FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
             EndLevel();
+        }
+
+        private void Update()
+        {
+            if (resultsPane.activeSelf && Input.GetButtonDown("Debug Reset")) return;
         }
 
         private void UpdateCollectableCount()
@@ -66,7 +88,6 @@ namespace Managers
         {
             Time.timeScale = 1f;
             GameManager.Instance.ResetCandyCollected();
-            isResultsPageOpen = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         
