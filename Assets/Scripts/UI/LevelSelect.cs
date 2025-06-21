@@ -1,115 +1,141 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
+using System.Linq;
 using Managers;
 using Save;
 
-public class LevelSelectMenu : MonoBehaviour
+namespace UI
 {
-    [SerializeField] GameObject buttonPrefab;
-    [SerializeField] Transform buttonContainer;
-    [SerializeField] Button playButton;
-
-    [SerializeField] Sprite unlockedSprite;
-    [SerializeField] Sprite lockedSprite;
-
-    [SerializeField] List<string> allLevelSceneNames;
-    
-    [SerializeField] private AudioSource canvasAudioSource;
-    [SerializeField] private AudioClip buttonClickSound;
-    
-    private List<string> unlockedScenes;
-
-    private string selectedScene;
-    private List<Button> levelButtons = new List<Button>();
-
-    private void Start()
+    public class LevelSelectMenu : MonoBehaviour
     {
-        LazyLoad();
-        unlockedScenes = GameManager.Instance.LevelsAccessed;
-        playButton.interactable = false;
+        [SerializeField] GameObject buttonPrefab;
+        [SerializeField] Transform buttonContainer;
+        [SerializeField] Button playButton;
 
-        foreach (string sceneName in allLevelSceneNames)
+        [SerializeField] Sprite unlockedSprite;
+        [SerializeField] Sprite lockedSprite;
+
+        [SerializeField] List<string> allLevelSceneNames;
+
+        [SerializeField] private AudioSource canvasAudioSource;
+        [SerializeField] private AudioClip buttonClickSound;
+
+        [SerializeField] private TextMeshProUGUI levelTimerText;
+        [SerializeField] private TextMeshProUGUI candiesCollectedText;
+
+        private List<string> unlockedScenes;
+
+        private string selectedScene;
+        private List<Button> levelButtons = new List<Button>();
+
+        private void Start()
         {
-            GameObject btnObj = Instantiate(buttonPrefab, buttonContainer);
-            Button button = btnObj.GetComponent<Button>();
-            TMP_Text label = btnObj.GetComponentInChildren<TMP_Text>();
-            Image background = btnObj.GetComponent<Image>();
+            LazyLoad();
+            unlockedScenes = GameManager.Instance.LevelsAccessed;
+            playButton.interactable = false;
 
-            bool isUnlocked = unlockedScenes.Contains(sceneName);
-            int levelNumber = allLevelSceneNames.IndexOf(sceneName) + 1;
-
-            if (isUnlocked)
+            foreach (string sceneName in allLevelSceneNames)
             {
-                label.text = levelNumber.ToString();
-                background.sprite = unlockedSprite;
-                button.interactable = true;
+                GameObject btnObj = Instantiate(buttonPrefab, buttonContainer);
+                Button button = btnObj.GetComponent<Button>();
+                TMP_Text label = btnObj.GetComponentInChildren<TMP_Text>();
+                Image background = btnObj.GetComponent<Image>();
 
-                button.onClick.AddListener(() =>
+                bool isUnlocked = unlockedScenes.Contains(sceneName);
+                int levelNumber = allLevelSceneNames.IndexOf(sceneName) + 1;
+
+                if (isUnlocked)
                 {
-                    PlayClickSound();
-                    OnLevelSelected(sceneName, button);
-                });            }
-            else
-            {
-                label.text = "";
-                background.sprite = lockedSprite;
-                button.interactable = false;
+                    label.text = levelNumber.ToString();
+                    background.sprite = unlockedSprite;
+                    button.interactable = true;
+
+                    button.onClick.AddListener(() =>
+                    {
+                        PlayClickSound();
+                        OnLevelSelected(sceneName, button);
+                    });
+                }
+                else
+                {
+                    label.text = "";
+                    background.sprite = lockedSprite;
+                    button.interactable = false;
+                }
+
+                levelButtons.Add(button);
             }
 
-            levelButtons.Add(button);
+            playButton.onClick.AddListener(OnPlayClicked);
         }
 
-        playButton.onClick.AddListener(OnPlayClicked);
-    }
-    
-    private void PlayClickSound()
-    {
-        if (canvasAudioSource != null && buttonClickSound != null)
+        private void PlayClickSound()
         {
-            canvasAudioSource.PlayOneShot(buttonClickSound);
+            if (canvasAudioSource != null && buttonClickSound != null)
+            {
+                canvasAudioSource.PlayOneShot(buttonClickSound);
+            }
         }
-    }
 
-    // <summary>
-    // Ensures GameManager load save data before loading level select menu
-    // </summary>
-    private void LazyLoad()
-    {
-        FindObjectOfType<SaveDataManager>()?.PreloadSaveData();
-    }
-
-    private void OnLevelSelected(string sceneName, Button clickedButton)
-    {
-        selectedScene = sceneName;
-        playButton.interactable = true;
-
-        for (int i = 0; i < levelButtons.Count; i++)
+        // <summary>
+        // Ensures GameManager load save data before loading level select menu
+        // </summary>
+        private void LazyLoad()
         {
-            Image bg = levelButtons[i].GetComponent<Image>();
-            string thisScene = allLevelSceneNames[i];
-            bool isUnlocked = unlockedScenes.Contains(thisScene);
-
-            bg.sprite = isUnlocked ? unlockedSprite : lockedSprite;
-            
-            Color color = bg.color;
-            color.a = 1f;
-            bg.color = color;
+            FindObjectOfType<SaveDataManager>()?.PreloadSaveData();
         }
-        Image selectedImage = clickedButton.GetComponent<Image>();
-        Color selectedColor = selectedImage.color;
-        selectedColor.a = 0.5f; 
-        selectedImage.color = selectedColor;
-    }
 
-    private void OnPlayClicked()
-    {
-        if (!string.IsNullOrEmpty(selectedScene))
+        private void OnLevelSelected(string sceneName, Button clickedButton)
         {
-            Debug.Log("Loading selected level: " + selectedScene);
-            SceneManager.LoadScene(selectedScene);
+            selectedScene = sceneName;
+            string digits = new(sceneName.Where(char.IsDigit).ToArray());
+            int level = int.Parse(digits);
+
+            playButton.interactable = true;
+
+            for (int i = 0; i < levelButtons.Count; i++)
+            {
+                Image bg = levelButtons[i].GetComponent<Image>();
+                string thisScene = allLevelSceneNames[i];
+                bool isUnlocked = unlockedScenes.Contains(thisScene);
+
+                bg.sprite = isUnlocked ? unlockedSprite : lockedSprite;
+
+                Color color = bg.color;
+                color.a = 1f;
+                bg.color = color;
+            }
+
+            Image selectedImage = clickedButton.GetComponent<Image>();
+            Color selectedColor = selectedImage.color;
+            selectedColor.a = 0.5f;
+            selectedImage.color = selectedColor;
+
+            SaveFileData? data = FindObjectOfType<SaveDataManager>()?.GetSaveFileData();
+            if (data == null) return;
+
+            if (data.Value.fastestTimes.Length == 0) return;
+            float levelTime = data.Value.fastestTimes[level - 1];
+            TimeSpan timeSpan = TimeSpan.FromSeconds(levelTime);
+            levelTimerText.text = timeSpan.ToString(@"mm\:ss\:ff");
+
+            if (data.Value.levelCandies.Length == 0) return;
+            int candiesCollected = data.Value.levelCandies[level - 1][0];
+            int totalCandies = data.Value.levelCandies[level - 1][1];
+            candiesCollectedText.text = candiesCollected + " / " + totalCandies;
+        }
+
+        private void OnPlayClicked()
+        {
+            if (!string.IsNullOrEmpty(selectedScene))
+            {
+                Debug.Log("Loading selected level: " + selectedScene);
+                SceneManager.LoadScene(selectedScene);
+            }
         }
     }
 }

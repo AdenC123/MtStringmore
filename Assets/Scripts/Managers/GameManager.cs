@@ -195,6 +195,8 @@ namespace Managers
     
             LevelsAccessed.AddRange(saveData.levelsAccessed);
 
+            TimerManager.ElapsedLevelTime = saveData.timeTaken;
+
             GameDataChanged?.Invoke();
             _dontClearDataOnSceneChanged = true;
         }

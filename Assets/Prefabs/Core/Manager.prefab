@@ -2360,7 +2360,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4578792556561660806}
   - component: {fileID: 3629461888155120383}
-  - component: {fileID: 2740147358888865436}
   m_Layer: 5
   m_Name: In-Game Timer Toggle
   m_TagString: Untagged
@@ -2435,21 +2434,20 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4706405958964759677}
+        m_TargetAssemblyTypeName: Managers.TimerManager, Assembly-CSharp
+        m_MethodName: OnToggle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
---- !u!114 &2740147358888865436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4337698086320743507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b77a6075ab6842169fc017292169582e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toggle: {fileID: 3629461888155120383}
 --- !u!1 &4421456185838324076
 GameObject:
   m_ObjectHideFlags: 0
@@ -5177,6 +5175,10 @@ PrefabInstance:
       propertyPath: inGameTimerText
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6501137475381154607, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: timerToggle
+      value: 
+      objectReference: {fileID: 3629461888155120383}
     - target: {fileID: 7499476184492949100, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
       propertyPath: gameManager
       value: 
@@ -5205,3 +5207,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3410946196948061372, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
   m_PrefabInstance: {fileID: 1974878319844433746}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4706405958964759677 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6501137475381154607, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+  m_PrefabInstance: {fileID: 1974878319844433746}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d4be20ed61369e4e989a9243a6a6898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,7 +1,8 @@
 using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -10,9 +11,10 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private TextMeshProUGUI inGameTimerText;
         [SerializeField] private GameObject resultsWindow;
+        [SerializeField] private Toggle timerToggle;
         
-        private float _elapsedLevelTime;
-        
+        public static float ElapsedLevelTime { get; set; }
+
         // public bool IsResultsWindowActive => resultsWindow.activeSelf;
         // public bool IsTimerShown => inGameTimerText.enabled;
 
@@ -23,36 +25,35 @@ namespace Managers
         
         private void Start()
         {
-            _elapsedLevelTime = 0;
+            ElapsedLevelTime = 0;
         }
         
         private void Update()
         {
-            bool previousState = inGameTimerText.enabled;
+            // bool previousState = inGameTimerText.enabled;
             
-            if (resultsWindow.activeSelf)
+            int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+            
+            if (resultsWindow.activeSelf || sceneIndex == 0 || sceneIndex % 2 != 0)
             {
                 inGameTimerText.enabled = false;
                 return;
             }
             
-            inGameTimerText.enabled = previousState;
+            inGameTimerText.enabled = timerToggle.isOn;
+
+            ElapsedLevelTime += Time.deltaTime;
             
-            _elapsedLevelTime += Time.deltaTime;
-            // Jon: consider the following
-            // TimeSpan timeSpan = TimeSpan.FromSeconds(_elapsedLevelTime);
-            // string text = timeSpan.ToString(@"mm\:ss\:ff");
-            int minutes = (int) (_elapsedLevelTime / 60);
-            int seconds = (int) (_elapsedLevelTime % 60);
-            int milliseconds = (int) ((_elapsedLevelTime * 100) % 100);
-            
-            timerText.text = $"{minutes:00}:{seconds:00}:{milliseconds:00}";
-            inGameTimerText.text = $"{minutes:00}:{seconds:00}:{milliseconds:00}";
+            TimeSpan timeSpan = TimeSpan.FromSeconds(ElapsedLevelTime);
+            string text = timeSpan.ToString(@"mm\:ss\:ff");
+
+            timerText.text = text;
+            inGameTimerText.text = text;
         }
 
-        public void OnToggle(bool isOn)
+        public void OnToggle()
         {
-            inGameTimerText.enabled = isOn;
+            inGameTimerText.enabled = timerToggle.isOn;
         }
     }
 }

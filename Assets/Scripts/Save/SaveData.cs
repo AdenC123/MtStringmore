@@ -11,7 +11,7 @@ namespace Save
     public struct SaveData
     {
         public long dateTimeBinary;
-        public long timeTaken;
+        public float timeTaken;
         public Vector2[] candiesCollected;
         public string sceneName;
         public bool checkpointFacesLeft;
@@ -27,7 +27,8 @@ namespace Save
     {
         public string farthestSceneReached;
         public int farthestSceneIndexReached;
-        public long[] fastestTimes;
+        public float[] fastestTimes;
+        public int[][] levelCandies;
         public SaveData saveData;
     }
 }

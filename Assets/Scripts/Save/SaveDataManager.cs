@@ -87,7 +87,8 @@ namespace Save
                     checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                     dateTimeBinary = DateTime.Now.ToBinary(),
                     sceneName = sceneOverride ?? SceneManager.GetActiveScene().name,
-                    levelsAccessed = GameManager.Instance.LevelsAccessed
+                    levelsAccessed = GameManager.Instance.LevelsAccessed,
+                    timeTaken = TimerManager.ElapsedLevelTime,
                 }
             };
         }
@@ -154,7 +155,11 @@ namespace Save
         {
             return LoadAndApplySaveData() != null;
         }
-
+        
+        public SaveFileData? GetSaveFileData()
+        {
+            return ReadExistingSave();
+        }
 
         /// <summary>
         /// Creates a new save file.
