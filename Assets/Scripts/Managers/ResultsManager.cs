@@ -60,6 +60,7 @@ namespace Managers
 
         private void HandleFinalCheckpointHit()
         {
+            FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
             EndLevel();
         }
@@ -78,7 +79,7 @@ namespace Managers
         private void EndLevel()
         {
             Time.timeScale = 0f;
-            resultsPane.SetActive(true);
+            resultsPane.SetActive(true); 
             isResultsPageOpen = true;
             _saveDataManager.SaveFile();
         }

@@ -19,21 +19,22 @@ namespace UI
         [SerializeField] Sprite unlockedSprite;
         [SerializeField] Sprite lockedSprite;
 
-        [SerializeField] List<string> allLevelSceneNames;
+    [SerializeField] List<string> allLevelSceneNames;
+    
+    [SerializeField] private AudioSource canvasAudioSource;
+    [SerializeField] private AudioClip buttonClickSound;
+    [SerializeField] private string level1 = "IntroCutscene";
+    
+    private List<string> unlockedScenes;
+    private string selectedScene;
+    private List<Button> levelButtons = new List<Button>();
 
-        [SerializeField] private AudioSource canvasAudioSource;
-        [SerializeField] private AudioClip buttonClickSound;
-
-        private List<string> unlockedScenes;
-
-        private string selectedScene;
-        private List<Button> levelButtons = new List<Button>();
-
-        private void Start()
-        {
-            LazyLoad();
-            unlockedScenes = GameManager.Instance.LevelsAccessed;
-            playButton.interactable = false;
+    private void Start()
+    {
+        LazyLoad();
+        unlockedScenes = GameManager.Instance.LevelsAccessed;
+        playButton.interactable = false;
+        unlockedScenes.Add(level1);
 
             foreach (string sceneName in allLevelSceneNames)
             {
@@ -42,8 +43,10 @@ namespace UI
                 TMP_Text label = btnObj.GetComponentInChildren<TMP_Text>();
                 Image background = btnObj.GetComponent<Image>();
 
-                bool isUnlocked = unlockedScenes.Contains(sceneName);
-                int levelNumber = allLevelSceneNames.IndexOf(sceneName) + 1;
+            bool isUnlocked = unlockedScenes.Contains(sceneName);
+            int levelNumber = allLevelSceneNames.IndexOf(sceneName) + 1;
+            
+            Debug.Log(sceneName + " is " + isUnlocked);
 
                 if (isUnlocked)
                 {
