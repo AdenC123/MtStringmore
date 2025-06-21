@@ -24,9 +24,6 @@ namespace UI
         [SerializeField] private AudioSource canvasAudioSource;
         [SerializeField] private AudioClip buttonClickSound;
 
-        [SerializeField] private TextMeshProUGUI levelTimerText;
-        [SerializeField] private TextMeshProUGUI candiesCollectedText;
-
         private List<string> unlockedScenes;
 
         private string selectedScene;
@@ -114,19 +111,6 @@ namespace UI
             Color selectedColor = selectedImage.color;
             selectedColor.a = 0.5f;
             selectedImage.color = selectedColor;
-
-            SaveFileData? data = FindObjectOfType<SaveDataManager>()?.GetSaveFileData();
-            if (data == null) return;
-
-            if (data.Value.fastestTimes.Length == 0) return;
-            float levelTime = data.Value.fastestTimes[level - 1];
-            TimeSpan timeSpan = TimeSpan.FromSeconds(levelTime);
-            levelTimerText.text = timeSpan.ToString(@"mm\:ss\:ff");
-
-            if (data.Value.levelCandies.Length == 0) return;
-            int candiesCollected = data.Value.levelCandies[level - 1][0];
-            int totalCandies = data.Value.levelCandies[level - 1][1];
-            candiesCollectedText.text = candiesCollected + " / " + totalCandies;
         }
 
         private void OnPlayClicked()

@@ -29,9 +29,7 @@ namespace Managers
         }
         
         private void Update()
-        {
-            // bool previousState = inGameTimerText.enabled;
-            
+        { 
             int sceneIndex = SceneManager.GetActiveScene().buildIndex;
             
             if (resultsWindow.activeSelf || sceneIndex == 0 || sceneIndex % 2 != 0)

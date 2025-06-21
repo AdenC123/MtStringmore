@@ -155,11 +155,6 @@ namespace Save
         {
             return LoadAndApplySaveData() != null;
         }
-        
-        public SaveFileData? GetSaveFileData()
-        {
-            return ReadExistingSave();
-        }
 
         /// <summary>
         /// Creates a new save file.

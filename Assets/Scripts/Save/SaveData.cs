@@ -28,7 +28,6 @@ namespace Save
         public string farthestSceneReached;
         public int farthestSceneIndexReached;
         public float[] fastestTimes;
-        public int[][] levelCandies;
         public SaveData saveData;
     }
 }
