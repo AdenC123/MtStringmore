@@ -77,7 +77,7 @@ namespace Interactables
             _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
             _rigidbody2D.position = new Vector2(_rigidbody2D.position.x, _startingY);
             _rigidbody2D.velocity = Vector2.zero;
-            if (_state != State.WaitTop) StartCoroutine(SlamRoutine());
+            StartCoroutine(SlamRoutine());
         }
 
         /// <summary>
