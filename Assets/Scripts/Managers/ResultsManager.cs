@@ -25,7 +25,7 @@ namespace Managers
         
         private void Start()
         {
-            maxCount = FindObjectsOfType<Collectable>().Length;
+            maxCount = GameManager.Instance.MaxCollectablesCount;
             levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
             resultsPane.SetActive(false);
             _saveDataManager = FindObjectOfType<SaveDataManager>();
@@ -43,6 +43,7 @@ namespace Managers
 
         private void HandleFinalCheckpointHit()
         {
+            FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
             EndLevel();
         }
@@ -56,7 +57,7 @@ namespace Managers
         private void EndLevel()
         {
             Time.timeScale = 0f;
-            resultsPane.SetActive(true);
+            resultsPane.SetActive(true); 
             isResultsPageOpen = true;
             _saveDataManager.SaveFile();
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Interactables;
+using Player;
 using Save;
 using UI;
 using UnityEngine;
@@ -39,12 +40,22 @@ namespace Managers
         /// Number of checkpoints reached.
         /// </summary>
         public List<Vector2> CheckpointsReached { get; } = new();
-
+        
+        /// <summary>
+        /// Number of checkpoints reached.
+        /// </summary>
+        public List<string> LevelsAccessed { get; } = new();
+    
         /// <summary>
         /// The number of collectables collected.
         /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
         /// </summary>
         public int NumCollectablesCollected => _collectedCollectables.Count;
+        
+        /// <summary>
+        /// Max number of known collectables.
+        /// </summary>
+        public int MaxCollectablesCount { get; private set; }
 
         public IReadOnlyCollection<Vector2> CollectablePositionsCollected => _collectedCollectables;
 
@@ -109,6 +120,12 @@ namespace Managers
             Time.timeScale = 1f;
             if (!_dontClearDataOnSceneChanged)
             {
+                PlayerController player = FindObjectOfType<PlayerController>();
+                if (player)
+                {
+                    CheckPointPos = player.transform.position;
+                    Debug.Log("Hopefully set checkpoint position to be player's position: " + CheckPointPos);
+                }
                 CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
                 _collectedCollectables.Clear();
@@ -116,6 +133,7 @@ namespace Managers
             }
             _collectableLookup.Clear();
             Collectable[] collectables = FindObjectsOfType<Collectable>();
+            MaxCollectablesCount = collectables.Length;
             foreach (Collectable collectable in collectables)
             {
                 Vector2 position = collectable.transform.position;
@@ -170,6 +188,9 @@ namespace Managers
             _collectedCollectables.Clear();
             foreach (Vector2 candyCollected in saveData.candiesCollected)
                 _collectedCollectables.Add(candyCollected);
+    
+            LevelsAccessed.AddRange(saveData.levelsAccessed);
+
             GameDataChanged?.Invoke();
             _dontClearDataOnSceneChanged = true;
         }
@@ -180,7 +201,6 @@ namespace Managers
         public void CollectCollectable(Collectable collectable)
         {
             _collectedCollectables.Add(collectable.transform.position);
-            GameDataChanged?.Invoke();
         }
 
         /// <summary>
