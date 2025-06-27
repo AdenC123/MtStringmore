@@ -300,11 +300,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minSpeed: 1
+  minSpeed: 5
   maxSpeed: 35
   unzipDelay: 1
   unzipSpeed: 10
-  accelerationTime: 2
+  accelerationTime: 1.5
   exitVelBoost: {x: 10, y: 10}
   exitDelayTime: 0.1
   playerOffset: {x: 0, y: -3}
