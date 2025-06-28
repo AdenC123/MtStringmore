@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 687209003304850376}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
-  m_LocalScale: {x: 2.302495, y: 2.302495, z: 2.302495}
+  m_LocalPosition: {x: 0, y: 0.655, z: -1}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4169286967807924285}
@@ -220,13 +220,13 @@ MonoBehaviour:
     m_Bits: 256
   collisionDistance: 0.1
   wallCloseDistance: 2
-  maxGroundSpeed: 20
+  maxGroundSpeed: 22
   groundAcceleration: 30
   startDirection: 1
   groundingForce: 1
   jumpPower: 34
   doubleJumpPower: 30
-  coyoteTime: 0.1
+  coyoteTime: 0.15
   maxFallSpeed: 40
   fallAccelerationUp: 70
   fallAccelerationDown: 90
@@ -246,6 +246,7 @@ MonoBehaviour:
   minSwingReleaseX: 25
   enableSwingHacks: 1
   maxHackAcceleration: 200
+  hackVelocityRatio: 0.8
   hackRange: 0.4
   runParticleVelocityThreshold: 0.1
   ropeRenderer: {fileID: 8739561083334380143}
@@ -258,6 +259,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 78f48d0db42925547ba8ce7fd2ad7418, type: 3}
   - {fileID: 8300000, guid: 6fb1a0b06cb75c54d9b787cce07ba288, type: 3}
   - {fileID: 8300000, guid: 4f5a3bff415e8334896f690121980b49, type: 3}
+  shakeDuration: 0.5
+  shakeIntensity: 0
+  xShake: 1
+  yShake: 0
+  destructibleObject: 0
 --- !u!50 &5301496585393855472
 Rigidbody2D:
   serializedVersion: 4
@@ -317,8 +323,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.3070427, y: 2.1032066}
+  m_Offset: {x: 0, y: 0.21254885}
+  m_Size: {x: 1.3070428, y: 2.6512172}
   m_Direction: 0
 --- !u!82 &8857283753345328115
 AudioSource:
