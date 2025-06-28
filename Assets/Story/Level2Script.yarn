@@ -59,7 +59,26 @@ Knitby_relieved: ... Okay.
 <<fade_out 1>>
 <<wait 1>>
 <<load_scene Level2>>
+===
 
+title: LoadLevel2Interstitial
+---
+<<fade_out 0.5>>
+<<load_scene InterstitialCutscene 1>>
+===
+
+title: Level2Interstitial
+setting: a cliff
+---
+// TODO idk what to put in the cliff falling scene tbh
+Knitby: Marshmallow, wait!
+// knitby jumps and falls
+Knitby: Wait, Marshmallow, HELP!!
+// marshmallow turns around to see knitby fall
+Marshmallow: Knitby no!!!
+// big dramatic pause and sound effects or whatever
+Marshmallow: Hang tight, buddy, I'm going to get you!
+<<fade_out>>
 ===
 
 title: Level2End
