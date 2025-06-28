@@ -92,9 +92,6 @@ namespace UI
         private void OnLevelSelected(string sceneName, Button clickedButton)
         {
             selectedScene = sceneName;
-            string digits = new(sceneName.Where(char.IsDigit).ToArray());
-            int level = int.Parse(digits);
-
             playButton.interactable = true;
 
             for (int i = 0; i < levelButtons.Count; i++)
