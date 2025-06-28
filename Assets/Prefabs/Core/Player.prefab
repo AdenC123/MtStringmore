@@ -225,7 +225,7 @@ MonoBehaviour:
   buttonBufferTime: 0.1
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 256
   collisionDistance: 0.1
   wallCloseDistance: 2
   maxGroundSpeed: 22

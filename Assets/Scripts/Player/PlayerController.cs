@@ -381,7 +381,6 @@ namespace Player
 
             PlayerState = PlayerStateEnum.Air;
             TimeDashEnded = Time.time;
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Blocc"), false);
         }
 
         /// <summary>
@@ -554,7 +553,6 @@ namespace Player
                 TimeDashEnded = Time.time + dashTime;
                 // for battle of the concepts: add temp dash anim
                 Instantiate(poofSmoke, transform.position, new Quaternion());
-                Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Blocc"));
             }
             else if (PlayerState is PlayerStateEnum.Dash)
             {
@@ -567,7 +565,6 @@ namespace Player
                     PlayerState = PlayerStateEnum.Air;
                     _velocity.x = endDashSpeed * Direction;
                     TimeDashEnded = Time.time;
-                    Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Blocc"), false);
                 }
             }
             else if (PlayerState is PlayerStateEnum.Run or PlayerStateEnum.Swing)
