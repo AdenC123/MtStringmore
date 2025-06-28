@@ -43,11 +43,12 @@ namespace StringmoreCamera
 
 
         [YarnCommand("follow_object")]
-        public static void FollowObject(GameObject target, float x = 0, float y = 0)
+        public static void FollowObject(GameObject target, float x = 0, float y = 0, float panTime = -1)
         {
             _targetObject = target;
             _target = target.transform.position;
             _lead = new Vector2(x, y);
+            _smoothTime = panTime;
         }
 
         [YarnCommand("fix_coords")]

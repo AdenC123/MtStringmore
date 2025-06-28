@@ -8,6 +8,7 @@ namespace Yarn
     {
         private Animator _animator;
         private SpriteRenderer _spriteRenderer;
+        private bool _isMoving;
 
         private void Awake()
         {
@@ -25,12 +26,13 @@ namespace Yarn
             _animator.enabled = true;
             Vector3 position = new(x, y, z == 0 ? transform.position.z : z);
             if (flipSprite) _spriteRenderer.flipX = !_spriteRenderer.flipX;
+            _isMoving = true;
             while (transform.position != position)
             {
                 transform.position = Vector3.MoveTowards(transform.position, position, Time.deltaTime * speed);
                 yield return null;
             }
-
+            _isMoving = false;
             if (disableAnimation) yield return SetAnimation(false);
         }
 
@@ -69,6 +71,12 @@ namespace Yarn
                                              !Mathf.Approximately(
                                                  _animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 0.0f));
             _animator.enabled = state;
+        }
+
+        [YarnCommand("wait_move_finish")]
+        public IEnumerator WaitMoveFinish()
+        {
+            yield return new WaitUntil(() => !_isMoving);
         }
     }
 }

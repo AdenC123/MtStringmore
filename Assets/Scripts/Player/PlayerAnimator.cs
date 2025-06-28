@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System;
+using Managers;
 using UI;
 using UnityEngine;
 using Util;
@@ -161,8 +162,8 @@ namespace Player
         {
             // if paused, don't change the idle state
             if (Time.deltaTime == 0) return;
-            // update idle state to whether position changed 
-            anim.SetBool(IdleKey, Mathf.Approximately(Vector3.Distance(_lastPosition, transform.position), 0));
+            // update idle state to whether position changed within set threshold
+            anim.SetBool(IdleKey, Math.Abs(Vector3.Distance(_lastPosition, transform.position)) < 1e-4);
             _lastPosition = transform.position;
         }
 
