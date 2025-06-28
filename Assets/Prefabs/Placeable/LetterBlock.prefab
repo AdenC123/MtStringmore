@@ -158,8 +158,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  shakeDuration: 1
-  shakeIntensity: 0.3
+  shakeDuration: 0.5
+  shakeIntensity: 0.15
   xShake: 1
   yShake: 1
   destructibleObject: 1
