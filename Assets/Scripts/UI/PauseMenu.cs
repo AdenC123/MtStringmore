@@ -23,13 +23,13 @@ namespace UI
         /// Maybe I should do a lifetime check?
         /// </remarks>
         public static PauseMenu Instance
-                {
-                    get
-                    {
-                        if (!_instance) _instance = FindObjectOfType<PauseMenu>();
-                        return _instance;
-                    }
-                }
+        {
+            get
+            {
+                if (!_instance) _instance = FindObjectOfType<PauseMenu>();
+                return _instance;
+            }
+        }
 
         private static bool _gameIsPaused;
         [SerializeField] private GameObject pauseMenuUI;
