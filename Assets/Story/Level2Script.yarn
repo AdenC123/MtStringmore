@@ -5,8 +5,9 @@ setting: on the way up the mountain
 <<fix_coords 1 1>>
 <<resize_camera 4 2>>
 <<run Marshmallow 2 1 11>>
-<<move Knitby 0 1.04 9>>
-<<wait 1>>
+<<run Knitby 0 1.04 9>>
+<<wait_move_finish Marshmallow>>
+<<wait_move_finish Knitby>>
 Knitby: Whew, that was close! It's getting more and more dangerous up here.
 <<flip Marshmallow>>
 Marshmallow: And we're only just getting started!
@@ -30,6 +31,7 @@ Knitby_relieved: Promise me you're going to be more careful from here on out?
 <<run Marshmallow 0.5 1 10>>
 Marshmallow_faraway: C'mon Knitby, it really hasn't been that bad so far.
 Marshmallow_smile: Like, what is there to be worried about?
+<<wait_move_finish Marshmallow>>
 <<flip Knitby>>
 Knitby_frown: <i>So</i> much could go wrong. We really shouldn't have come here, this is too dangerous. What if— 
 // a determined marshmallow
