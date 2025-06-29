@@ -224,7 +224,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 0.36862746}
+      maxColor: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 0.36862746}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -6101,7 +6101,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 0.36862746}
+      maxColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 0.36862746}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -15917,7 +15917,7 @@ Transform:
   m_GameObject: {fileID: 5348916862084670060}
   serializedVersion: 2
   m_LocalRotation: {x: -0.6963643, y: -0.122787856, z: -0.122787856, w: 0.6963643}
-  m_LocalPosition: {x: 4.9000006, y: 960, z: -6}
+  m_LocalPosition: {x: -13, y: 964, z: -12}
   m_LocalScale: {x: 1.3333334, y: 1.3333336, z: 1.3333334}
   m_ConstrainProportionsScale: 0
   m_Children: []
