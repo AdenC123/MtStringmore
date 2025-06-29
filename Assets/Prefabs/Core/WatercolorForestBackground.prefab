@@ -1419,8 +1419,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
-    mode: 0
+    enabled: 1
+    mode: 1
     timeMode: 0
     fps: 30
     frameOverTime:
@@ -1538,7 +1538,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: 21300000, guid: 4eecdb5eca02aa841857cebf5ee27321, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4828,7 +4828,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3f6917119164230429965a6127b2db6a, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9779,6 +9779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.99
   yParallaxFactor: 0.99
+  fallbackSpriteBounds: 10
 --- !u!1 &520877448688832288
 GameObject:
   m_ObjectHideFlags: 0
@@ -9878,6 +9879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.5
   yParallaxFactor: 0.999
+  fallbackSpriteBounds: 160
 --- !u!1 &2365508590373454489
 GameObject:
   m_ObjectHideFlags: 0
@@ -14776,6 +14778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.99
   yParallaxFactor: 0.99
+  fallbackSpriteBounds: 10
 --- !u!1 &2374490241845695664
 GameObject:
   m_ObjectHideFlags: 0
@@ -14875,6 +14878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.9
   yParallaxFactor: 0.999
+  fallbackSpriteBounds: 160
 --- !u!1 &3629211917636165306
 GameObject:
   m_ObjectHideFlags: 0
@@ -14974,6 +14978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.9
   yParallaxFactor: 0.999
+  fallbackSpriteBounds: 160
 --- !u!1 &7918595014430618887
 GameObject:
   m_ObjectHideFlags: 0
@@ -15073,6 +15078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.9
   yParallaxFactor: 0.999
+  fallbackSpriteBounds: 160
 --- !u!1 &8210673943175262007
 GameObject:
   m_ObjectHideFlags: 0
@@ -15173,3 +15179,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.4
   yParallaxFactor: 0.999
+  fallbackSpriteBounds: 160
