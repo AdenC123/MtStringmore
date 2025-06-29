@@ -318,7 +318,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!114 &4909993582424439132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +339,7 @@ MonoBehaviour:
   warningSound: {fileID: 217117979800497627}
   warningSoundTime: 1
   closingSound: {fileID: 3571595061132870987}
+  closingSoundDelay: 0.4
 --- !u!1 &3986647190489802333
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,13 +43,13 @@ namespace Interactables
         private float closingSoundDelay = 0.2f;
 
         private Rigidbody2D _rigidbody2D;
-        private float _startingY;
+        private float _startingDistance;
         private State _state;
 
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
-            _startingY = _rigidbody2D.position.y;
+            _startingDistance = Vector2.Distance(transform.position, bottomCollider.transform.position);
             _state = State.WaitTop;
             StartCoroutine(SlamRoutine());
             GameManager.Instance.Reset += OnReset;
@@ -85,7 +85,8 @@ namespace Interactables
         {
             StopAllCoroutines();
             _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
-            _rigidbody2D.position = new Vector2(_rigidbody2D.position.x, _startingY);
+            Vector2 dir = transform.position - bottomCollider.transform.position;
+            _rigidbody2D.position = (Vector2)bottomCollider.transform.position + dir.normalized * _startingDistance;
             _rigidbody2D.velocity = Vector2.zero;
             StartCoroutine(SlamRoutine());
         }
@@ -100,7 +101,7 @@ namespace Interactables
             yield return new WaitForSeconds(timeStayUp - warningSoundTime);
             warningSound.Play();
             yield return new WaitForSeconds(warningSoundTime);
-            _rigidbody2D.velocity = new Vector2(0, -velocityDown);
+            _rigidbody2D.velocity = velocityDown * -(Vector2)transform.up;
             _state = State.MoveDown;
             closingSound.PlayDelayed(closingSoundDelay);
         }
@@ -115,8 +116,8 @@ namespace Interactables
             _rigidbody2D.velocity = Vector2.zero;
             yield return new WaitForSeconds(timeStayDown);
             _state = State.MoveUp;
-            _rigidbody2D.velocity = new Vector2(0, velocityUp);
-            while (_rigidbody2D.position.y < _startingY)
+            _rigidbody2D.velocity = velocityUp * (Vector2) transform.up;
+            while (Vector2.Distance(transform.position, bottomCollider.transform.position) < _startingDistance)
             {
                 yield return new WaitForFixedUpdate();
             }
