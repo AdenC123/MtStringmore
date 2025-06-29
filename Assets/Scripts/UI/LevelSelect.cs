@@ -103,7 +103,7 @@ public class LevelSelectMenu : MonoBehaviour
         }
         Image selectedImage = clickedButton.GetComponent<Image>();
         Color selectedColor = selectedImage.color;
-        selectedColor.a = 0.5f; 
+        selectedColor.a = 0.8f; 
         selectedImage.color = selectedColor;
     }
 
