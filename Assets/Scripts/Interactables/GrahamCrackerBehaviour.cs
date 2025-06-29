@@ -41,17 +41,32 @@ namespace Interactables
         private AudioSource closingSound;
         [SerializeField, Min(0), Tooltip("Time(sec) after closing starts to play closing sound")]
         private float closingSoundDelay = 0.2f;
-
+        [SerializeField] private bool alwaysActive;
         private Rigidbody2D _rigidbody2D;
         private float _startingDistance;
         private State _state;
+        private bool _active;
+
+        /// <summary>
+        /// Whether the graham cracker can close.
+        /// </summary>
+        public bool Active
+        {
+            private get => _active;
+            set
+            {
+                _active = value;
+                if (_active) StartCoroutine(SlamRoutine());
+            }
+        }
 
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _startingDistance = Vector2.Distance(transform.position, bottomCollider.transform.position);
             _state = State.WaitTop;
-            StartCoroutine(SlamRoutine());
+            Active = alwaysActive;
+            if (Active) StartCoroutine(SlamRoutine());
             GameManager.Instance.Reset += OnReset;
         }
 
@@ -62,7 +77,7 @@ namespace Interactables
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (_state != State.MoveDown || Vector2.Dot(other.GetContact(0).normal, Vector2.up) < 0) return;
+            if (_state != State.MoveDown || Vector2.Dot(other.GetContact(0).normal, _rigidbody2D.velocity) > 0) return;
             if (other.collider.TryGetComponent(out PlayerController playerController))
             {
                 playerController.TryKill();
@@ -88,7 +103,8 @@ namespace Interactables
             Vector2 dir = transform.position - bottomCollider.transform.position;
             _rigidbody2D.position = (Vector2)bottomCollider.transform.position + dir.normalized * _startingDistance;
             _rigidbody2D.velocity = Vector2.zero;
-            StartCoroutine(SlamRoutine());
+            Active = alwaysActive;
+            if (Active) StartCoroutine(SlamRoutine());
         }
 
         /// <summary>
@@ -123,7 +139,7 @@ namespace Interactables
             }
 
             _rigidbody2D.velocity = Vector2.zero;
-            StartCoroutine(SlamRoutine());
+            if (Active) StartCoroutine(SlamRoutine());
         }
 
         /// <summary>
