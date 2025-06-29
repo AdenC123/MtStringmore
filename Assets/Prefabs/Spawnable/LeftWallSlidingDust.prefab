@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: VelocityModule.y.scalar
       value: 5.48
       objectReference: {fileID: 0}
+    - target: {fileID: 6089676073586700467, guid: 831e825fa178441a791e966c022ff7e3, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6504418790271417151, guid: 831e825fa178441a791e966c022ff7e3, type: 3}
       propertyPath: m_Name
       value: LeftWallSlidingDust
