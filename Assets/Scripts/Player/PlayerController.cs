@@ -694,7 +694,7 @@ namespace Player
 
         private void HandleSwing()
         {
-            if (_canSwing && IsButtonUsed())
+            if (_canSwing && IsButtonUsed() && GameManager.Instance.areSwingsEnabled)
             {
                 // in swing area, button pressed
                 PlayerState = PlayerStateEnum.Swing;
