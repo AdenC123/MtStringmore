@@ -1,6 +1,6 @@
-using Managers;
 using Player;
 using UnityEngine;
+using Yarn.Unity;
 
 namespace Interactables
 {
@@ -23,5 +23,12 @@ namespace Interactables
             IsCurrentConversation = true;
             DialogRunner.StartDialogue(conversationStartNode);
         }
+
+        [YarnCommand("trigger_checkpoint")]
+        public void TriggerCheckpoint()
+        {
+            HitCheckpoint();
+        }
+        
     }
 }

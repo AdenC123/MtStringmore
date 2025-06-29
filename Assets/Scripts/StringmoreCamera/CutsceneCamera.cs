@@ -5,13 +5,13 @@ using Yarn.Unity;
 
 namespace StringmoreCamera
 {
-    [RequireComponent(typeof(UnityEngine.Camera))]
+    [RequireComponent(typeof(Camera))]
     public class CutsceneCamera : MonoBehaviour
     {
         [CanBeNull] private static GameObject _targetObject;
         private static Vector2 _target;
         private static Vector2 _lead;
-        private static UnityEngine.Camera _camera;
+        private static Camera _camera;
         private static float _cameraResizeSpeed;
         private static float _cameraSize;
         private static float _smoothTime;
@@ -21,7 +21,7 @@ namespace StringmoreCamera
 
         private void Awake()
         {
-            _camera = GetComponent<UnityEngine.Camera>();
+            _camera = GetComponent<Camera>();
         }
 
         private void LateUpdate()

@@ -64,25 +64,36 @@ Knitby_relieved: ... Okay.
 title: LoadLevel2Interstitial
 ---
 <<fade_out 0.5>>
-<<load_scene InterstitialCutscene 1>>
+<<load_scene Level2InterstitialCutscene 1>>
 ===
 
 title: Level2Interstitial
 setting: a cliff
 ---
-// TODO idk what to put in the cliff falling scene tbh
+<<follow_object Marshmallow>>
+<<wait 0.5>>
+<<fade_in>>
 Knitby: Marshmallow, wait!
 // knitby jumps and falls
-Knitby: Wait, Marshmallow, HELP!!
+<<run Knitby 73 630 20>>
+<<resize_camera 9 5>>
+<<wait 0.5>>
+<<resize_camera 7 5>>
 // marshmallow turns around to see knitby fall
-Marshmallow: Knitby no!!!
+<<follow_object Marshmallow>>
+<<run Marshmallow 76 679 20 true>>
+Knitby: Wait, Marshmallow, HELP!!
+<<wait_move_finish Marshmallow>>
+Marshmallow: Knitby, no!!!
 // big dramatic pause and sound effects or whatever
 Marshmallow: Hang tight, buddy, I'm going to get you!
 <<fade_out>>
+<<wait 1>>
+<<trigger_checkpoint Checkpoint>>
 ===
 
 title: Level2End
 ---
-<<fade_out>>
-<<load_scene_nonblock Manager EndCutscene 0.5>>
+// TODO: load level 3 cutscene
+<<load_scene EndCutscene>>
 ===

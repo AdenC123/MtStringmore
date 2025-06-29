@@ -41,7 +41,7 @@ namespace Interactables
             if (DialogRunner) DialogRunner.onDialogueComplete.AddListener(EndConversation);
         }
 
-        private void HitCheckpoint()
+        protected void HitCheckpoint()
         {
             if (hasBeenHit) return;
             hasBeenHit = true;
