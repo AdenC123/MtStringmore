@@ -4846,6 +4846,7 @@ MonoBehaviour:
   xParallaxFactor: 0.99
   yParallaxFactor: 0.99
   fallbackSpriteBounds: 10
+  hasSize: 0
 --- !u!1 &1060931364016905332
 GameObject:
   m_ObjectHideFlags: 0
@@ -4899,6 +4900,7 @@ MonoBehaviour:
   xParallaxFactor: 0.95
   yParallaxFactor: 0.999
   fallbackSpriteBounds: 240
+  hasSize: 1
 --- !u!1 &1145785557968274629
 GameObject:
   m_ObjectHideFlags: 0
@@ -10721,6 +10723,7 @@ MonoBehaviour:
   xParallaxFactor: 0.99
   yParallaxFactor: 0.99
   fallbackSpriteBounds: 10
+  hasSize: 0
 --- !u!1 &4401942773875674720
 GameObject:
   m_ObjectHideFlags: 0
@@ -25852,6 +25855,7 @@ MonoBehaviour:
   xParallaxFactor: 0.85
   yParallaxFactor: 0.999
   fallbackSpriteBounds: 240
+  hasSize: 1
 --- !u!1 &6768119429547370222
 GameObject:
   m_ObjectHideFlags: 0
@@ -25986,6 +25990,7 @@ MonoBehaviour:
   xParallaxFactor: 0.67
   yParallaxFactor: 0.999
   fallbackSpriteBounds: 240
+  hasSize: 1
 --- !u!1 &7335251942326100728
 GameObject:
   m_ObjectHideFlags: 0
@@ -26259,6 +26264,7 @@ MonoBehaviour:
   xParallaxFactor: 0.99
   yParallaxFactor: 0.999
   fallbackSpriteBounds: 10
+  hasSize: 1
 --- !u!1 &7764744181719611496
 GameObject:
   m_ObjectHideFlags: 0
@@ -26396,6 +26402,7 @@ MonoBehaviour:
   xParallaxFactor: 0.9
   yParallaxFactor: 0.999
   fallbackSpriteBounds: 240
+  hasSize: 1
 --- !u!1 &8116127547273075068
 GameObject:
   m_ObjectHideFlags: 0
@@ -26698,6 +26705,7 @@ MonoBehaviour:
   xParallaxFactor: 0.7
   yParallaxFactor: 0.999
   fallbackSpriteBounds: 240
+  hasSize: 1
 --- !u!1 &8969564257233599883
 GameObject:
   m_ObjectHideFlags: 0

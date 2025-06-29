@@ -11,6 +11,7 @@ namespace Parallax
         [SerializeField] private float xParallaxFactor;
         [SerializeField] private float yParallaxFactor = 0.99f;
         [SerializeField, Min(0)] private float fallbackSpriteBounds = 10;
+        [SerializeField] private bool hasSize = true;
         private const float SmoothTime = 0.01f;
         private float _bgWidth;
         private Vector3 _velocity;
@@ -51,6 +52,7 @@ namespace Parallax
         /// <param name="screenWidth">Orthographic camera view width</param>
         public void Reposition(Vector2 camPos, float screenWidth)
         {
+            if (!hasSize) return;
             Vector3 pos = transform.position;
             if (pos.x + _bgWidth / 2f <= camPos.x + screenWidth / 2f)
             {
