@@ -339,6 +339,7 @@ MonoBehaviour:
   warningSound: {fileID: 217117979800497627}
   warningSoundTime: 1
   closingSound: {fileID: 3571595061132870987}
+  closingSoundDelay: 0.2
 --- !u!1 &3986647190489802333
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +495,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 60, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3163376120278604253}
   - {fileID: 4951103369148893787}
