@@ -159,6 +159,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e9de9b181cfc6804e9e615db52c9d7ad, type: 3}
   hangOffset: {x: 0, y: 0}
   swingDeltaMultiplier: 0.5
+  roastColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.90081525, b: 0.75, a: 1}
+  - {r: 1, g: 0.796875, b: 0.5, a: 1}
+  - {r: 1, g: 0.6329412, b: 0.100000024, a: 1}
+  - {r: 0.8, g: 0.48313728, b: 0, a: 1}
+  - {r: 0.5, g: 0.3, b: 0, a: 1}
+  - {r: 0.35, g: 0.2078125, b: 0, a: 1}
 --- !u!1 &4217790213014453210
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,6 +267,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 78f48d0db42925547ba8ce7fd2ad7418, type: 3}
   - {fileID: 8300000, guid: 6fb1a0b06cb75c54d9b787cce07ba288, type: 3}
   - {fileID: 8300000, guid: 4f5a3bff415e8334896f690121980b49, type: 3}
+  shakeDuration: 0.5
+  shakeIntensity: 0
+  xShake: 1
+  yShake: 0
+  destructibleObject: 0
 --- !u!50 &5301496585393855472
 Rigidbody2D:
   serializedVersion: 4

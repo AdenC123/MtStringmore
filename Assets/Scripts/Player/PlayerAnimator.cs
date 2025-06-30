@@ -25,7 +25,11 @@ namespace Player
         /// </summary>
         public int RoastState
         {
-            set => anim.SetInteger(RoastKey, value);
+            set
+            {
+                sprite.color = roastColors[Mathf.Min(value, roastColors.Length - 1)];
+                anim.SetInteger(RoastKey, value);
+            }
         }
 
         #region Serialized Private Fields
@@ -56,6 +60,8 @@ namespace Player
         [SerializeField] private Vector2 hangOffset;
         [SerializeField, Range(0, 1), Tooltip("Multiplier of swing angle")] private float swingDeltaMultiplier = 0.5f;
         // @formatter:on
+
+        [SerializeField] private Color[] roastColors;
 
         #endregion
 
