@@ -5175,6 +5175,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4348322071547548248, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: ca2ee1b35786018419f1592185771700, type: 2}
     - target: {fileID: 4579114898537606062, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
       propertyPath: m_Name
       value: Results Manager
@@ -5187,6 +5191,10 @@ PrefabInstance:
       propertyPath: timerToggle
       value: 
       objectReference: {fileID: 3629461888155120383}
+    - target: {fileID: 6913486071196794937, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7499476184492949100, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
       propertyPath: gameManager
       value: 
