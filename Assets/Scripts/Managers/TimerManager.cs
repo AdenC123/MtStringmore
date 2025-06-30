@@ -11,7 +11,7 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private TextMeshProUGUI inGameTimerText;
         [SerializeField] private GameObject resultsWindow;
-        [SerializeField] private Toggle timerToggle;
+        [SerializeField] public Toggle timerToggle;
         
         public static float ElapsedLevelTime { get; set; }
 
