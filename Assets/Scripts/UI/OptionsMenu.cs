@@ -11,6 +11,8 @@ namespace UI
         [SerializeField] private Slider masterSlider;
         [SerializeField] private Slider bgmSlider;
         [SerializeField] private Slider sfxSlider;
+        [SerializeField] private TimerManager _timeManager;
+        [SerializeField] private Toggle timerToggle;
 
         // Start is called before the first frame update
         private void Start()
@@ -29,6 +31,12 @@ namespace UI
             });
             bgmSlider.onValueChanged.AddListener(delegate { SoundManager.Instance.SetBgmVolume(bgmSlider.value); });
             sfxSlider.onValueChanged.AddListener(delegate { SoundManager.Instance.SetSfxVolume(sfxSlider.value); });
+        }
+
+        private void Update()
+        {
+            //toggle speed run timer from main menu
+            _timeManager.timerToggle.isOn = timerToggle.isOn;
         }
     }
 }
