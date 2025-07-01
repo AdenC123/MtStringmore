@@ -9943,7 +9943,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.5
   yParallaxFactor: 0.999
-  fallbackSpriteBounds: 320
+  fallbackSpriteBounds: 160
   hasSize: 1
 --- !u!1 &675992843450134068
 GameObject:
@@ -15308,7 +15308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.9
   yParallaxFactor: 0.999
-  fallbackSpriteBounds: 320
+  fallbackSpriteBounds: 160
   hasSize: 1
 --- !u!1 &4215520062609269712
 GameObject:

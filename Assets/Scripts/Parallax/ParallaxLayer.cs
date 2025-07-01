@@ -19,15 +19,16 @@ namespace Parallax
         private void Awake()
         {
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-            _bgWidth = spriteRenderer ? spriteRenderer.bounds.size.x : fallbackSpriteBounds;
+            _bgWidth = spriteRenderer ? spriteRenderer.bounds.size.x : fallbackSpriteBounds * transform.lossyScale.x;
         }
 
         private void OnDrawGizmosSelected()
         {
+            if (!hasSize) return;
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-            _bgWidth = spriteRenderer ? spriteRenderer.bounds.size.x : fallbackSpriteBounds;
+            _bgWidth = spriteRenderer ? spriteRenderer.bounds.size.x : fallbackSpriteBounds * transform.lossyScale.x;
             Vector3 size = new(_bgWidth, spriteRenderer ? spriteRenderer.bounds.size.y : 10, 1);
-            Gizmos.DrawWireCube(transform.position, transform.TransformVector(size));
+            Gizmos.DrawWireCube(transform.position, size);
         }
 
         /// <summary>
