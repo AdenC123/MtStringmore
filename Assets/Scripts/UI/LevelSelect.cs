@@ -105,7 +105,7 @@ namespace UI
             }
             Image selectedImage = clickedButton.GetComponent<Image>();
             Color selectedColor = selectedImage.color;
-            selectedColor.a = 0.8f; 
+            selectedColor.a = 0.75f; 
             selectedImage.color = selectedColor;
         }
 
