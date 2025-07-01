@@ -35,6 +35,32 @@ namespace Yarn
             _isMoving = false;
             if (disableAnimation) yield return SetAnimation(false);
         }
+        
+        // leap character within cutscene
+        // yarn syntax is <<leap CharacterObjectName xVel yVel duration xNeg [gravity] [flip] [disable] [z]>>
+        // e.g. <<leap Knitby 3 1 20 true false 1>>
+        [YarnCommand("leap")]
+        public IEnumerator JumpCoroutine(float xVel, float yVel, float duration, float gravity = -22, bool flipSprite = false,
+            bool disableAnimation = false)
+        {
+            float elapsedTime = 0;
+            _animator.enabled = true;
+            if (flipSprite) _spriteRenderer.flipX = !_spriteRenderer.flipX;
+            _isMoving = true;
+            float yInitial = transform.position.y;
+            while (elapsedTime <= duration)
+            {
+                elapsedTime += Time.deltaTime;
+                // do scuffed kinematics
+                transform.position = new Vector3(
+                    transform.position.x + Time.deltaTime * xVel,
+                    yInitial + yVel * elapsedTime + 0.5f * gravity * Mathf.Pow(elapsedTime, 2.0f),
+                    transform.position.z);
+                yield return null;
+            }
+            _isMoving = false;
+            if (disableAnimation) yield return SetAnimation(false);
+        }
 
         [YarnCommand("flip")]
         public void Flip()

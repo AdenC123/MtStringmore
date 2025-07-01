@@ -70,23 +70,47 @@ title: LoadLevel2Interstitial
 title: Level2Interstitial
 setting: a cliff
 ---
-<<follow_object Marshmallow>>
-<<wait 0.5>>
-<<fade_in>>
-Knitby: Marshmallow, wait!
+<<fix_coords 75 680>>
+<<wait 0.25>>
+<<fade_in 0.25>>
+<<run Knitby 65 680 16 true>>
+// two jumps from both
+Knitby_confused: Marshmallow, please wait up! I'm tired...
+// marshmallow jump
+<<move Marshmallow 75 678 15>>
+<<run Marshmallow 80 679 15>>
+Marshmallow_smile: Come on now, buddy, just a bit more!
+Knitby_relieved: <i>*sigh*</i> Alright...
 // knitby jumps and falls
-<<run Knitby 73 630 20>>
-<<resize_camera 9 5>>
-<<wait 0.5>>
-<<resize_camera 7 5>>
+<<move Knitby 69 681 15 true>>
 // marshmallow turns around to see knitby fall
+<<flip Marshmallow>>
+<<move Knitby 71 681 11>>
+<<move Knitby 72.5 670 20>>
+<<run Knitby 90 630 25>>
+<<resize_camera 12 8>>
+// marshmallow runs after knitby
+<<run Marshmallow 76 679 20>>
+Knitby_relieved: Wait, Marshmallow, <i>HELP</i>!!!
+<<resize_camera 7 5>>
 <<follow_object Marshmallow>>
+<<move Marshmallow 80 679 20 true>>
+<<move Marshmallow 76 679 20 true>>
+<<move Marshmallow 80 679 20 true>>
 <<run Marshmallow 76 679 20 true>>
-Knitby: Wait, Marshmallow, HELP!!
+Marshmallow_faraway: Knitby, no!!!
 <<wait_move_finish Marshmallow>>
-Marshmallow: Knitby, no!!!
+<<move Marshmallow 80 679 20 true>>
+<<move Marshmallow 76 679 20 true>>
+<<move Marshmallow 80 679 20 true>>
+<<run Marshmallow 76 679 20 true>>
+Marshmallow_faraway: Oh no, look what I've done...
 // big dramatic pause and sound effects or whatever
-Marshmallow: Hang tight, buddy, I'm going to get you!
+Marshmallow_frown: Hang tight, Knitby, I'm coming to get you!
+<<wait_move_finish Marshmallow>>
+<<fix_object Marshmallow>>
+// marshmallow jumps down
+<<leap Marshmallow -3 9 7>>
 <<fade_out>>
 <<wait 1>>
 <<trigger_checkpoint Checkpoint>>
