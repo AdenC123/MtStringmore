@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System.Collections;
+using Managers;
 using UI;
 using UnityEngine;
 using Util;
@@ -68,6 +69,8 @@ namespace Player
 
         private AudioSource _source;
         private PlayerController _player;
+        private TrailRenderer _trail;
+        private float _dashTrailDuration;
 
         private bool _grounded;
 
@@ -96,6 +99,8 @@ namespace Player
         {
             _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<PlayerController>();
+            _trail = GetComponent<TrailRenderer>();
+            _dashTrailDuration = _trail.time;
             _spriteOriginalPosition = transform.localPosition;
         }
 
@@ -307,6 +312,15 @@ namespace Player
         {
             _source.clip = dashSound;
             _source.PlayOneShot(dashSound);
+            StartCoroutine(DashTrail());
+        }
+        
+        private IEnumerator DashTrail()
+        {
+            // _trail.Clear();
+            _trail.emitting = true;
+            yield return new WaitForSeconds(_dashTrailDuration);
+            _trail.emitting = false;
         }
 
         private void OnSwingDifferentDirection(bool clockwise)
