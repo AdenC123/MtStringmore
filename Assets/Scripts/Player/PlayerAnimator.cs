@@ -37,9 +37,9 @@ namespace Player
         // @formatter:off
         [Header("References")]
         [SerializeField] private Animator anim;
-
-        [SerializeField] private GameObject deathSmoke;
         [SerializeField] private SpriteRenderer sprite;
+        [SerializeField] private GameObject deathSmoke;
+        [SerializeField] private TrailRenderer[] dashTrails;
 
         // [Header("Particles")] [SerializeField] private ParticleSystem _jumpParticles;
         // [SerializeField] private ParticleSystem _launchParticles;
@@ -56,9 +56,10 @@ namespace Player
         [SerializeField] private AudioClip[] deathSounds;
     
         [Header("Visual")]
+        [SerializeField] private float dashTrailDuration = 0.3f;
         [Tooltip("Player position offset when hanging onto object (small red wire sphere gizmo)")]
         [SerializeField] private Vector2 hangOffset;
-        [SerializeField, Range(0, 1), Tooltip("Multiplier of swing angle")] private float swingDeltaMultiplier = 0.5f;
+        [SerializeField][Range(0, 1)][Tooltip("Multiplier of swing angle")] private float swingDeltaMultiplier = 0.5f;
         // @formatter:on
 
         [SerializeField] private Color[] roastColors;
@@ -69,8 +70,6 @@ namespace Player
 
         private AudioSource _source;
         private PlayerController _player;
-        private TrailRenderer _trail;
-        private float _dashTrailDuration;
 
         private bool _grounded;
 
@@ -99,8 +98,6 @@ namespace Player
         {
             _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<PlayerController>();
-            _trail = GetComponent<TrailRenderer>();
-            _dashTrailDuration = _trail.time;
             _spriteOriginalPosition = transform.localPosition;
         }
 
@@ -162,12 +159,13 @@ namespace Player
                 transform.localEulerAngles = Vector3.zero;
                 return;
             }
-            Vector2 diff = ((Vector2)transform.position) - _swingPos.Value;
+
+            Vector2 diff = (Vector2)transform.position - _swingPos.Value;
             // yes, this is meant to be Atan2(x, y) as we want the vector perpendicular
             float angle = Mathf.Atan2(diff.x, -diff.y) * Mathf.Rad2Deg;
-            transform.localEulerAngles = new Vector3(0, 0, Mathf.LerpAngle(angle, 0, 1-swingDeltaMultiplier));
+            transform.localEulerAngles = new Vector3(0, 0, Mathf.LerpAngle(angle, 0, 1 - swingDeltaMultiplier));
         }
-        
+
         private void HandleIdle()
         {
             // if paused, don't change the idle state
@@ -314,13 +312,16 @@ namespace Player
             _source.PlayOneShot(dashSound);
             StartCoroutine(DashTrail());
         }
-        
+
         private IEnumerator DashTrail()
         {
-            // _trail.Clear();
-            _trail.emitting = true;
-            yield return new WaitForSeconds(_dashTrailDuration);
-            _trail.emitting = false;
+            foreach (TrailRenderer trail in dashTrails)
+                trail.emitting = true;
+
+            yield return new WaitForSeconds(dashTrailDuration);
+
+            foreach (TrailRenderer trail in dashTrails)
+                trail.emitting = false;
         }
 
         private void OnSwingDifferentDirection(bool clockwise)
