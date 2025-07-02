@@ -40,6 +40,7 @@ namespace Player
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private GameObject deathSmoke;
         [SerializeField] private TrailRenderer[] dashTrails;
+        [SerializeField] private ParticleSystem dashDust;
 
         // [Header("Particles")] [SerializeField] private ParticleSystem _jumpParticles;
         // [SerializeField] private ParticleSystem _launchParticles;
@@ -310,7 +311,8 @@ namespace Player
         {
             _source.clip = dashSound;
             _source.PlayOneShot(dashSound);
-            StartCoroutine(DashTrail());
+            dashDust.Play();
+            // StartCoroutine(DashTrail());
         }
 
         private IEnumerator DashTrail()
