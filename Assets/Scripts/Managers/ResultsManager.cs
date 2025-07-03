@@ -1,9 +1,9 @@
-﻿using Interactables;
+﻿using System.Collections.Generic;
+using Interactables;
 using Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 namespace Managers
 {
     public class ResultsManager : MonoBehaviour
@@ -16,21 +16,30 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI levelHeaderText;
 
         [SerializeField] private TextMeshProUGUI collectableResultsText;
-
+        
         private int maxCount;
+
+        private int collectedCount;
         
         private SaveDataManager _saveDataManager;
+        private GameManager _gameManager;
         
         public static bool isResultsPageOpen = false;
         
+        // <summary>
+        // Access to cutscene names
+        // <summary>
+        [SerializeField] private List<string> cutsceneList;
+        
         private void Start()
         {
-            maxCount = GameManager.Instance.MaxCollectablesCount;
             levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
             resultsPane.SetActive(false);
             _saveDataManager = FindObjectOfType<SaveDataManager>();
+            _gameManager = GameManager.Instance;
+            
         }
-
+        
         private void OnEnable()
         {
             finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
@@ -43,14 +52,20 @@ namespace Managers
 
         private void HandleFinalCheckpointHit()
         {
-            FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
+            List<string> cl = _gameManager.cutsceneList;
+            string sceneName = SceneManager.GetActiveScene().name;
+            
+            //check if we are in a level or cutscene
+            if (cl.Contains(sceneName)) 
+                FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
             EndLevel();
         }
 
         private void UpdateCollectableCount()
         {
-            int collectedCount = GameManager.Instance.NumCollectablesCollected;
+            maxCount = _gameManager.MaxCollectablesCount;
+            collectedCount = _gameManager.NumCollectablesCollected;
             collectableResultsText.text = collectedCount + " / " + maxCount;
         }
 
@@ -81,7 +96,7 @@ namespace Managers
             resultsPane.SetActive(false);
             isResultsPageOpen = false;
             Time.timeScale = 1f;
-            GameManager.Instance.ResetCandyCollected();
+            _gameManager.ResetCandyCollected();
             finalCheckpoint.StartConversation();
         }
     }

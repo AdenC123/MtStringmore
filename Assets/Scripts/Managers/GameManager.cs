@@ -84,6 +84,14 @@ namespace Managers
         /// So we need to check that we're doing that LOL.
         /// </summary>
         private bool _dontClearDataOnSceneChanged;
+        
+        // <summary>
+        // We are resetting all stats (collectables etc.) each time we load scene
+        // We need make sure we are not clearing stats when we are loading the results after a cutscene
+        // Therefore we need a list of all cutscenes that show results after the cutscene
+        // Results Manager also uses this to avoid issues
+        // <summary>
+        [SerializeField] public List<string> cutsceneList;
 
         private void Awake()
         {
@@ -118,6 +126,9 @@ namespace Managers
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
+            _dontClearDataOnSceneChanged = cutsceneList.Contains(scene.name);
+
+
             if (!_dontClearDataOnSceneChanged)
             {
                 PlayerController player = FindObjectOfType<PlayerController>();
@@ -131,9 +142,19 @@ namespace Managers
                 _collectedCollectables.Clear();
                 GameDataChanged?.Invoke();
             }
-            _collectableLookup.Clear();
+            
             Collectable[] collectables = FindObjectsOfType<Collectable>();
-            MaxCollectablesCount = collectables.Length;
+            
+            if (!_dontClearDataOnSceneChanged)
+            {
+                _collectableLookup.Clear();
+                MaxCollectablesCount = collectables.Length;
+                Debug.Log("GameManager loaded " + MaxCollectablesCount + " collectables");
+            }
+            else
+            {
+                Debug.Log("Skipping collectable count in cutscene. Using previous value: " + MaxCollectablesCount);
+            }
             foreach (Collectable collectable in collectables)
             {
                 Vector2 position = collectable.transform.position;
@@ -147,6 +168,15 @@ namespace Managers
                 }
             }
             _dontClearDataOnSceneChanged = false;
+        }
+
+        //<summary>
+        //grabs the total number of collectables
+        //called by the results manager
+        //<summary>
+        public int findTotalCollectables()
+        {
+            return FindObjectsOfType<Collectable>().Length;
         }
 
         /// <summary>
