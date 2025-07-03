@@ -17,9 +17,7 @@ namespace Save
     {
         private static readonly string SaveFileName = "data.save";
         [SerializeField] private string mainMenuScene;
-
-        private int _farthestSceneIndexReached;
-        private string _farthestSceneName;
+        
         private Thread _saveThread;
         private Vector2? _forcedNextFramePosition;
 
@@ -46,13 +44,7 @@ namespace Save
         private void SceneManagerOnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name == mainMenuScene) return;
-
-            if (scene.buildIndex > _farthestSceneIndexReached)
-            {
-                _farthestSceneName = scene.name;
-                _farthestSceneIndexReached = scene.buildIndex;
-            }
-
+            
             if (_forcedNextFramePosition != null)
             {
                 // TODO sendMessage is hacky and WILL BREAK
@@ -78,15 +70,11 @@ namespace Save
         {
             return new SaveFileData
             {
-                farthestSceneReached = _farthestSceneName,
-                farthestSceneIndexReached = _farthestSceneIndexReached,
                 saveData = new SaveData
                 {
-                    candiesCollected = GameManager.Instance.CollectablePositionsCollected.ToArray(),
                     checkpointsReached = GameManager.Instance.CheckpointsReached.ToArray(),
                     checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                     dateTimeBinary = DateTime.Now.ToBinary(),
-                    sceneName = sceneOverride ?? SceneManager.GetActiveScene().name,
                     levelsAccessed = GameManager.Instance.LevelsAccessed
                 }
             };
@@ -114,8 +102,6 @@ namespace Save
             try
             {
                 SaveFileData saveFileData = JsonUtility.FromJson<SaveFileData>(File.ReadAllText(filePath));
-                _farthestSceneName = saveFileData.farthestSceneReached;
-                _farthestSceneIndexReached = saveFileData.farthestSceneIndexReached;
                 return saveFileData;
             }
             catch (Exception e)

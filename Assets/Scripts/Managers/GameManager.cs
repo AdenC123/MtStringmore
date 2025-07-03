@@ -186,8 +186,6 @@ namespace Managers
             foreach (Vector2 checkpointReached in checkpointsReached)
                 _prevCheckpoints.Add(checkpointReached);
             _collectedCollectables.Clear();
-            foreach (Vector2 candyCollected in saveData.candiesCollected)
-                _collectedCollectables.Add(candyCollected);
     
             LevelsAccessed.AddRange(saveData.levelsAccessed);
 
