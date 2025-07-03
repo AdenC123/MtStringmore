@@ -72,7 +72,6 @@ namespace Save
             {
                 saveData = new SaveData
                 {
-                    checkpointsReached = GameManager.Instance.CheckpointsReached.ToArray(),
                     checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
                     dateTimeBinary = DateTime.Now.ToBinary(),
                     levelsAccessed = GameManager.Instance.LevelsAccessed

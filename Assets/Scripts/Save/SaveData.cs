@@ -11,9 +11,7 @@ namespace Save
     public struct SaveData
     {
         public long dateTimeBinary;
-        public string sceneName;
         public bool checkpointFacesLeft;
-        public Vector2[] checkpointsReached;
         public List<string> levelsAccessed;
     }
 
@@ -23,8 +21,6 @@ namespace Save
     [Serializable]
     public struct SaveFileData
     {
-        public string farthestSceneReached;
-        public int farthestSceneIndexReached;
         public long[] fastestTimes;
         public SaveData saveData;
     }

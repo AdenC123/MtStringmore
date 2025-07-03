@@ -176,15 +176,10 @@ namespace Managers
         /// <param name="saveData">Save data from file</param>
         public void UpdateFromSaveData(SaveData saveData)
         {
-            Vector2[] checkpointsReached = saveData.checkpointsReached;
             bool shouldFaceLeft = saveData.checkpointFacesLeft;
-            if (checkpointsReached.Length > 0) CheckPointPos = checkpointsReached[^1];
             RespawnFacingLeft = shouldFaceLeft;
             CheckpointsReached.Clear();
             _prevCheckpoints.Clear();
-            CheckpointsReached.AddRange(checkpointsReached);
-            foreach (Vector2 checkpointReached in checkpointsReached)
-                _prevCheckpoints.Add(checkpointReached);
             _collectedCollectables.Clear();
     
             LevelsAccessed.AddRange(saveData.levelsAccessed);
