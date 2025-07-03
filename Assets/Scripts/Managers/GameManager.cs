@@ -91,7 +91,7 @@ namespace Managers
         // Therefore we need a list of all cutscenes that show results after the cutscene
         // Results Manager also uses this to avoid issues
         // <summary>
-        [SerializeField] public List<string> cutsceneList;
+        [SerializeField] private List<string> cutsceneList;
 
         private void Awake()
         {

@@ -26,11 +26,6 @@ namespace Managers
         
         public static bool isResultsPageOpen = false;
         
-        // <summary>
-        // Access to cutscene names
-        // <summary>
-        [SerializeField] private List<string> cutsceneList;
-        
         private void Start()
         {
             levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
@@ -52,12 +47,7 @@ namespace Managers
 
         private void HandleFinalCheckpointHit()
         {
-            List<string> cl = _gameManager.cutsceneList;
-            string sceneName = SceneManager.GetActiveScene().name;
-            
-            //check if we are in a level or cutscene
-            if (cl.Contains(sceneName)) 
-                FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
+            FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
             EndLevel();
         }
