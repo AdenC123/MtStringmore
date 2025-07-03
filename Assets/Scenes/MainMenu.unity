@@ -1573,6 +1573,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5101892580008084914, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+      propertyPath: lastColletableComboWindow
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5675118328201374811, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.36563
