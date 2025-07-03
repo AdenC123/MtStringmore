@@ -121,21 +121,6 @@ namespace Save
             return saveData;
         }
 
-        public bool LoadExistingSave()
-        {
-            SaveData? saveData = LoadAndApplySaveData();
-            if (saveData == null) return false;
-
-            SceneManager.LoadScene(saveData.Value.sceneName);
-
-            if (saveData.Value.checkpointsReached.Length > 0)
-            {
-                _forcedNextFramePosition = saveData.Value.checkpointsReached[^1];
-            }
-
-            return true;
-        }
-
         public bool PreloadSaveData()
         {
             return LoadAndApplySaveData() != null;
