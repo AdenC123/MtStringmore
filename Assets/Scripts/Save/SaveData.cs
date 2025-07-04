@@ -12,16 +12,19 @@ namespace Save
         public long dateTimeBinary;
         public bool checkpointFacesLeft;
         public List<string> levelsAccessed;
-        
-        //Might be scuffed but for the following:
-        //index 0 = level 1
-        //index 1 = level 2
-        //index 2 = level 3
-        //index 4 = level 4
 
-        public List<int> deathCounter;
-        public List<int> candyCounter;
-        public List<int> fastestTimes; //in seconds
+        public LevelData level1Data;
+        public LevelData level2Data;
+        public LevelData level3Data;
+        public LevelData level4Data;
+    }
+
+    [Serializable]
+    public struct LevelData
+    {
+        public int mostCandies;
+        public int leastDeaths;
+        public string bestTime;
     }
 
     /// <summary>

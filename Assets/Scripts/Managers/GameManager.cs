@@ -68,17 +68,6 @@ namespace Managers
         /// Action invoked when a level is completed.
         /// </summary>
         public event Action saveGame;
-        
-        // <summary>
-        // Lists for stats for each level
-        // index 0 = level 1
-        // index 1 = level 2
-        // index 2 = level 3
-        // index 3 = level 4
-        // </summary>
-        [SerializeField] public List<int> deathCounter;
-        [SerializeField] public List<int> candyCounter;
-        [SerializeField] public List<int> fastestTimes;
 
         /// <summary>
         /// Canvas to fade in/out when transitioning between scenes
@@ -100,11 +89,6 @@ namespace Managers
 
         private void Awake()
         {
-            //set to -1 initially for each level
-            deathCounter = new List<int> { -1, -1, -1, -1 };
-            candyCounter = new List<int> { -1, -1, -1, -1 };
-            fastestTimes = new List<int> { -1, -1, -1, -1 };
-            
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
