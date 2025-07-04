@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Interactables;
@@ -192,15 +193,29 @@ namespace Managers
             SaveToCorrectLevelVariable(idx); //level number - 1 is the index b/c 0-based indexing
         }
 
+        private bool BeatsCurrentTime(string currBestTimeSpan, string newTimeSpan)
+        {
+            if (currBestTimeSpan == "--:--:--")
+                return true;
+            if (newTimeSpan == "--:--:--")
+                return false;
+            TimeSpan t1 = TimeSpan.Parse(currBestTimeSpan);
+            TimeSpan t2 = TimeSpan.Parse(newTimeSpan);
+            return t2 < t1;
+        }
+
         private void SaveToCorrectLevelVariable(int index)
         {
             if (index >= 0 && index < allLevelData.Count)
             {
                 LevelData updatedLevelData = allLevelData[index];
-                updatedLevelData.mostCandiesCollected = _collectedCollectables.Count;
+                if (updatedLevelData.mostCandiesCollected < _collectedCollectables.Count)
+                    updatedLevelData.mostCandiesCollected = _collectedCollectables.Count;
                 updatedLevelData.totalCandiesInLevel = _collectableLookup.Count;
-                updatedLevelData.leastDeaths = thisLevelDeaths;
-                updatedLevelData.bestTime = thisLevelTime;
+                if (updatedLevelData.leastDeaths > thisLevelDeaths)
+                    updatedLevelData.leastDeaths = thisLevelDeaths;
+                if (BeatsCurrentTime(updatedLevelData.bestTime, thisLevelTime))
+                    updatedLevelData.bestTime = thisLevelTime;
 
                 allLevelData[index] = updatedLevelData;
             }
