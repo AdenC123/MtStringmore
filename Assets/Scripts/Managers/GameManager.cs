@@ -110,8 +110,6 @@ namespace Managers
 
         private void Awake()
         {
-            thisLevelDeaths = -1;
-            thisLevelTime = "--:--:--";
             // make sure list has 4 entries
             for (int i = allLevelData.Count; i < 4; i++) {
                 allLevelData.Add(new LevelData());
@@ -154,7 +152,8 @@ namespace Managers
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
-            thisLevelDeaths = -1;
+            thisLevelDeaths = 0;
+            thisLevelTime = "--:--:--";
             if (!_dontClearDataOnSceneChanged)
             {
                 PlayerController player = FindObjectOfType<PlayerController>();
