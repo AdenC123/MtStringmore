@@ -65,9 +65,9 @@ namespace Managers
         public event Action Reset;
 
         /// <summary>
-        /// Action invoked on game data changed.
+        /// Action invoked when a level is completed.
         /// </summary>
-        public event Action GameDataChanged;
+        public event Action saveGame;
         
         // <summary>
         // Lists for stats for each level
@@ -142,7 +142,6 @@ namespace Managers
                 CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
                 _collectedCollectables.Clear();
-                GameDataChanged?.Invoke();
             }
             _collectableLookup.Clear();
             Collectable[] collectables = FindObjectsOfType<Collectable>();
@@ -160,6 +159,16 @@ namespace Managers
                 }
             }
             _dontClearDataOnSceneChanged = false;
+        }
+        
+        // <summary>
+        // signals that the level is completed and the level data should be saved
+        // called by resultsManager once last checkpoint is reached
+        // <summary>
+
+        public void gameCompleted()
+        {
+            saveGame?.Invoke();
         }
 
         /// <summary>
@@ -180,7 +189,6 @@ namespace Managers
             CheckPointPos = newCheckpointLocation;
             RespawnFacingLeft = shouldFaceLeft;
             CheckpointsReached.Add(newCheckpointLocation);
-            GameDataChanged?.Invoke();
         }
 
         /// <summary>
@@ -194,10 +202,14 @@ namespace Managers
             CheckpointsReached.Clear();
             _prevCheckpoints.Clear();
             _collectedCollectables.Clear();
+
+            deathCounter = saveData.deathCounter;
+            candyCounter = saveData.candyCounter;
+            fastestTimes = saveData.fastestTimes;
     
             LevelsAccessed.AddRange(saveData.levelsAccessed);
 
-            GameDataChanged?.Invoke();
+            saveGame?.Invoke();
             _dontClearDataOnSceneChanged = true;
         }
 
@@ -215,7 +227,6 @@ namespace Managers
         public void ResetCandyCollected()
         {
             _collectedCollectables.Clear();
-            GameDataChanged?.Invoke();
         }
 
         /// <summary>

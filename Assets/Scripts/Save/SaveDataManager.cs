@@ -20,16 +20,18 @@ namespace Save
         
         private Thread _saveThread;
         private Vector2? _forcedNextFramePosition;
+        private GameManager _gameManager;
 
         private void Awake()
         {
-            GameManager.Instance.GameDataChanged += SaveFile;
+            _gameManager = GameManager.Instance;
+            _gameManager.saveGame += SaveFile;
             SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
         }
 
         private void OnDestroy()
         {
-            GameManager.Instance.GameDataChanged -= SaveFile;
+            _gameManager.saveGame -= SaveFile;
             SceneManager.sceneLoaded -= SceneManagerOnSceneLoaded;
         }
 
@@ -72,9 +74,13 @@ namespace Save
             {
                 saveData = new SaveData
                 {
-                    checkpointFacesLeft = GameManager.Instance.RespawnFacingLeft,
+                    checkpointFacesLeft = _gameManager.RespawnFacingLeft,
                     dateTimeBinary = DateTime.Now.ToBinary(),
-                    levelsAccessed = GameManager.Instance.LevelsAccessed
+                    levelsAccessed = _gameManager.LevelsAccessed,
+                    
+                    deathCounter = _gameManager.deathCounter,
+                    candyCounter = _gameManager.candyCounter,
+                    fastestTimes = _gameManager.fastestTimes
                 }
             };
         }
@@ -116,7 +122,7 @@ namespace Save
             if (optionalData == null) return null;
 
             SaveData saveData = optionalData.Value.saveData;
-            GameManager.Instance.UpdateFromSaveData(saveData);
+            _gameManager.UpdateFromSaveData(saveData);
             return saveData;
         }
 
