@@ -70,47 +70,69 @@ title: LoadLevel2Interstitial
 title: Level2Interstitial
 setting: a cliff
 ---
-<<fix_coords 75 680>>
-<<wait 0.25>>
+<<fix_coords 74 673>>
+// start jump, then fade in
+<<leap_nonblock Marshmallow 25 18 0.37>>
+<<wait 0.05>>
+<<leap_nonblock Knitby -25 18 0.37 false -66 true>>
 <<fade_in 0.25>>
-<<run Knitby 65 680 16 true>>
-// two jumps from both
+<<fix_coords 74 680 1>>
+<<wait_move_finish Knitby>>
+<<wait 0.25>>
+// Knitby and Marshmallow jump up together
+<<leap_nonblock Marshmallow -25 18 0.37 false -66 true>>
+<<wait 0.05>>
+<<leap Knitby 25 18 0.37 false -66 true>>
+<<wait 0.25>>
+<<leap_nonblock Marshmallow 25 18 0.37 false -66 true>>
+<<wait 0.05>>
+<<leap Knitby -25 18 0.4 false -66 true>>
+<<wait 0.1>>
+<<leap_nonblock Marshmallow -25 18 0.37 false -66 true>>
+<<wait 0.15>>
+<<leap Knitby 20 20 0.5 false -66 true>>
+<<wait_move_finish Marshmallow>>
+<<wait 0.2>>
 Knitby_confused: Marshmallow, please wait up! I'm tired...
-// marshmallow jump
-<<move Marshmallow 75 678 15>>
-<<run Marshmallow 80 679 15>>
-Marshmallow_smile: Come on now, buddy, just a bit more!
-Knitby_relieved: <i>*sigh*</i> Alright...
-// knitby jumps and falls
-<<move Knitby 69 681 15 true>>
-// marshmallow turns around to see knitby fall
+// marshmallow jumps to safety
+<<leap_nonblock Marshmallow 25 18 0.62 true -66 true>>
+<<wait 0.1>>
+<<leap Knitby -20 20 0.4 false -66 true>>
+<<move Marshmallow 86 679 15>>
 <<flip Marshmallow>>
-<<move Knitby 71 681 11>>
-<<move Knitby 72.5 670 20>>
-<<run Knitby 90 630 25>>
+Marshmallow_smile: Come on now, buddy, just a bit more!
+<<run Marshmallow 84 679 15>>
+Knitby_relieved: <i>*sigh*</i> Alright...
+<<wait_move_finish Marshmallow>>
+// knitby jumps and falls
+<<leap_nonblock Knitby 13 15 3 false -66 true>>
+<<wait 0.25>>
+Knitby_relieved: Wait, Marshmallow, <i>HELP</i>!!!
 <<resize_camera 12 8>>
 // marshmallow runs after knitby
 <<run Marshmallow 76 679 20>>
-Knitby_relieved: Wait, Marshmallow, <i>HELP</i>!!!
 <<resize_camera 7 5>>
-<<follow_object Marshmallow>>
+<<wait_move_finish Marshmallow>>
+<<fix_object Marshmallow>>
+Marshmallow_faraway: Knitby, no!!!
 <<move Marshmallow 80 679 20 true>>
 <<move Marshmallow 76 679 20 true>>
 <<move Marshmallow 80 679 20 true>>
 <<run Marshmallow 76 679 20 true>>
-Marshmallow_faraway: Knitby, no!!!
+Marshmallow_faraway: Oh no, this is all my fault...
 <<wait_move_finish Marshmallow>>
 <<move Marshmallow 80 679 20 true>>
 <<move Marshmallow 76 679 20 true>>
 <<move Marshmallow 80 679 20 true>>
 <<run Marshmallow 76 679 20 true>>
-Marshmallow_faraway: Oh no, look what I've done...
+Marshmallow_faraway: I pushed ahead too hard, and now look what I've done...
 // big dramatic pause and sound effects or whatever
-Marshmallow_frown: Hang tight, Knitby, I'm coming to get you!
+Marshmallow_frown: I have to fix this. Hang tight, Knitby, I'm coming to get you!
 <<wait_move_finish Marshmallow>>
 <<fix_object Marshmallow>>
 // marshmallow jumps down
-<<leap Marshmallow -3 9 7>>
+<<leap_nonblock Marshmallow -12 18 5>>
+<<wait 1>>
 <<fade_out>>
 <<wait 1>>
 <<trigger_checkpoint Checkpoint>>
