@@ -76,6 +76,12 @@ namespace Save
                     checkpointFacesLeft = _gameManager.RespawnFacingLeft,
                     dateTimeBinary = DateTime.Now.ToBinary(),
                     levelsAccessed = _gameManager.LevelsAccessed,
+                    
+                    level1Data = new LevelData()
+                    {
+                        //data stuff
+                    }
+                    
                 }
             };
         }

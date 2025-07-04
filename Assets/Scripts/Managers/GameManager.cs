@@ -76,6 +76,11 @@ namespace Managers
 
         [SerializeField] private List<string> levelNameList;
 
+        private int thisLevelDeaths;
+        private int thisLevelCandies;
+        private string thisLevelTime;
+        
+
         private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
         private readonly HashSet<Vector2> _prevCheckpoints = new();
         private readonly HashSet<Vector2> _collectedCollectables = new();
@@ -87,8 +92,19 @@ namespace Managers
         /// </summary>
         private bool _dontClearDataOnSceneChanged;
 
+        // <summary>
+        // saving the level data to here so it's easier to load.
+        // level data stores: int least deaths, int most candies, string best time
+        // </summary>
+        public List<LevelData> allLevelData = new List<LevelData>();
+
         private void Awake()
         {
+            // make sure list has 4 entries
+            for (int i = allLevelData.Count; i < 4; i++) {
+                allLevelData.Add(new LevelData());
+            }
+            
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
@@ -157,7 +173,44 @@ namespace Managers
 
         public void LevelCompleted()
         {
+            SaveLevelDataToGameManager();
             saveGame?.Invoke();
+        }
+
+        // <summary>
+        // saves all of the current game stats (thisLevelDeaths, thisLevelCandies, thisLevelTime)
+        // to the game manager level data variables
+        // </summary>
+        private void SaveLevelDataToGameManager()
+        {
+            string thisSceneName = SceneManager.GetActiveScene().name;
+            int idx = -1;
+            if (!levelNameList.Contains(thisSceneName))
+            {
+                Debug.Log("GameManager could not determine what level we are currently in");
+                return;
+            }
+            
+            // +1 because 0-based indexing and there level1 is the first entry
+            idx = levelNameList.IndexOf(thisSceneName);
+            SaveToCorrectLevelVariable(idx+1);
+            
+        }
+
+        private void SaveToCorrectLevelVariable(int index)
+        {
+            thisLevelCandies = _collectedCollectables.Count;
+            if (index >= 0 && index < allLevelData.Count)
+            {
+                LevelData levelData = allLevelData[index];
+                levelData.mostCandies = thisLevelCandies;
+                levelData.leastDeaths = thisLevelDeaths;
+                levelData.bestTime = thisLevelTime;
+            }
+            else
+            {
+                Debug.Log("Could not save data to GameManager");
+            }
         }
 
         /// <summary>

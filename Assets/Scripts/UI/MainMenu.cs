@@ -13,7 +13,6 @@ namespace UI
     {
         [SerializeField] private TextMeshProUGUI versionNumber;
         [SerializeField] private string levelSelectScene;
-        [SerializeField] private Button loadGameButton;
 
         private SaveDataManager _saveDataManager;
         
