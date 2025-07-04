@@ -8,10 +8,22 @@ namespace Managers
 {
     public class TimerManager : MonoBehaviour
     {
+        private static TimerManager _instance;
+        public static TimerManager Instance
+        {
+            get
+            {
+                if (!_instance)
+                    _instance = FindObjectOfType<TimerManager>();
+
+                return _instance;
+            }
+        }
+
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private TextMeshProUGUI inGameTimerText;
         [SerializeField] private GameObject resultsWindow;
-        [SerializeField] public Toggle timerToggle;
+        [SerializeField] private Toggle timerToggle;
         
         public static float ElapsedLevelTime { get; set; }
 
@@ -20,12 +32,16 @@ namespace Managers
 
         private void Awake()
         {
+            if (Instance != this) Destroy(gameObject);
+            ElapsedLevelTime = 0;
             inGameTimerText.enabled = false;
         }
         
         private void Start()
         {
-            ElapsedLevelTime = 0;
+            int savedSpeedToggle = PlayerPrefs.GetInt("SpeedTime",0);
+            bool toggle = savedSpeedToggle == 1;
+            ToggleTimer(toggle);
         }
         
         private void Update()
@@ -52,6 +68,15 @@ namespace Managers
         public void OnToggle()
         {
             inGameTimerText.enabled = timerToggle.isOn;
+            ToggleTimer(timerToggle.isOn);
+        }
+
+        public void ToggleTimer(bool toggle)
+        {
+            timerToggle.isOn = toggle;
+            int value = toggle? 1:0;
+            PlayerPrefs.SetInt("SpeedTime", value);
+            PlayerPrefs.Save();
         }
     }
 }
