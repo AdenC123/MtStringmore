@@ -20,15 +20,17 @@ namespace Managers
         private int maxCount;
         
         private SaveDataManager _saveDataManager;
+        private GameManager _gameManager;
         
         public static bool isResultsPageOpen = false;
         
         private void Start()
         {
-            maxCount = GameManager.Instance.MaxCollectablesCount;
+            _saveDataManager = FindObjectOfType<SaveDataManager>();
+            _gameManager = GameManager.Instance;
+            maxCount =_gameManager.MaxCollectablesCount;
             levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
             resultsPane.SetActive(false);
-            _saveDataManager = FindObjectOfType<SaveDataManager>();
         }
 
         private void OnEnable()
@@ -45,12 +47,18 @@ namespace Managers
         {
             FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
+            SaveGame();
             EndLevel();
+        }
+
+        private void SaveGame()
+        {
+            _gameManager.levelCompleted();
         }
 
         private void UpdateCollectableCount()
         {
-            int collectedCount = GameManager.Instance.NumCollectablesCollected;
+            int collectedCount = _gameManager.NumCollectablesCollected;
             collectableResultsText.text = collectedCount + " / " + maxCount;
         }
 
@@ -65,7 +73,7 @@ namespace Managers
         public void RestartLevel() 
         {
             Time.timeScale = 1f;
-            GameManager.Instance.ResetCandyCollected();
+            _gameManager.ResetCandyCollected();
             isResultsPageOpen = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
@@ -81,7 +89,7 @@ namespace Managers
             resultsPane.SetActive(false);
             isResultsPageOpen = false;
             Time.timeScale = 1f;
-            GameManager.Instance.ResetCandyCollected();
+            _gameManager.ResetCandyCollected();
             finalCheckpoint.StartConversation();
         }
     }
