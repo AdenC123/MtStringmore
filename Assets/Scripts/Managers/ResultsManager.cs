@@ -53,7 +53,7 @@ namespace Managers
 
         private void SaveGame()
         {
-            _gameManager.levelCompleted();
+            _gameManager.LevelCompleted();
         }
 
         private void UpdateCollectableCount()

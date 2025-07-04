@@ -155,7 +155,7 @@ namespace Managers
         // called by resultsManager once last checkpoint is reached
         // <summary>
 
-        public void levelCompleted()
+        public void LevelCompleted()
         {
             saveGame?.Invoke();
         }
