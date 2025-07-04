@@ -1,9 +1,9 @@
-﻿using Interactables;
+﻿using System.Collections.Generic;
+using Interactables;
 using Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 namespace Managers
 {
     public class ResultsManager : MonoBehaviour
@@ -16,21 +16,25 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI levelHeaderText;
 
         [SerializeField] private TextMeshProUGUI collectableResultsText;
-
+        
         private int maxCount;
+
+        private int collectedCount;
         
         private SaveDataManager _saveDataManager;
+        private GameManager _gameManager;
         
         public static bool isResultsPageOpen = false;
         
         private void Start()
         {
-            maxCount = GameManager.Instance.MaxCollectablesCount;
             levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
             resultsPane.SetActive(false);
             _saveDataManager = FindObjectOfType<SaveDataManager>();
+            _gameManager = GameManager.Instance;
+            
         }
-
+        
         private void OnEnable()
         {
             finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
@@ -50,7 +54,8 @@ namespace Managers
 
         private void UpdateCollectableCount()
         {
-            int collectedCount = GameManager.Instance.NumCollectablesCollected;
+            maxCount = _gameManager.MaxCollectablesCount;
+            collectedCount = _gameManager.NumCollectablesCollected;
             collectableResultsText.text = collectedCount + " / " + maxCount;
         }
 
@@ -81,7 +86,7 @@ namespace Managers
             resultsPane.SetActive(false);
             isResultsPageOpen = false;
             Time.timeScale = 1f;
-            GameManager.Instance.ResetCandyCollected();
+            _gameManager.ResetCandyCollected();
             finalCheckpoint.StartConversation();
         }
     }

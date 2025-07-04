@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1}
-  m_LocalScale: {x: 2.302495, y: 2.302495, z: 2.302495}
+  m_LocalScale: {x: 3.4999998, y: 3.4999998, z: 3.4999998}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4169286967807924285}
@@ -159,6 +159,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c81b8a0512e132e4cbdff16ff3c341e9, type: 3}
   - {fileID: 8300000, guid: e9de9b181cfc6804e9e615db52c9d7ad, type: 3}
   hangOffset: {x: 0, y: 0}
+  swingDeltaMultiplier: 0.5
+  roastColors: []
 --- !u!82 &1114576962034337055
 AudioSource:
   m_ObjectHideFlags: 0
@@ -337,12 +339,22 @@ MonoBehaviour:
   maxSwingSpeed: 47
   swingAcceleration: 75
   minSwingReleaseX: 25
+  enableSwingHacks: 1
+  maxHackAcceleration: 200
+  hackVelocityRatio: 0.8
+  hackRange: 0.5235988
+  runParticleVelocityThreshold: 0.1
   ropeRenderer: {fileID: 8739561083334380143}
   deathTime: 2
   poofSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
   swingAttach: {fileID: 0}
   swingDetach: {fileID: 0}
   swingChangeDirection: []
+  shakeDuration: 0
+  shakeIntensity: 0
+  xShake: 0
+  yShake: 0
+  destructibleObject: 0
 --- !u!50 &5301496585393855472
 Rigidbody2D:
   serializedVersion: 4
