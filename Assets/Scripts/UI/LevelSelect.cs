@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Interactables;
 using Managers;
 using Save;
 using TMPro;
@@ -32,16 +33,22 @@ namespace UI
         [SerializeField] private AudioClip buttonClickSound;
         [SerializeField] private string level1 = "IntroCutscene";
 
-        [SerializeField] private TMP_Text levelText, timeText, candyText;
+        [SerializeField] private TMP_Text levelText, timeText, deathText, candyText;
     
         private List<string> unlockedScenes;
         private string selectedScene;
         private readonly List<Button> levelButtons = new List<Button>();
+        private GameManager _gameManager;
+
+        private void Awake()
+        {
+            _gameManager = GameManager.Instance;
+        }
 
         private void Start()
         {
             LazyLoad();
-            unlockedScenes = GameManager.Instance.LevelsAccessed;
+            unlockedScenes = _gameManager.LevelsAccessed;
             playButton.interactable = false;
             unlockedScenes.Add(level1);
 
@@ -109,6 +116,33 @@ namespace UI
             return allLevelSceneNames[idx];
         }
 
+        private string GetCorrectText(string sceneName, string type, int levelNumber)
+        {
+            LevelData selectedLevel = _gameManager.allLevelData[levelNumber - 1];
+            if (type == "candy")
+            {
+                if (selectedLevel.totalCandiesInLevel <= 0)
+                    return "N/A";
+                return selectedLevel.mostCandiesCollected + "/" + selectedLevel.totalCandiesInLevel;
+            }
+
+            if (type == "deaths")
+            {
+                if (selectedLevel.leastDeaths <= 0)
+                    return "N/A";
+                return selectedLevel.leastDeaths.ToString();
+            }
+
+            if (type == "time")
+            {
+                if (string.IsNullOrEmpty(selectedLevel.bestTime) || selectedLevel.bestTime == "--:--:--")
+                    return "--:--:--";
+                return selectedLevel.bestTime;
+            }
+
+            return "error";
+        }
+
         private void OnLevelSelected(string sceneName, Button clickedButton, int levelNumber)
         {
             selectedScene = sceneName;
@@ -116,6 +150,9 @@ namespace UI
             
             //change the text of the level stats
             levelText.text = "Level " + levelNumber;
+            candyText.text = GetCorrectText(sceneName, "candy", levelNumber);
+            deathText.text = GetCorrectText(sceneName, "deaths", levelNumber);
+            timeText.text = GetCorrectText(sceneName, "time", levelNumber);
             
             for (int i = 0; i < levelButtons.Count; i++)
             {

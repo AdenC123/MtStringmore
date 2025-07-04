@@ -77,10 +77,10 @@ namespace Save
                     dateTimeBinary = DateTime.Now.ToBinary(),
                     levelsAccessed = _gameManager.LevelsAccessed,
                     
-                    level1Data = new LevelData()
-                    {
-                        //data stuff
-                    }
+                    level1Data = _gameManager.allLevelData[0],
+                    level2Data = _gameManager.allLevelData[1],
+                    level3Data = _gameManager.allLevelData[2],
+                    level4Data = _gameManager.allLevelData[3]
                     
                 }
             };

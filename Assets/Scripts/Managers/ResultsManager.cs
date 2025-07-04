@@ -1,4 +1,5 @@
-﻿using Interactables;
+﻿using System.Collections.Generic;
+using Interactables;
 using Save;
 using TMPro;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI levelHeaderText;
 
         [SerializeField] private TextMeshProUGUI collectableResultsText;
-
+        
         private int maxCount;
         
         private SaveDataManager _saveDataManager;
@@ -35,18 +36,21 @@ namespace Managers
 
         private void OnEnable()
         {
-            finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+            if (finalCheckpoint != null)
+                finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
         }
-        
+
         private void OnDisable()
         {
-            finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+            if (finalCheckpoint != null)
+                finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
         }
 
         private void HandleFinalCheckpointHit()
         {
             FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
+            Debug.unityLogger.Log("Results Manager Calling GameManger to Save");
             SaveGame();
             EndLevel();
         }

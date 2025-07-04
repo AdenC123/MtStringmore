@@ -22,9 +22,18 @@ namespace Save
     [Serializable]
     public struct LevelData
     {
-        public int mostCandies;
+        public int mostCandiesCollected;
+        public int totalCandiesInLevel;
         public int leastDeaths;
         public string bestTime;
+        
+        public LevelData(int defaultDeaths = -1, int defaultCandies = -1, int defaultTotal = -1, string defaultTime = "--:--:--")
+        {
+            leastDeaths = defaultDeaths;
+            mostCandiesCollected = defaultCandies;
+            totalCandiesInLevel = defaultTotal;
+            bestTime = defaultTime;
+        }
     }
 
     /// <summary>

@@ -77,7 +77,6 @@ namespace Managers
         [SerializeField] private List<string> levelNameList;
 
         private int thisLevelDeaths;
-        private int thisLevelCandies;
         private string thisLevelTime;
         
 
@@ -94,7 +93,7 @@ namespace Managers
 
         // <summary>
         // saving the level data to here so it's easier to load.
-        // level data stores: int least deaths, int most candies, string best time
+        // level data stores: int leastDeaths, int mostCandiesCollected, int totalCandiesInLevel, string bestTime
         // </summary>
         public List<LevelData> allLevelData = new List<LevelData>();
 
@@ -169,8 +168,7 @@ namespace Managers
         // <summary>
         // signals that the level is completed and the level data should be saved
         // called by resultsManager once last checkpoint is reached
-        // <summary>
-
+        // </summary>
         public void LevelCompleted()
         {
             SaveLevelDataToGameManager();
@@ -184,28 +182,27 @@ namespace Managers
         private void SaveLevelDataToGameManager()
         {
             string thisSceneName = SceneManager.GetActiveScene().name;
-            int idx = -1;
+            int idx = -1; //baseValue
             if (!levelNameList.Contains(thisSceneName))
             {
                 Debug.Log("GameManager could not determine what level we are currently in");
                 return;
             }
-            
-            // +1 because 0-based indexing and there level1 is the first entry
             idx = levelNameList.IndexOf(thisSceneName);
-            SaveToCorrectLevelVariable(idx+1);
-            
+            SaveToCorrectLevelVariable(idx); //level number - 1 is the index b/c 0-based indexing
         }
 
         private void SaveToCorrectLevelVariable(int index)
         {
-            thisLevelCandies = _collectedCollectables.Count;
             if (index >= 0 && index < allLevelData.Count)
             {
-                LevelData levelData = allLevelData[index];
-                levelData.mostCandies = thisLevelCandies;
-                levelData.leastDeaths = thisLevelDeaths;
-                levelData.bestTime = thisLevelTime;
+                LevelData updatedLevelData = allLevelData[index];
+                updatedLevelData.mostCandiesCollected = _collectedCollectables.Count;
+                updatedLevelData.totalCandiesInLevel = _collectableLookup.Count;
+                updatedLevelData.leastDeaths = thisLevelDeaths;
+                updatedLevelData.bestTime = thisLevelTime;
+
+                allLevelData[index] = updatedLevelData;
             }
             else
             {
