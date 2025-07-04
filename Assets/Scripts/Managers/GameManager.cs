@@ -154,7 +154,7 @@ namespace Managers
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
-            thisLevelDeaths = 0;
+            thisLevelDeaths = -1;
             if (!_dontClearDataOnSceneChanged)
             {
                 PlayerController player = FindObjectOfType<PlayerController>();
@@ -188,8 +188,15 @@ namespace Managers
 
         private void OnPlayerDeath()
         {
-            thisLevelDeaths++;
-            Debug.Log("Player died. Death count: " + thisLevelDeaths);
+            //brings the deaths from a negative sentinel value to 1
+            if (thisLevelDeaths == -1)
+            {
+                thisLevelDeaths += 2;
+            }
+            else
+            {
+                thisLevelDeaths++;
+            }
         }
         
         // <summary>
@@ -238,7 +245,7 @@ namespace Managers
                 if (updatedLevelData.mostCandiesCollected < _collectedCollectables.Count)
                     updatedLevelData.mostCandiesCollected = _collectedCollectables.Count;
                 updatedLevelData.totalCandiesInLevel = _collectableLookup.Count;
-                if (updatedLevelData.leastDeaths > thisLevelDeaths)
+                if (updatedLevelData.leastDeaths == -1 || updatedLevelData.leastDeaths > thisLevelDeaths)
                     updatedLevelData.leastDeaths = thisLevelDeaths;
                 if (BeatsCurrentTime(updatedLevelData.bestTime, thisLevelTime))
                     updatedLevelData.bestTime = thisLevelTime;
@@ -283,6 +290,11 @@ namespace Managers
             _prevCheckpoints.Clear();
             _collectedCollectables.Clear();
             LevelsAccessed.AddRange(saveData.levelsAccessed);
+            
+            allLevelData[0] = saveData.level1Data;
+            allLevelData[1] = saveData.level2Data;
+            allLevelData[2] = saveData.level3Data;
+            allLevelData[3] = saveData.level4Data;
 
             saveGame?.Invoke();
             _dontClearDataOnSceneChanged = true;

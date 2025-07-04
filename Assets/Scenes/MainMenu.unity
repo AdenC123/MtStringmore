@@ -1488,6 +1488,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 7818288281639424406, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8542332163250851050, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1573,7 +1577,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-'
+  m_text: N/A
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f52c711435458a42914b2d292c5070e, type: 2}
   m_sharedMaterial: {fileID: -1518737356106722432, guid: 2f52c711435458a42914b2d292c5070e, type: 2}
@@ -3259,7 +3263,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-'
+  m_text: N/A
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f52c711435458a42914b2d292c5070e, type: 2}
   m_sharedMaterial: {fileID: -1518737356106722432, guid: 2f52c711435458a42914b2d292c5070e, type: 2}

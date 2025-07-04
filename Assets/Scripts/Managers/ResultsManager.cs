@@ -69,6 +69,9 @@ namespace Managers
         private void UpdateDeathsCount()
         {
             int deaths = _gameManager.thisLevelDeaths;
+            //if uninstantiated and still null value
+            if (deaths == -1)
+                deaths = 0;
             deathsText.text = deaths.ToString();
         }
 

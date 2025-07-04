@@ -128,7 +128,8 @@ namespace UI
 
             if (type == "deaths")
             {
-                if (selectedLevel.leastDeaths <= 0)
+                Debug.Log(selectedLevel.leastDeaths);
+                if (selectedLevel.leastDeaths == -1)
                     return "N/A";
                 return selectedLevel.leastDeaths.ToString();
             }

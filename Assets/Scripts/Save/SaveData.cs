@@ -20,20 +20,12 @@ namespace Save
     }
 
     [Serializable]
-    public struct LevelData
+    public class LevelData
     {
-        public int mostCandiesCollected;
-        public int totalCandiesInLevel;
-        public int leastDeaths;
-        public string bestTime;
-        
-        public LevelData(int defaultDeaths = -1, int defaultCandies = -1, int defaultTotal = -1, string defaultTime = "--:--:--")
-        {
-            leastDeaths = defaultDeaths;
-            mostCandiesCollected = defaultCandies;
-            totalCandiesInLevel = defaultTotal;
-            bestTime = defaultTime;
-        }
+        public int mostCandiesCollected = -1;
+        public int totalCandiesInLevel = -1;
+        public int leastDeaths = -1;
+        public string bestTime = "--:--:--";
     }
 
     /// <summary>
