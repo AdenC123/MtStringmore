@@ -68,11 +68,24 @@ namespace Managers
         /// Action invoked on game data changed.
         /// </summary>
         public event Action GameDataChanged;
+        
+        // <summary>
+        // Lists for stats for each level
+        // index 0 = level 1
+        // index 1 = level 2
+        // index 2 = level 3
+        // index 3 = level 4
+        // <summary>
+        public List<int> deathCounter;
+        public List<int> candyCounter;
+        public List<int> fastestTimes; //in seconds
 
         /// <summary>
         /// Canvas to fade in/out when transitioning between scenes
         /// </summary>
         [SerializeField] private FadeEffects sceneTransitionCanvas;
+
+        [SerializeField] private List<string> levelNameList;
 
         private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
         private readonly HashSet<Vector2> _prevCheckpoints = new();
