@@ -43,9 +43,7 @@ namespace UI
 
                 bool isUnlocked = unlockedScenes.Contains(sceneName);
                 int levelNumber = allLevelSceneNames.IndexOf(sceneName) + 1;
-            
-                Debug.Log(sceneName + " is " + isUnlocked);
-
+                
                 if (isUnlocked)
                 {
                     label.text = levelNumber.ToString();
