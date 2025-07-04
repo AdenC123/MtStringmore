@@ -77,10 +77,6 @@ namespace Save
                     checkpointFacesLeft = _gameManager.RespawnFacingLeft,
                     dateTimeBinary = DateTime.Now.ToBinary(),
                     levelsAccessed = _gameManager.LevelsAccessed,
-                    
-                    deathCounter = _gameManager.deathCounter,
-                    candyCounter = _gameManager.candyCounter,
-                    fastestTimes = _gameManager.fastestTimes
                 }
             };
         }

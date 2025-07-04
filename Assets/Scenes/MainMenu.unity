@@ -1422,7 +1422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: levelNameList.Array.data[0]
-      value: Level1Trial
+      value: Level1
       objectReference: {fileID: 0}
     - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: levelNameList.Array.data[1]
@@ -2664,7 +2664,7 @@ GameObject:
   - component: {fileID: 1446730413}
   - component: {fileID: 1446730414}
   m_Layer: 5
-  m_Name: Group
+  m_Name: Interactables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2863,7 +2863,7 @@ GameObject:
   - component: {fileID: 1474038964}
   - component: {fileID: 1474038963}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Level Select Header
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3614,14 +3614,22 @@ MonoBehaviour:
   playButton: {fileID: 1181040972}
   unlockedSprite: {fileID: 21300000, guid: cc6602c0d4b8f40a3a1db784f3355601, type: 3}
   lockedSprite: {fileID: 21300000, guid: 5d6ce6cf0462a462383eef4e4e147d53, type: 3}
-  allLevelSceneNames:
+  allLevelLoadingSceneNames:
   - IntroCutscene
   - SecondCutscene
+  - ThirdCutscene
+  - FourthCutscene
+  allLevelSceneNames:
+  - Level1Trial
+  - Level2
   - Level3
   - Level4
   canvasAudioSource: {fileID: 1503641520}
   buttonClickSound: {fileID: 8300000, guid: c483efca31d821740b6a06177526dc55, type: 3}
   level1: IntroCutscene
+  levelText: {fileID: 1456634252}
+  timeText: {fileID: 628251941}
+  candyText: {fileID: 693041855}
 --- !u!1 &1602962891
 GameObject:
   m_ObjectHideFlags: 0

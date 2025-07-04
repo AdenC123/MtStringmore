@@ -75,10 +75,10 @@ namespace Managers
         // index 1 = level 2
         // index 2 = level 3
         // index 3 = level 4
-        // <summary>
-        public List<int> deathCounter;
-        public List<int> candyCounter;
-        public List<int> fastestTimes; //in seconds
+        // </summary>
+        [SerializeField] public List<int> deathCounter;
+        [SerializeField] public List<int> candyCounter;
+        [SerializeField] public List<int> fastestTimes;
 
         /// <summary>
         /// Canvas to fade in/out when transitioning between scenes
@@ -100,6 +100,11 @@ namespace Managers
 
         private void Awake()
         {
+            //set to -1 initially for each level
+            deathCounter = new List<int> { -1, -1, -1, -1 };
+            candyCounter = new List<int> { -1, -1, -1, -1 };
+            fastestTimes = new List<int> { -1, -1, -1, -1 };
+            
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
@@ -202,11 +207,6 @@ namespace Managers
             CheckpointsReached.Clear();
             _prevCheckpoints.Clear();
             _collectedCollectables.Clear();
-
-            deathCounter = saveData.deathCounter;
-            candyCounter = saveData.candyCounter;
-            fastestTimes = saveData.fastestTimes;
-    
             LevelsAccessed.AddRange(saveData.levelsAccessed);
 
             saveGame?.Invoke();
