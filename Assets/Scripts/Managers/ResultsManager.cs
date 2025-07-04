@@ -16,7 +16,7 @@ namespace Managers
         
         [SerializeField] private TextMeshProUGUI levelHeaderText;
 
-        [SerializeField] private TextMeshProUGUI collectableResultsText;
+        [SerializeField] private TextMeshProUGUI collectableResultsText, deathsText;
         
         private int maxCount;
         
@@ -50,7 +50,7 @@ namespace Managers
         {
             FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
-            Debug.unityLogger.Log("Results Manager Calling GameManger to Save");
+            UpdateDeathsCount();
             SaveGame();
             EndLevel();
         }
@@ -64,6 +64,12 @@ namespace Managers
         {
             int collectedCount = _gameManager.NumCollectablesCollected;
             collectableResultsText.text = collectedCount + " / " + maxCount;
+        }
+        
+        private void UpdateDeathsCount()
+        {
+            int deaths = _gameManager.thisLevelDeaths;
+            deathsText.text = deaths.ToString();
         }
 
         private void EndLevel()

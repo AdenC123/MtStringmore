@@ -77,8 +77,18 @@ namespace Managers
 
         [SerializeField] private List<string> levelNameList;
 
-        private int thisLevelDeaths;
-        private string thisLevelTime;
+        //<summary>
+        //the numbers of times Marshmallow dies in a level
+        //called by results manager and level select to display stats
+        //</summary>
+        public int thisLevelDeaths;
+        
+        //<summary>
+        //the time it took for player to beat a level
+        //called by results manager and level select to display stats
+        // in the form of hh:mm:ss
+        //</summary>
+        public string thisLevelTime;
         
 
         private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
@@ -100,6 +110,8 @@ namespace Managers
 
         private void Awake()
         {
+            thisLevelDeaths = -1;
+            thisLevelTime = "--:--:--";
             // make sure list has 4 entries
             for (int i = allLevelData.Count; i < 4; i++) {
                 allLevelData.Add(new LevelData());
@@ -130,17 +142,25 @@ namespace Managers
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            
+            PlayerController player = FindObjectOfType<PlayerController>();
+            if (player)
+            {
+                player.Death -= OnPlayerDeath;
+            }
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
+            thisLevelDeaths = 0;
             if (!_dontClearDataOnSceneChanged)
             {
                 PlayerController player = FindObjectOfType<PlayerController>();
                 if (player)
                 {
+                    player.Death += OnPlayerDeath;
                     CheckPointPos = player.transform.position;
                     Debug.Log("Hopefully set checkpoint position to be player's position: " + CheckPointPos);
                 }
@@ -164,6 +184,12 @@ namespace Managers
                 }
             }
             _dontClearDataOnSceneChanged = false;
+        }
+
+        private void OnPlayerDeath()
+        {
+            thisLevelDeaths++;
+            Debug.Log("Player died. Death count: " + thisLevelDeaths);
         }
         
         // <summary>
