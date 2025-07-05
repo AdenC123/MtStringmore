@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Interactables;
 using Managers;
 using Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
@@ -17,24 +19,40 @@ namespace UI
         [SerializeField] Sprite unlockedSprite;
         [SerializeField] Sprite lockedSprite;
 
-        [SerializeField] List<string> allLevelSceneNames;
+        //<summary>
+        //The names of the scenes that need to be loaded (i.e. introcutscene, secondcutscene, etc.)
+        //</summary>
+        [SerializeField] List<string> allLevelLoadingSceneNames;
+        
+        //<summary>
+        //The names of the level scenes (i.e. Level1Trial, Level2, etc.)
+        //</summary>
+        [SerializeField] private List<string> allLevelSceneNames;
     
         [SerializeField] private AudioSource canvasAudioSource;
         [SerializeField] private AudioClip buttonClickSound;
         [SerializeField] private string level1 = "IntroCutscene";
+
+        [SerializeField] private TMP_Text levelText, timeText, deathText, candyText;
     
         private List<string> unlockedScenes;
         private string selectedScene;
         private readonly List<Button> levelButtons = new List<Button>();
+        private GameManager _gameManager;
+
+        private void Awake()
+        {
+            _gameManager = GameManager.Instance;
+        }
 
         private void Start()
         {
             LazyLoad();
-            unlockedScenes = GameManager.Instance.LevelsAccessed;
+            unlockedScenes = _gameManager.LevelsAccessed;
             playButton.interactable = false;
             unlockedScenes.Add(level1);
 
-            foreach (string sceneName in allLevelSceneNames)
+            foreach (string sceneName in allLevelLoadingSceneNames)
             {
                 GameObject btnObj = Instantiate(buttonPrefab, buttonContainer);
                 Button button = btnObj.GetComponent<Button>();
@@ -42,10 +60,8 @@ namespace UI
                 Image background = btnObj.GetComponent<Image>();
 
                 bool isUnlocked = unlockedScenes.Contains(sceneName);
-                int levelNumber = allLevelSceneNames.IndexOf(sceneName) + 1;
-            
-                Debug.Log(sceneName + " is " + isUnlocked);
-
+                int levelNumber = allLevelLoadingSceneNames.IndexOf(sceneName) + 1;
+                
                 if (isUnlocked)
                 {
                     label.text = levelNumber.ToString();
@@ -55,7 +71,7 @@ namespace UI
                     button.onClick.AddListener(() =>
                     {
                         PlayClickSound();
-                        OnLevelSelected(sceneName, button);
+                        OnLevelSelected(sceneName, button, levelNumber);
                     });            }
                 else
                 {
@@ -86,15 +102,63 @@ namespace UI
             FindObjectOfType<SaveDataManager>()?.PreloadSaveData();
         }
 
-        private void OnLevelSelected(string sceneName, Button clickedButton)
+        // <summary>
+        // retrieves the name of the level from the cutscene name
+        // sceneName must be one of: "IntroCutscene" "SecondCutscene" "ThirdCutscene" "FourthCutscene"
+        // <summary>
+        private string GetLevelName(string sceneName)
+        {
+            if (!allLevelLoadingSceneNames.Contains(sceneName))
+            {
+                return "";
+            }
+            int idx = allLevelLoadingSceneNames.IndexOf(sceneName);
+            return allLevelSceneNames[idx];
+        }
+
+        private string GetCorrectText(string sceneName, string type, int levelNumber)
+        {
+            LevelData selectedLevel = _gameManager.allLevelData[levelNumber - 1];
+            if (type == "candy")
+            {
+                if (selectedLevel.totalCandiesInLevel <= 0)
+                    return "N/A";
+                return selectedLevel.mostCandiesCollected + "/" + selectedLevel.totalCandiesInLevel;
+            }
+
+            if (type == "deaths")
+            {
+                Debug.Log(selectedLevel.leastDeaths);
+                if (selectedLevel.leastDeaths == -1)
+                    return "N/A";
+                return selectedLevel.leastDeaths.ToString();
+            }
+
+            if (type == "time")
+            {
+                if (string.IsNullOrEmpty(selectedLevel.bestTime) || selectedLevel.bestTime == "--:--:--")
+                    return "--:--:--";
+                return selectedLevel.bestTime;
+            }
+
+            return "error";
+        }
+
+        private void OnLevelSelected(string sceneName, Button clickedButton, int levelNumber)
         {
             selectedScene = sceneName;
             playButton.interactable = true;
-
+            
+            //change the text of the level stats
+            levelText.text = "Level " + levelNumber;
+            candyText.text = GetCorrectText(sceneName, "candy", levelNumber);
+            deathText.text = GetCorrectText(sceneName, "deaths", levelNumber);
+            timeText.text = GetCorrectText(sceneName, "time", levelNumber);
+            
             for (int i = 0; i < levelButtons.Count; i++)
             {
                 Image bg = levelButtons[i].GetComponent<Image>();
-                string thisScene = allLevelSceneNames[i];
+                string thisScene = allLevelLoadingSceneNames[i];
                 bool isUnlocked = unlockedScenes.Contains(thisScene);
 
                 bg.sprite = isUnlocked ? unlockedSprite : lockedSprite;
@@ -108,7 +172,7 @@ namespace UI
             selectedColor.a = 0.75f; 
             selectedImage.color = selectedColor;
         }
-
+        
         private void OnPlayClicked()
         {
             if (!string.IsNullOrEmpty(selectedScene))

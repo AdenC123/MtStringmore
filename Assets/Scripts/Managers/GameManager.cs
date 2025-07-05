@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Interactables;
 using Player;
 using Save;
@@ -66,14 +66,30 @@ namespace Managers
         public event Action Reset;
 
         /// <summary>
-        /// Action invoked on game data changed.
+        /// Action invoked when a level is completed.
         /// </summary>
-        public event Action GameDataChanged;
+        public event Action saveGame;
 
         /// <summary>
         /// Canvas to fade in/out when transitioning between scenes
         /// </summary>
         [SerializeField] private FadeEffects sceneTransitionCanvas;
+
+        [SerializeField] private List<string> levelNameList;
+
+        //<summary>
+        //the numbers of times Marshmallow dies in a level
+        //called by results manager and level select to display stats
+        //</summary>
+        public int thisLevelDeaths;
+        
+        //<summary>
+        //the time it took for player to beat a level
+        //called by results manager and level select to display stats
+        // in the form of hh:mm:ss
+        //</summary>
+        public string thisLevelTime;
+        
 
         private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
         private readonly HashSet<Vector2> _prevCheckpoints = new();
@@ -86,9 +102,20 @@ namespace Managers
         /// </summary>
         private bool _dontClearDataOnSceneChanged;
 
+        // <summary>
+        // saving the level data to here so it's easier to load.
+        // level data stores: int leastDeaths, int mostCandiesCollected, int totalCandiesInLevel, string bestTime
+        // </summary>
+        public List<LevelData> allLevelData = new List<LevelData>();
+
         private void Awake()
         {
-            if (_instance && _instance != this)
+            // make sure list has 4 entries
+            for (int i = allLevelData.Count; i < 4; i++) {
+                allLevelData.Add(new LevelData());
+            }
+            
+            if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
                 return;
@@ -100,8 +127,7 @@ namespace Managers
             if (SystemInfo.deviceType == DeviceType.Handheld)
             {
                 // TODO make maxFrameRate a setting
-                Application.targetFrameRate =
-                    Mathf.RoundToInt((float) Screen.resolutions.Max(res => res.refreshRateRatio.value));
+                Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
             }
             Debug.Log("Application version: " + Application.version);
         }
@@ -114,24 +140,32 @@ namespace Managers
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            
+            PlayerController player = FindObjectOfType<PlayerController>();
+            if (player)
+            {
+                player.Death -= OnPlayerDeath;
+            }
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
+            thisLevelDeaths = 0;
+            thisLevelTime = "--:--:--";
             if (!_dontClearDataOnSceneChanged)
             {
                 PlayerController player = FindObjectOfType<PlayerController>();
                 if (player)
                 {
+                    player.Death += OnPlayerDeath;
                     CheckPointPos = player.transform.position;
                     Debug.Log("Hopefully set checkpoint position to be player's position: " + CheckPointPos);
                 }
                 CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
                 _collectedCollectables.Clear();
-                GameDataChanged?.Invoke();
             }
             _collectableLookup.Clear();
             Collectable[] collectables = FindObjectsOfType<Collectable>();
@@ -149,6 +183,78 @@ namespace Managers
                 }
             }
             _dontClearDataOnSceneChanged = false;
+        }
+
+        private void OnPlayerDeath()
+        {
+            //brings the deaths from a negative sentinel value to 1
+            if (thisLevelDeaths == -1)
+            {
+                thisLevelDeaths += 2;
+            }
+            else
+            {
+                thisLevelDeaths++;
+            }
+        }
+        
+        // <summary>
+        // signals that the level is completed and the level data should be saved
+        // called by resultsManager once last checkpoint is reached
+        // </summary>
+        public void LevelCompleted()
+        {
+            SaveLevelDataToGameManager();
+            saveGame?.Invoke();
+        }
+
+        // <summary>
+        // saves all of the current game stats (thisLevelDeaths, thisLevelCandies, thisLevelTime)
+        // to the game manager level data variables
+        // </summary>
+        private void SaveLevelDataToGameManager()
+        {
+            string thisSceneName = SceneManager.GetActiveScene().name;
+            int idx = -1; //baseValue
+            if (!levelNameList.Contains(thisSceneName))
+            {
+                Debug.Log("GameManager could not determine what level we are currently in");
+                return;
+            }
+            idx = levelNameList.IndexOf(thisSceneName);
+            SaveToCorrectLevelVariable(idx); //level number - 1 is the index b/c 0-based indexing
+        }
+
+        private bool BeatsCurrentTime(string currBestTimeSpan, string newTimeSpan)
+        {
+            if (currBestTimeSpan == "--:--:--")
+                return true;
+            if (newTimeSpan == "--:--:--")
+                return false;
+            TimeSpan t1 = TimeSpan.Parse(currBestTimeSpan);
+            TimeSpan t2 = TimeSpan.Parse(newTimeSpan);
+            return t2 < t1;
+        }
+
+        private void SaveToCorrectLevelVariable(int index)
+        {
+            if (index >= 0 && index < allLevelData.Count)
+            {
+                LevelData updatedLevelData = allLevelData[index];
+                if (updatedLevelData.mostCandiesCollected < _collectedCollectables.Count)
+                    updatedLevelData.mostCandiesCollected = _collectedCollectables.Count;
+                updatedLevelData.totalCandiesInLevel = _collectableLookup.Count;
+                if (updatedLevelData.leastDeaths == -1 || updatedLevelData.leastDeaths > thisLevelDeaths)
+                    updatedLevelData.leastDeaths = thisLevelDeaths;
+                if (BeatsCurrentTime(updatedLevelData.bestTime, thisLevelTime))
+                    updatedLevelData.bestTime = thisLevelTime;
+
+                allLevelData[index] = updatedLevelData;
+            }
+            else
+            {
+                Debug.Log("Could not save data to GameManager");
+            }
         }
 
         /// <summary>
@@ -169,7 +275,6 @@ namespace Managers
             CheckPointPos = newCheckpointLocation;
             RespawnFacingLeft = shouldFaceLeft;
             CheckpointsReached.Add(newCheckpointLocation);
-            GameDataChanged?.Invoke();
         }
 
         /// <summary>
@@ -178,22 +283,19 @@ namespace Managers
         /// <param name="saveData">Save data from file</param>
         public void UpdateFromSaveData(SaveData saveData)
         {
-            Vector2[] checkpointsReached = saveData.checkpointsReached;
             bool shouldFaceLeft = saveData.checkpointFacesLeft;
-            if (checkpointsReached.Length > 0) CheckPointPos = checkpointsReached[^1];
             RespawnFacingLeft = shouldFaceLeft;
             CheckpointsReached.Clear();
             _prevCheckpoints.Clear();
-            CheckpointsReached.AddRange(checkpointsReached);
-            foreach (Vector2 checkpointReached in checkpointsReached)
-                _prevCheckpoints.Add(checkpointReached);
             _collectedCollectables.Clear();
-            foreach (Vector2 candyCollected in saveData.candiesCollected)
-                _collectedCollectables.Add(candyCollected);
-    
             LevelsAccessed.AddRange(saveData.levelsAccessed);
+            
+            allLevelData[0] = saveData.level1Data;
+            allLevelData[1] = saveData.level2Data;
+            allLevelData[2] = saveData.level3Data;
+            allLevelData[3] = saveData.level4Data;
 
-            GameDataChanged?.Invoke();
+            saveGame?.Invoke();
             _dontClearDataOnSceneChanged = true;
         }
 
@@ -211,7 +313,6 @@ namespace Managers
         public void ResetCandyCollected()
         {
             _collectedCollectables.Clear();
-            GameDataChanged?.Invoke();
         }
 
         /// <summary>
