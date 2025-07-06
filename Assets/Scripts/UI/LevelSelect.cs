@@ -1,12 +1,10 @@
-using System;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using TMPro;
 using System.Collections.Generic;
-using System.Linq;
 using Managers;
 using Save;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -20,14 +18,14 @@ namespace UI
         [SerializeField] Sprite lockedSprite;
 
         [SerializeField] List<string> allLevelSceneNames;
-
+    
         [SerializeField] private AudioSource canvasAudioSource;
         [SerializeField] private AudioClip buttonClickSound;
         [SerializeField] private string level1 = "IntroCutscene";
-
+    
         private List<string> unlockedScenes;
         private string selectedScene;
-        private List<Button> levelButtons = new List<Button>();
+        private readonly List<Button> levelButtons = new List<Button>();
 
         private void Start()
         {
@@ -45,7 +43,7 @@ namespace UI
 
                 bool isUnlocked = unlockedScenes.Contains(sceneName);
                 int levelNumber = allLevelSceneNames.IndexOf(sceneName) + 1;
-
+            
                 Debug.Log(sceneName + " is " + isUnlocked);
 
                 if (isUnlocked)
@@ -58,8 +56,7 @@ namespace UI
                     {
                         PlayClickSound();
                         OnLevelSelected(sceneName, button);
-                    });
-                }
+                    });            }
                 else
                 {
                     label.text = "";
@@ -72,7 +69,7 @@ namespace UI
 
             playButton.onClick.AddListener(OnPlayClicked);
         }
-
+    
         private void PlayClickSound()
         {
             if (canvasAudioSource != null && buttonClickSound != null)
@@ -101,15 +98,14 @@ namespace UI
                 bool isUnlocked = unlockedScenes.Contains(thisScene);
 
                 bg.sprite = isUnlocked ? unlockedSprite : lockedSprite;
-
+            
                 Color color = bg.color;
                 color.a = 1f;
                 bg.color = color;
             }
-
             Image selectedImage = clickedButton.GetComponent<Image>();
             Color selectedColor = selectedImage.color;
-            selectedColor.a = 0.5f;
+            selectedColor.a = 0.75f; 
             selectedImage.color = selectedColor;
         }
 
