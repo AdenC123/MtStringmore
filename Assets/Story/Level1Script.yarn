@@ -9,14 +9,14 @@ setting: outside Knitby's house
 // knitby opens the door
 <<play_sound door_open false>>
 <<show KnitbyHouseDoor>>
-<<set_animation KnitbyHouseDoor true>>
+<<set_animation KnitbyHouseDoor true false>>
 <<show Knitby>>
 <<follow_object Knitby>>
 <<resize_camera 4 5>>
 <<wait 0.5>>
-<<move Knitby 4 1.2 10 false false>>
+<<move Knitby 4 1.2 10 false>>
 // tweak Knitby's Z to 0 at the end
-<<run Knitby 4 1.2 10 false false -0.1>>
+<<run Knitby 4 1.2 10 false true false -0.1>>
 Marshmallow: Hiya Knitby, how's it going?
 <<wait_move_finish Knitby>>
 Knitby: Hey, good to see you, Marshmallow! It's going well, I'm still reveling in our glorious victory on the football field the other day.   
