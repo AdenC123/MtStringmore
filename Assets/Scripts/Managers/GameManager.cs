@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Interactables;
 using Player;
 using Save;
@@ -110,6 +111,7 @@ namespace Managers
 
         private void Awake()
         {
+            if (_instance && _instance != this)
             thisLevelDeaths = -1;
             thisLevelTime = "--:--:--";
             // make sure list has 4 entries
@@ -129,7 +131,8 @@ namespace Managers
             if (SystemInfo.deviceType == DeviceType.Handheld)
             {
                 // TODO make maxFrameRate a setting
-                Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
+                Application.targetFrameRate =
+                    Mathf.RoundToInt((float) Screen.resolutions.Max(res => res.refreshRateRatio.value));
             }
             Debug.Log("Application version: " + Application.version);
         }
@@ -167,6 +170,7 @@ namespace Managers
                 CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
                 _collectedCollectables.Clear();
+                GameDataChanged?.Invoke();
             }
             _collectableLookup.Clear();
             Collectable[] collectables = FindObjectsOfType<Collectable>();
