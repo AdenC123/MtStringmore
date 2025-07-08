@@ -230,18 +230,40 @@ namespace Managers
             } 
             SaveToCorrectLevelVariable(idx);
         }
-
+        
         private bool BeatsCurrentTime(string currBestTimeSpan, string newTimeSpan)
         {
             if (currBestTimeSpan == EmptySaveTime)
                 return true;
             if (newTimeSpan == EmptySaveTime)
                 return false;
-            TimeSpan t1 = TimeSpan.Parse(currBestTimeSpan);
-            TimeSpan t2 = TimeSpan.Parse(newTimeSpan);
+
+            TimeSpan t1 = ParseCustomTime(currBestTimeSpan);
+            TimeSpan t2 = ParseCustomTime(newTimeSpan);
+
             return t2 < t1;
         }
 
+        private TimeSpan ParseCustomTime(string time)
+        {
+            string[] parts = time.Split(':');
+            if (parts.Length != 3)
+            {
+                Debug.LogWarning($"Invalid time format: {time}");
+                return TimeSpan.MaxValue;
+            }
+
+            if (!int.TryParse(parts[0], out var minutes) ||
+                !int.TryParse(parts[1], out var seconds) ||
+                !int.TryParse(parts[2], out var milliseconds))
+            {
+                Debug.LogWarning($"Failed to parse parts of: {time}");
+                return TimeSpan.MaxValue;
+            }
+
+            return new TimeSpan(0, 0, minutes, seconds, milliseconds);
+        }
+        
         private void SaveToCorrectLevelVariable(int index)
         {
             if (index >= 0 && index < allLevelData.Count)
