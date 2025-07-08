@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Managers;
+﻿using Managers;
 using UI;
 using UnityEngine;
 using Util;
@@ -56,7 +55,6 @@ namespace Player
         [SerializeField] private AudioClip[] deathSounds;
     
         [Header("Visual")]
-        [SerializeField] private float dashTrailDuration = 0.3f;
         [Tooltip("Player position offset when hanging onto object (small red wire sphere gizmo)")]
         [SerializeField] private Vector2 hangOffset;
         [SerializeField][Range(0, 1)][Tooltip("Multiplier of swing angle")] private float swingDeltaMultiplier = 0.5f;
