@@ -17,6 +17,8 @@ namespace UI
         [SerializeField] Sprite unlockedSprite;
         [SerializeField] Sprite lockedSprite;
 
+        [SerializeField] private List<Sprite> levelCandyImages;
+
         //<summary>
         //The names of the scenes that need to be loaded (i.e. introcutscene, secondcutscene, etc.)
         //</summary>
@@ -32,6 +34,7 @@ namespace UI
         [SerializeField] private string level1 = "IntroCutscene";
 
         [SerializeField] private TextMeshProUGUI levelText, timeText, deathText, candyText;
+        [SerializeField] private Image candyImage;
     
         private List<string> unlockedScenes;
         private string selectedScene;
@@ -100,20 +103,6 @@ namespace UI
             FindObjectOfType<SaveDataManager>()?.PreloadSaveData();
         }
 
-        // <summary>
-        // retrieves the name of the level from the cutscene name
-        // sceneName must be one of: "IntroCutscene" "SecondCutscene" "ThirdCutscene" "FourthCutscene"
-        // <summary>
-        private string GetLevelName(string sceneName)
-        {
-            if (!allLevelLoadingSceneNames.Contains(sceneName))
-            {
-                return "";
-            }
-            int idx = allLevelLoadingSceneNames.IndexOf(sceneName);
-            return allLevelSceneNames[idx];
-        }
-
         private void OnLevelSelected(string sceneName, Button clickedButton, int levelNumber)
         {
             selectedScene = sceneName;
@@ -136,6 +125,10 @@ namespace UI
 
             // Time
             timeText.text = string.IsNullOrEmpty(selectedLevel.bestTime) ? "--:--:--" : selectedLevel.bestTime;
+            
+            //CandyImage
+            candyImage.sprite = levelCandyImages[levelNumber - 1];
+            candyImage.enabled = true;
             
             for (int i = 0; i < levelButtons.Count; i++)
             {

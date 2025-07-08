@@ -1058,7 +1058,7 @@ GameObject:
   m_Component:
   - component: {fileID: 596148412}
   - component: {fileID: 596148414}
-  - component: {fileID: 596148413}
+  - component: {fileID: 596148415}
   m_Layer: 5
   m_Name: CandyImage
   m_TagString: Untagged
@@ -1086,7 +1086,15 @@ RectTransform:
   m_AnchoredPosition: {x: 220, y: 90}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &596148413
+--- !u!222 &596148414
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596148411}
+  m_CullTransparentMesh: 1
+--- !u!114 &596148415
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1116,14 +1124,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!222 &596148414
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 596148411}
-  m_CullTransparentMesh: 1
 --- !u!1 &615997947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,7 +1532,7 @@ GameObject:
   - component: {fileID: 693041856}
   - component: {fileID: 693041855}
   m_Layer: 5
-  m_Name: CandyText (to-do)
+  m_Name: CandyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3218,7 +3218,7 @@ GameObject:
   - component: {fileID: 1526345125}
   - component: {fileID: 1526345124}
   m_Layer: 5
-  m_Name: DeathText (to-do)
+  m_Name: DeathText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3751,6 +3751,11 @@ MonoBehaviour:
   playButton: {fileID: 1181040972}
   unlockedSprite: {fileID: 21300000, guid: cc6602c0d4b8f40a3a1db784f3355601, type: 3}
   lockedSprite: {fileID: 21300000, guid: 5d6ce6cf0462a462383eef4e4e147d53, type: 3}
+  levelCandyImages:
+  - {fileID: 21300000, guid: 6dcd4921e8d20e04eb2ce601b1822906, type: 3}
+  - {fileID: 21300000, guid: 4b039a81a60e6d2458a101ad7ecd4739, type: 3}
+  - {fileID: 21300000, guid: e0c2e1b21c61e264294de67f481988f1, type: 3}
+  - {fileID: 21300000, guid: bf88ae4275933b44ca209cdc46e10688, type: 3}
   allLevelLoadingSceneNames:
   - IntroCutscene
   - SecondCutscene
@@ -3768,6 +3773,7 @@ MonoBehaviour:
   timeText: {fileID: 628251941}
   deathText: {fileID: 1526345124}
   candyText: {fileID: 693041855}
+  candyImage: {fileID: 596148415}
 --- !u!1 &1602962891
 GameObject:
   m_ObjectHideFlags: 0
