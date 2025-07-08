@@ -1,0 +1,6 @@
+﻿title: TempLevel3Mid
+---
+<<enable_interactables>>
+<<load_scene Level3>>
+<<move_player 103 -197>>
+===

@@ -249,7 +249,17 @@ namespace Managers
             SceneManager.LoadScene(sceneName);
         }
 
-        [YarnCommand("interactables_enable")]
+        [YarnCommand("enable_interactables")]
         public void SetInteractablesEnabled(bool isEnabled) => areInteractablesEnabled = isEnabled;
+
+        /// <summary>
+        /// This is probably a bad way to do this, whatever. Need to move the camera and Knitby too.
+        /// </summary>
+        [YarnCommand("move_player")]
+        public void ForceMovePlayer(float x, float y)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.transform.position = new Vector3(x, y);
+        }
     }
 }
