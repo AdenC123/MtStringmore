@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System;
 using Interactables;
 using Save;
 using TMPro;
@@ -22,28 +23,48 @@ namespace Managers
         
         private SaveDataManager _saveDataManager;
         private GameManager _gameManager;
-        
-        public static bool isResultsPageOpen = false;
-        
+
+        public static bool isResultsPageOpen;
+
         private void Start()
         {
             _saveDataManager = FindObjectOfType<SaveDataManager>();
             _gameManager = GameManager.Instance;
-            maxCount =_gameManager.MaxCollectablesCount;
+            maxCount = _gameManager.MaxCollectablesCount;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (finalCheckpoint)
+            {
+                finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+                finalCheckpoint = null;
+            }
+            
+            GameObject checkpointObj = GameObject.FindWithTag("FinalCheckpoint");
+            if (checkpointObj)
+            {
+                finalCheckpoint = checkpointObj.GetComponent<Checkpoint>();
+                if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+            }
+            else finalCheckpoint = null;
+            
+            maxCount = FindObjectsOfType<Collectable>().Length;
             levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
             resultsPane.SetActive(false);
+            isResultsPageOpen = false;
+            _saveDataManager = FindObjectOfType<SaveDataManager>();
         }
 
         private void OnEnable()
         {
-            if (finalCheckpoint != null)
-                finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
-
+        
         private void OnDisable()
         {
-            if (finalCheckpoint != null)
-                finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
         }
 
         private void HandleFinalCheckpointHit()
@@ -58,6 +79,11 @@ namespace Managers
         private void SaveGame()
         {
             _gameManager.LevelCompleted();
+        }
+
+        private void Update()
+        {
+            if (resultsPane.activeSelf && Input.GetButtonDown("Debug Reset")) return;
         }
 
         private void UpdateCollectableCount()
