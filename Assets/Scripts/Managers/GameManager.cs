@@ -90,6 +90,8 @@ namespace Managers
         // in the form of hh:mm:ss
         //</summary>
         private string ThisLevelTime { get; set;}
+
+        public const string EmptySaveTime = "--:--:--";
         
 
         private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
@@ -113,7 +115,7 @@ namespace Managers
         {
             if (_instance && _instance != this)
                 thisLevelDeaths = -1;
-            ThisLevelTime = "--:--:--";
+            ThisLevelTime = EmptySaveTime;
             // make sure list has 4 entries
             for (int i = allLevelData.Count; i < 4; i++) {
                 allLevelData.Add(new LevelData());
@@ -231,9 +233,9 @@ namespace Managers
 
         private bool BeatsCurrentTime(string currBestTimeSpan, string newTimeSpan)
         {
-            if (currBestTimeSpan == "--:--:--")
+            if (currBestTimeSpan == EmptySaveTime)
                 return true;
-            if (newTimeSpan == "--:--:--")
+            if (newTimeSpan == EmptySaveTime)
                 return false;
             TimeSpan t1 = TimeSpan.Parse(currBestTimeSpan);
             TimeSpan t2 = TimeSpan.Parse(newTimeSpan);
