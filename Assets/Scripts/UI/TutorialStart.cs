@@ -9,7 +9,7 @@ namespace UI
     {
         [SerializeField] private string tutorialMove;
 
-        [Tooltip("Text to display for tutorial move")] [SerializeField]
+        [Tooltip("Text to display for tutorial move")] [SerializeField] [TextArea(0, 3)]
         private string tutorialText;
 
         [Tooltip("Position to show the tutorial, relative to the center of the screen")] [SerializeField]

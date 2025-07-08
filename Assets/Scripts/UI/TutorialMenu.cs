@@ -82,7 +82,7 @@ namespace UI
                 tutorialBox.transform.position.z
             );
             animator.SetTrigger(tutorialNameHash);
-            tutorialTextbox.text = tutorialText;
+            tutorialTextbox.text = tutorialText.Replace("\n", "\n");
 
             if (_fadeInCoroutine != null)
                 StopCoroutine(_fadeInCoroutine);
