@@ -159,9 +159,9 @@ namespace Managers
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
-            thisLevelDeaths = -1;
             if (!_dontClearDataOnSceneChanged)
             {
+                thisLevelDeaths = -1;
                 PlayerController player = FindObjectOfType<PlayerController>();
                 if (player)
                 {
