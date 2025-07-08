@@ -125,7 +125,7 @@ namespace UI
             LevelData selectedLevel = _gameManager.allLevelData[levelNumber - 1];
             
             // Candy
-            if (selectedLevel.totalCandiesInLevel <= 0)
+            if (selectedLevel.totalCandiesInLevel < 0)
                 candyText.text = "N/A";
             else
                 candyText.text = selectedLevel.mostCandiesCollected + "/" + selectedLevel.totalCandiesInLevel;

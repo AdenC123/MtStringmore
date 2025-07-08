@@ -106,7 +106,6 @@ namespace Managers
 
         // <summary>
         // saving the level data to here so it's easier to load.
-        // level data stores: int leastDeaths, int mostCandiesCollected, int totalCandiesInLevel, string bestTime
         // </summary>
         public List<LevelData> allLevelData = new List<LevelData>();
 
@@ -246,11 +245,22 @@ namespace Managers
             if (index >= 0 && index < allLevelData.Count)
             {
                 LevelData updatedLevelData = allLevelData[index];
+                // Candies
                 if (updatedLevelData.mostCandiesCollected < _collectedCollectables.Count)
                     updatedLevelData.mostCandiesCollected = _collectedCollectables.Count;
                 updatedLevelData.totalCandiesInLevel = _collectableLookup.Count;
-                if (updatedLevelData.leastDeaths == -1 || updatedLevelData.leastDeaths > thisLevelDeaths)
-                    updatedLevelData.leastDeaths = thisLevelDeaths;
+                // Deaths
+                if (updatedLevelData.leastDeaths == -1 && thisLevelDeaths == -1)
+                {
+                    updatedLevelData.leastDeaths = 0;
+                }
+                else
+                {
+                    if (updatedLevelData.leastDeaths == -1 || updatedLevelData.leastDeaths > thisLevelDeaths)
+                        updatedLevelData.leastDeaths = thisLevelDeaths;
+                }
+                
+                // Time
                 if (BeatsCurrentTime(updatedLevelData.bestTime, ThisLevelTime))
                     updatedLevelData.bestTime = ThisLevelTime;
 
