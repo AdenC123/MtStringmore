@@ -124,7 +124,8 @@ namespace UI
             deathText.text = selectedLevel.leastDeaths == -1 ? "N/A" : selectedLevel.leastDeaths.ToString();
 
             // Time
-            timeText.text = string.IsNullOrEmpty(selectedLevel.bestTime) ? "--:--:--" : selectedLevel.bestTime;
+            timeText.text = string.IsNullOrEmpty(selectedLevel.bestTime) ? 
+                GameManager.EmptySaveTime : selectedLevel.bestTime;
             
             //CandyImage
             candyImage.sprite = levelCandyImages[levelNumber - 1];
