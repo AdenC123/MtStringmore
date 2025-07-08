@@ -457,8 +457,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e143156b6ed347a283872a7a54ff910b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeStayUp: 0.25
-  velocityDown: 10
+  timeStayUp: 0.5
+  velocityDown: 15
   velocityUp: 5
   timeStayDown: 0
   bottomCollider: {fileID: 4314559364430216980}

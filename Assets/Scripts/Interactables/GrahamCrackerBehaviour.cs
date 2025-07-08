@@ -114,9 +114,8 @@ namespace Interactables
         private IEnumerator SlamRoutine()
         {
             _state = State.WaitTop;
-            yield return new WaitForSeconds(timeStayUp - warningSoundTime);
             warningSound.Play();
-            yield return new WaitForSeconds(warningSoundTime);
+            yield return new WaitForSeconds(timeStayUp);
             _rigidbody2D.velocity = velocityDown * -(Vector2)transform.up;
             _state = State.MoveDown;
             closingSound.PlayDelayed(closingSoundDelay);
