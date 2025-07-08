@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using Interactables;
 using Managers;
 using Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
@@ -116,34 +114,6 @@ namespace UI
             return allLevelSceneNames[idx];
         }
 
-        private string GetCorrectText(string sceneName, string type, int levelNumber)
-        {
-            LevelData selectedLevel = _gameManager.allLevelData[levelNumber - 1];
-            if (type == "candy")
-            {
-                if (selectedLevel.totalCandiesInLevel <= 0)
-                    return "N/A";
-                return selectedLevel.mostCandiesCollected + "/" + selectedLevel.totalCandiesInLevel;
-            }
-
-            if (type == "deaths")
-            {
-                Debug.Log(selectedLevel.leastDeaths);
-                if (selectedLevel.leastDeaths == -1)
-                    return "N/A";
-                return selectedLevel.leastDeaths.ToString();
-            }
-
-            if (type == "time")
-            {
-                if (string.IsNullOrEmpty(selectedLevel.bestTime) || selectedLevel.bestTime == "--:--:--")
-                    return "--:--:--";
-                return selectedLevel.bestTime;
-            }
-
-            return "error";
-        }
-
         private void OnLevelSelected(string sceneName, Button clickedButton, int levelNumber)
         {
             selectedScene = sceneName;
@@ -151,9 +121,21 @@ namespace UI
             
             //change the text of the level stats
             levelText.text = "Level " + levelNumber;
-            candyText.text = GetCorrectText(sceneName, "candy", levelNumber);
-            deathText.text = GetCorrectText(sceneName, "deaths", levelNumber);
-            timeText.text = GetCorrectText(sceneName, "time", levelNumber);
+
+            LevelData selectedLevel = _gameManager.allLevelData[levelNumber - 1];
+            
+            // Candy
+            if (selectedLevel.totalCandiesInLevel <= 0)
+                candyText.text = "N/A";
+            else
+                candyText.text = selectedLevel.mostCandiesCollected + "/" + selectedLevel.totalCandiesInLevel;
+
+            // Deaths
+            Debug.Log(selectedLevel.leastDeaths);
+            deathText.text = selectedLevel.leastDeaths == -1 ? "N/A" : selectedLevel.leastDeaths.ToString();
+
+            // Time
+            timeText.text = string.IsNullOrEmpty(selectedLevel.bestTime) ? "--:--:--" : selectedLevel.bestTime;
             
             for (int i = 0; i < levelButtons.Count; i++)
             {
