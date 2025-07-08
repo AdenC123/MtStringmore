@@ -39,7 +39,6 @@ namespace Player
         [SerializeField] private Animator anim;
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private GameObject deathSmoke;
-        [SerializeField] private TrailRenderer[] dashTrails;
         [SerializeField] private ParticleSystem dashDust;
 
         // [Header("Particles")] [SerializeField] private ParticleSystem _jumpParticles;
@@ -312,18 +311,6 @@ namespace Player
             _source.clip = dashSound;
             _source.PlayOneShot(dashSound);
             dashDust.Play();
-            // StartCoroutine(DashTrail());
-        }
-
-        private IEnumerator DashTrail()
-        {
-            foreach (TrailRenderer trail in dashTrails)
-                trail.emitting = true;
-
-            yield return new WaitForSeconds(dashTrailDuration);
-
-            foreach (TrailRenderer trail in dashTrails)
-                trail.emitting = false;
         }
 
         private void OnSwingDifferentDirection(bool clockwise)
