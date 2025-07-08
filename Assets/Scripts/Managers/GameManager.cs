@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Interactables;
 using Player;
 using Save;
@@ -40,7 +41,7 @@ namespace Managers
         /// <summary>
         /// Number of checkpoints reached.
         /// </summary>
-        public List<Vector2> CheckpointsReached { get; } = new();
+        private List<Vector2> CheckpointsReached { get; } = new();
         
         /// <summary>
         /// Number of checkpoints reached.
@@ -88,7 +89,7 @@ namespace Managers
         //called by results manager and level select to display stats
         // in the form of hh:mm:ss
         //</summary>
-        public string thisLevelTime;
+        private string ThisLevelTime { get; set;}
         
 
         private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
@@ -100,6 +101,7 @@ namespace Managers
         ///
         /// So we need to check that we're doing that LOL.
         /// </summary>
+        
         private bool _dontClearDataOnSceneChanged;
 
         // <summary>
@@ -110,6 +112,9 @@ namespace Managers
 
         private void Awake()
         {
+            if (_instance && _instance != this)
+                thisLevelDeaths = -1;
+            ThisLevelTime = "--:--:--";
             // make sure list has 4 entries
             for (int i = allLevelData.Count; i < 4; i++) {
                 allLevelData.Add(new LevelData());
@@ -127,7 +132,8 @@ namespace Managers
             if (SystemInfo.deviceType == DeviceType.Handheld)
             {
                 // TODO make maxFrameRate a setting
-                Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
+                Application.targetFrameRate =
+                    Mathf.RoundToInt((float) Screen.resolutions.Max(res => res.refreshRateRatio.value));
             }
             Debug.Log("Application version: " + Application.version);
         }
@@ -152,8 +158,7 @@ namespace Managers
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
-            thisLevelDeaths = 0;
-            thisLevelTime = "--:--:--";
+            thisLevelDeaths = -1;
             if (!_dontClearDataOnSceneChanged)
             {
                 PlayerController player = FindObjectOfType<PlayerController>();
@@ -166,6 +171,7 @@ namespace Managers
                 CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
                 _collectedCollectables.Clear();
+                if (saveGame != null) saveGame.Invoke();
             }
             _collectableLookup.Clear();
             Collectable[] collectables = FindObjectsOfType<Collectable>();
@@ -215,14 +221,13 @@ namespace Managers
         private void SaveLevelDataToGameManager()
         {
             string thisSceneName = SceneManager.GetActiveScene().name;
-            int idx = -1; //baseValue
-            if (!levelNameList.Contains(thisSceneName))
+            int idx = levelNameList.IndexOf(thisSceneName);
+            if (idx == -1)
             {
                 Debug.Log("GameManager could not determine what level we are currently in");
                 return;
-            }
-            idx = levelNameList.IndexOf(thisSceneName);
-            SaveToCorrectLevelVariable(idx); //level number - 1 is the index b/c 0-based indexing
+            } 
+            SaveToCorrectLevelVariable(idx);
         }
 
         private bool BeatsCurrentTime(string currBestTimeSpan, string newTimeSpan)
@@ -246,8 +251,8 @@ namespace Managers
                 updatedLevelData.totalCandiesInLevel = _collectableLookup.Count;
                 if (updatedLevelData.leastDeaths == -1 || updatedLevelData.leastDeaths > thisLevelDeaths)
                     updatedLevelData.leastDeaths = thisLevelDeaths;
-                if (BeatsCurrentTime(updatedLevelData.bestTime, thisLevelTime))
-                    updatedLevelData.bestTime = thisLevelTime;
+                if (BeatsCurrentTime(updatedLevelData.bestTime, ThisLevelTime))
+                    updatedLevelData.bestTime = ThisLevelTime;
 
                 allLevelData[index] = updatedLevelData;
             }
@@ -315,6 +320,7 @@ namespace Managers
             _collectedCollectables.Clear();
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         /// <summary>
         /// Resets core components like player, Knitby, camera, etc to the state at
         /// the last checkpoint
@@ -325,6 +331,7 @@ namespace Managers
             sceneTransitionCanvas.InvokeFadeInAndOut();
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private void OnFadeIn()
         {
             Reset?.Invoke();
