@@ -15,7 +15,7 @@ namespace Interactables
 
         private void Start()
         {
-            if (!GameManager.Instance.areSwingsEnabled)
+            if (!GameManager.Instance.areInteractablesEnabled)
             {
                 GetComponent<SpriteRenderer>().sprite = disabledSprite;
             }

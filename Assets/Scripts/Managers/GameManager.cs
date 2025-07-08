@@ -71,10 +71,10 @@ namespace Managers
         public event Action GameDataChanged;
 
         /// <summary>
-        /// Whether swings in this scene are "enabled".
+        /// Whether interactables in this scene are "enabled".
         /// If disabled, sprite is changed and they can't be used by the player.
         /// </summary>
-        public bool areSwingsEnabled;
+        public bool areInteractablesEnabled;
 
         /// <summary>
         /// Canvas to fade in/out when transitioning between scenes
@@ -249,7 +249,7 @@ namespace Managers
             SceneManager.LoadScene(sceneName);
         }
 
-        [YarnCommand("swing_enable")]
-        public void SetSwingsEnabled(bool isEnabled) => areSwingsEnabled = isEnabled;
+        [YarnCommand("interactables_enable")]
+        public void SetInteractablesEnabled(bool isEnabled) => areInteractablesEnabled = isEnabled;
     }
 }
