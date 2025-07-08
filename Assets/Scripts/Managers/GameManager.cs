@@ -89,7 +89,7 @@ namespace Managers
         //called by results manager and level select to display stats
         // in the form of hh:mm:ss
         //</summary>
-        private string ThisLevelTime { get; set;}
+        public string ThisLevelTime { get; set;}
 
         public const string EmptySaveTime = "--:--:--";
         

@@ -26,6 +26,7 @@ namespace Managers
         [SerializeField] private Toggle timerToggle;
         
         public static float ElapsedLevelTime { get; set; }
+        public static string ElapsedLevelTimeString {get; private set;}
 
         // public bool IsResultsWindowActive => resultsWindow.activeSelf;
         // public bool IsTimerShown => inGameTimerText.enabled;
@@ -59,10 +60,10 @@ namespace Managers
             ElapsedLevelTime += Time.deltaTime;
             
             TimeSpan timeSpan = TimeSpan.FromSeconds(ElapsedLevelTime);
-            string text = timeSpan.ToString(@"mm\:ss\:ff");
+            ElapsedLevelTimeString = timeSpan.ToString(@"mm\:ss\:ff");
 
-            timerText.text = text;
-            inGameTimerText.text = text;
+            timerText.text = ElapsedLevelTimeString;
+            inGameTimerText.text = ElapsedLevelTimeString;
         }
 
         public void OnToggle()

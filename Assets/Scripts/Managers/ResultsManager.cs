@@ -72,6 +72,7 @@ namespace Managers
             FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
             UpdateCollectableCount();
             UpdateDeathsCount();
+            UpdateTimerCount();
             SaveGame();
             EndLevel();
         }
@@ -99,6 +100,12 @@ namespace Managers
             if (deaths == -1)
                 deaths = 0;
             deathsText.text = deaths.ToString();
+        }
+
+        private void UpdateTimerCount()
+        {
+            string time = TimerManager.ElapsedLevelTimeString;
+            _gameManager.ThisLevelTime = time;
         }
 
         private void EndLevel()
