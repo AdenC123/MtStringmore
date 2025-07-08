@@ -4001,7 +4001,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneTransitionCanvas: {fileID: 3180213058412596211}
-  levelNameList: []
+  levelNameList:
+  - Level1Trial
+  - Level2
+  - Level3
+  - Level4
+  thisLevelDeaths: 0
   allLevelData: []
 --- !u!82 &2257474230385962516
 AudioSource:

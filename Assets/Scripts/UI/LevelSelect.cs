@@ -31,7 +31,7 @@ namespace UI
         [SerializeField] private AudioClip buttonClickSound;
         [SerializeField] private string level1 = "IntroCutscene";
 
-        [SerializeField] private TMP_Text levelText, timeText, deathText, candyText;
+        [SerializeField] private TextMeshProUGUI levelText, timeText, deathText, candyText;
     
         private List<string> unlockedScenes;
         private string selectedScene;
