@@ -71,6 +71,11 @@ namespace Managers
         public event Action GameDataChanged;
 
         /// <summary>
+        /// Action invoked when interactables are now enabled.
+        /// </summary>
+        public event Action OnInteractablesEnabledChanged;
+
+        /// <summary>
         /// Whether interactables in this scene are "enabled".
         /// If disabled, sprite is changed and they can't be used by the player.
         /// </summary>
@@ -249,14 +254,18 @@ namespace Managers
             SceneManager.LoadScene(sceneName);
         }
 
-        [YarnCommand("enable_interactables")]
-        public void SetInteractablesEnabled(bool isEnabled) => areInteractablesEnabled = isEnabled;
+        [YarnCommand("set_interactables_enabled")]
+        public static void SetInteractablesEnabled(bool isEnabled)
+        {
+            Instance.areInteractablesEnabled = isEnabled;
+            Instance.OnInteractablesEnabledChanged?.Invoke();
+        }
 
         /// <summary>
         /// This is probably a bad way to do this, whatever. Need to move the camera and Knitby too.
         /// </summary>
         [YarnCommand("move_player")]
-        public void ForceMovePlayer(float x, float y)
+        public static void ForceMovePlayer(float x, float y)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.transform.position = new Vector3(x, y);

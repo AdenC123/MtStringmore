@@ -16,6 +16,9 @@ namespace Interactables
         [Header("References")] [SerializeField]
         private Animator anim;
 
+        [SerializeField, Tooltip("Starts conversations on hit bypassing testing and final checkpoint checks")]
+        private bool toQuoteReactDO_NOT_USE_OR_ELSE_YOU_WILL_BE_FIRED;
+
         [SerializeField] private SpriteRenderer sprite;
 
         [Tooltip("Node that starts from this checkpoint. Set to \"\" to not trigger dialog from checkpoint.")]
@@ -46,6 +49,10 @@ namespace Interactables
             if (hasBeenHit) return;
             hasBeenHit = true;
             OnCheckpointHit?.Invoke();
+            if (toQuoteReactDO_NOT_USE_OR_ELSE_YOU_WILL_BE_FIRED)
+            {
+                StartConversation();
+            }
         }
 
         /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerEnter"/>
@@ -73,7 +80,8 @@ namespace Interactables
             Debug.Log("Started dialogue at checkpoint.");
             _isCurrentConversation = true;
             _dialogueRunner.StartDialogue(conversationStartNode);
-            Time.timeScale = 0;
+            if (!toQuoteReactDO_NOT_USE_OR_ELSE_YOU_WILL_BE_FIRED)
+                Time.timeScale = 0;
         }
 
         private void EndConversation()

@@ -33,7 +33,24 @@ namespace StringmoreCamera
             if (disableWithInteractables)
             {
                 _box.enabled = GameManager.Instance.areInteractablesEnabled;
+                GameManager.Instance.OnInteractablesEnabledChanged += OnInteractablesEnabledChanged;
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (disableWithInteractables)
+            {
+                GameManager.Instance.OnInteractablesEnabledChanged -= OnInteractablesEnabledChanged;
+            }
+        }
+
+        /// <summary>
+        /// Called when the interactables are enabled/disabled.
+        /// </summary>
+        private void OnInteractablesEnabledChanged()
+        {
+            _box.enabled = GameManager.Instance.areInteractablesEnabled;
         }
 
         /// <summary>
@@ -96,6 +113,7 @@ namespace StringmoreCamera
                 Vector3 cameraBounds = new(cam.orthographicSize * cam.aspect * 2, cam.orthographicSize * 2, 1);
                 Gizmos.DrawWireCube(_bound, cameraBounds);
             }
+
             Gizmos.color = Color.green;
             if (fixTypeX is FixCameraType.AllowGreater or FixCameraType.None)
             {
