@@ -28,7 +28,6 @@ namespace UI
             versionNumber.text = Application.version;
 #if UNITY_WEBGL
             Debug.LogWarning("Saving and loading isn't supported on WebGL yet.");
-            Destroy(loadGameButton.gameObject);
 #endif
         }
         public void QuitGame()
