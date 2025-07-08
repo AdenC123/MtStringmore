@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Managers;
 
 namespace Save
 {
@@ -25,7 +26,7 @@ namespace Save
         public int mostCandiesCollected = -1;
         public int totalCandiesInLevel = -1;
         public int leastDeaths = -1;
-        public string bestTime = "--:--:--";
+        public string bestTime = GameManager.EmptySaveTime;
     }
 
     /// <summary>
