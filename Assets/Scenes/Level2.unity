@@ -111817,7 +111817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialMove: breakBlock
   tutorialText: Dash to break blocks
-  tutorialPosition: {x: 300, y: 0}
+  tutorialPosition: {x: 400, y: 0}
   tutorialEnd: {fileID: 435875637}
 --- !u!1001 &458754246
 PrefabInstance:
