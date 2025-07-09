@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Managers;
 using Save;
 using TMPro;
@@ -86,8 +87,10 @@ namespace UI
 
             playButton.onClick.AddListener(OnPlayClicked);
             
-            int autoSelectIndex = unlockedScenes.Count - 1;
-            OnLevelSelected(unlockedScenes[autoSelectIndex], levelButtons[autoSelectIndex], autoSelectIndex+1);
+            // hack: we don't actually store the latest unlocked scene and the unlockedScenes is potentially unordered
+            //       so just grab the button that's interactable
+            int autoSelectIndex = levelButtons.Count(button => button.interactable) - 1;
+            OnLevelSelected(allLevelLoadingSceneNames[autoSelectIndex], levelButtons[autoSelectIndex], autoSelectIndex+1);
         }
 
         private void PlayClickSound()
