@@ -457,15 +457,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e143156b6ed347a283872a7a54ff910b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeStayUp: 1
-  velocityDown: 10
+  timeStayUp: 0.5
+  velocityDown: 15
   velocityUp: 5
   timeStayDown: 0
   bottomCollider: {fileID: 4314559364430216980}
   warningSound: {fileID: 217117979800497627}
   warningSoundTime: 1
   closingSound: {fileID: 3571595061132870987}
-  closingSoundDelay: 0.4
+  closingSoundDelay: 0.2
   alwaysActive: 0
 --- !u!1 &3986647190489802333
 GameObject:
@@ -622,7 +622,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 60, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3163376120278604253}
   - {fileID: 4951103369148893787}
