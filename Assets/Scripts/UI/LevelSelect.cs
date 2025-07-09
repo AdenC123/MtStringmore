@@ -38,7 +38,7 @@ namespace UI
     
         private List<string> unlockedScenes;
         private string selectedScene;
-        private readonly List<Button> levelButtons = new List<Button>();
+        private readonly List<Button> levelButtons = new();
         private GameManager _gameManager;
 
         private void Awake()
@@ -85,8 +85,11 @@ namespace UI
             }
 
             playButton.onClick.AddListener(OnPlayClicked);
+            
+            int autoSelectIndex = unlockedScenes.Count - 1;
+            OnLevelSelected(unlockedScenes[autoSelectIndex], levelButtons[autoSelectIndex], autoSelectIndex+1);
         }
-    
+
         private void PlayClickSound()
         {
             if (canvasAudioSource != null && buttonClickSound != null)
