@@ -99,6 +99,7 @@ Knitby_confused: Marshmallow, please wait up! I'm tired...
 Marshmallow_smile: Come on now, buddy, just a bit more!
 <<run Marshmallow 84 679 15>>
 Knitby_relieved: <i>*sigh*</i> Alright, here goes...
+<<play_sound wind_whoosh false>>
 <<wait_move_finish Marshmallow>>
 // knitby jumps and falls
 <<leap_nonblock Knitby 13 18 3 false -66 true>>

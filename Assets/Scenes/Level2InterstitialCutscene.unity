@@ -96569,10 +96569,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2257474230385962516, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 243a490f23d23774bb4075fd58beec36, type: 3}
     - target: {fileID: 3100995665657460736, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -96832,7 +96828,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6964292186168748787, guid: ae467fca31521479d920e449f3fcb866, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1804475907}
   m_SourcePrefab: {fileID: 100100000, guid: ae467fca31521479d920e449f3fcb866, type: 3}
 --- !u!4 &1631008777 stripped
 Transform:
@@ -97018,6 +97017,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8964655812362898365, guid: b6fec259806fe4fe2a04e1886d452243, type: 3}
   m_PrefabInstance: {fileID: 1774488444}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1804475906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6964292186168748787, guid: ae467fca31521479d920e449f3fcb866, type: 3}
+  m_PrefabInstance: {fileID: 1631008776}
+  m_PrefabAsset: {fileID: 0}
+--- !u!45 &1804475907
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804475906}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: 2ad2442450ce2e04fa5a538a39a841e1, type: 2}
 --- !u!1 &1828552500
 GameObject:
   m_ObjectHideFlags: 0
