@@ -90,7 +90,8 @@ namespace UI
             // hack: we don't actually store the latest unlocked scene and the unlockedScenes is potentially unordered
             //       so just grab the button that's interactable
             int autoSelectIndex = levelButtons.Count(button => button.interactable) - 1;
-            OnLevelSelected(allLevelLoadingSceneNames[autoSelectIndex], levelButtons[autoSelectIndex], autoSelectIndex+1);
+            if (autoSelectIndex >= 0 && autoSelectIndex < levelButtons.Count)
+                OnLevelSelected(allLevelLoadingSceneNames[autoSelectIndex], levelButtons[autoSelectIndex], autoSelectIndex+1);
         }
 
         private void PlayClickSound()
