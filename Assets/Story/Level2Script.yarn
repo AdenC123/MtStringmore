@@ -63,7 +63,7 @@ Knitby_relieved: ... Okay.
 
 title: LoadLevel2Interstitial
 ---
-<<fade_out 0.5>>
+<<fade_out 1>>
 <<load_scene Level2InterstitialCutscene 1>>
 ===
 
