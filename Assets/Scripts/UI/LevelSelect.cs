@@ -91,7 +91,13 @@ namespace UI
             //       so just grab the button that's interactable
             int autoSelectIndex = levelButtons.Count(button => button.interactable) - 1;
             if (autoSelectIndex >= 0 && autoSelectIndex < levelButtons.Count)
+            {
                 OnLevelSelected(allLevelLoadingSceneNames[autoSelectIndex], levelButtons[autoSelectIndex], autoSelectIndex+1);
+            }
+            else
+            {
+                Debug.LogError("Yo what the hell bruh where all my b u t t o n s");
+            }
         }
 
         private void PlayClickSound()
