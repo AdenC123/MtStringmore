@@ -166,6 +166,7 @@ namespace DevConsole
             RegisterCommand(new ResetCommand());
             RegisterCommand(new HelpCommand(this));
             RegisterCommand(new EnableCheatsCommand(this));
+            RegisterCommand(new QualityOfLifeCommand());
             inputField.onSubmit.AddListener(OnConsoleSubmit);
             if (!FindObjectOfType<EventSystem>())
             {
