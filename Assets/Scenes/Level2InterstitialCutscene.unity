@@ -96305,6 +96305,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1111688093}
     m_Modifications:
+    - target: {fileID: 4868919475267528974, guid: ec97a70a79f3542a2b4d7c736da0849e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868919475267528974, guid: ec97a70a79f3542a2b4d7c736da0849e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868919475267528974, guid: ec97a70a79f3542a2b4d7c736da0849e, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7720336601314418461, guid: ec97a70a79f3542a2b4d7c736da0849e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 75
@@ -96514,6 +96526,18 @@ PrefabInstance:
     - target: {fileID: 4217790213014453210, guid: acfb9aa2be1d44e8f8a92767af27c906, type: 3}
       propertyPath: m_Name
       value: Marshmallow
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426778651927839959, guid: acfb9aa2be1d44e8f8a92767af27c906, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426778651927839959, guid: acfb9aa2be1d44e8f8a92767af27c906, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426778651927839959, guid: acfb9aa2be1d44e8f8a92767af27c906, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

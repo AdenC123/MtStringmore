@@ -84,7 +84,7 @@ setting: a cliff
 <<leap Knitby 22 18 0.425 false -66 true true true>>
 <<leap_nonblock Marshmallow 25 18 0.37 false -66 true>>
 <<wait 0.05>>
-<<leap Knitby -20 18 0.45 false -66 true true true>>
+<<leap Knitby -20 18 0.475 false -66 true true true>>
 <<leap_nonblock Marshmallow -25 18 0.37 false -66 true>>
 <<wait 0.15>>
 <<leap Knitby 20 18 0.45 false -66 true true true>>
