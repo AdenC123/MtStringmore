@@ -158,7 +158,6 @@ MonoBehaviour:
   deathSounds:
   - {fileID: 8300000, guid: c81b8a0512e132e4cbdff16ff3c341e9, type: 3}
   - {fileID: 8300000, guid: e9de9b181cfc6804e9e615db52c9d7ad, type: 3}
-  dashTrailDuration: 0.3
   hangOffset: {x: 0, y: 0}
   swingDeltaMultiplier: 0.5
   roastColors:
