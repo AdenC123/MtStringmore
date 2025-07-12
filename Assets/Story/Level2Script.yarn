@@ -70,6 +70,7 @@ title: LoadLevel2Interstitial
 title: Level2Interstitial
 setting: a cliff
 ---
+<<resize_camera 9 100>>
 <<fix_coords 74 673>>
 // start jump, then fade in
 <<leap_nonblock Marshmallow 25 18 0.37>>
