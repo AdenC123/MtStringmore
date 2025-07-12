@@ -110,7 +110,15 @@ namespace Managers
         // saving the level data to here so it's easier to load.
         // </summary>
         public List<LevelData> allLevelData = new List<LevelData>();
-
+        
+        // <summary>
+        // We are resetting all stats (collectables etc.) each time we load scene
+        // We need make sure we are not clearing stats when we are loading the results after a cutscene
+        // Therefore we need a list of all cutscenes that show results after the cutscene
+        // Results Manager also uses this to avoid issues
+        // <summary>
+        [SerializeField] private List<string> cutsceneList;
+        
         private void Awake()
         {
             if (_instance && _instance != this)
@@ -159,13 +167,14 @@ namespace Managers
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
+            _dontClearDataOnSceneChanged = cutsceneList.Contains(scene.name);
+
+
             if (!_dontClearDataOnSceneChanged)
             {
-                thisLevelDeaths = -1;
                 PlayerController player = FindObjectOfType<PlayerController>();
                 if (player)
                 {
-                    player.Death += OnPlayerDeath;
                     CheckPointPos = player.transform.position;
                     Debug.Log("Hopefully set checkpoint position to be player's position: " + CheckPointPos);
                 }
@@ -174,9 +183,19 @@ namespace Managers
                 _collectedCollectables.Clear();
                 if (saveGame != null) saveGame.Invoke();
             }
-            _collectableLookup.Clear();
+            
             Collectable[] collectables = FindObjectsOfType<Collectable>();
-            MaxCollectablesCount = collectables.Length;
+            
+            if (!_dontClearDataOnSceneChanged)
+            {
+                _collectableLookup.Clear();
+                MaxCollectablesCount = collectables.Length;
+                Debug.Log("GameManager loaded " + MaxCollectablesCount + " collectables");
+            }
+            else
+            {
+                Debug.Log("Skipping collectable count in cutscene. Using previous value: " + MaxCollectablesCount);
+            }
             foreach (Collectable collectable in collectables)
             {
                 Vector2 position = collectable.transform.position;
