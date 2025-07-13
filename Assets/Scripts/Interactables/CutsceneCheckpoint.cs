@@ -29,6 +29,10 @@ namespace Interactables
         {
             HitCheckpoint();
         }
+
+        public override void StartInteract(PlayerController player)
+        {
+        }
         
     }
 }

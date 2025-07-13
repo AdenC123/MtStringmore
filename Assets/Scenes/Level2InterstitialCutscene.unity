@@ -96926,6 +96926,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Checkpoint
       objectReference: {fileID: 0}
+    - target: {fileID: 4544653655168585683, guid: 6516e5d0fcba84e26b43a0adcb8fb193, type: 3}
+      propertyPath: m_TagString
+      value: FinalCheckpoint
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
     m_RemovedGameObjects: []
@@ -96960,7 +96964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f134b98831f254aafdfa0dff56eaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevel: Level3
+  nextLevel: EndCutscene
 --- !u!114 &1759429192
 MonoBehaviour:
   m_ObjectHideFlags: 0
