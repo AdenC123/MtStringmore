@@ -119578,11 +119578,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7720336601314418461, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.620007
+      value: 70.52001
       objectReference: {fileID: 0}
     - target: {fileID: 7720336601314418461, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.21
+      value: 641.11
       objectReference: {fileID: 0}
     - target: {fileID: 7720336601314418461, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -125219,6 +125219,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8321333269778309438, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+      propertyPath: timerText
+      value: 
+      objectReference: {fileID: 1694757234}
+    - target: {fileID: 8321333269778309438, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: finalCheckpoint
       value: 
       objectReference: {fileID: 0}
@@ -125965,6 +125969,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 940841577963507911, guid: e5e0fded06cfa6a4b97e49103577b9fe, type: 3}
   m_PrefabInstance: {fileID: 1681864477}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1694757234 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1872466452690790366, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+  m_PrefabInstance: {fileID: 1588058011}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1694864352
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126728,11 +126743,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2905708094114413808, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17
+      value: 72.9
       objectReference: {fileID: 0}
     - target: {fileID: 2905708094114413808, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 640.9
       objectReference: {fileID: 0}
     - target: {fileID: 2905708094114413808, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
       propertyPath: m_LocalPosition.z

@@ -117,7 +117,7 @@ namespace Managers
         // Therefore we need a list of all cutscenes that show results after the cutscene
         // Results Manager also uses this to avoid issues
         // <summary>
-        [SerializeField] private List<string> cutsceneList;
+        [SerializeField] public List<string> cutsceneList;
         
         private void Awake()
         {
@@ -195,6 +195,7 @@ namespace Managers
             else
             {
                 Debug.Log("Skipping collectable count in cutscene. Using previous value: " + MaxCollectablesCount);
+                Debug.Log("Skipping ThisLevelTime in cutscene. Using previous value: " + ThisLevelTime);
             }
             foreach (Collectable collectable in collectables)
             {

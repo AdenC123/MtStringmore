@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System;
 using Interactables;
 using Save;
 using TMPro;
@@ -17,7 +15,8 @@ namespace Managers
         
         [SerializeField] private TextMeshProUGUI levelHeaderText;
 
-        [SerializeField] private TextMeshProUGUI collectableResultsText, deathsText;
+        [SerializeField] private TextMeshProUGUI collectableResultsText, deathsText, timerText;
+
         
         private int maxCount;
         
@@ -106,6 +105,8 @@ namespace Managers
         {
             string time = TimerManager.ElapsedLevelTimeString;
             _gameManager.ThisLevelTime = time;
+            timerText.text = time;
+            Debug.Log("Current GameMangerTimer: " + time);
         }
 
         private void EndLevel()
