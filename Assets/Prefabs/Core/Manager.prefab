@@ -4452,6 +4452,10 @@ MonoBehaviour:
   - Level4
   thisLevelDeaths: 0
   allLevelData: []
+  cutsceneList:
+  - IntroCutscene
+  - SecondCutscene
+  - Level2InterstitialCutscene
 --- !u!82 &2257474230385962516
 AudioSource:
   m_ObjectHideFlags: 0

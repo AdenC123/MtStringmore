@@ -121,8 +121,6 @@ namespace Managers
         
         private void Awake()
         {
-            if (_instance && _instance != this)
-                thisLevelDeaths = -1;
             ThisLevelTime = EmptySaveTime;
             // make sure list has 4 entries
             for (int i = allLevelData.Count; i < 4; i++) {
@@ -169,7 +167,6 @@ namespace Managers
             Time.timeScale = 1f;
             _dontClearDataOnSceneChanged = cutsceneList.Contains(scene.name);
 
-
             if (!_dontClearDataOnSceneChanged)
             {
                 PlayerController player = FindObjectOfType<PlayerController>();
@@ -181,6 +178,7 @@ namespace Managers
                 CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
                 _collectedCollectables.Clear();
+                thisLevelDeaths = -1;
                 if (saveGame != null) saveGame.Invoke();
             }
             
