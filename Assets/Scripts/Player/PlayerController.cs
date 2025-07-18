@@ -646,7 +646,7 @@ namespace Player
         /// </summary>
         private void HandleInteractables()
         {
-            if (!CurrentInteractableArea) return;
+            if (!CurrentInteractableArea || !GameManager.Instance.areInteractablesEnabled) return;
             bool previouslyGrounded = PlayerState == PlayerStateEnum.Run;
             if (IsButtonUsed())
             {
@@ -692,7 +692,7 @@ namespace Player
 
         private void HandleSwing()
         {
-            if (_canSwing && IsButtonUsed())
+            if (_canSwing && IsButtonUsed() && GameManager.Instance.areInteractablesEnabled)
             {
                 // in swing area, button pressed
                 PlayerState = PlayerStateEnum.Swing;
