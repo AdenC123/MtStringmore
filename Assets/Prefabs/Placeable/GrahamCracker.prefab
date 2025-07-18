@@ -248,7 +248,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 25, y: 20}
+  m_Size: {x: 30, y: 20}
   m_EdgeRadius: 0
 --- !u!114 &3121617370572961049
 MonoBehaviour:
@@ -831,14 +831,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottomPart: {fileID: 7828473269823386911}
   topPart: {fileID: 6629650060142591562}
-  timeStayUp: 1
+  timeStayUp: 0
   velocityDown: 10
   velocityUp: 5
-  timeStayDown: 0
+  timeStayDown: 1
   warningSound: {fileID: 217117979800497627}
-  warningSoundTime: 1
+  warningSoundTime: 0.5
   closingSound: {fileID: 3571595061132870987}
-  closingSoundDelay: 0.4
+  closingSoundDelay: 0
   alwaysActive: 0
 --- !u!1 &8600188875434197424
 GameObject:
