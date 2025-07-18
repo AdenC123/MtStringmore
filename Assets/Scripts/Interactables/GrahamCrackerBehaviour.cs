@@ -63,8 +63,11 @@ namespace Interactables
         /// </summary>
         /// <param name="isBottom">Whether this is the bottom part</param>
         /// <param name="player">PlayerController attached to the object if present</param>
-        public void RegisterCollision(bool isBottom, PlayerController player)
+        /// <param name="part">Part of the Graham Cracker we're colliding with if present</param>
+        public void RegisterCollision(bool isBottom, PlayerController player, GrahamCrackerPart part)
         {
+            // sometimes it collides with terrain, ignore that
+            if (!player && !part) return;
             if (isBottom) _bottomCollide = true;
             else _topCollide = true;
             if (_bottomCollide && _topCollide)
@@ -80,6 +83,20 @@ namespace Interactables
                     StartCoroutine(RecoverCoroutine());
                 }
             }
+        }
+
+        /// <summary>
+        /// Called when a part has deregistered a collision with an object.
+        /// </summary>
+        /// <param name="isBottom">Whether this is the bottom part</param>
+        /// <param name="player">PlayerController attached to the object if present</param>
+        /// <param name="part">Part of the Graham Cracker we're NOT colliding with if present</param>
+        public void DeregisterCollision(bool isBottom, PlayerController player, GrahamCrackerPart part)
+        {
+            // sometimes it collides with terrain, ignore that
+            if (!player && !part) return;
+            if (isBottom) _bottomCollide = false;
+            else _topCollide = false;
         }
 
         /// <summary>
@@ -120,6 +137,10 @@ namespace Interactables
             StopAllCoroutines();
             Active = alwaysActive;
             if (Active) StartCoroutine(SlamRoutine());
+            _bottomCollide = false;
+            _topCollide = false;
+            _bottomHasReset = false;
+            _topHasReset = false;
             bottomPart.OnGameReset();
             topPart.OnGameReset();
         }
