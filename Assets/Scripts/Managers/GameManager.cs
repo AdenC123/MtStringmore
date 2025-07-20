@@ -123,7 +123,7 @@ namespace Managers
         /// So we need to check that we're doing that LOL.
         /// </summary>
         private bool _dontClearDataOnSceneChanged;
-        private bool _areInteractablesEnabled;
+        private bool _areInteractablesEnabled = true;
 
         // <summary>
         // saving the level data to here so it's easier to load.
