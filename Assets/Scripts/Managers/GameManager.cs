@@ -37,11 +37,6 @@ namespace Managers
         /// If true, the player faces left when they respawn
         /// </summary>
         public bool RespawnFacingLeft { get; private set; }
-    
-        /// <summary>
-        /// Number of checkpoints reached.
-        /// </summary>
-        private List<Vector2> CheckpointsReached { get; } = new();
         
         /// <summary>
         /// Number of checkpoints reached.
@@ -188,7 +183,6 @@ namespace Managers
                     CheckPointPos = player.transform.position;
                     Debug.Log("Hopefully set checkpoint position to be player's position: " + CheckPointPos);
                 }
-                CheckpointsReached.Clear();
                 _prevCheckpoints.Clear();
                 _collectedCollectables.Clear();
                 if (saveGame != null) saveGame.Invoke();
@@ -310,7 +304,6 @@ namespace Managers
         public void ClearCheckpointData()
         {
             _prevCheckpoints.Clear();
-            CheckpointsReached.Clear();
         }
 
         /// <summary>
@@ -330,7 +323,6 @@ namespace Managers
 
             CheckPointPos = newCheckpointLocation;
             RespawnFacingLeft = shouldFaceLeft;
-            CheckpointsReached.Add(newCheckpointLocation);
         }
 
         /// <summary>
@@ -341,7 +333,6 @@ namespace Managers
         {
             bool shouldFaceLeft = saveData.checkpointFacesLeft;
             RespawnFacingLeft = shouldFaceLeft;
-            CheckpointsReached.Clear();
             _prevCheckpoints.Clear();
             _collectedCollectables.Clear();
             LevelsAccessed.AddRange(saveData.levelsAccessed);
