@@ -125098,22 +125098,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: cutsceneList.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: cutsceneList.Array.data[0]
-      value: IntroCutscene
-      objectReference: {fileID: 0}
-    - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: cutsceneList.Array.data[1]
-      value: SecondCutscene
-      objectReference: {fileID: 0}
-    - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: cutsceneList.Array.data[2]
-      value: Level2InterstitialCutscene
-      objectReference: {fileID: 0}
     - target: {fileID: 5665343196658869916, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

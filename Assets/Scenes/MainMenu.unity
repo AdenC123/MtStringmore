@@ -1417,26 +1417,6 @@ PrefabInstance:
       propertyPath: lastColletableComboWindow
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: levelNameList.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: levelNameList.Array.data[0]
-      value: Level1Trial
-      objectReference: {fileID: 0}
-    - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: levelNameList.Array.data[1]
-      value: Level2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: levelNameList.Array.data[2]
-      value: Level3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5130713523581019797, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: levelNameList.Array.data[3]
-      value: Level4
-      objectReference: {fileID: 0}
     - target: {fileID: 5675118328201374811, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.36563

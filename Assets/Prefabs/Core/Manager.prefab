@@ -4447,7 +4447,7 @@ MonoBehaviour:
   sceneTransitionCanvas: {fileID: 3180213058412596211}
   levelNameList:
   - Level1Trial
-  - Level2
+  - Level2InterstitialCutscene
   - Level3
   - Level4
   thisLevelDeaths: 0
