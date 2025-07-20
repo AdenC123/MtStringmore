@@ -32,7 +32,7 @@ namespace StringmoreCamera
         {
             if (disableWithInteractables)
             {
-                _box.enabled = GameManager.Instance.areInteractablesEnabled;
+                _box.enabled = GameManager.Instance.AreInteractablesEnabled;
                 GameManager.Instance.OnInteractablesEnabledChanged += OnInteractablesEnabledChanged;
             }
         }
@@ -50,7 +50,7 @@ namespace StringmoreCamera
         /// </summary>
         private void OnInteractablesEnabledChanged()
         {
-            _box.enabled = GameManager.Instance.areInteractablesEnabled;
+            _box.enabled = GameManager.Instance.AreInteractablesEnabled;
         }
 
         /// <summary>

@@ -1,4 +1,3 @@
-using System;
 using Managers;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ namespace Interactables
 
         private void Start()
         {
-            if (!GameManager.Instance.areInteractablesEnabled)
+            if (!GameManager.Instance.AreInteractablesEnabled)
             {
                 GetComponent<SpriteRenderer>().sprite = disabledSprite;
             }

@@ -36,7 +36,7 @@ namespace Managers
         {
             if (finalCheckpoint)
             {
-                finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+                finalCheckpoint.onCheckpointReached.RemoveListener(HandleFinalCheckpointHit);
                 finalCheckpoint = null;
             }
             
@@ -44,7 +44,7 @@ namespace Managers
             if (checkpointObj)
             {
                 finalCheckpoint = checkpointObj.GetComponent<Checkpoint>();
-                if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+                if (finalCheckpoint != null) finalCheckpoint.onCheckpointReached.AddListener(HandleFinalCheckpointHit);
             }
             else finalCheckpoint = null;
             
@@ -63,7 +63,7 @@ namespace Managers
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+            if (finalCheckpoint != null) finalCheckpoint.onCheckpointReached.RemoveListener(HandleFinalCheckpointHit);
         }
 
         private void HandleFinalCheckpointHit()

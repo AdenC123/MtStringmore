@@ -151,6 +151,8 @@ namespace Interactables
         /// <returns>Coroutine</returns>
         private IEnumerator SlamRoutine()
         {
+            _bottomCollide = false;
+            _topCollide = false;
             yield return new WaitForSeconds(timeStayUp - warningSoundTime);
             warningSound.Play();
             yield return new WaitForSeconds(warningSoundTime);

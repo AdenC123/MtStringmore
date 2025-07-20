@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Interactables;
 using Managers;
+using StringmoreCamera;
 using UnityEngine;
 using Util;
-using StringmoreCamera;
 
 namespace Player
 {
@@ -646,7 +646,7 @@ namespace Player
         /// </summary>
         private void HandleInteractables()
         {
-            if (!CurrentInteractableArea || !GameManager.Instance.areInteractablesEnabled) return;
+            if (!CurrentInteractableArea || !GameManager.Instance.AreInteractablesEnabled) return;
             bool previouslyGrounded = PlayerState == PlayerStateEnum.Run;
             if (IsButtonUsed())
             {
@@ -692,7 +692,7 @@ namespace Player
 
         private void HandleSwing()
         {
-            if (_canSwing && IsButtonUsed() && GameManager.Instance.areInteractablesEnabled)
+            if (_canSwing && IsButtonUsed() && GameManager.Instance.AreInteractablesEnabled)
             {
                 // in swing area, button pressed
                 PlayerState = PlayerStateEnum.Swing;

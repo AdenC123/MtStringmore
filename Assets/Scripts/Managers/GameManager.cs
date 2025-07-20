@@ -53,13 +53,11 @@ namespace Managers
         /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
         /// </summary>
         public int NumCollectablesCollected => _collectedCollectables.Count;
-        
+
         /// <summary>
         /// Max number of known collectables.
         /// </summary>
         public int MaxCollectablesCount { get; private set; }
-
-        public IReadOnlyCollection<Vector2> CollectablePositionsCollected => _collectedCollectables;
 
         /// <summary>
         /// Action that gets invoked when level reloads, e.g. respawns
@@ -80,7 +78,17 @@ namespace Managers
         /// Whether interactables in this scene are "enabled".
         /// If disabled, sprite is changed and they can't be used by the player.
         /// </summary>
-        public bool areInteractablesEnabled;
+        public bool AreInteractablesEnabled
+        {
+            get => _areInteractablesEnabled;
+            set
+            {
+                if (_areInteractablesEnabled == value) return;
+                _areInteractablesEnabled = value;
+                OnInteractablesEnabledChanged?.Invoke();
+            }
+            
+        }
 
         /// <summary>
         /// Canvas to fade in/out when transitioning between scenes
@@ -114,8 +122,8 @@ namespace Managers
         ///
         /// So we need to check that we're doing that LOL.
         /// </summary>
-        
         private bool _dontClearDataOnSceneChanged;
+        private bool _areInteractablesEnabled;
 
         // <summary>
         // saving the level data to here so it's easier to load.
@@ -388,8 +396,7 @@ namespace Managers
         [YarnCommand("set_interactables_enabled")]
         public static void SetInteractablesEnabled(bool isEnabled)
         {
-            Instance.areInteractablesEnabled = isEnabled;
-            Instance.OnInteractablesEnabledChanged?.Invoke();
+            Instance.AreInteractablesEnabled = isEnabled;
         }
 
         /// <summary>

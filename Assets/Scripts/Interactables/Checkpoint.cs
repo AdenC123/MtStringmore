@@ -1,7 +1,7 @@
-using System;
 using Managers;
 using Player;
 using UnityEngine;
+using UnityEngine.Events;
 using Yarn.Unity;
 
 namespace Interactables
@@ -29,6 +29,7 @@ namespace Interactables
         private bool respawnFacingLeft;
 
         [SerializeField] private Vector2 spawnOffset;
+        public UnityEvent onCheckpointReached;
         
         /// <summary>
         /// Whether this checkpoint has a conversation.
@@ -40,7 +41,6 @@ namespace Interactables
         private bool _isCurrentConversation;
 
         public bool hasBeenHit;
-        public event Action OnCheckpointHit;
 
         public void Start()
         {
@@ -53,7 +53,7 @@ namespace Interactables
         {
             if (hasBeenHit) return;
             hasBeenHit = true;
-            OnCheckpointHit?.Invoke();
+            onCheckpointReached.Invoke();
             if (toQuoteReactDO_NOT_USE_OR_ELSE_YOU_WILL_BE_FIRED)
             {
                 StartConversation();
