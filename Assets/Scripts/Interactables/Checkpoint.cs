@@ -27,17 +27,18 @@ namespace Interactables
         private bool respawnFacingLeft;
 
         [SerializeField] private Vector2 spawnOffset;
-
-        public bool hasBeenHit;
+        
+        /// <summary>
+        /// Whether this checkpoint has a conversation.
+        /// </summary>
+        public bool HasConversation => !string.IsNullOrWhiteSpace(conversationStartNode);
 
         // internal properties not exposed to editor
         private DialogueRunner _dialogueRunner;
         private bool _isCurrentConversation;
 
-        /// <summary>
-        ///     Whether this checkpoint has a conversation.
-        /// </summary>
-        public bool HasConversation => !string.IsNullOrWhiteSpace(conversationStartNode);
+        public bool hasBeenHit;
+        public event Action OnCheckpointHit;
 
         public void Start()
         {
@@ -46,8 +47,6 @@ namespace Interactables
             if (_dialogueRunner) _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
         }
 
-        public event Action OnCheckpointHit;
-
         private void HitCheckpoint()
         {
             if (hasBeenHit) return;
@@ -55,7 +54,7 @@ namespace Interactables
             OnCheckpointHit?.Invoke();
         }
 
-        /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerEnter" />
+        /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerEnter"/>
         public override void OnPlayerEnter(PlayerController player)
         {
             if (!anim.GetBool(HoistKey))
@@ -91,14 +90,14 @@ namespace Interactables
             Time.timeScale = 1;
         }
 
-        /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerExit" />
+        /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerExit"/>
         public override void OnPlayerExit(PlayerController player)
         {
             turnBackText.SetActive(false);
         }
 
         /// <summary>
-        ///     Flips the player if they're going the wrong direction.
+        /// Flips the player if they're going the wrong direction.
         /// </summary>
         /// <param name="velocity">Player's velocity</param>
         /// <returns>New velocity</returns>
@@ -108,7 +107,7 @@ namespace Interactables
             return Mathf.Sign(velocity.x * signX) < 0 ? new Vector2(signX, velocity.y) : velocity;
         }
 
-        /// <inheritdoc cref="AbstractPlayerInteractable.StartInteract" />
+        /// <inheritdoc cref="AbstractPlayerInteractable.StartInteract"/>
         public override void StartInteract(PlayerController player)
         {
             player.AddPlayerVelocityEffector(this, true);
@@ -116,7 +115,7 @@ namespace Interactables
             player.CurrentInteractableArea = null;
         }
 
-        /// <inheritdoc cref="AbstractPlayerInteractable.EndInteract" />
+        /// <inheritdoc cref="AbstractPlayerInteractable.EndInteract"/>
         public override void EndInteract(PlayerController player)
         {
         }
