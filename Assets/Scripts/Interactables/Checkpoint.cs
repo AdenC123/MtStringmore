@@ -70,6 +70,7 @@ namespace Interactables
         public virtual void StartConversation()
         {
             if (conversationStartNode == "") return;
+            if (IsCurrentConversation) return;
             Debug.Log("Started dialogue at checkpoint.");
             IsCurrentConversation = true;
             DialogRunner.StartDialogue(conversationStartNode);
