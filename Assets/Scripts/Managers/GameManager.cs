@@ -305,6 +305,15 @@ namespace Managers
         }
 
         /// <summary>
+        /// Clears all checkpoint data.
+        /// </summary>
+        public void ClearCheckpointData()
+        {
+            _prevCheckpoints.Clear();
+            CheckpointsReached.Clear();
+        }
+
+        /// <summary>
         /// Sets the checkpoint location and left facing spawn point.
         /// 
         /// Checks if we've already visited this checkpoint before setting spawn (to avoid backtracking).

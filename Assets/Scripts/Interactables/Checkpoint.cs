@@ -49,6 +49,9 @@ namespace Interactables
             if (_dialogueRunner) _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
         }
 
+        /// <summary>
+        /// Called on checkpoint hit.
+        /// </summary>
         private void HitCheckpoint()
         {
             if (hasBeenHit) return;
@@ -79,9 +82,20 @@ namespace Interactables
             }
         }
 
+        /// <summary>
+        /// Flips the checkpoint respawn.
+        /// </summary>
+        public void FlipCheckpoint()
+        {
+            respawnFacingLeft = !respawnFacingLeft;
+        }
+
+        /// <summary>
+        /// Starts the conversation at <see cref="conversationStartNode"/> unless it's blank.
+        /// </summary>
         public void StartConversation()
         {
-            if (conversationStartNode == "") return;
+            if (string.IsNullOrWhiteSpace(conversationStartNode)) return;
             Debug.Log("Started dialogue at checkpoint.");
             _isCurrentConversation = true;
             _dialogueRunner.StartDialogue(conversationStartNode);
@@ -89,6 +103,9 @@ namespace Interactables
                 Time.timeScale = 0;
         }
 
+        /// <summary>
+        /// Ends the conversation if active.
+        /// </summary>
         private void EndConversation()
         {
             if (!_isCurrentConversation) return;
