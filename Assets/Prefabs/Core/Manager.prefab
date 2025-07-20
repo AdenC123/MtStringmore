@@ -4576,6 +4576,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c612d11b6ce948545badd835e0f892cd, type: 3}
   collectableComboWindow: 1
   lastColletableComboWindow: 0.4
+  perfectReleaseClip: {fileID: 8300000, guid: bfc404a2a7ca7af4b857304aa6b97f8a, type: 3}
 --- !u!114 &7492377907174578259
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,6 +5,8 @@ using Managers;
 using Player;
 using UI;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Serialization;
 using Util;
 
 namespace Interactables
@@ -72,6 +74,9 @@ namespace Interactables
         public Vector2 secondPosition;
 
         [Tooltip("Path renderer")] public MovingObjectPathRenderer pathRenderer;
+        
+        [SerializeField, Tooltip("The percent threshold to count as a perfect release")]
+        private float perfectReleaseThreshold = 0.75f;
 
         private Coroutine _activeMotion;
 
@@ -258,6 +263,10 @@ namespace Interactables
         public override void EndInteract(PlayerController player)
         {
             _player.RemovePlayerVelocityEffector(this);
+            
+            if (IsPerfectRelease())
+                SoundManager.Instance.PlayZipperPerfectRelease();
+            
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, _prevVelocity, exitVelBoost), true);
             _audioSource.Stop();
             StopMotion();
@@ -327,6 +336,11 @@ namespace Interactables
                     Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
                 }
             }
+        }
+        
+        private bool IsPerfectRelease()
+        {
+            return _prevVelocity.magnitude >= perfectReleaseThreshold * maxSpeed;
         }
 
         private void OnDrawGizmosSelected()
