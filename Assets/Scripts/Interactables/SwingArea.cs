@@ -26,12 +26,6 @@ namespace Interactables
             GameManager.Instance.OnInteractablesEnabledChanged += UpdateSprite;
         }
 
-        private void Start()
-        {
-            // for some reason the listener isn't enough and we have to call it manually here
-            UpdateSprite();
-        }
-
         /// <summary>
         /// Updates the sprite depending on whether interactables are enabled.
         /// </summary>
