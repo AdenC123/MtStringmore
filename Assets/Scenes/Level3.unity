@@ -45507,7 +45507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4544653655168585683, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
       propertyPath: m_Name
-      value: CheckpointFlag (2)
+      value: CheckpointFlag (6)
       objectReference: {fileID: 0}
     - target: {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
       propertyPath: respawnFacingLeft
@@ -46305,11 +46305,11 @@ Transform:
   m_Children:
   - {fileID: 1179439933}
   - {fileID: 288322034}
-  - {fileID: 1349441416}
   - {fileID: 2133642854}
-  - {fileID: 1826384575}
+  - {fileID: 1349441416}
   - {fileID: 1380252644}
   - {fileID: 459664541}
+  - {fileID: 1826384575}
   m_Father: {fileID: 1828552501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &892409338
@@ -49197,10 +49197,6 @@ PrefabInstance:
       value: CheckpointFlag (5)
       objectReference: {fileID: 0}
     - target: {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
-      propertyPath: respawnFacingLeft
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
       propertyPath: conversationStartNode
       value: TempLevel3Mid
       objectReference: {fileID: 0}
@@ -49431,7 +49427,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4544653655168585683, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
       propertyPath: m_Name
-      value: CheckpointFlag (6)
+      value: CheckpointFlag (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
+      propertyPath: respawnFacingLeft
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
