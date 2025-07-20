@@ -172,6 +172,7 @@ namespace Managers
                 PlayerController player = FindObjectOfType<PlayerController>();
                 if (player)
                 {
+                    player.Death += OnPlayerDeath;
                     CheckPointPos = player.transform.position;
                     Debug.Log("Hopefully set checkpoint position to be player's position: " + CheckPointPos);
                 }
