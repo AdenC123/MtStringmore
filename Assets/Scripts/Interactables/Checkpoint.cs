@@ -17,6 +17,7 @@ namespace Interactables
         private Animator anim;
 
         [SerializeField] private SpriteRenderer sprite;
+        [SerializeField] private GameObject turnBackText;
 
         [Tooltip("Node that starts from this checkpoint. Set to \"\" to not trigger dialog from checkpoint.")]
         [SerializeField]
@@ -26,18 +27,17 @@ namespace Interactables
         private bool respawnFacingLeft;
 
         [SerializeField] private Vector2 spawnOffset;
-        
-        /// <summary>
-        /// Whether this checkpoint has a conversation.
-        /// </summary>
-        public bool HasConversation => !string.IsNullOrWhiteSpace(conversationStartNode);
+
+        public bool hasBeenHit;
 
         // internal properties not exposed to editor
         private DialogueRunner _dialogueRunner;
         private bool _isCurrentConversation;
 
-        public bool hasBeenHit;
-        public event Action OnCheckpointHit;
+        /// <summary>
+        ///     Whether this checkpoint has a conversation.
+        /// </summary>
+        public bool HasConversation => !string.IsNullOrWhiteSpace(conversationStartNode);
 
         public void Start()
         {
@@ -46,6 +46,8 @@ namespace Interactables
             if (_dialogueRunner) _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
         }
 
+        public event Action OnCheckpointHit;
+
         private void HitCheckpoint()
         {
             if (hasBeenHit) return;
@@ -53,7 +55,7 @@ namespace Interactables
             OnCheckpointHit?.Invoke();
         }
 
-        /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerEnter"/>
+        /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerEnter" />
         public override void OnPlayerEnter(PlayerController player)
         {
             if (!anim.GetBool(HoistKey))
@@ -66,10 +68,10 @@ namespace Interactables
 
             float signX = respawnFacingLeft ? -1 : 1;
             if (player.Direction * signX > 0)
-            {
                 // disallow flipping if going right direction
                 player.CurrentInteractableArea = null;
-            }
+            else
+                turnBackText.SetActive(true);
         }
 
         public void StartConversation()
@@ -89,13 +91,14 @@ namespace Interactables
             Time.timeScale = 1;
         }
 
-        /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerExit"/>
+        /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerExit" />
         public override void OnPlayerExit(PlayerController player)
         {
+            turnBackText.SetActive(false);
         }
 
         /// <summary>
-        /// Flips the player if they're going the wrong direction.
+        ///     Flips the player if they're going the wrong direction.
         /// </summary>
         /// <param name="velocity">Player's velocity</param>
         /// <returns>New velocity</returns>
@@ -105,7 +108,7 @@ namespace Interactables
             return Mathf.Sign(velocity.x * signX) < 0 ? new Vector2(signX, velocity.y) : velocity;
         }
 
-        /// <inheritdoc cref="AbstractPlayerInteractable.StartInteract"/>
+        /// <inheritdoc cref="AbstractPlayerInteractable.StartInteract" />
         public override void StartInteract(PlayerController player)
         {
             player.AddPlayerVelocityEffector(this, true);
@@ -113,7 +116,7 @@ namespace Interactables
             player.CurrentInteractableArea = null;
         }
 
-        /// <inheritdoc cref="AbstractPlayerInteractable.EndInteract"/>
+        /// <inheritdoc cref="AbstractPlayerInteractable.EndInteract" />
         public override void EndInteract(PlayerController player)
         {
         }
