@@ -78,6 +78,9 @@ namespace Interactables
         [SerializeField, Tooltip("The percent threshold to count as a perfect release")]
         private float perfectReleaseThreshold = 0.75f;
 
+        [SerializeField, Tooltip("Audio clip to play when player releases from moving object at the perfect threshold")]
+        private AudioClip perfectReleaseClip;
+        
         private Coroutine _activeMotion;
 
         private Coroutine _unzippedMotion;
@@ -263,12 +266,10 @@ namespace Interactables
         public override void EndInteract(PlayerController player)
         {
             _player.RemovePlayerVelocityEffector(this);
-            
-            if (IsPerfectRelease())
-                SoundManager.Instance.PlayZipperPerfectRelease();
-            
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, _prevVelocity, exitVelBoost), true);
             _audioSource.Stop();
+            if (IsPerfectRelease() && perfectReleaseClip)
+                _audioSource.PlayOneShot(perfectReleaseClip);
             StopMotion();
             if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
             _unzippedMotion = StartCoroutine(UnzipCoroutine());

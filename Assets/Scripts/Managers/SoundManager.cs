@@ -124,10 +124,5 @@ namespace Managers
             _audioSource.PlayOneShot(collectableClips[_audioIndex]);
             _timeSinceLastCollect = 0f;
         }
-
-        public void PlayZipperPerfectRelease()
-        {
-            _audioSource.PlayOneShot(perfectReleaseClip);
-        }
     }
 }
