@@ -17,14 +17,13 @@ namespace Interactables
         private Animator anim;
 
         [SerializeField] private SpriteRenderer sprite;
-        [SerializeField] private GameObject turnBackText;
 
         [Tooltip("Node that starts from this checkpoint. Set to \"\" to not trigger dialog from checkpoint.")]
         [SerializeField]
         private string conversationStartNode;
 
-        [Tooltip("If checked, the player faces left when they respawn on this checkpoint")] [SerializeField]
-        private bool respawnFacingLeft;
+        [Tooltip("If checked, the player faces left when they respawn on this checkpoint")]
+        public bool respawnFacingLeft;
 
         [SerializeField] private Vector2 spawnOffset;
         
@@ -67,10 +66,10 @@ namespace Interactables
 
             float signX = respawnFacingLeft ? -1 : 1;
             if (player.Direction * signX > 0)
+            {
                 // disallow flipping if going right direction
                 player.CurrentInteractableArea = null;
-            else
-                turnBackText.SetActive(true);
+            }
         }
 
         public void StartConversation()
@@ -93,7 +92,6 @@ namespace Interactables
         /// <inheritdoc cref="AbstractPlayerInteractable.OnPlayerExit"/>
         public override void OnPlayerExit(PlayerController player)
         {
-            turnBackText.SetActive(false);
         }
 
         /// <summary>
