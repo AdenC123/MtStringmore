@@ -9,13 +9,13 @@ namespace Interactables
     /// <summary>
     ///     Checkpoint flag that sets checkpoint position when player collides with it
     /// </summary>
+    [RequireComponent(typeof(AudioSource))]
     public class Checkpoint : AbstractPlayerInteractable
     {
         private static readonly int HoistKey = Animator.StringToHash("Hoisted");
 
-        [Header("References")] [SerializeField]
-        private Animator anim;
-
+        [Header("References")] 
+        [SerializeField] private Animator anim;
         [SerializeField] private SpriteRenderer sprite;
 
         [Tooltip("Node that starts from this checkpoint. Set to \"\" to not trigger dialog from checkpoint.")]
@@ -33,6 +33,7 @@ namespace Interactables
         public bool HasConversation => !string.IsNullOrWhiteSpace(conversationStartNode);
 
         // internal properties not exposed to editor
+        private AudioSource _audioSource;
         private DialogueRunner _dialogueRunner;
         private bool _isCurrentConversation;
 
@@ -42,6 +43,7 @@ namespace Interactables
         public void Start()
         {
             hasBeenHit = false;
+            _audioSource = GetComponent<AudioSource>();
             _dialogueRunner = FindObjectOfType<DialogueRunner>();
             if (_dialogueRunner) _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
         }
@@ -60,6 +62,7 @@ namespace Interactables
             {
                 HitCheckpoint();
                 anim.SetBool(HoistKey, true);
+                _audioSource.Play();
                 GameManager.Instance.UpdateCheckpointData(transform.position + (Vector3)spawnOffset,
                     respawnFacingLeft);
             }
