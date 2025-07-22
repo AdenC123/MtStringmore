@@ -125,8 +125,9 @@ Marshmallow_faraway: Oh no, this is all my fault...
 <<run Marshmallow 76 679 30 true true false 0>>
 Marshmallow_faraway: I really hope Knitby is alright...
 // big dramatic pause
-<<wait 1>>
-Marshmallow_frown: There's no time to waste, I have to fix this. Hang tight, Knitby, I'm coming to get you!
+<<wait 2>>
+Marshmallow_frown: There's no time to waste, I have to fix this.
+Marshmallow_frown: Hang tight, Knitby, I'm coming to get you!
 <<wait_move_finish Marshmallow>>
 <<fix_object Marshmallow>>
 // marshmallow jumps down
