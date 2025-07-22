@@ -106,7 +106,7 @@ namespace Managers
             string time = TimerManager.ElapsedLevelTimeString;
             _gameManager.ThisLevelTime = time;
             timerText.text = time;
-            Debug.Log("Current GameMangerTimer: " + time);
+            Debug.Log("Current GameManagerTimer: " + time);
         }
 
         private void EndLevel()

@@ -53,7 +53,6 @@ namespace Yarn
         public IEnumerator LeapCoroutine(float xVel, float yVelInitial, float duration, bool grounded = false, float gravity = -66, bool flipSprite = false,
             bool keepAnimation = true, bool waitAnimation = false)
         {
-            float elapsedTime = 0;
             _animator.enabled = true;
             if (flipSprite) _spriteRenderer.flipX = !_spriteRenderer.flipX;
             _isMoving = true;
@@ -72,8 +71,7 @@ namespace Yarn
                 // 1.67f for 0.5s = 0.83f as the numerator
                 _animator.SetFloat(AnimSpeed, 0.83f / duration );
             }
-            bool shouldContinue = true;
-            while (shouldContinue)
+            for (float elapsedTime = 0; elapsedTime <= duration; elapsedTime += Time.deltaTime)
             {
                 elapsedTime += Time.deltaTime;
                 // do scuffed kinematics
@@ -84,7 +82,6 @@ namespace Yarn
                 // update new yVel
                 yVel += Time.deltaTime * gravity;
                 _animator.SetFloat(YVelocityKey, yVel);
-                shouldContinue = elapsedTime <= duration;
                 yield return null;
             }
             yield return SetAnimation(keepAnimation, waitAnimation);
