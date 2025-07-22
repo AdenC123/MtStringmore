@@ -73,7 +73,6 @@ namespace Yarn
             }
             for (float elapsedTime = 0; elapsedTime <= duration; elapsedTime += Time.deltaTime)
             {
-                elapsedTime += Time.deltaTime;
                 // do scuffed kinematics
                 transform.position = new Vector3(
                     transform.position.x + Time.deltaTime * xVel,
