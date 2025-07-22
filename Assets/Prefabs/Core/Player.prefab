@@ -294,7 +294,7 @@ MonoBehaviour:
   deathTime: 1
   poofSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
   swingAttach: {fileID: 8300000, guid: c34be067950c0494cb0a29b36dd18775, type: 3}
-  swingDetach: {fileID: 8300000, guid: cbf8607703311d24c8e4d221eb040af6, type: 3}
+  swingDetach: {fileID: 8300000, guid: 0dd879e5bef9ef04180cf3026536d289, type: 3}
   swingChangeDirection:
   - {fileID: 8300000, guid: 54a3b1ab149f48f46b01250e6221ad40, type: 3}
   - {fileID: 8300000, guid: 78f48d0db42925547ba8ce7fd2ad7418, type: 3}

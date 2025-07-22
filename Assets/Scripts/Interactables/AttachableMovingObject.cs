@@ -5,8 +5,6 @@ using Managers;
 using Player;
 using UI;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Serialization;
 using Util;
 
 namespace Interactables
@@ -80,6 +78,10 @@ namespace Interactables
 
         [SerializeField, Tooltip("Audio clip to play when player releases from moving object at the perfect threshold")]
         private AudioClip perfectReleaseClip;
+
+        [SerializeField,
+         Tooltip("Audio clip to play when player releases from moving object after it's reached the furthest position")]
+        private AudioClip badReleaseClip;
         
         private Coroutine _activeMotion;
 
@@ -162,6 +164,7 @@ namespace Interactables
             yield return new WaitForSeconds(exitDelayTime);
             _prevVelocity = _rigidbody.velocity;
             _player.StopInteraction(this);
+            _audioSource.PlayOneShot(badReleaseClip);
             // This does two things:
             //  - Disallows interaction
             //  - Stops the race condition check from happening
@@ -268,7 +271,7 @@ namespace Interactables
             _player.RemovePlayerVelocityEffector(this);
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, _prevVelocity, exitVelBoost), true);
             _audioSource.Stop();
-            if (IsPerfectRelease() && perfectReleaseClip)
+            if (IsPerfectRelease())
                 _audioSource.PlayOneShot(perfectReleaseClip);
             StopMotion();
             if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
