@@ -144,9 +144,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 6379059411910678817}
-  deathSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
   sprite: {fileID: 6233932863109230516}
-  runSound: {fileID: 8300000, guid: 6bf00bd78aa7cc44ca3aeb9158e8bd12, type: 3}
+  deathSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
+  dashDust: {fileID: 0}
   jumpSound:
   - {fileID: 8300000, guid: 8abbc66e3f16bff488ce21cc82ac1745, type: 3}
   - {fileID: 8300000, guid: 1b204d783914ee546b6a7f8231255ba2, type: 3}
@@ -159,6 +159,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c81b8a0512e132e4cbdff16ff3c341e9, type: 3}
   - {fileID: 8300000, guid: e9de9b181cfc6804e9e615db52c9d7ad, type: 3}
   hangOffset: {x: 0, y: 0}
+  swingDeltaMultiplier: 0.5
+  roastColors: []
 --- !u!82 &1114576962034337055
 AudioSource:
   m_ObjectHideFlags: 0
@@ -337,12 +339,22 @@ MonoBehaviour:
   maxSwingSpeed: 47
   swingAcceleration: 75
   minSwingReleaseX: 25
+  enableSwingHacks: 1
+  maxHackAcceleration: 200
+  hackVelocityRatio: 0.8
+  hackRange: 0.5235988
+  runParticleVelocityThreshold: 0.1
   ropeRenderer: {fileID: 8739561083334380143}
   deathTime: 2
   poofSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
   swingAttach: {fileID: 0}
   swingDetach: {fileID: 0}
   swingChangeDirection: []
+  shakeDuration: 0
+  shakeIntensity: 0
+  xShake: 0
+  yShake: 0
+  destructibleObject: 0
 --- !u!50 &5301496585393855472
 Rigidbody2D:
   serializedVersion: 4
@@ -649,6 +661,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a9063543c448829812c3105d770c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: d36f3a17116bbe24abece67ca2973704, type: 3}
+  - {fileID: 8300000, guid: 0cf1f79012190db4c98d5d21210aa3ce, type: 3}
+  - {fileID: 8300000, guid: 4518fe45801184b4c9c403f3930a1da6, type: 3}
+  - {fileID: 8300000, guid: 4bdde142dcc81014ebaa6f5a3b14f24b, type: 3}
 --- !u!82 &9143179668254688388
 AudioSource:
   m_ObjectHideFlags: 0
