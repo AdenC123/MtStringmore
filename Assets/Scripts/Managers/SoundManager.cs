@@ -34,20 +34,17 @@ namespace Managers
         
         [SerializeField, Tooltip("Max time between max collections to continue combo (in seconds)")]
         private float lastColletableComboWindow = 0.4f;
-        
-        [SerializeField] private AudioClip perfectReleaseClip;
-
 
         private float _timeSinceLastCollect = Mathf.Infinity;
         private int _audioIndex;
-        private AudioSource _audioSource;
+        private AudioSource _collectableAudioSource;
 
         private void Awake()
         {
             if (Instance != this) Destroy(gameObject);
 
-            _audioSource = gameObject.AddComponent<AudioSource>();
-            _audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
+            _collectableAudioSource = gameObject.AddComponent<AudioSource>();
+            _collectableAudioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
         }
 
         private void Start()
@@ -121,7 +118,7 @@ namespace Managers
             
             
 
-            _audioSource.PlayOneShot(collectableClips[_audioIndex]);
+            _collectableAudioSource.PlayOneShot(collectableClips[_audioIndex]);
             _timeSinceLastCollect = 0f;
         }
     }
