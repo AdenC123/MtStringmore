@@ -14,13 +14,14 @@ namespace Interactables
     {
         private static readonly int HoistKey = Animator.StringToHash("Hoisted");
 
-        [Header("References")] 
-        [SerializeField] private Animator anim;
+        [Header("References")] [SerializeField]
+        protected Animator anim;
+
         [SerializeField] private SpriteRenderer sprite;
 
         [Tooltip("Node that starts from this checkpoint. Set to \"\" to not trigger dialog from checkpoint.")]
         [SerializeField]
-        private string conversationStartNode;
+        protected string conversationStartNode;
 
         [Tooltip("If checked, the player faces left when they respawn on this checkpoint")]
         public bool respawnFacingLeft;
@@ -34,8 +35,8 @@ namespace Interactables
 
         // internal properties not exposed to editor
         private AudioSource _audioSource;
-        private DialogueRunner _dialogueRunner;
-        private bool _isCurrentConversation;
+        protected DialogueRunner DialogRunner;
+        protected bool IsCurrentConversation;
 
         public bool hasBeenHit;
         public event Action OnCheckpointHit;
@@ -44,11 +45,11 @@ namespace Interactables
         {
             hasBeenHit = false;
             _audioSource = GetComponent<AudioSource>();
-            _dialogueRunner = FindObjectOfType<DialogueRunner>();
-            if (_dialogueRunner) _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
+            DialogRunner = FindObjectOfType<DialogueRunner>();
+            if (DialogRunner) DialogRunner.onDialogueComplete.AddListener(EndConversation);
         }
 
-        private void HitCheckpoint()
+        protected void HitCheckpoint()
         {
             if (hasBeenHit) return;
             hasBeenHit = true;
@@ -75,19 +76,20 @@ namespace Interactables
             }
         }
 
-        public void StartConversation()
+        public virtual void StartConversation()
         {
             if (conversationStartNode == "") return;
+            if (IsCurrentConversation) return;
             Debug.Log("Started dialogue at checkpoint.");
-            _isCurrentConversation = true;
-            _dialogueRunner.StartDialogue(conversationStartNode);
+            IsCurrentConversation = true;
+            DialogRunner.StartDialogue(conversationStartNode);
             Time.timeScale = 0;
         }
 
         private void EndConversation()
         {
-            if (!_isCurrentConversation) return;
-            _isCurrentConversation = false;
+            if (!IsCurrentConversation) return;
+            IsCurrentConversation = false;
             Debug.Log("Ended dialogue at checkpoint.");
             Time.timeScale = 1;
         }
