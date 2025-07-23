@@ -1279,7 +1279,7 @@ Canvas:
   m_GameObject: {fileID: 1304562421}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 845177821}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -2145,14 +2145,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 845177821}
-    - target: {fileID: 1730879061861520435, guid: d0738f8adb5244ba0a5801b609442fc4, type: 3}
-      propertyPath: m_VertexColorAlwaysGammaSpace
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1730879061861520435, guid: d0738f8adb5244ba0a5801b609442fc4, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5695274336111044251, guid: d0738f8adb5244ba0a5801b609442fc4, type: 3}
       propertyPath: m_Name
       value: CutsceneFade
