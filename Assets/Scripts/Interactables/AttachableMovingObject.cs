@@ -73,7 +73,7 @@ namespace Interactables
 
         [Tooltip("Path renderer")] public MovingObjectPathRenderer pathRenderer;
         
-        [SerializeField, Tooltip("The percent threshold to count as a perfect release")]
+        [SerializeField, Tooltip("The percent threshold to count as a perfect release"), Range(0, 1)]
         private float perfectReleaseThreshold = 0.75f;
 
         [SerializeField, Tooltip("Audio clip to play when player releases from moving object at the perfect threshold")]
@@ -342,10 +342,7 @@ namespace Interactables
             }
         }
         
-        private bool IsPerfectRelease()
-        {
-            return _prevVelocity.magnitude >= perfectReleaseThreshold * maxSpeed;
-        }
+        private bool IsPerfectRelease() => _prevVelocity.magnitude >= perfectReleaseThreshold * maxSpeed;
 
         private void OnDrawGizmosSelected()
         {

@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using UnityEngine;
+using Util;
 
 namespace Player
 {
@@ -47,8 +48,7 @@ namespace Player
         {
             if (audioClips.Length == 0)
                 Debug.LogError("No audio clips to select from.");
-            int i = Random.Range(0, audioClips.Length);
-            _audioSource.clip = audioClips[i];
+            _audioSource.clip = RandomUtil.SelectRandom(audioClips);
             _audioSource.Play();
         }
     }
