@@ -38,6 +38,12 @@ namespace Interactables
         /// <inheritdoc />
         public override void OnPlayerExit(PlayerController player)
         {
+            if (player.CurrentInteractableArea == this)
+            {
+                player.StopInteraction(this);
+            }
+            player.CurrentInteractableArea = null;
+            _animator.ResetTrigger(BounceHash);
         }
 
         public override Vector2 ApplyVelocity(Vector2 velocity)
@@ -62,10 +68,15 @@ namespace Interactables
         {
         }
         
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if (!other.TryGetComponent(out PlayerController _)) return;
-            _animator.ResetTrigger(BounceHash);
-        }
+        // private void OnTriggerExit2D(Collider2D other)
+        // {
+        //     if (!other.TryGetComponent(out PlayerController player)) return;
+        //     if (player.CurrentInteractableArea == this)
+        //     {
+        //         player.StopInteraction(this);
+        //     }
+        //     player.CurrentInteractableArea = null;
+        //     _animator.ResetTrigger(BounceHash);
+        // }
     }
 }
