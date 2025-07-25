@@ -95,8 +95,7 @@ namespace Player
 
         private void Awake()
         {
-            CutsceneManager cutsceneManager = FindObjectOfType<CutsceneManager>();
-            if (cutsceneManager && cutsceneManager.gameObject.activeInHierarchy)
+            if (FindFirstObjectByType<CutsceneManager>())
                 _isInCutscene = true;
             _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<PlayerController>();
