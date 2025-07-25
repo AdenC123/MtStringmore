@@ -1,12 +1,19 @@
 ﻿title: KnitbyReunion
 setting: at the bottom of a hole
 ---
-<<set_interactables_enabled true>>
 <<timer_state false>>
-<<physics_state CustomLevel3Logic false>>
+<<fade_out 3>>
+<<wait 0.5>>
+<<set_interactables_enabled true>>
+<<cutscene_state CustomLevel3Logic true>>
+<<fix_coords 100 -200>>
+<<fade_in 3>>
 Knitby: Marshmallow! You came!
 Marshmallow: Of course I did! I promised, didn't I?
-<<physics_state CustomLevel3Logic true>>
+<<fade_out 3>>
+<<wait 0.5>>
+<<cutscene_state CustomLevel3Logic false>>
 <<start_second_half CustomLevel3Logic>>
+<<fade_in>>
 <<timer_state true>>
 ===

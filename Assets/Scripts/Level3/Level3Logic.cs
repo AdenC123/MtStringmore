@@ -13,6 +13,8 @@ namespace Level3
     public class Level3Logic : MonoBehaviour
     {
         [SerializeField] private UnityEvent onSecondHalfReached;
+        [SerializeField] private GameObject[] gameObjects;
+        [SerializeField] private GameObject[] cutsceneObjects;
 
         private Checkpoint[] _checkpoints;
 
@@ -26,12 +28,18 @@ namespace Level3
             // there's no guarantee we grab the right instance in Awake so we use Start
             GameManager.Instance.AreInteractablesEnabled = false;
         }
-
-        [YarnCommand("physics_state")]
-        public void SetPhysics(bool value)
+        
+        [YarnCommand("cutscene_state")]
+        public void SetCutsceneState(bool value)
         {
-            PlayerController playerController = FindObjectOfType<PlayerController>(false);
-            playerController.enabled = value;
+            foreach (GameObject obj in gameObjects)
+            {
+                obj.SetActive(!value);
+            }
+            foreach (GameObject obj in cutsceneObjects)
+            {
+                obj.SetActive(value);
+            }
         }
 
         /// <summary>
