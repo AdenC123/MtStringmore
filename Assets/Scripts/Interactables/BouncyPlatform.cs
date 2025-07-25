@@ -67,16 +67,5 @@ namespace Interactables
         public override void EndInteract(PlayerController player)
         {
         }
-        
-        // private void OnTriggerExit2D(Collider2D other)
-        // {
-        //     if (!other.TryGetComponent(out PlayerController player)) return;
-        //     if (player.CurrentInteractableArea == this)
-        //     {
-        //         player.StopInteraction(this);
-        //     }
-        //     player.CurrentInteractableArea = null;
-        //     _animator.ResetTrigger(BounceHash);
-        // }
     }
 }
