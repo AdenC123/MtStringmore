@@ -277,6 +277,7 @@ MonoBehaviour:
   dashTime: 0.2
   dashSpeed: 30
   endDashSpeed: 30
+  dashEndTolerance: 0.25
   wallJumpAngle: 1.05
   wallJumpPower: 36
   wallSlideSpeed: 15
