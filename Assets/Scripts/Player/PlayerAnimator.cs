@@ -2,6 +2,7 @@
 using Managers;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Util;
 
 namespace Player
@@ -46,7 +47,8 @@ namespace Player
         // [SerializeField] private ParticleSystem _moveParticles;
         // [SerializeField] private ParticleSystem _landParticles;
 
-        [Header("Audio Clips")]
+        [FormerlySerializedAs("runSound")][Header("Audio Clips")]
+        [SerializeField] private AudioClip[] runSounds;
         [SerializeField] private AudioClip[] jumpSound;
         [SerializeField] private AudioClip dashSound;
         [SerializeField] private AudioClip landSound;
@@ -182,6 +184,19 @@ namespace Player
         {
             anim.SetFloat(XSpeedKey, Mathf.Abs(_player.Velocity.x));
             anim.SetFloat(YVelocityKey, _player.Velocity.y);
+        }
+
+        /// <summary>
+        /// Handler for when the player steps on the ground.
+        /// </summary>
+        internal void HandleStep()
+        {
+            if (!_grounded) return;
+            if (runSounds.Length == 0)
+                Debug.LogError("No step sound clips to select from.");
+            
+            AudioClip runSound = RandomUtil.SelectRandom(runSounds);
+            _source.PlayOneShot(runSound);
         }
 
         /// <summary>
