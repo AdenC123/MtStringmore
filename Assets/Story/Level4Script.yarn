@@ -1,12 +1,7 @@
-﻿title: KnitbyReunion
-setting: at the bottom of a hole
+﻿title: Level4Cutscene
 ---
-// the path caves in behind marshmallow as they go down to get knitby
-Knitby: Marshmallow! You came!
-Marshmallow: Of course I did! I promised, didn't I?
 // find a ball (clay?) in the cave and marshmallow asks if knitby wants to play football
 // kick the ball somewhere and it loosens a rock, freeing up the path forward
-
 Marshmallow: So, now that we've made it out, I have to ask. Do you want to keep going?
 Knitby: Woah, where is all this coming from, Marshmallow?
 Marshmallow: Well, to be honest, I started this all braggadocious and <i>"I don't need anyone"</i> or whatever.

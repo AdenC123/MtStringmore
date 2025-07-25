@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 namespace Managers
 {
@@ -24,7 +25,8 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI inGameTimerText;
         [SerializeField] private GameObject resultsWindow;
         [SerializeField] private Toggle timerToggle;
-        
+
+        private static bool _isEnabled = true;
         public static float ElapsedLevelTime { get; set; }
         public static string ElapsedLevelTimeString {get; private set;}
 
@@ -47,6 +49,7 @@ namespace Managers
         
         private void Update()
         { 
+            if (!_isEnabled) return;
             int sceneIndex = SceneManager.GetActiveScene().buildIndex;
             
             if (resultsWindow.activeSelf || sceneIndex == 0 || sceneIndex % 2 != 0)
@@ -64,6 +67,12 @@ namespace Managers
 
             timerText.text = ElapsedLevelTimeString;
             inGameTimerText.text = ElapsedLevelTimeString;
+        }
+
+        [YarnCommand("timer_state")]
+        public static void SetTimerState(bool value)
+        {
+            _isEnabled = value;
         }
 
         public void OnToggle()

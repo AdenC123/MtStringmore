@@ -1,7 +1,9 @@
 ﻿using Interactables;
 using Managers;
+using Player;
 using UnityEngine;
 using UnityEngine.Events;
+using Yarn.Unity;
 
 namespace Level3
 {
@@ -25,9 +27,17 @@ namespace Level3
             GameManager.Instance.AreInteractablesEnabled = false;
         }
 
+        [YarnCommand("physics_state")]
+        public void SetPhysics(bool value)
+        {
+            PlayerController playerController = FindObjectOfType<PlayerController>(false);
+            playerController.enabled = value;
+        }
+
         /// <summary>
-        /// Called upon second half being reached - enables interactables, clears checkpoints and flips them.
+        /// Called to start second half - enables interactables, clears checkpoints and flips them.
         /// </summary>
+        [YarnCommand("start_second_half")]
         public void ReachSecondHalf()
         {
             GameManager.Instance.AreInteractablesEnabled = true;

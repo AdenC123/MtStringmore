@@ -1,18 +1,12 @@
-﻿title: Level3Cutscene
-setting: a cliff
+﻿title: KnitbyReunion
+setting: at the bottom of a hole
 ---
-// TODO idk what to put in the cliff falling scene tbh
-Knitby: Marshmallow, wait!
-// knitby jumps and falls
-Knitby: Wait, Marshmallow, HELP!!
-// marshmallow turns around to see knitby fall
-Marshmallow: Knitby no!!!
-*big dramatic pause and sound effects or whatever*
-Marshmallow: Hang tight, buddy, I'm going to get you!
-<<wait 1>>
-Marshmallow: How am I going to get down there... 
-// stares up at a swing, unusable
-Marshmallow: Oh. This might be more difficult than I thought.
-// <<load_scene Level3>>
-
+<<set_interactables_enabled true>>
+<<timer_state false>>
+<<physics_state CustomLevel3Logic false>>
+Knitby: Marshmallow! You came!
+Marshmallow: Of course I did! I promised, didn't I?
+<<physics_state CustomLevel3Logic true>>
+<<start_second_half CustomLevel3Logic>>
+<<timer_state true>>
 ===
