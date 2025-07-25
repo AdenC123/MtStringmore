@@ -195,7 +195,6 @@ MonoBehaviour:
   xShake: 1
   yShake: 1
   destructibleObject: 1
-  dashEndTolerance: 1
   solidCollider: {fileID: 3462317122686778128}
 --- !u!212 &7907048460438451200
 SpriteRenderer:
@@ -280,7 +279,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 7445090876735969629, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
   m_audioClip: {fileID: 8300000, guid: 80ad62ea936d53e4894ba77fd55f9fd0, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
