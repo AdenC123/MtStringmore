@@ -47,7 +47,7 @@ namespace Player
         // [SerializeField] private ParticleSystem _moveParticles;
         // [SerializeField] private ParticleSystem _landParticles;
 
-        [FormerlySerializedAs("runSound")][Header("Audio Clips")]
+        [Header("Audio Clips")]
         [SerializeField] private AudioClip[] runSounds;
         [SerializeField] private AudioClip[] jumpSound;
         [SerializeField] private AudioClip dashSound;
@@ -70,6 +70,7 @@ namespace Player
         private AudioSource _source;
         private PlayerController _player;
 
+        private bool _isInCutscene;
         private bool _grounded;
 
         private Vector2? _swingPos;
@@ -95,6 +96,8 @@ namespace Player
 
         private void Awake()
         {
+            if (FindObjectOfType<CutsceneManager>())
+                _isInCutscene = true;
             _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<PlayerController>();
             _spriteOriginalPosition = transform.localPosition;
@@ -191,7 +194,7 @@ namespace Player
         /// </summary>
         internal void HandleStep()
         {
-            if (!_grounded) return;
+            if (!_isInCutscene && !_grounded) return;
             if (runSounds.Length == 0)
                 Debug.LogError("No step sound clips to select from.");
             

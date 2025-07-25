@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Player
 {
@@ -14,6 +15,10 @@ namespace Player
         /// <summary>
         /// Handles the event on the animation frame where the player steps.
         /// </summary>
+        /// <remarks>
+        /// Called implicitly by an animator event.
+        /// </remarks>
+        [UsedImplicitly]
         public void HandleStep() => playerAnimator.HandleStep();
     }
 }
