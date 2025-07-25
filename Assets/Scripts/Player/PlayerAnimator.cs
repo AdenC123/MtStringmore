@@ -2,7 +2,6 @@
 using Managers;
 using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Util;
 
 namespace Player
@@ -96,7 +95,8 @@ namespace Player
 
         private void Awake()
         {
-            if (FindObjectOfType<CutsceneManager>())
+            CutsceneManager cutsceneManager = FindObjectOfType<CutsceneManager>();
+            if (cutsceneManager && cutsceneManager.gameObject.activeInHierarchy)
                 _isInCutscene = true;
             _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<PlayerController>();
