@@ -23,7 +23,6 @@ namespace Interactables
         
         private Animator _animator;
         private AudioSource _audioSource;
-        private bool _alreadyUsed;
 
         private void Awake()
         {
@@ -34,7 +33,6 @@ namespace Interactables
         /// <inheritdoc />
         public override void OnPlayerEnter(PlayerController player)
         {
-            _alreadyUsed = false;
         }
 
         /// <inheritdoc />
@@ -50,8 +48,10 @@ namespace Interactables
         public override void StartInteract(PlayerController player)
         {
             player.CanDash = true;
-            // player.ForceCancelEarlyRelease();
+            player.ForceCancelEarlyRelease();
             player.AddPlayerVelocityEffector(this, true);
+            player.StopInteraction(this);
+            player.CurrentInteractableArea = null;
             
             _animator.SetTrigger(BounceHash);
             _audioSource.clip = RandomUtil.SelectRandom(bounceSounds);
@@ -60,6 +60,12 @@ namespace Interactables
 
         public override void EndInteract(PlayerController player)
         {
+        }
+        
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (!other.TryGetComponent(out PlayerController _)) return;
+            _animator.ResetTrigger(BounceHash);
         }
     }
 }
