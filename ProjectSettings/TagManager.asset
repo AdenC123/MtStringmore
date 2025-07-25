@@ -12,6 +12,7 @@ TagManager:
   - Trampoline
   - Resetter
   - FinalCheckpoint
+  - LetterBlock
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Rope
   - Player
   - Terrain
-  - 
+  - LetterBlock
   - 
   - 
   - 
