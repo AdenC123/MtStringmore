@@ -8,24 +8,38 @@ setting: at the bottom of a hole
 <<cutscene_state CustomLevel3Logic true>>
 <<fix_coords 100 -200>>
 <<fade_in 3>>
-Knitby: Marshmallow! You came!
-Marshmallow: Of course I did! I promised, didn't I?
+// marshmallow slowly walks in like hey buddy are you okay
+Marshmallow: There you are, I've been looking for you!
+Knitby_confused: Is that...
+// turns around and runs away and faces the corner
+Knitby_relieved: No, it can't be. I think I've lost my mind, I must be seeing things.
+Marshmallow_faraway: No, no, it really is me, Knitby. I'm right here, buddy.
+// i want a Knitby_cry avatar or something
+Knitby: But—But—But—I thought you would just keep going. I thought you'd leave me here all on my own. 
+Marshmallow_smile: I promised I'd come back for you, didn't I?
+Knitby_frown: How do you look so <i>chipper</i>, I could've <i>DIED</i>, Marshmallow! DON'T YOU GET IT?
+Marshmallow_faraway: Hey—
+Knitby_frown: I <i>TOLD</i> you this would happen, and you didn't <i>LISTEN</i> to me, and now we're at the bottom of a cave surrounded by danger and—
+Knitby_relieved: I thought I would be trapped here forever. I—
+Marshmallow_faraway: ...
+<<wait 2>>
+Knitby_relieved: Thanks for coming back for me, Marshmallow. It means a lot.
+Marshmallow_faraway: Sorry for putting you through danger, Knitby.
+Marshmallow_faraway: ... Are we still friends?
+<<wait 1>>
+Knitby_relieved: ...
+Knitby: Yeah. But can you please not recklessly push ahead so hard again?
+Marshmallow: Yeah. I've learned my lesson, and I'm... sorry you had to get hurt along the way.
+Knitby_relieved: ... I forgive you.
+<<wait 2>>
+Knitby: ... Maybe let's get out of here now.
+Marshmallow: Yeah, let's do it.
 <<fade_out 3>>
 <<wait 0.5>>
 <<cutscene_state CustomLevel3Logic false>>
 <<start_second_half CustomLevel3Logic>>
 <<fade_in>>
 <<timer_state true>>
-===
-title: Level3Cutscene
-setting: a cliff
----
-<<wait 1>>
-Marshmallow: How am I going to get down there... 
-// stares up at a swing, unusable
-Marshmallow: Oh. This might be more difficult than I thought.
-<<load_scene_nonblock Manager EndCutscene 0.5>>
-// <<load_scene Level3>>
 ===
 
 title: Level3End
