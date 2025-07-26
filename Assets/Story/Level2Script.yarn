@@ -141,5 +141,5 @@ Marshmallow_frown: Hang tight, Knitby, I'm coming to get you!
 title: Level2End
 ---
 // TODO: load level 3 cutscene
-<<load_scene EndCutscene>>
+<<load_scene Level3>>
 ===

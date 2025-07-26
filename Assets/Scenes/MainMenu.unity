@@ -3230,29 +3230,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd0db31ad3f9b546a1c4d709a71ab65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 3213393000759217760, guid: cd7ee435068437045be859b8b37ca444, type: 3}
+  buttonPrefab: {fileID: 782191587899047242, guid: cd7ee435068437045be859b8b37ca444, type: 3}
   buttonContainer: {fileID: 1652358196}
   playButton: {fileID: 1181040972}
-  unlockedSprite: {fileID: 21300000, guid: cc6602c0d4b8f40a3a1db784f3355601, type: 3}
-  lockedSprite: {fileID: 21300000, guid: 5d6ce6cf0462a462383eef4e4e147d53, type: 3}
   levelCandyImages:
   - {fileID: 21300000, guid: 6dcd4921e8d20e04eb2ce601b1822906, type: 3}
   - {fileID: 21300000, guid: 4b039a81a60e6d2458a101ad7ecd4739, type: 3}
   - {fileID: 21300000, guid: e0c2e1b21c61e264294de67f481988f1, type: 3}
   - {fileID: 21300000, guid: bf88ae4275933b44ca209cdc46e10688, type: 3}
-  allLevelLoadingSceneNames:
-  - IntroCutscene
-  - SecondCutscene
-  - ThirdCutscene
-  - FourthCutscene
-  allLevelSceneNames:
-  - Level1Trial
-  - Level2
-  - Level3
-  - Level4
-  canvasAudioSource: {fileID: 1503641520}
-  buttonClickSound: {fileID: 8300000, guid: c483efca31d821740b6a06177526dc55, type: 3}
-  level1: IntroCutscene
   levelText: {fileID: 1456634252}
   timeText: {fileID: 628251941}
   deathText: {fileID: 1526345124}
