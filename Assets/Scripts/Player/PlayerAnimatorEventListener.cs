@@ -8,28 +8,17 @@ namespace Player
     ///
     /// Listens to events (e.g. walk PlaySound events).
     /// </summary>
-    [RequireComponent(typeof(AudioSource))]
     public class PlayerAnimatorEventListener : MonoBehaviour
     {
-        private AudioSource _audioSource;
-    
-        private void Awake()
-        {
-            _audioSource = GetComponent<AudioSource>();
-        }
+        [SerializeField] private PlayerAnimator playerAnimator;
 
         /// <summary>
-        /// Plays a specific audio clip.
+        /// Handles the event on the animation frame where the player steps.
         /// </summary>
-        /// <param name="clip">Audio clip</param>
         /// <remarks>
         /// Called implicitly by an animator event.
         /// </remarks>
         [UsedImplicitly]
-        public void PlaySound(AudioClip clip)
-        {
-            _audioSource.clip = clip;
-            _audioSource.Play();
-        }
+        public void HandleStep() => playerAnimator.HandleStep();
     }
 }

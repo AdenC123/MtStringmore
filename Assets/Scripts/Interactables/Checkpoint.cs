@@ -9,12 +9,13 @@ namespace Interactables
     /// <summary>
     ///     Checkpoint flag that sets checkpoint position when player collides with it
     /// </summary>
+    [RequireComponent(typeof(AudioSource))]
     public class Checkpoint : AbstractPlayerInteractable
     {
         private static readonly int HoistKey = Animator.StringToHash("Hoisted");
 
         [Header("References")] [SerializeField]
-        private Animator anim;
+        protected Animator anim;
 
         [SerializeField, Tooltip("Starts conversations on hit bypassing testing and final checkpoint checks")]
         private bool toQuoteReactDO_NOT_USE_OR_ELSE_YOU_WILL_BE_FIRED;
@@ -23,10 +24,10 @@ namespace Interactables
 
         [Tooltip("Node that starts from this checkpoint. Set to \"\" to not trigger dialog from checkpoint.")]
         [SerializeField]
-        private string conversationStartNode;
+        protected string conversationStartNode;
 
-        [Tooltip("If checked, the player faces left when they respawn on this checkpoint")] [SerializeField]
-        private bool respawnFacingLeft;
+        [Tooltip("If checked, the player faces left when they respawn on this checkpoint")]
+        public bool respawnFacingLeft;
 
         [SerializeField] private Vector2 spawnOffset;
         public UnityEvent onCheckpointReached;
@@ -37,22 +38,24 @@ namespace Interactables
         public bool HasConversation => !string.IsNullOrWhiteSpace(conversationStartNode);
 
         // internal properties not exposed to editor
-        private DialogueRunner _dialogueRunner;
-        private bool _isCurrentConversation;
+        private AudioSource _audioSource;
+        protected DialogueRunner DialogRunner;
+        protected bool IsCurrentConversation;
 
         public bool hasBeenHit;
 
         public void Start()
         {
             hasBeenHit = false;
-            _dialogueRunner = FindObjectOfType<DialogueRunner>();
-            if (_dialogueRunner) _dialogueRunner.onDialogueComplete.AddListener(EndConversation);
+            _audioSource = GetComponent<AudioSource>();
+            DialogRunner = FindObjectOfType<DialogueRunner>();
+            if (DialogRunner) DialogRunner.onDialogueComplete.AddListener(EndConversation);
         }
 
         /// <summary>
         /// Called on checkpoint hit.
         /// </summary>
-        private void HitCheckpoint()
+        protected void HitCheckpoint()
         {
             if (hasBeenHit) return;
             hasBeenHit = true;
@@ -70,6 +73,7 @@ namespace Interactables
             {
                 HitCheckpoint();
                 anim.SetBool(HoistKey, true);
+                _audioSource.Play();
                 GameManager.Instance.UpdateCheckpointData(transform.position + (Vector3)spawnOffset,
                     respawnFacingLeft);
             }
@@ -95,12 +99,13 @@ namespace Interactables
         /// <summary>
         /// Starts the conversation at <see cref="conversationStartNode"/> unless it's blank.
         /// </summary>
-        public void StartConversation()
+        public virtual void StartConversation()
         {
             if (string.IsNullOrWhiteSpace(conversationStartNode)) return;
+            if (IsCurrentConversation) return;
             Debug.Log("Started dialogue at checkpoint.");
-            _isCurrentConversation = true;
-            _dialogueRunner.StartDialogue(conversationStartNode);
+            IsCurrentConversation = true;
+            DialogRunner.StartDialogue(conversationStartNode);
             if (!toQuoteReactDO_NOT_USE_OR_ELSE_YOU_WILL_BE_FIRED)
                 Time.timeScale = 0;
         }
@@ -110,8 +115,8 @@ namespace Interactables
         /// </summary>
         private void EndConversation()
         {
-            if (!_isCurrentConversation) return;
-            _isCurrentConversation = false;
+            if (!IsCurrentConversation) return;
+            IsCurrentConversation = false;
             Debug.Log("Ended dialogue at checkpoint.");
             Time.timeScale = 1;
         }
