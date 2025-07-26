@@ -1,6 +1,5 @@
 ﻿using Interactables;
 using Managers;
-using Player;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -15,6 +14,7 @@ namespace Level3
         [SerializeField] private UnityEvent onSecondHalfReached;
         [SerializeField] private GameObject[] gameObjects;
         [SerializeField] private GameObject[] cutsceneObjects;
+        [SerializeField] private Checkpoint secondHalfCheckpoint;
 
         private Checkpoint[] _checkpoints;
 
@@ -54,7 +54,7 @@ namespace Level3
             GameManager.Instance.ClearCheckpointData();
             foreach (Checkpoint checkpoint in _checkpoints)
             {
-                checkpoint.FlipCheckpoint();
+                if (checkpoint != secondHalfCheckpoint) checkpoint.FlipAndResetCheckpoint();
             }
             onSecondHalfReached.Invoke();
         }

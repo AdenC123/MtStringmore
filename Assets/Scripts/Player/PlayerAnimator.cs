@@ -97,15 +97,7 @@ namespace Player
             _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<PlayerController>();
             _spriteOriginalPosition = transform.localPosition;
-        }
-
-        private void Start()
-        {
-            GameManager.Instance.Reset += OnReset;
-        }
-
-        private void OnEnable()
-        {
+            
             _player.Jumped += OnJumped;
             _player.DoubleJumped += OnJumped;
             _player.GroundedChanged += OnGroundedChanged;
@@ -116,10 +108,10 @@ namespace Player
             _player.SwingDifferentDirection += OnSwingDifferentDirection;
             _player.OnSwingStart += OnSwingStart;
 
-            // _moveParticles.Play();
+            GameManager.Instance.Reset += OnReset;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _player.Jumped -= OnJumped;
             _player.DoubleJumped -= OnJumped;

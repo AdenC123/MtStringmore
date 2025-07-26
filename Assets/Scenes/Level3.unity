@@ -44995,6 +44995,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1324156711375271402, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
   m_PrefabInstance: {fileID: 2033653130}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &459664544 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
+  m_PrefabInstance: {fileID: 2033653130}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38850eebbb2e58d4daa87eec93f13206, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &464524031
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45948,6 +45959,7 @@ MonoBehaviour:
   - {fileID: 1666217023}
   - {fileID: 747506631}
   - {fileID: 1189795136}
+  secondHalfCheckpoint: {fileID: 459664544}
 --- !u!1001 &747506629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49518,6 +49530,10 @@ PrefabInstance:
     - target: {fileID: 4544653655168585683, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
       propertyPath: m_Name
       value: CheckpointFlag (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
+      propertyPath: respawnFacingLeft
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
       propertyPath: conversationStartNode

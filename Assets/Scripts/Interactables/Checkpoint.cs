@@ -83,11 +83,13 @@ namespace Interactables
         }
 
         /// <summary>
-        /// Flips the checkpoint respawn.
+        /// Flips the checkpoint respawn and resets it.
         /// </summary>
-        public void FlipCheckpoint()
+        public void FlipAndResetCheckpoint()
         {
             respawnFacingLeft = !respawnFacingLeft;
+            anim.SetBool(HoistKey, false);
+            hasBeenHit = false;
         }
 
         /// <summary>
