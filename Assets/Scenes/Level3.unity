@@ -47267,6 +47267,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: FinalCheckpoint
       objectReference: {fileID: 0}
+    - target: {fileID: 8572367019768239859, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
+      propertyPath: respawnFacingLeft
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -48203,6 +48207,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3100995665657460736, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100995665657460736, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -48216,6 +48224,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3143290202201094660, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143290202201094660, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3143290202201094660, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
@@ -48276,6 +48288,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5665343196658869916, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5665343196658869916, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5665343196658869916, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
