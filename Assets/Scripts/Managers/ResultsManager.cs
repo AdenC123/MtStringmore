@@ -50,7 +50,7 @@ namespace Managers
             else finalCheckpoint = null;
             
             maxCount = FindObjectsOfType<Collectable>().Length;
-            levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
+            levelHeaderText.text = $"Level {SceneListManager.Instance.LevelNumber} Complete!";
             resultsPane.SetActive(false);
             isResultsPageOpen = false;
             _saveDataManager = FindObjectOfType<SaveDataManager>();
@@ -127,7 +127,7 @@ namespace Managers
         {
             Time.timeScale = 1f;
             PauseMenu.IsPauseDisabled = false;
-            SceneManager.LoadScene("MainMenu");
+            SceneListManager.Instance.LoadMainMenu();
         }
 
         public void LoadNextLevel()

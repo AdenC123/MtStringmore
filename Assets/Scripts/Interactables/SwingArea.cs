@@ -26,6 +26,11 @@ namespace Interactables
             GameManager.Instance.OnInteractablesEnabledChanged += UpdateSprite;
         }
 
+        private void OnDestroy()
+        {
+            GameManager.Instance.OnInteractablesEnabledChanged -= UpdateSprite;
+        }
+
         /// <summary>
         /// Updates the sprite depending on whether interactables are enabled.
         /// </summary>

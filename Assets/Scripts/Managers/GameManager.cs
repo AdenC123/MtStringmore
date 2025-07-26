@@ -90,8 +90,6 @@ namespace Managers
         /// </summary>
         [SerializeField] private FadeEffects sceneTransitionCanvas;
 
-        [SerializeField] private List<string> levelNameList;
-
         //<summary>
         //the numbers of times Marshmallow dies in a level
         //called by results manager and level select to display stats
@@ -123,15 +121,7 @@ namespace Managers
         // <summary>
         // saving the level data to here so it's easier to load.
         // </summary>
-        public List<LevelData> allLevelData = new List<LevelData>();
-        
-        // <summary>
-        // We are resetting all stats (collectables etc.) each time we load scene
-        // We need make sure we are not clearing stats when we are loading the results after a cutscene
-        // Therefore we need a list of all cutscenes that show results after the cutscene
-        // Results Manager also uses this to avoid issues
-        // <summary>
-        [SerializeField] public List<string> cutsceneList;
+        public List<LevelData> allLevelData = new();
         
         private void Awake()
         {
@@ -179,7 +169,11 @@ namespace Managers
         {
             sceneTransitionCanvas.InvokeFadeOut();
             Time.timeScale = 1f;
-            _dontClearDataOnSceneChanged = cutsceneList.Contains(scene.name);
+            // We are resetting all stats (collectables etc.) each time we load scene
+            // We need make sure we are not clearing stats when we are loading the results after a cutscene
+            // Therefore we need a list of all cutscenes that show results after the cutscene
+            // Results Manager also uses this to avoid issues
+            _dontClearDataOnSceneChanged = SceneListManager.Instance.IsSceneCutscene(scene.name);
 
             if (!_dontClearDataOnSceneChanged)
             {
@@ -253,14 +247,13 @@ namespace Managers
         // </summary>
         private void SaveLevelDataToGameManager()
         {
-            string thisSceneName = SceneManager.GetActiveScene().name;
-            int idx = levelNameList.IndexOf(thisSceneName);
+            int idx = SceneListManager.Instance.LevelNumber;
             if (idx == -1)
             {
                 Debug.Log("GameManager could not determine what level we are currently in");
                 return;
             } 
-            SaveToCorrectLevelVariable(idx);
+            SaveToCorrectLevelVariable(idx-1);
         }
         
         private bool BeatsCurrentTime(string currBestTimeSpan, string newTimeSpan)

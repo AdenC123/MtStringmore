@@ -28,13 +28,13 @@ namespace Managers
         [YarnCommand("next_scene")]
         public void NextScene()
         {
-            if (nextScene != "")
+            if (!string.IsNullOrWhiteSpace(nextScene))
             {
                 SceneManager.LoadScene(nextScene);
             }
             else
             {
-                DialogueRunner dialogueRunner = FindObjectOfType<DialogueRunner>();
+                DialogueRunner dialogueRunner = FindAnyObjectByType<DialogueRunner>();
                 dialogueRunner.Stop();
             }
             onSceneInterrupt.Invoke();

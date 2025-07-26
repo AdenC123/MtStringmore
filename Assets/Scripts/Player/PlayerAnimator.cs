@@ -95,8 +95,7 @@ namespace Player
 
         private void Awake()
         {
-            if (FindFirstObjectByType<CutsceneManager>())
-                _isInCutscene = true;
+            _isInCutscene = SceneListManager.Instance.InCutscene;
             _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<PlayerController>();
             _spriteOriginalPosition = transform.localPosition;

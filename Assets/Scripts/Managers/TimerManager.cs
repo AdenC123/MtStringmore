@@ -1,7 +1,6 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Yarn.Unity;
 
@@ -35,9 +34,8 @@ namespace Managers
         private void Awake()
         {
             if (Instance != this) Destroy(gameObject);
-            string sceneName = SceneManager.GetActiveScene().name;
             //only reset time when in a level, not in a cutscene
-            if (!GameManager.Instance.cutsceneList.Contains(sceneName))
+            if (!SceneListManager.Instance.InCutscene)
             {
                 ElapsedLevelTime = 0;
             }
@@ -54,9 +52,7 @@ namespace Managers
         private void Update()
         { 
             if (!_isEnabled) return;
-            string sceneName = SceneManager.GetActiveScene().name;
-            
-            if (resultsWindow.activeSelf || GameManager.Instance.cutsceneList.Contains(sceneName))
+            if (resultsWindow.activeSelf || SceneListManager.Instance.InCutscene)
             {
                 inGameTimerText.enabled = false;
                 return;
