@@ -43,7 +43,7 @@ namespace Interactables
                 player.StopInteraction(this);
             }
             player.CurrentInteractableArea = null;
-            _animator.ResetTrigger(BounceHash);
+            // _animator.ResetTrigger(BounceHash);
         }
 
         public override Vector2 ApplyVelocity(Vector2 velocity)
