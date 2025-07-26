@@ -17,16 +17,23 @@ namespace Level3
         [SerializeField] private Checkpoint secondHalfCheckpoint;
 
         private Checkpoint[] _checkpoints;
+        private AttachableMovingObject[] _zippers;
 
         private void Awake()
         {
             _checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
+            _zippers = FindObjectsByType<AttachableMovingObject>(FindObjectsSortMode.None);
         }
 
         private void Start()
         {
             // there's no guarantee we grab the right instance in Awake so we use Start
             GameManager.Instance.AreInteractablesEnabled = false;
+            
+            foreach (AttachableMovingObject zipper in _zippers)
+            {
+                zipper.SetTabVisible(false);
+            }
         }
         
         [YarnCommand("cutscene_state")]
@@ -57,6 +64,11 @@ namespace Level3
                 if (checkpoint != secondHalfCheckpoint) checkpoint.FlipAndResetCheckpoint();
             }
             onSecondHalfReached.Invoke();
+            
+            foreach (AttachableMovingObject zipper in _zippers)
+            {
+                zipper.SetTabVisible(true);
+            }
         }
     }
 }
