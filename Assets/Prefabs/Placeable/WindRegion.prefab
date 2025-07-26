@@ -93,8 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9915a63049d2d2a4c9ec3a60f0c48db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windStrength: 24
-  maxWindSpeed: 32.6
+  windStrength: 2
+  maxWindSpeed: 40
+  minPlayerSpeed: 14
   windDirection: {x: -1, y: 0}
   windParticles: {fileID: 6798139565459321612}
   boxCollider: {fileID: 9117195392424306319}

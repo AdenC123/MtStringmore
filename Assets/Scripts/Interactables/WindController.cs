@@ -10,8 +10,9 @@ namespace Interactables
         #region Serialized Public Fields
 
         [Header("Wind Settings")]
-        [SerializeField] [Range(0f, 150f)] private float windStrength;
-        [SerializeField] [Range(0f, 150f)] private float maxWindSpeed;
+        [SerializeField] [Range(0f, 2f)] private float windStrength;
+        [SerializeField] [Range(30f, 40f)] private float maxPlayerSpeed;
+        [SerializeField] [Range(5f, 15f)] private float minPlayerSpeed;
         [SerializeField] private Vector2 windDirection;
         [SerializeField] private ParticleSystem windParticles;
         [SerializeField] private BoxCollider2D boxCollider;
@@ -20,7 +21,6 @@ namespace Interactables
         #endregion
        
         private PlayerController _player;
-        private bool _inWindZone;
 
         // Called automatically in editor when a serialized field changes
         private void OnValidate()
@@ -39,38 +39,56 @@ namespace Interactables
         /// </remarks>
         public bool IgnoreOtherEffectors => false;
 
+        public bool IgnoreGravity => false;
+
         /// <inheritdoc />
         public Vector2 ApplyVelocity(Vector2 velocity)
         {
-            Debug.Log("Wind apply velocity called with velocity: " + velocity);
             // Don't apply wind during swing or dash
-            if (_player == null || _player.PlayerState == PlayerController.PlayerStateEnum.Dash || _player.PlayerState == PlayerController.PlayerStateEnum.Swing)
+            if (_player == null || 
+                _player.PlayerState == PlayerController.PlayerStateEnum.Dash || 
+                _player.PlayerState == PlayerController.PlayerStateEnum.Swing)
             {
                 return velocity;
             }
 
-            Vector2 windDir = windDirection.normalized;
-            float currentSpeedInWindDir = Vector2.Dot(velocity, windDir);
-            if (currentSpeedInWindDir < maxWindSpeed)
-            {   
-                float boostAmount = windStrength * Time.fixedDeltaTime * 10;
-                Debug.Log("Pre Vel: "+ velocity);
-                velocity += windDir * boostAmount;
-                Debug.Log("Post Vel: "+ velocity);
-                // remove excess if overshoot
-                float newSpeedInWindDir = Vector2.Dot(velocity, windDir);
-                if (newSpeedInWindDir > maxWindSpeed)
-                {
-                    float overshoot = newSpeedInWindDir - maxWindSpeed;
-                    velocity -= windDir * overshoot;
-                }
+            Debug.Log("pre " + velocity);
 
+            Vector2 windDir = windDirection.normalized;
+            float dotProduct = Vector2.Dot(velocity, windDir);
+
+            float windDelta = windStrength * Time.fixedDeltaTime * 10f;
+
+            if (dotProduct < 0) // Moving against the wind
+            {
+                velocity += windDir * windDelta;
+
+                float newDot = Vector2.Dot(velocity, windDir);
+                float clampedDot = Mathf.Clamp(newDot, -minPlayerSpeed, 0f);
+
+                // Rebuild velocity vector with clamped component along windDir
+                Vector2 velocityAlongWind = windDir * clampedDot;
+                Vector2 velocityPerpendicular = velocity - windDir * newDot;
+                velocity = velocityAlongWind + velocityPerpendicular;
+            }
+            else if (dotProduct > 0) // Moving with the wind
+            {
+                velocity += windDir * windDelta * 10f;
+
+                float newDot = Vector2.Dot(velocity, windDir);
+                float clampedDot = Mathf.Clamp(newDot, 0f, maxWindSpeed);
+
+                Vector2 velocityAlongWind = windDir * clampedDot;
+                Vector2 velocityPerpendicular = velocity - windDir * newDot;
+                velocity = velocityAlongWind + velocityPerpendicular;
             }
 
+            Debug.Log("post " + velocity);
             return velocity;
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+
+        private void OnTriggerStay2D(Collider2D other)
         {
             if (!other.TryGetComponent(out _player)) return;
             _player.AddPlayerVelocityEffector(this, true);
@@ -80,14 +98,12 @@ namespace Interactables
             {
                 _player.ForceCancelDash();
             }
-            _inWindZone = true;
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
             if (!other.TryGetComponent(out _player)) return;
             _player.RemovePlayerVelocityEffector(this);
-            _inWindZone = false;
         }
 
         // Adjust the particle system based on wind direction and speed
@@ -108,7 +124,7 @@ namespace Interactables
             // if (windStrength > 100) windMain.simulationSpeed = 2;
             
             var parentShape = windParticles.shape;
-            parentShape.scale = new Vector3(boxCollider.size.x, boxCollider.size.y, parentShape.scale.z); // preserve z if needed
+            parentShape.scale = new Vector3(boxCollider.size.x, boxCollider.size.y, parentShape.scale.z); 
             
             var childShape = childParticleSystem.shape;
             childShape.scale = parentShape.scale;

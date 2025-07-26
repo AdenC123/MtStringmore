@@ -6395,11 +6395,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2646904535590462038, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -61.8
+      value: 11.8
       objectReference: {fileID: 0}
     - target: {fileID: 2646904535590462038, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.5
+      value: 13.5
       objectReference: {fileID: 0}
     - target: {fileID: 2646904535590462038, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6455,11 +6455,11 @@ PrefabInstance:
       objectReference: {fileID: 1896587306}
     - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: maxWindSpeed
-      value: 100
+      value: 52.1
       objectReference: {fileID: 0}
     - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: windStrength
-      value: 100
+      value: 6.9
       objectReference: {fileID: 0}
     - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: windParticles

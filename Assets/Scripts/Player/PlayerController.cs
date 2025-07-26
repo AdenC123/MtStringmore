@@ -323,8 +323,9 @@ namespace Player
             _velocity = _impulseVelocityEffectors
                 .Aggregate(_velocity, (initial, effector) => effector.ApplyVelocity(initial));
             bool hadVelocityEffectors = _playerVelocityEffectors.Count > 0 || _impulseVelocityEffectors.Count > 0;
+            if (_impulseVelocityEffectors.Any(e => e is WindController) || (!hadVelocityEffectors && dashEnabled)) HandleDash(); // if player can dash in wind zones
             _impulseVelocityEffectors.Clear();
-            if (!hadVelocityEffectors && dashEnabled) HandleDash();
+            //if (!hadVelocityEffectors && dashEnabled) HandleDash();
             ApplyMovement();
         }
 
