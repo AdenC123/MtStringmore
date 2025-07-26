@@ -10,7 +10,9 @@ namespace Interactables
     [DisallowMultipleComponent, RequireComponent(typeof(Collider2D), typeof(Animator), typeof(AudioSource))]
     public class BouncyPlatform : AbstractPlayerInteractable
     {
-        private static readonly int BounceHash = Animator.StringToHash("Bounce");
+        private static readonly int BOUNCE_HASH = Animator.StringToHash("Bounce");
+        private static readonly int STEP_HASH = Animator.StringToHash("Step");
+        private static readonly int STEP_OFF_HASH = Animator.StringToHash("Step Off");
 
         #region Serialized Private Fields
 
@@ -23,6 +25,7 @@ namespace Interactables
         
         private Animator _animator;
         private AudioSource _audioSource;
+        private bool _launched;
 
         private void Awake()
         {
@@ -33,17 +36,23 @@ namespace Interactables
         /// <inheritdoc />
         public override void OnPlayerEnter(PlayerController player)
         {
+            _animator.SetTrigger(STEP_HASH);
+            _launched = false;
         }
 
         /// <inheritdoc />
         public override void OnPlayerExit(PlayerController player)
         {
+            if (!_launched)
+            {
+                _animator.SetTrigger(STEP_OFF_HASH);
+            }
+            
             if (player.CurrentInteractableArea == this)
             {
                 player.StopInteraction(this);
             }
             player.CurrentInteractableArea = null;
-            // _animator.ResetTrigger(BounceHash);
         }
 
         public override Vector2 ApplyVelocity(Vector2 velocity)
@@ -59,7 +68,8 @@ namespace Interactables
             player.StopInteraction(this);
             player.CurrentInteractableArea = null;
             
-            _animator.SetTrigger(BounceHash);
+            _animator.SetTrigger(BOUNCE_HASH);
+            _launched = true;
             _audioSource.clip = RandomUtil.SelectRandom(bounceSounds);
             _audioSource.Play();
         }
