@@ -832,11 +832,11 @@ MonoBehaviour:
   bottomPart: {fileID: 7828473269823386911}
   topPart: {fileID: 6629650060142591562}
   timeStayUp: 0
-  velocityDown: 10
+  velocityDown: 5
   velocityUp: 5
   timeStayDown: 1
   warningSound: {fileID: 217117979800497627}
-  warningSoundTime: 0.5
+  warningSoundTime: 0
   closingSound: {fileID: 3571595061132870987}
   closingSoundDelay: 0
   alwaysActive: 0
