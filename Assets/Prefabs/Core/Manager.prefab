@@ -2713,6 +2713,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenuSceneName: MainMenu
+  levels:
+  - preLevelCutscene: IntroCutscene
+    levelName: Level1Trial
+    postLevelCutscene: 
+  - preLevelCutscene: SecondCutscene
+    levelName: Level2
+    postLevelCutscene: Level2InterstitialCutscene
+  - preLevelCutscene: 
+    levelName: Level3
+    postLevelCutscene: 
+  - preLevelCutscene: 
+    levelName: Level4
+    postLevelCutscene: EndCutscene
   levelNameList:
   - Level1Trial
   - Level2

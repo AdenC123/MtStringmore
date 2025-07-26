@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,11 +25,21 @@ namespace Managers
         }
 
         [SerializeField] private string mainMenuSceneName;
-        [SerializeField] private string[] levelNameList;
-        [SerializeField] private string[] cutsceneNameList;
+        [SerializeField] private LevelInfo[] levels;
 
+        private readonly List<string> _levelLoadScenes = new();
         private readonly Dictionary<string, int> _levelLookup = new();
         private readonly HashSet<string> _cutscenes = new();
+
+        /// <summary>
+        /// Returns the list of level loading scenes.
+        /// </summary>
+        public IReadOnlyList<string> LevelLoadScenes => _levelLoadScenes;
+
+        /// <summary>
+        /// Returns the level 1 cutscene scene name.
+        /// </summary>
+        public string Level1IntroSceneName => levels[0].preLevelCutscene;
 
         /// <summary>
         /// Whether the current scene is the main menu.
@@ -90,17 +101,38 @@ namespace Managers
             if (_levelLookup.Count != 0) return;
             _levelLookup.Clear();
             _cutscenes.Clear();
-            for (int i = 0; i < levelNameList.Length; i++)
+            _levelLoadScenes.Clear();
+            for (int i = 0; i < levels.Length; i++)
             {
-                _levelLookup[levelNameList[i]] = i+1;
-            }
+                _levelLookup[levels[i].levelName] = i + 1;
+                if (!string.IsNullOrWhiteSpace(levels[i].preLevelCutscene))
+                {
+                    _cutscenes.Add(levels[i].preLevelCutscene);
+                    _levelLookup[levels[i].preLevelCutscene] = i + 1;
+                    _levelLoadScenes.Add(levels[i].preLevelCutscene);
+                }
+                else
+                {
+                    _levelLoadScenes.Add(levels[i].levelName);
+                }
 
-            for (int i = 0; i < cutsceneNameList.Length; i++)
-            {
-                // level 2 has 2 cutscenes
-                _levelLookup[cutsceneNameList[i]] = i+(i < 2 ? 1 : 0);
-                _cutscenes.Add(cutsceneNameList[i]);
+                if (!string.IsNullOrWhiteSpace(levels[i].postLevelCutscene))
+                {
+                    _cutscenes.Add(levels[i].postLevelCutscene);
+                    _levelLookup[levels[i].postLevelCutscene] = i + 1;
+                }
             }
+        }
+
+        /// <summary>
+        /// Each level's scene name information (pre cutscene/level/post ctuscene).
+        /// </summary>
+        [Serializable]
+        private struct LevelInfo
+        {
+            public string preLevelCutscene;
+            public string levelName;
+            public string postLevelCutscene;
         }
     }
 }
