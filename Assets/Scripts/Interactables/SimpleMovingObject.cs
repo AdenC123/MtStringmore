@@ -42,6 +42,11 @@ namespace Interactables
             GameManager.Instance.Reset += OnReset;
         }
 
+        private void OnDestroy()
+        {
+            GameManager.Instance.Reset -= OnReset;
+        }
+
         private void OnEnable()
         {
             if (activateOnStart) StartMotion();
