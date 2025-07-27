@@ -126,7 +126,7 @@ namespace UI
 
         /// <summary>
         ///     Called by the UI element to go to the main menu.
-        ///     Saves and loads the main menu.
+        ///     Shows the quit confirmation menu
         /// </summary>
         public void LoadMenu()
         {

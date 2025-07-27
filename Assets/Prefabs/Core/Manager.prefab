@@ -999,7 +999,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &3777585508448776310
 MonoBehaviour:
@@ -3101,6 +3101,7 @@ GameObject:
   - component: {fileID: 250189500462256543}
   - component: {fileID: 1054067388043385186}
   - component: {fileID: 3191669753061122949}
+  - component: {fileID: 5637470842470252679}
   m_Layer: 5
   m_Name: OnScreenButtons
   m_TagString: Untagged
@@ -3120,8 +3121,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7404114108699286322}
   - {fileID: 6533941807880231215}
+  - {fileID: 7404114108699286322}
   m_Father: {fileID: 5675118328201374811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3192,6 +3193,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5637470842470252679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6631934343218751726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e36f7a51cca8054f911ae659c86bf75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseButton: {fileID: 6332210469991775687}
+  restartButton: {fileID: 3068779762669816813}
+  mainMenuSceneName: MainMenu
 --- !u!1 &6719631413472696613
 GameObject:
   m_ObjectHideFlags: 0
@@ -3253,7 +3269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3800,7 +3816,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &4216781661418160321
 MonoBehaviour:
@@ -3833,7 +3849,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   confirmationPanel: {fileID: 6719631413472696613}
   mainMenuScene: MainMenu
-  goToMainMenu: 0
 --- !u!114 &1898475085155500029
 MonoBehaviour:
   m_ObjectHideFlags: 0
