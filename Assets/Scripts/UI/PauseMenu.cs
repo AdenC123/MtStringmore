@@ -119,8 +119,9 @@ namespace UI
         /// </summary>
         public void ResetButtonPressed()
         {
+            Scene currentScene = SceneManager.GetActiveScene();
             Resume();
-            GameManager.Instance.Respawn();
+            SceneManager.LoadScene(currentScene.name); //reload the scene we are currently in
         }
 
         /// <summary>
