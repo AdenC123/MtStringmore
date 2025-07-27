@@ -835,11 +835,13 @@ MonoBehaviour:
   velocityDown: 10
   velocityUp: 5
   timeStayDown: 0
-  warningSound: {fileID: 217117979800497627}
-  warningSoundTime: 1
+  alwaysActive: 0
+  shakeTime: 1
+  shakeDelay: 0.002
+  shakeDistance: 0.1
+  shakeSound: {fileID: 217117979800497627}
   closingSound: {fileID: 3571595061132870987}
   closingSoundDelay: 0
-  alwaysActive: 0
 --- !u!1 &8600188875434197424
 GameObject:
   m_ObjectHideFlags: 0
