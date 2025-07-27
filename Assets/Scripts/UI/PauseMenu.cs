@@ -1,5 +1,4 @@
 using Managers;
-using Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,7 +26,8 @@ namespace UI
         [SerializeField] private TextMeshProUGUI versionNumber;
         [SerializeField] private string mainMenuSceneName = "MainMenu";
         private float _prevTimescale;
-        private SaveDataManager _saveDataManager;
+        private QuitConfirmationManager quitConfirmationManager;
+        
         
         /// <summary>
         /// Whether we can open pause menu: i.e. not main menu and not force disabled
@@ -54,8 +54,8 @@ namespace UI
         private void Awake()
         {
             _prevTimescale = Time.timeScale;
-            _saveDataManager = FindObjectOfType<SaveDataManager>();
             versionNumber.text = Application.version;
+            quitConfirmationManager = FindObjectOfType<QuitConfirmationManager>();
             Resume();
             SceneManager.activeSceneChanged += OnSceneChanged;
         }
@@ -86,9 +86,9 @@ namespace UI
 
         /// <summary>
         ///     Resumes the game by hiding the UI and resetting the timescale.
-        ///     Called by both the resume button and when the player hits the Escape key.
+        ///     Called by the resume button, when the player hits the Escape key, and in QuitConfirmationManager
         /// </summary>
-        private void Resume()
+        public void Resume()
         {
             pauseMenuUI.SetActive(false);
             pauseButton.gameObject.SetActive(true);
@@ -130,10 +130,10 @@ namespace UI
         /// </summary>
         public void LoadMenu()
         {
-            _saveDataManager?.SaveFile();
-            // reset any changes made by pausing
-            Resume();
-            SceneManager.LoadScene(mainMenuSceneName);
+            // makes sure to go to main menu
+            quitConfirmationManager.goToMainMenu = true;
+            // display quit confirmation
+            quitConfirmationManager.ShowConfirmation();
         }
 
         /// <summary>
@@ -142,8 +142,10 @@ namespace UI
         /// </summary>
         public void QuitGame()
         {
-            _saveDataManager?.SaveFile();
-            Application.Quit();
+            // makes sure to quit game and not go to main menu
+            quitConfirmationManager.goToMainMenu = false;
+            // display quit confirmation
+            quitConfirmationManager.ShowConfirmation();
         }
     }
 }
