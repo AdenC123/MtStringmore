@@ -9,7 +9,6 @@ public class QuitConfirmationManager : MonoBehaviour
     //Access to main menu scene name
     [SerializeField] private string mainMenuScene = "MainMenu";
     //Determines whether the "yes" confirmation should lead to mainMenu
-    public bool goToMainMenu = false;
 
     private void Awake()
     {
@@ -26,24 +25,11 @@ public class QuitConfirmationManager : MonoBehaviour
     public void ConfirmQuitGame()
     {
         PauseMenu pauseMenu = FindObjectOfType<PauseMenu>();
-        
-        if (goToMainMenu)
-        {
-            confirmationPanel.SetActive(false);
-            //Resets the state of the pause menu (i.e. inactive)
-            pauseMenu.Resume();
-            Debug.Log("User is going to main menu!");
-            SceneManager.LoadScene(mainMenuScene);
-        }
-        else
-        {
-            confirmationPanel.SetActive(false);
-            //Resets the state of the pause menu (i.e. inactive)
-            pauseMenu.Resume();
-            Debug.Log("User has quit game!");
-            Application.Quit();
-        }
-        
+        confirmationPanel.SetActive(false);
+        //Resets the state of the pause menu (i.e. inactive)
+        pauseMenu.Resume();
+        Debug.Log("User is going to main menu!");
+        SceneManager.LoadScene(mainMenuScene);
     }
 
     //Hides the confirmation panel when user pressed "No"

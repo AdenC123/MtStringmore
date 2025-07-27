@@ -130,22 +130,9 @@ namespace UI
         /// </summary>
         public void LoadMenu()
         {
-            // makes sure to go to main menu
-            quitConfirmationManager.goToMainMenu = true;
             // display quit confirmation
             quitConfirmationManager.ShowConfirmation();
         }
-
-        /// <summary>
-        ///     Called by the UI element to quit the game.
-        ///     Saves and quits.
-        /// </summary>
-        public void QuitGame()
-        {
-            // makes sure to quit game and not go to main menu
-            quitConfirmationManager.goToMainMenu = false;
-            // display quit confirmation
-            quitConfirmationManager.ShowConfirmation();
-        }
+        
     }
 }
