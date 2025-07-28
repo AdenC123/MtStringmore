@@ -323,9 +323,8 @@ namespace Player
             _velocity = _impulseVelocityEffectors
                 .Aggregate(_velocity, (initial, effector) => effector.ApplyVelocity(initial));
             bool hadVelocityEffectors = _playerVelocityEffectors.Count > 0 || _impulseVelocityEffectors.Count > 0;
-            if (_impulseVelocityEffectors.Any(e => e is WindController) || (!hadVelocityEffectors && dashEnabled)) HandleDash(); // if player can dash in wind zones
+            if (_impulseVelocityEffectors.Any(e => e is WindController) || (!hadVelocityEffectors && dashEnabled)) HandleDash(); // lets player can dash in wind zones
             _impulseVelocityEffectors.Clear();
-            //if (!hadVelocityEffectors && dashEnabled) HandleDash();
             ApplyMovement();
         }
 
@@ -342,7 +341,7 @@ namespace Player
             IPlayerVelocityEffector ignores =
                 _impulseVelocityEffectors.FirstOrDefault(effect => effect.IgnoreOtherEffectors);
             ignores ??= _playerVelocityEffectors.FirstOrDefault(effect => effect.IgnoreOtherEffectors);
-            if (ignores != null)
+            if (ignores != null && !(ignores is Balloon && effector is WindController)) // WIP: player vel should be affected while on balloon in wind zone
             {
                 Debug.LogWarning(
                     $"Ignoring effector {effector} as existing effector {ignores} ignores other effectors");
