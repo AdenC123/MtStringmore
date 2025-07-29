@@ -66,7 +66,7 @@ namespace Interactables
         public Vector2 ApplyVelocity(Vector2 velocity)
         {
             // Don't apply wind during swing or dash
-            if (_player == null || _player.PlayerState == PlayerController.PlayerStateEnum.Swing)
+            if (_player == null || _player.PlayerState == PlayerController.PlayerStateEnum.Swing || _player.PlayerState == PlayerController.PlayerStateEnum.OnObject)
             {
                 return velocity;
             }
@@ -113,12 +113,12 @@ namespace Interactables
         {
             if (!other.TryGetComponent(out _player)) return;
             _player.AddPlayerVelocityEffector(this, true);
-            _player.CanDash = true;
+            // _player.CanDash = true;
             _player.ForceCancelEarlyRelease();
-            if (_player.PlayerState == PlayerController.PlayerStateEnum.Dash)
-            {
-                _player.ForceCancelDash();
-            }
+            // if (_player.PlayerState == PlayerController.PlayerStateEnum.Dash)
+            // {
+            //     _player.ForceCancelDash();
+            // }
             float targetVolume = _playerInside ? 1f : 0f;
             audioSource.volume = Mathf.MoveTowards(audioSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
         }
