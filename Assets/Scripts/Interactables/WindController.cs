@@ -90,7 +90,7 @@ namespace Interactables
             }
             else if (dotProduct > 0) // Moving with the wind
             {
-                velocity += windDir * windDelta * 20f;
+                velocity += (windDir * (windDelta * 20f));
 
                 float newDot = Vector2.Dot(velocity, windDir);
                 float clampedDot = Mathf.Clamp(newDot, 0f, tailwindSpeed);
