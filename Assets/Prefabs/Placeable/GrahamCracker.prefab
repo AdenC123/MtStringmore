@@ -837,8 +837,8 @@ MonoBehaviour:
   timeStayDown: 0
   alwaysActive: 0
   shakeTime: 1
-  shakeDelay: 0.002
-  shakeDistance: 0.1
+  shakeDelay: 0.01
+  shakeDistance: 0.2
   shakeSound: {fileID: 217117979800497627}
   closingSound: {fileID: 3571595061132870987}
   closingSoundDelay: 0

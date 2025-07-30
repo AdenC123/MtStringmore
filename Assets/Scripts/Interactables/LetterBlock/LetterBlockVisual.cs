@@ -14,7 +14,7 @@ namespace Interactables.LetterBlock
         [SerializeField] private GameObject particles;
         [SerializeField] private SpriteRenderer[] childRenderers;
         [SerializeField] [Min(0)] private float blockBreakDelay;
-        [SerializeField] [Range(0f, 0.1f)] private float delayBetweenShakes;
+        [SerializeField] [Range(0f, 0.1f)] private float delayBetweenShakes = 0.01f;
         [SerializeField] [Range(0f, 2f)] private float distance = 0.1f;
 
         private SpriteRenderer _renderer;
@@ -51,10 +51,12 @@ namespace Interactables.LetterBlock
         private IEnumerator Shake()
         {
             Vector3 startPos = transform.position;
-        
-            for (float timer = 0; timer < blockBreakDelay; timer += Time.deltaTime)
+            float oneShakeTime = delayBetweenShakes > 0 ? delayBetweenShakes : Time.deltaTime;
+            
+            for (float timer = 0; timer < blockBreakDelay; timer += oneShakeTime)
             {
-                transform.position = startPos + (Random.insideUnitSphere * distance);
+                Vector3 randomPos = Random.insideUnitCircle;
+                transform.position = startPos + (randomPos * distance);
 
                 if (delayBetweenShakes > 0f)
                 {

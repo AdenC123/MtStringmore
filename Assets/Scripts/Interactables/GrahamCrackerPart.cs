@@ -80,11 +80,11 @@ namespace Interactables
         
         private IEnumerator Shake(float duration, float shakeDelay, float shakeDistance)
         {
-            Vector3 startPos = transform.position;
-        
-            for (float timer = 0; timer < duration; timer += Time.deltaTime)
+            float oneShakeTime = shakeDelay > 0 ? shakeDelay : Time.deltaTime;
+            for (float timer = 0; timer < duration; timer += oneShakeTime)
             {
-                transform.position = startPos + (Random.insideUnitSphere * shakeDistance);
+                Vector3 randomPos = _initialPosition + Random.insideUnitCircle * shakeDistance;
+                transform.position = randomPos;
 
                 if (shakeDelay > 0f)
                     yield return new WaitForSeconds(shakeDelay);
@@ -92,7 +92,7 @@ namespace Interactables
                     yield return null;
             }
 
-            transform.position = startPos;
+            transform.position = _initialPosition;
         }
         
         /// <summary>

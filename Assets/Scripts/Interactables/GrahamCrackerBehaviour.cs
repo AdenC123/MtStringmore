@@ -2,7 +2,6 @@
 using Managers;
 using Player;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Interactables
 {
@@ -38,7 +37,7 @@ namespace Interactables
         private float shakeTime = 1;
         
         [SerializeField, Tooltip("Delay between shakes"), Range(0f, 0.1f)] 
-        private float shakeDelay = 0.002f;
+        private float shakeDelay = 0.01f;
         
         [SerializeField, Tooltip("Furthest distance from original position when shaking"), Range(0f, 2f)]
         private float shakeDistance = 0.2f;
