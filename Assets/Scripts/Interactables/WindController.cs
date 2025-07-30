@@ -26,16 +26,19 @@ namespace Interactables
         private PlayerController _player;
         private bool _playerInside;
         private bool _shouldFadeOut;
+        private Vector2 _windDirNormalized;
 
         #endregion
         // Called automatically in editor when a serialized field changes
         private void OnValidate()
         {
+            _windDirNormalized = windDirection.normalized;
             UpdateParticles();
         }
 
-        public void Start()
+        private void Awake()
         {
+            _windDirNormalized = windDirection.normalized;
             UpdateParticles();
         }
 
@@ -70,48 +73,51 @@ namespace Interactables
             {
                 return velocity;
             }
-
-            Vector2 windDir = windDirection.normalized;
-            float dotProduct = Vector2.Dot(velocity, windDir);
-
-            float windDelta = Time.fixedDeltaTime * 10f;
-
-            if (dotProduct < 0) // Moving against the wind
+            
+            float dotProduct = Vector2.Dot(velocity.normalized, _windDirNormalized);
+            // Case where player's jump height was massively reduced
+            if (_windDirNormalized.y == 0)
             {
-                velocity += windDir * windDelta;
-
-                float newDot = Vector2.Dot(velocity, windDir);
-                float clampedDot = Mathf.Clamp(newDot, -headwindSpeed, 0f);
-
-                // Rebuild velocity vector with clamped component along windDir
-                Vector2 velocityAlongWind = windDir * clampedDot;
-                Vector2 velocityPerpendicular = velocity - windDir * newDot;
-                velocity = velocityAlongWind + velocityPerpendicular;
+                if (dotProduct <= 0) // Moving against the wind
+                {
+                    Vector2 resistance = _windDirNormalized * headwindSpeed;
+                    velocity.x = Mathf.MoveTowards(velocity.x, resistance.x, Time.fixedDeltaTime * 20f);
+                }
+                else if (dotProduct > 0) // Moving with the wind
+                {
+                    Vector2 boost = _windDirNormalized * tailwindSpeed;
+                    velocity.x = Mathf.MoveTowards(velocity.x, boost.x, Time.fixedDeltaTime * 50f);
+                }
             }
-            else if (dotProduct > 0) // Moving with the wind
+            // Case where diagonal wind tunnels are needed
+            else
             {
-                velocity += (windDir * (windDelta * 20f));
-
-                float newDot = Vector2.Dot(velocity, windDir);
-                float clampedDot = Mathf.Clamp(newDot, 0f, tailwindSpeed);
-                Vector2 velocityAlongWind = windDir * clampedDot;
-                Vector2 velocityPerpendicular = velocity - windDir * newDot;
-                velocity = velocityAlongWind + velocityPerpendicular;
+                if (dotProduct <= 0) // Moving against the wind
+                {
+                    Vector2 resistance = _windDirNormalized * headwindSpeed;
+                    velocity = Vector2.MoveTowards(velocity, resistance, Time.fixedDeltaTime * 20f);
+                }
+                else if (dotProduct > 0) // Moving with the wind
+                {
+                    Vector2 boost = _windDirNormalized * tailwindSpeed;
+                    velocity = Vector2.MoveTowards(velocity, boost, Time.fixedDeltaTime * 50f);
+                }
             }
-
             return velocity;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.TryGetComponent(out _player)) return;
+            Debug.Log("Entered Wind Controller");
+            if (!other.TryGetComponent(out PlayerController player)) return;
             _playerInside = true;
             audioSource.Play();
         }
 
         private void OnTriggerStay2D(Collider2D other)
         {
-            if (!other.TryGetComponent(out _player)) return;
+            if (!other.TryGetComponent(out PlayerController player)) return;
+            _player = player; // reassigns every frame to fix loss of player instance on death
             _player.AddPlayerVelocityEffector(this, true);
             // _player.CanDash = true;
             _player.ForceCancelEarlyRelease();
@@ -125,7 +131,8 @@ namespace Interactables
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (!other.TryGetComponent(out _player)) return;
+            Debug.Log("Entered Wind Controller");
+            if (!other.TryGetComponent(out PlayerController _player)) return;
             _player.RemovePlayerVelocityEffector(this);
             _playerInside = false;
             _shouldFadeOut = true;
