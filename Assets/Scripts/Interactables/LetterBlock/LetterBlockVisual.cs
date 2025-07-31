@@ -1,6 +1,7 @@
 using System.Collections;
 using Managers;
 using UnityEngine;
+using Util;
 
 namespace Interactables.LetterBlock
 {
@@ -44,31 +45,8 @@ namespace Interactables.LetterBlock
         public void Crack()
         {
             particles.SetActive(true);
-            StartCoroutine(Shake());
+            StartCoroutine(RandomUtil.RandomJitterRoutine(transform, blockBreakDelay, delayBetweenShakes, distance));
             StartCoroutine(Break());
-        }
-    
-        private IEnumerator Shake()
-        {
-            Vector3 startPos = transform.position;
-            float oneShakeTime = delayBetweenShakes > 0 ? delayBetweenShakes : Time.deltaTime;
-            
-            for (float timer = 0; timer < blockBreakDelay; timer += oneShakeTime)
-            {
-                Vector3 randomPos = Random.insideUnitCircle;
-                transform.position = startPos + (randomPos * distance);
-
-                if (delayBetweenShakes > 0f)
-                {
-                    yield return new WaitForSeconds(delayBetweenShakes);
-                }
-                else
-                {
-                    yield return null;
-                }
-            }
-
-            transform.position = startPos;
         }
 
         private IEnumerator Break()

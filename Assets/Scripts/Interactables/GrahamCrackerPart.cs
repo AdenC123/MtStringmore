@@ -85,25 +85,8 @@ namespace Interactables
         /// <param name="shakeDelay">Delay between shakes.</param>
         /// <param name="distance">Furthest distance from original position when shaking.</param>
         public void HandleShake(float duration, float shakeDelay, float distance) =>
-            StartCoroutine(Shake(duration, shakeDelay, distance));
-        
-        private IEnumerator Shake(float duration, float shakeDelay, float shakeDistance)
-        {
-            float oneShakeTime = shakeDelay > 0 ? shakeDelay : Time.deltaTime;
-            for (float timer = 0; timer < duration; timer += oneShakeTime)
-            {
-                Vector3 randomPos = _initialPosition + Random.insideUnitCircle * shakeDistance;
-                transform.position = randomPos;
+            StartCoroutine(RandomUtil.RandomJitterRoutine(transform, duration, shakeDelay, distance, _initialPosition));
 
-                if (shakeDelay > 0f)
-                    yield return new WaitForSeconds(shakeDelay);
-                else
-                    yield return null;
-            }
-
-            transform.position = _initialPosition;
-        }
-        
         /// <summary>
         /// Coroutine to check whether we've reached the initial position after we've started moving away,
         /// and become static if so.
