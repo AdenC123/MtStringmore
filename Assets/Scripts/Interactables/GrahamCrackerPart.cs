@@ -79,6 +79,15 @@ namespace Interactables
         }
 
         /// <summary>
+        /// Shakes in place to warn that cracker is about to shut.
+        /// </summary>
+        /// <param name="duration">Duration of the shake.</param>
+        /// <param name="shakeDelay">Delay between shakes.</param>
+        /// <param name="distance">Furthest distance from original position when shaking.</param>
+        public void HandleShake(float duration, float shakeDelay, float distance) =>
+            StartCoroutine(RandomUtil.RandomJitterRoutine(transform, duration, shakeDelay, distance, _initialPosition));
+
+        /// <summary>
         /// Coroutine to check whether we've reached the initial position after we've started moving away,
         /// and become static if so.
         /// </summary>

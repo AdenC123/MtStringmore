@@ -13,6 +13,8 @@ namespace Interactables
     /// </summary>
     public class GrahamCrackerBehaviour : MonoBehaviour
     {
+        [Header("General settings")]
+        
         [SerializeField] private GrahamCrackerPart bottomPart;
         [SerializeField] private GrahamCrackerPart topPart;
         [SerializeField, Min(0), Tooltip("Time in up state, seconds")]
@@ -26,17 +28,30 @@ namespace Interactables
 
         [SerializeField, Min(0), Tooltip("Time staying down, seconds")]
         private float timeStayDown;
-
+        
+        [SerializeField] private bool alwaysActive;
+        
+        [Header("Shake behaviour")]
+        
+        [SerializeField, Min(0), Tooltip("Time (sec) prior to closing when cracker should start shaking")]
+        private float shakeTime = 1;
+        
+        [SerializeField, Tooltip("Delay between shakes"), Range(0f, 0.1f)] 
+        private float shakeDelay = 0.01f;
+        
+        [SerializeField, Tooltip("Furthest distance from original position when shaking"), Range(0f, 2f)]
+        private float shakeDistance = 0.2f;
+        
         [SerializeField]
-        private AudioSource warningSound;
-
-        [SerializeField, Min(0), Tooltip("Time (sec) prior to closing to play warning")]
-        private float warningSoundTime = 1;
+        private AudioSource shakeSound;
+        
+        
+        [Header("Closing behaviour")]
         [SerializeField]
         private AudioSource closingSound;
         [SerializeField, Min(0), Tooltip("Time(sec) after closing starts to play closing sound")]
         private float closingSoundDelay = 0.2f;
-        [SerializeField] private bool alwaysActive;
+        
         private bool _active;
         private bool _bottomCollide;
         private bool _topCollide;
@@ -153,9 +168,11 @@ namespace Interactables
         {
             _bottomCollide = false;
             _topCollide = false;
-            yield return new WaitForSeconds(timeStayUp - warningSoundTime);
-            warningSound.Play();
-            yield return new WaitForSeconds(warningSoundTime);
+            yield return new WaitForSeconds(timeStayUp - shakeTime);
+            shakeSound.Play();
+            bottomPart.HandleShake(shakeTime, shakeDelay, shakeDistance);
+            topPart.HandleShake(shakeTime, shakeDelay, shakeDistance);
+            yield return new WaitForSeconds(shakeTime);
             bottomPart.StartMotion(velocityDown);
             topPart.StartMotion(velocityDown);
             closingSound.PlayDelayed(closingSoundDelay);
