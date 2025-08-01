@@ -377,7 +377,7 @@ namespace Managers
         /// </summary>
         public bool IsInCutsceneOrMainMenu()
         {
-            return FindFirstObjectByType<CutsceneManager>() || SceneManager.GetActiveScene().name == "MainMenu";
+            return FindAnyObjectByType<CutsceneManager>() || SceneManager.GetActiveScene().name == "MainMenu";
         }
 
         [YarnCommand("load_scene_nonblock")]
