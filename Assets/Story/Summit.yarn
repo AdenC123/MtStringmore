@@ -23,7 +23,7 @@ Knitby: No way. That's impossible.
 // knitby chomps a cloud, and marshmallow snickers
 Knitby: I have no idea what you're talking about. That tastes like dusty stale water.
 Marshmallow: Ha, got you!
-Knitby: Okay, but now you admit that clouds don't taste like cotton candy, right?
+Knitby: Okay, but surely now you will admit that clouds don't taste like cotton candy, right?
 // marshmallow chomps another cloud, visibly more hesitantly
 Marshmallow: No, it's... delicious...
 Knitby_confused: ... Really.
@@ -31,8 +31,11 @@ Knitby_confused: ... Really.
 Marshmallow_faraway: Okay, fine, you were right.
 Marshmallow: But it was still totally worth it to come here. I mean, look at that view!  
 // dramatic pan upwards to the sunrise
-Knitby: Yeah. Totally worth it. Thanks for coming on this journey with me.
-Marshmallow_smile: Anytime. Couldn't have done it without you.
+// wry knitby smile
+// knitby should be a little more flat, like "ehhhh" but still positive 
+Knitby: ...I will admit that this is a nice sunrise, but nothing further.
+Marshmallow_smile: That's good enough for me!
+<<fade_out 1>>
 <<wait 5>>
 Knitby: So... how do we get down from here?
 Marshmallow: Uhhh... Good question...
