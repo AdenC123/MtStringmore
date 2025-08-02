@@ -173,7 +173,7 @@ namespace Managers
             // We need make sure we are not clearing stats when we are loading the results after a cutscene
             // Therefore we need a list of all cutscenes that show results after the cutscene
             // Results Manager also uses this to avoid issues
-            _dontClearDataOnSceneChanged = SceneListManager.Instance.IsSceneCutscene(scene.name) || SceneListManager.Instance.InMainMenu;
+            _dontClearDataOnSceneChanged = SceneListManager.Instance.IsSceneCutscene(scene.name);
 
             if (!_dontClearDataOnSceneChanged)
             {
