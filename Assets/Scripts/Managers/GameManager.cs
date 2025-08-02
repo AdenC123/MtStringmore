@@ -392,6 +392,14 @@ namespace Managers
             sceneTransitionCanvas.FadeIn -= OnFadeIn;
         }
 
+        /// <summary>
+        /// Returns true if the currently loaded scene is a cutscene or the main menu.
+        /// </summary>
+        public bool IsInCutsceneOrMainMenu()
+        {
+            return FindAnyObjectByType<CutsceneManager>() || SceneManager.GetActiveScene().name == "MainMenu";
+        }
+
         [YarnCommand("load_scene_nonblock")]
         public void InvokeLoadScene(string sceneName, float duration = 0)
         {
