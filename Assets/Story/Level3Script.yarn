@@ -8,40 +8,57 @@ setting: at the bottom of a hole
 <<cutscene_state CustomLevel3Logic true>>
 <<fix_coords 100 -200>>
 <<fade_in 3>>
+// marshmallow should be scared that Knitby is totally gone
+Marshmallow_faraway: Can I find them? Am I too late, too slow? 
+// shiver knitby indefinitely, then stop it later
+<<shiver CutsceneKnitby 0.05 0.03>>
 Marshmallow: <i>KNITBYYYY!!!!</i>
 // walk deeper into cave, sees knitby on edge of screen 
 Marshmallow: There you are, I thought you were... Well...
 // shivering knitby
+// marshmallow didn't tell knitby they promise to find them...
 Knitby: ...
 // marshmallow slowly walks in like hey buddy are you okay
-Marshmallow: Knitby?
+Marshmallow_faraway: Knitby? Are you okay?
+<<stop_shiver CutsceneKnitby>>
 Knitby_confused: Is that...
 // turns around and runs away and faces the corner
-Knitby_relieved: No, it can't be. I must've lost my mind, I'm seeing things now.
+<<flip CutsceneKnitby>>
+<<move CutsceneKnitby 105 -197.5 8>>
+Knitby_relieved: No, that surely can't be. I must've lost my mind, now I'm seeing familiar faces in the shadows cast on the wall.
 // clearly still in disbelief
-Marshmallow: Knitby, where are you going? It's me. <i>Marshmallow</i>.
+Marshmallow: Knitby, where are you going? It's me, Marshmallow.
 // i want a Knitby_cry avatar or something
-Knitby: Marshmallow? It can't be. Is that really you?
-Marshmallow_smiling: The one and only.
-Knitby: But—But—But—I really thought you would just keep going anyway. I was convinced you'd abandon me down here all alone in the dark. 
+Knitby_confused: Huh?
+<<wait 0.5>>
+<<flip CutsceneKnitby>>
+Knitby_confused: Marshmallow? Do my senses deceive me, or is that really you?
+Marshmallow_smile: The one and only.
+Knitby_relieved: But—But—But—I was totally certain that you would keep going anyway, that you'd abandon me down here all alone in the dark. 
 Marshmallow_smile: I promised I'd come back for you, didn't I?
-Knitby_frown: How do you look so <i>chipper</i>, I could've been stuck <i>FOREVER</i>, Marshmallow! DON'T YOU GET IT?
+<<shiver CutsceneKnitby 0.05 0.03>>
+Knitby_frown: How do you look so <i>chipper</i>?! I could've been stuck <i>FOREVER</i>, Marshmallow! DON'T YOU GET IT?
 Marshmallow_faraway: Hey—
-Knitby_frown: I <i>TOLD</i> you this would happen, and you didn't <i>LISTEN</i> to me, and now we're at the bottom of a cave surrounded by danger and—
-Knitby_relieved: I thought I would be trapped here forever. I—
+Knitby_frown: I was <i>QUITE CLEAR</i> that this would happen, and you didn't <i>HEED</i> my <i>WARNINGS</i>, and now <i>here I am</i> at the bottom of this <i>CHASM</i> surrounded by <i>DANGER</i> and—
+<<wait 1>>
+<<flip CutsceneKnitby>>
+<<stop_shiver CutsceneKnitby>>
+Knitby_relieved: I was absolutely convinced that I would be trapped in here forever. I—
 Marshmallow_faraway: ...
 <<wait 2>>
-Knitby_relieved: Thanks for coming back for me, Marshmallow. It really means a lot that you saved me.
+<<flip CutsceneKnitby>>
+Knitby: Thank you for coming back for me, Marshmallow. It means a tremendous amount that you returned for me.
 Marshmallow_faraway: Sorry for putting you through danger, Knitby.
 Marshmallow_faraway: ... Are we still friends?
 <<wait 1>>
 Knitby_relieved: ...
-Knitby: Yes. But you've got to stop recklessly charging ahead lie this, because when you do, you're not the only one you endanger.
+// direct the realisation more toward Marshmallow's character as a whole recklessly always wanting more
+Knitby: Yes. But you must learn to curtail your foolhardy recklessness, because when you do, you endanger not just yourself, but those around you too.
 Marshmallow: Yeah. I've learned my lesson, and I'm... sorry you had to get hurt along the way.
-Knitby_relieved: ... I forgive you.
+Knitby_relieved: Thankfully, I'm not injured, just... my thoughts feel all tangled up.
 <<wait 2>>
 // hot chocolate lava rumble sound
-Knitby: ... We should probably consider leaving now.
+Knitby: We should probably consider leaving now.
 Marshmallow: Yeah, let's do it.
 <<fade_out 3>>
 <<wait 0.5>>
