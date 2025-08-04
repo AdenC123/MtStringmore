@@ -1,5 +1,8 @@
 ﻿using Interactables;
+using Knitby;
 using Managers;
+using Player;
+using StringmoreCamera;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -15,14 +18,21 @@ namespace Level3
         [SerializeField] private GameObject[] gameObjects;
         [SerializeField] private GameObject[] cutsceneObjects;
         [SerializeField] private Checkpoint secondHalfCheckpoint;
+        [SerializeField] private float SecondHalfCameraYOffset;
 
         private Checkpoint[] _checkpoints;
         private AttachableMovingObject[] _zippers;
+        private PlayerController _player;
+        private KnitbyController _knitby;
+        private FollowCamera _camera;
 
         private void Awake()
         {
             _checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
             _zippers = FindObjectsByType<AttachableMovingObject>(FindObjectsSortMode.None);
+            _player = FindAnyObjectByType<PlayerController>();
+            _knitby = FindAnyObjectByType<KnitbyController>();
+            _camera = FindAnyObjectByType<FollowCamera>();
         }
 
         private void Start()
@@ -34,6 +44,8 @@ namespace Level3
             {
                 zipper.SetTabVisible(false);
             }
+            
+            _knitby.enabled = false;
         }
         
         [YarnCommand("cutscene_state")]
@@ -61,14 +73,23 @@ namespace Level3
             GameManager.Instance.ClearCheckpointData();
             foreach (Checkpoint checkpoint in _checkpoints)
             {
-                if (checkpoint != secondHalfCheckpoint) checkpoint.FlipAndResetCheckpoint();
+                if (checkpoint != secondHalfCheckpoint) 
+                    checkpoint.FlipAndResetCheckpoint();
             }
+            secondHalfCheckpoint.respawnFacingLeft = true;
             onSecondHalfReached.Invoke();
             
             foreach (AttachableMovingObject zipper in _zippers)
             {
                 zipper.SetTabVisible(true);
             }
+
+            _player.Direction = -1.0f;
+            _player.transform.position = secondHalfCheckpoint.transform.position;
+            _player.ForceCancelVelocity();
+            _knitby.enabled = true;
+            _knitby.transform.position = secondHalfCheckpoint.transform.position;
+            _camera.yOffset = SecondHalfCameraYOffset;
         }
     }
 }

@@ -94652,6 +94652,7 @@ MonoBehaviour:
   - {fileID: 747506631}
   - {fileID: 1189795136}
   secondHalfCheckpoint: {fileID: 459664544}
+  SecondHalfCameraYOffset: 3
 --- !u!1001 &747506629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98537,11 +98538,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2905708094114413808, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 108.8
+      value: 78.2
       objectReference: {fileID: 0}
     - target: {fileID: 2905708094114413808, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -146.1
+      value: -196.2
       objectReference: {fileID: 0}
     - target: {fileID: 2905708094114413808, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
       propertyPath: m_LocalPosition.z
