@@ -1,35 +1,34 @@
 ﻿title: KnitbyReunion
 setting: at the bottom of a hole
 ---
-<<timer_state false>>
+<<timer_state Timer false>>
 <<fade_out 3>>
 <<wait 0.5>>
 <<set_interactables_enabled true>>
 <<cutscene_state CustomLevel3Logic true>>
-<<fix_coords 100 -200>>
+<<fix_coords 100 -195>>
 <<fade_in 3>>
 // marshmallow should be scared that Knitby is totally gone
 Marshmallow_faraway: Can I find them? Am I too late, too slow? 
-// shiver knitby indefinitely, then stop it later
 <<shiver CutsceneKnitby 0.05 0.03>>
 Marshmallow: <i>KNITBYYYY!!!!</i>
 // walk deeper into cave, sees knitby on edge of screen 
 Marshmallow: There you are, I thought you were... Well...
 // shivering knitby
-// marshmallow didn't tell knitby they promise to find them...
-Knitby: ...
+Knitby_relieved: ...
 // marshmallow slowly walks in like hey buddy are you okay
 Marshmallow_faraway: Knitby? Are you okay?
 <<stop_shiver CutsceneKnitby>>
 Knitby_confused: Is that...
 // turns around and runs away and faces the corner
 <<flip CutsceneKnitby>>
-<<move CutsceneKnitby 105 -197.5 8>>
+<<run CutsceneKnitby 105 -197.5 8>>
 Knitby_relieved: No, that surely can't be. I must've lost my mind, now I'm seeing familiar faces in the shadows cast on the wall.
 // clearly still in disbelief
 Marshmallow: Knitby, where are you going? It's me, Marshmallow.
 // i want a Knitby_cry avatar or something
 Knitby_confused: Huh?
+<<wait_move_finish CutsceneKnitby>>
 <<wait 0.5>>
 <<flip CutsceneKnitby>>
 Knitby_confused: Marshmallow? Do my senses deceive me, or is that really you?
@@ -65,7 +64,7 @@ Marshmallow: Yeah, let's do it.
 <<cutscene_state CustomLevel3Logic false>>
 <<start_second_half CustomLevel3Logic>>
 <<fade_in>>
-<<timer_state true>>
+<<timer_state Timer true>>
 ===
 
 title: Level3End
