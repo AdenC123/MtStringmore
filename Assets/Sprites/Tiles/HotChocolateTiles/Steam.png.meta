@@ -114,9 +114,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 450
-        width: 250
-        height: 150
+        y: 360
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,10 +134,10 @@ TextureImporter:
       name: Steam_1
       rect:
         serializedVersion: 2
-        x: 250
-        y: 450
-        width: 250
-        height: 150
+        x: 150
+        y: 360
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,10 +155,10 @@ TextureImporter:
       name: Steam_2
       rect:
         serializedVersion: 2
-        x: 500
-        y: 450
-        width: 250
-        height: 150
+        x: 300
+        y: 360
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,10 +176,10 @@ TextureImporter:
       name: Steam_3
       rect:
         serializedVersion: 2
-        x: 750
-        y: 450
-        width: 250
-        height: 150
+        x: 450
+        y: 360
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -198,9 +198,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 300
-        width: 250
-        height: 150
+        y: 240
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,10 +218,10 @@ TextureImporter:
       name: Steam_5
       rect:
         serializedVersion: 2
-        x: 250
-        y: 300
-        width: 250
-        height: 150
+        x: 150
+        y: 240
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -239,10 +239,10 @@ TextureImporter:
       name: Steam_6
       rect:
         serializedVersion: 2
-        x: 500
-        y: 300
-        width: 250
-        height: 150
+        x: 300
+        y: 240
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,10 +260,10 @@ TextureImporter:
       name: Steam_7
       rect:
         serializedVersion: 2
-        x: 750
-        y: 300
-        width: 250
-        height: 150
+        x: 450
+        y: 240
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,9 +282,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 150
-        width: 250
-        height: 150
+        y: 120
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -302,10 +302,10 @@ TextureImporter:
       name: Steam_9
       rect:
         serializedVersion: 2
-        x: 250
-        y: 150
-        width: 250
-        height: 150
+        x: 150
+        y: 120
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -323,10 +323,10 @@ TextureImporter:
       name: Steam_10
       rect:
         serializedVersion: 2
-        x: 500
-        y: 150
-        width: 250
-        height: 150
+        x: 300
+        y: 120
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -344,10 +344,10 @@ TextureImporter:
       name: Steam_11
       rect:
         serializedVersion: 2
-        x: 750
-        y: 150
-        width: 250
-        height: 150
+        x: 450
+        y: 120
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -367,8 +367,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 250
-        height: 150
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -386,10 +386,10 @@ TextureImporter:
       name: Steam_13
       rect:
         serializedVersion: 2
-        x: 250
+        x: 150
         y: 0
-        width: 250
-        height: 150
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -407,10 +407,10 @@ TextureImporter:
       name: Steam_14
       rect:
         serializedVersion: 2
-        x: 500
+        x: 300
         y: 0
-        width: 250
-        height: 150
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -428,10 +428,10 @@ TextureImporter:
       name: Steam_15
       rect:
         serializedVersion: 2
-        x: 750
+        x: 450
         y: 0
-        width: 250
-        height: 150
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
