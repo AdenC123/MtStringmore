@@ -833,7 +833,7 @@ MonoBehaviour:
   topPart: {fileID: 6629650060142591562}
   timeStayUp: 0
   velocityDown: 20
-  velocityUp: 5
+  velocityUp: 10
   timeStayDown: 1
   alwaysActive: 0
   shakeTime: 0.75
