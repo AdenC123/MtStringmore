@@ -45978,6 +45978,7 @@ MonoBehaviour:
   - {fileID: 1666217023}
   - {fileID: 747506631}
   - {fileID: 1189795136}
+  secondHalfBGM: {fileID: 8300000, guid: 2e11ca3e801d4ea45bb1b7b11b99f110, type: 3}
   secondHalfCheckpoint: {fileID: 459664544}
 --- !u!1001 &747506629
 PrefabInstance:

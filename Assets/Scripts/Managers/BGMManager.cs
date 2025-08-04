@@ -47,6 +47,19 @@ namespace Managers
         }
 
         /// <summary>
+        /// Play the given background music.
+        /// </summary>
+        /// <param name="audioClip">Audio clip for the background music.</param>
+        public void PlayBGM(AudioClip audioClip)
+        {
+            if (_audioSource.clip != audioClip)
+            {
+                _audioSource.clip = audioClip;
+                _audioSource.Play();
+            }
+        }
+
+        /// <summary>
         /// Gets the next background music clip to play.
         /// </summary>
         /// <param name="sceneName">Next scene name</param>
