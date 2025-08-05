@@ -635,7 +635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motionUnbounded: 1
   endPosition: {x: 65, y: 0}
-  velocity: 7
+  velocity: 5
   activateOnStart: 1
 --- !u!1001 &264524267176133538
 PrefabInstance:

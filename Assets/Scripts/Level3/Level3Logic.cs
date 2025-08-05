@@ -45,7 +45,7 @@ namespace Level3
                 zipper.SetTabVisible(false);
             }
             
-            _knitby.enabled = false;
+            _knitby.gameObject.SetActive(false);
         }
         
         [YarnCommand("cutscene_state")]
@@ -77,6 +77,8 @@ namespace Level3
                     checkpoint.FlipAndResetCheckpoint();
             }
             secondHalfCheckpoint.respawnFacingLeft = true;
+            GameManager.Instance.RespawnFacingLeft = true;
+            
             onSecondHalfReached.Invoke();
             
             foreach (AttachableMovingObject zipper in _zippers)
@@ -87,7 +89,7 @@ namespace Level3
             _player.Direction = -1.0f;
             _player.transform.position = secondHalfCheckpoint.transform.position;
             _player.ForceCancelVelocity();
-            _knitby.enabled = true;
+            _knitby.gameObject.SetActive(true);
             _knitby.transform.position = secondHalfCheckpoint.transform.position;
             _camera.yOffset = SecondHalfCameraYOffset;
         }
