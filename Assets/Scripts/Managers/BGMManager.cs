@@ -29,11 +29,7 @@ namespace Managers
             InitializeDictionary();
             _currScene = SceneManager.GetActiveScene().name;
             AudioClip nextClip = GetNextAudioClip(_currScene, _audioSource.clip);
-            if (_audioSource.clip != GetNextAudioClip(_currScene, _audioSource.clip))
-            {
-                _audioSource.clip = nextClip;
-                _audioSource.Play();
-            }
+            PlayBGM(nextClip);
         }
 
         private void OnValidate()
@@ -91,11 +87,7 @@ namespace Managers
         private void OnSceneLoaded(Scene nextScene, LoadSceneMode mode)
         {
             AudioClip clip = GetNextAudioClip(nextScene.name, _audioSource.clip);
-            if (_audioSource.clip != clip)
-            {
-                _audioSource.clip = clip;
-                _audioSource.Play();
-            }
+            PlayBGM(clip);
         }
 
         /// <summary>
