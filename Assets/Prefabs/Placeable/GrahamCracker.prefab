@@ -836,7 +836,7 @@ MonoBehaviour:
   velocityUp: 10
   timeStayDown: 1
   alwaysActive: 0
-  shakeTime: 0.65
+  shakeTime: 0.7
   shakeDelay: 0.01
   shakeDistance: 0.2
   shakeSound: {fileID: 217117979800497627}
