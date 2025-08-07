@@ -2,12 +2,11 @@
 setting: the summit of mt. stringmore
 ---
 Marshmallow: Hang on tight! You doing alright?
-// knitby shd be terrified but feigning "never better!" thing
+// knitby is terrified, but feigning it
 Knitby_confused: Uhhhh...
 Knitby_relieved: I'm doing excellent... I've never... been better...
 // floating up on a balloon
 // animate background to move to give balloon floaty movement vibes
-// bring back Knitby's verbosity and remove things like "yeah" "thanks" from them
 // TODO idk what conversation to put here
 Knitby: Hang on a minute, our journey's end is close at hand. I think that's the summit! 
 Marshmallow: Three, two, one, jump!

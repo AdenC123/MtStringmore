@@ -14,6 +14,7 @@ namespace Yarn
         private static readonly int WallChangedKey = Animator.StringToHash("WallChanged");
         private static readonly int JumpKey = Animator.StringToHash("Jump");
         private Animator _animator;
+        private Vector3 _initialPos;
         private bool _isMoving;
         [CanBeNull] private PlayerAnimator _playerAnimator;
         [CanBeNull] private Coroutine _shiverCoroutine;
@@ -148,7 +149,7 @@ namespace Yarn
         public IEnumerator SetAnimation(bool state, bool wait)
         {
             // wait until current animation is finished
-            if (wait)
+            if (wait && _animator.enabled)
             {
                 int finishTime = Mathf.CeilToInt(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
                 if (finishTime == 0) finishTime = 1;
@@ -161,17 +162,23 @@ namespace Yarn
         }
 
         [YarnCommand("shiver")]
-        public IEnumerator ShiverCoroutine(float jitter, float jitterMagnitude)
+        public IEnumerator ShiverCoroutine(float jitter, float jitterMagnitude, float duration = float.MaxValue)
         {
+            _initialPos = _spriteRenderer.gameObject.transform.position;
             yield return SetAnimation(false, true);
             _shiverCoroutine =
-                StartCoroutine(RandomUtil.RandomJitterRoutine(transform, float.MaxValue, jitter, jitterMagnitude));
+                StartCoroutine(RandomUtil.RandomJitterRoutine(_spriteRenderer.gameObject.transform, duration, jitter,
+                    jitterMagnitude));
         }
 
         [YarnCommand("stop_shiver")]
         public IEnumerator StopShiver()
         {
             if (_shiverCoroutine is not null) StopCoroutine(_shiverCoroutine);
+            _spriteRenderer.gameObject.transform.position = _initialPos;
+            // wait a frame before restarting animation or,
+            // for some reason, knitby will sometimes randomly jump
+            yield return new WaitForFixedUpdate();
             yield return SetAnimation(true, true);
         }
 
