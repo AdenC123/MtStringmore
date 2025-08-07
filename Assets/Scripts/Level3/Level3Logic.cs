@@ -31,6 +31,7 @@ namespace Level3
         {
             _checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
             _zippers = FindObjectsByType<AttachableMovingObject>(FindObjectsSortMode.None);
+            
             _player = FindAnyObjectByType<PlayerController>();
             _knitby = FindAnyObjectByType<KnitbyController>();
             _camera = FindAnyObjectByType<FollowCamera>();
@@ -39,7 +40,7 @@ namespace Level3
         private void Start()
         {
             // there's no guarantee we grab the right instance in Awake so we use Start
-            GameManager.Instance.AreInteractablesEnabled = false;
+            GameManager.SetInteractablesEnabled(false);
             
             foreach (AttachableMovingObject zipper in _zippers)
             {

@@ -408,6 +408,7 @@ namespace Managers
         public static void SetInteractablesEnabled(bool isEnabled)
         {
             Instance.AreInteractablesEnabled = isEnabled;
+            Instance.OnInteractablesEnabledChanged?.Invoke();
         }
 
         /// <summary>
