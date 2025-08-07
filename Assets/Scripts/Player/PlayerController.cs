@@ -109,7 +109,7 @@ namespace Player
         /// <summary>
         /// Facing direction of the player. -1.0 for left, 1.0 for right.
         /// </summary>
-        public float Direction { get; private set; }
+        public float Direction { get; set; }
 
         /// <summary>
         /// Time when the most recent dash would have ended (may be a time in the future).
@@ -401,6 +401,11 @@ namespace Player
         }
 
         /// <summary>
+        /// Force the player's velocity to 0.
+        /// </summary>
+        public void ForceCancelVelocity() => _velocity = Vector2.zero;
+
+        /// <summary>
         /// Disallows early release for this jump.
         /// </summary>
         public void ForceCancelEarlyRelease()
@@ -686,7 +691,8 @@ namespace Player
         /// </summary>
         private void HandleInteractables()
         {
-            if (!CurrentInteractableArea || !GameManager.Instance.AreInteractablesEnabled) return;
+            if (!CurrentInteractableArea || 
+                (CurrentInteractableArea.DisableWithInteractables && !GameManager.Instance.AreInteractablesEnabled)) return;
             bool previouslyGrounded = PlayerState == PlayerStateEnum.Run;
             if (IsButtonUsed())
             {

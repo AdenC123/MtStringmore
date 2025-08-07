@@ -36,7 +36,7 @@ namespace Managers
         /// <summary>
         /// If true, the player faces left when they respawn
         /// </summary>
-        public bool RespawnFacingLeft { get; private set; }
+        public bool RespawnFacingLeft { get; set; }
         
         /// <summary>
         /// Number of checkpoints reached.
@@ -408,6 +408,7 @@ namespace Managers
         public static void SetInteractablesEnabled(bool isEnabled)
         {
             Instance.AreInteractablesEnabled = isEnabled;
+            Instance.OnInteractablesEnabledChanged?.Invoke();
         }
 
         /// <summary>

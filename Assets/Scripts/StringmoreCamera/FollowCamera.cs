@@ -13,11 +13,11 @@ namespace StringmoreCamera
     {
         #region Serialized Private Fields
 
-        [SerializeField] private float lookaheadDistance;
-        [SerializeField] private float xSmoothTime;
-        [SerializeField] private float ySmoothTime;
-        [SerializeField] private float yOffset;
-        [SerializeField] private float upYThreshold;
+        public float lookaheadDistance;
+        public float xSmoothTime;
+        public float ySmoothTime;
+        public float yOffset;
+        public float upYThreshold;
 
         #endregion
 
