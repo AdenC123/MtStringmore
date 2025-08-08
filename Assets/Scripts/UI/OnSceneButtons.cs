@@ -1,3 +1,4 @@
+using Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,9 +21,9 @@ public class OnSceneButtons : MonoBehaviour
     
     private void OnSceneChanged(Scene current, Scene next)
     {
-        bool isMainMenu = next.name == mainMenuSceneName;
-        // Hacky but just check if the string "cutscene" is in the name of the scene
-        bool isCutscene = next.name.ToLower().Contains("cutscene");
+        string thisScene = SceneManager.GetActiveScene().name;
+        bool isMainMenu = SceneListManager.Instance.IsMainMenu(thisScene);
+        bool isCutscene = SceneListManager.Instance.IsSceneCutscene(thisScene);
 
         pauseButton.gameObject.SetActive(!isMainMenu);
         restartButton.gameObject.SetActive(!isMainMenu && !isCutscene);
