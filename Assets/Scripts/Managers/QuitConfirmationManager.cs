@@ -1,31 +1,32 @@
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class QuitConfirmationManager : MonoBehaviour
 {
     //Access to the QuitConfirmation panel
-    [SerializeField] GameObject confirmationPanel;
+    [FormerlySerializedAs("confirmationPanel")] [SerializeField] GameObject confirmationCanvas;
     //Access to main menu scene name
     [SerializeField] private string mainMenuScene = "MainMenu";
     //Determines whether the "yes" confirmation should lead to mainMenu
 
     private void Awake()
     {
-        confirmationPanel.SetActive(false);
+        confirmationCanvas.SetActive(false);
     }
     
     //Show the confirmation panel
     public void ShowConfirmation()
     {
-        confirmationPanel.SetActive(true);
+        confirmationCanvas.SetActive(true);
     }
 
     //Quitting out of the game
     public void ConfirmQuitGame()
     {
         PauseMenu pauseMenu = FindObjectOfType<PauseMenu>();
-        confirmationPanel.SetActive(false);
+        confirmationCanvas.SetActive(false);
         //Resets the state of the pause menu (i.e. inactive)
         pauseMenu.Resume();
         Debug.Log("User is going to main menu!");
@@ -35,6 +36,6 @@ public class QuitConfirmationManager : MonoBehaviour
     //Hides the confirmation panel when user pressed "No"
     public void CancelQuit()
     {
-        confirmationPanel.SetActive(false);
+        confirmationCanvas.SetActive(false);
     }
 }
