@@ -1,6 +1,5 @@
 using Interactables;
 using Save;
-using TMPro;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,16 +9,10 @@ namespace Managers
     public class ResultsManager : MonoBehaviour
     {
         [SerializeField] private Checkpoint finalCheckpoint;
-        
+
         [Header("Results Page")]
-        [SerializeField] private GameObject resultsPane;
-        
-        [SerializeField] private TextMeshProUGUI levelHeaderText;
-
-        [SerializeField] private TextMeshProUGUI collectableResultsText, deathsText, timerText;
-
-        
-        private int maxCount;
+        [SerializeField]
+        private ResultsWindow resultsWindow;
         
         private SaveDataManager _saveDataManager;
         private GameManager _gameManager;
@@ -30,14 +23,13 @@ namespace Managers
         {
             _saveDataManager = FindObjectOfType<SaveDataManager>();
             _gameManager = GameManager.Instance;
-            maxCount = _gameManager.MaxCollectablesCount;
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (finalCheckpoint)
             {
-                finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+                finalCheckpoint.onCheckpointReached.RemoveListener(HandleFinalCheckpointHit);
                 finalCheckpoint = null;
             }
             
@@ -45,13 +37,11 @@ namespace Managers
             if (checkpointObj)
             {
                 finalCheckpoint = checkpointObj.GetComponent<Checkpoint>();
-                if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit += HandleFinalCheckpointHit;
+                if (finalCheckpoint != null) finalCheckpoint.onCheckpointReached.AddListener(HandleFinalCheckpointHit);
             }
             else finalCheckpoint = null;
             
-            maxCount = FindObjectsOfType<Collectable>().Length;
-            levelHeaderText.text = "Level " + SceneManager.GetActiveScene().buildIndex / 2 + " Complete!";
-            resultsPane.SetActive(false);
+            resultsWindow.gameObject.SetActive(false);
             isResultsPageOpen = false;
             _saveDataManager = FindObjectOfType<SaveDataManager>();
         }
@@ -64,54 +54,20 @@ namespace Managers
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            if (finalCheckpoint != null) finalCheckpoint.OnCheckpointHit -= HandleFinalCheckpointHit;
+            if (finalCheckpoint != null) finalCheckpoint.onCheckpointReached.RemoveListener(HandleFinalCheckpointHit);
         }
 
         private void HandleFinalCheckpointHit()
         {
+            Time.timeScale = 0;
             FindObjectOfType<LastCheckpoint>()?.UpdateLevelAccess();
-            UpdateCollectableCount();
-            UpdateDeathsCount();
-            UpdateTimerCount();
-            SaveGame();
-            EndLevel();
-            PauseMenu.IsPauseDisabled = true;
-        }
-
-        private void SaveGame()
-        {
-            _gameManager.LevelCompleted();
-        }
-
-        private void UpdateCollectableCount()
-        {
-            int collectedCount = _gameManager.NumCollectablesCollected;
-            collectableResultsText.text = collectedCount + " / " + maxCount;
-        }
-        
-        private void UpdateDeathsCount()
-        {
-            int deaths = _gameManager.thisLevelDeaths;
-            //if uninstantiated and still null value
-            if (deaths == -1)
-                deaths = 0;
-            deathsText.text = deaths.ToString();
-        }
-
-        private void UpdateTimerCount()
-        {
-            string time = TimerManager.ElapsedLevelTimeString;
-            _gameManager.ThisLevelTime = time;
-            timerText.text = time;
-            Debug.Log("Current GameManagerTimer: " + time);
-        }
-
-        private void EndLevel()
-        {
-            Time.timeScale = 0f;
-            resultsPane.SetActive(true); 
+            _gameManager.ThisLevelTime = TimerManager.ElapsedLevelTimeString;
+            _gameManager.SaveGame();
+            resultsWindow.gameObject.SetActive(true);
+            resultsWindow.UpdateDisplay();
             isResultsPageOpen = true;
             _saveDataManager.SaveFile();
+            PauseMenu.IsPauseDisabled = true;
         }
 
         public void RestartLevel() 
@@ -127,12 +83,12 @@ namespace Managers
         {
             Time.timeScale = 1f;
             PauseMenu.IsPauseDisabled = false;
-            SceneManager.LoadScene("MainMenu");
+            SceneListManager.Instance.LoadMainMenu();
         }
 
         public void LoadNextLevel()
         {
-            resultsPane.SetActive(false);
+            resultsWindow.gameObject.SetActive(false);
             isResultsPageOpen = false;
             Time.timeScale = 1f;
             PauseMenu.IsPauseDisabled = false;
