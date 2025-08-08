@@ -11,6 +11,8 @@ namespace Interactables
         [Header("Wind Settings")]
         [SerializeField, Tooltip("Player speed moving with wind")] private float tailwindSpeed;
         [SerializeField, Tooltip("Player speed moving against wind")] private float headwindSpeed;
+        [SerializeField, Tooltip("Player deceleration in headwind")] private float headwindDecl = 20f;
+        [SerializeField, Tooltip("Player acceleration in tailwind")] private float tailwindAccel = 50f;
         [SerializeField] private Vector2 windDirection;
         [SerializeField, Tooltip("Updates both collider2D size and particle region size")] private Vector2 windZoneSize;  
         [SerializeField] private ParticleSystem windParticles;
@@ -63,75 +65,56 @@ namespace Interactables
         /// </remarks>
         public bool IgnoreOtherEffectors => false;
 
-        public bool IgnoreGravity => true;
+        public bool IgnoreGravity => windDirection.y != 0;
 
         /// <inheritdoc />
         public Vector2 ApplyVelocity(Vector2 velocity)
         {
-            // Don't apply wind during swing or dash
+            // Don't apply wind for specified player states
             if (_player == null || _player.PlayerState == PlayerController.PlayerStateEnum.Swing || _player.PlayerState == PlayerController.PlayerStateEnum.OnObject)
             {
                 return velocity;
             }
             
             float dotProduct = Vector2.Dot(velocity.normalized, _windDirNormalized);
-            // Case where player's jump height was massively reduced
-            if (_windDirNormalized.y == 0)
+            float windSpeed;
+            float windRoc;
+            
+            if (dotProduct <= 0) // Moving against the wind
             {
-                if (dotProduct <= 0) // Moving against the wind
-                {
-                    Vector2 resistance = _windDirNormalized * headwindSpeed;
-                    velocity.x = Mathf.MoveTowards(velocity.x, resistance.x, Time.fixedDeltaTime * 20f);
-                }
-                else if (dotProduct > 0) // Moving with the wind
-                {
-                    Vector2 boost = _windDirNormalized * tailwindSpeed;
-                    velocity.x = Mathf.MoveTowards(velocity.x, boost.x, Time.fixedDeltaTime * 50f);
-                }
+                windSpeed = headwindSpeed;
+                windRoc = headwindDecl;
             }
-            // Case where diagonal wind tunnels are needed
-            else
+            else // Moving with the wind
             {
-                if (dotProduct <= 0) // Moving against the wind
-                {
-                    Vector2 resistance = _windDirNormalized * headwindSpeed;
-                    velocity = Vector2.MoveTowards(velocity, resistance, Time.fixedDeltaTime * 20f);
-                }
-                else if (dotProduct > 0) // Moving with the wind
-                {
-                    Vector2 boost = _windDirNormalized * tailwindSpeed;
-                    velocity = Vector2.MoveTowards(velocity, boost, Time.fixedDeltaTime * 50f);
-                }
+                windSpeed = tailwindSpeed;
+                windRoc = tailwindAccel;
             }
+            
+            Vector2 target = _windDirNormalized * windSpeed;
+            velocity = (_windDirNormalized.y == 0)
+                ? new Vector2(Mathf.MoveTowards(velocity.x, target.x, Time.fixedDeltaTime * windRoc), velocity.y) 
+                : Vector2.MoveTowards(velocity, target, Time.fixedDeltaTime * windRoc); 
             return velocity;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Debug.Log("Entered Wind Controller");
             if (!other.TryGetComponent(out PlayerController player)) return;
             _playerInside = true;
             audioSource.Play();
-        }
-
-        private void OnTriggerStay2D(Collider2D other)
-        {
-            if (!other.TryGetComponent(out PlayerController player)) return;
-            _player = player; // reassigns every frame to fix loss of player instance on death
-            _player.AddPlayerVelocityEffector(this, true);
-            // _player.CanDash = true;
+            _player = player; 
+            _player.AddPlayerVelocityEffector(this);
+            _player.CanDash = true;
             _player.ForceCancelEarlyRelease();
-            // if (_player.PlayerState == PlayerController.PlayerStateEnum.Dash)
-            // {
-            //     _player.ForceCancelDash();
-            // }
-            float targetVolume = _playerInside ? 1f : 0f;
-            audioSource.volume = Mathf.MoveTowards(audioSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
+            if (_player.PlayerState == PlayerController.PlayerStateEnum.Dash)
+            {
+                _player.ForceCancelDash();
+            }
         }
-
+        
         private void OnTriggerExit2D(Collider2D other)
         {
-            Debug.Log("Entered Wind Controller");
             if (!other.TryGetComponent(out PlayerController _player)) return;
             _player.RemovePlayerVelocityEffector(this);
             _playerInside = false;

@@ -96,6 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tailwindSpeed: 40
   headwindSpeed: 15
+  headwindDecl: 20
+  tailwindAccel: 50
   windDirection: {x: 1, y: 0}
   windZoneSize: {x: 20, y: 20}
   windParticles: {fileID: 6798139565459321612}
@@ -5061,7 +5063,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 7445090876735969629, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
   m_audioClip: {fileID: 8300000, guid: 2eadfbb28807ffa43a808b7481bb1639, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.9197142
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5229,6 +5231,10 @@ PrefabInstance:
       propertyPath: InitialModule.startSize.scalar
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4373765257133598349, guid: 0b6918fdc37ad294996aa6b690aa4433, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 760f7aad6454c6345bb7d50287454e23, type: 3}
     - target: {fileID: 4373765257133598349, guid: 0b6918fdc37ad294996aa6b690aa4433, type: 3}
       propertyPath: VelocityModule.x.maxCurve.m_Curve.Array.data[1].time
       value: 1
