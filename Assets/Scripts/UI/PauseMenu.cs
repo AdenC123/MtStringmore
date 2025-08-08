@@ -131,9 +131,6 @@ namespace UI
         {
             // display quit confirmation
             quitConfirmationManager.ShowConfirmation();
-            // reset any changes made by pausing
-            Resume();
-            SceneListManager.Instance.LoadMainMenu();
         }
         
     }
