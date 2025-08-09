@@ -59,10 +59,12 @@ namespace Parallax
             if (pos.x + _bgWidth / 2f <= camPos.x + screenWidth / 2f)
             {
                 pos.x += _bgWidth / 3f;
+                _targetPos.x += _bgWidth / 3f;
             }
             else if (pos.x - _bgWidth / 2f >= camPos.x - screenWidth / 2f)
             {
                 pos.x -= _bgWidth / 3f;
+                _targetPos.x -= _bgWidth / 3f;
             }
 
             transform.position = pos;
