@@ -15,11 +15,13 @@ namespace Parallax
         private const float SmoothTime = 0.01f;
         private float _bgWidth;
         private Vector3 _velocity;
-
+        private Vector3 _targetPos;
+        
         private void Awake()
         {
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
             _bgWidth = spriteRenderer ? spriteRenderer.bounds.size.x : fallbackSpriteBounds * transform.lossyScale.x;
+            _targetPos = transform.position;
         }
 
         private void OnDrawGizmosSelected()
@@ -37,11 +39,10 @@ namespace Parallax
         /// <param name="delta">Change in camera position</param>
         public void Move(Vector2 delta)
         {
-            Vector3 newPos = transform.position;
-            newPos.x -= delta.x * xParallaxFactor;
-            newPos.y -= delta.y * yParallaxFactor;
+            _targetPos.x -= delta.x * xParallaxFactor;
+            _targetPos.y -= delta.y * yParallaxFactor;
 
-            transform.position = Vector3.SmoothDamp(transform.position, newPos, ref _velocity, SmoothTime);
+            transform.position = Vector3.SmoothDamp(transform.position, _targetPos, ref _velocity, SmoothTime);
         }
 
         /// <summary>
