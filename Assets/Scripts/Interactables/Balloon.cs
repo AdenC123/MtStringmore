@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using Player;
 using UnityEngine;
 using Util;
@@ -227,6 +228,17 @@ namespace Interactables
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+        }
+        
+        private void OnEnable()
+        {
+            GameManager.Instance.Reset += RespawnBalloon;
+        }
+
+        private void OnDisable()
+        {
+            if (GameManager.Instance != null)
+                GameManager.Instance.Reset -= RespawnBalloon;
         }
 
         private void OnValidate()
