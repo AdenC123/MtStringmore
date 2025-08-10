@@ -14,14 +14,11 @@ namespace Managers
         private static AudioSource _source;
         [SerializeField] private string nextScene;
         [SerializeField] private UnityEvent onSceneInterrupt;
-        private TimerManager _timerManager;
 
         private void Awake()
         {
             _source = GetComponent<AudioSource>();
             _source.Play();
-            
-            _timerManager = FindObjectOfType<TimerManager>();
         }
 
         private void Update()
@@ -48,10 +45,7 @@ namespace Managers
                     Level3Logic level3Logic = FindAnyObjectByType<Level3Logic>();
                     if (level3Logic)
                     {
-                        level3Logic.SetCutsceneState(false);
-                        level3Logic.ReachSecondHalf();
-                        
-                        _timerManager.SetTimerState(true);
+                        level3Logic.SpecialSkipLogic();
                     }
                 }
             }
@@ -82,7 +76,7 @@ namespace Managers
             {
                 elapsedTime += Time.unscaledDeltaTime;
                 _source.volume = Mathf.Lerp(startVolume, 0, elapsedTime / fadeDuration);
-                await Task.Yield(); // Non-blocking
+                yield return null;
             }
 
             _source.Stop();
