@@ -3,6 +3,7 @@ using Level3;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using Util;
 using Yarn.Unity;
 
 namespace Managers
@@ -59,24 +60,12 @@ namespace Managers
                 yield return new WaitUntil(() => !_source.isPlaying);
         }
 
+        /// <summary>
+        /// Fades out the currently playing sound.
+        /// </summary>
+        /// <param name="fadeDuration">Fade duration, seconds</param>
+        /// <returns>Coroutine</returns>
         [YarnCommand("stop_sound")]
-        public static IEnumerator StopSound(float fadeDuration = 0)
-        {
-            if (fadeDuration == 0)
-            {
-                _source.Stop();
-                yield break;
-            }
-        
-            float startVolume = _source.volume;
-            for (float elapsedTime = 0; elapsedTime < fadeDuration; elapsedTime += Time.unscaledDeltaTime)
-            {
-                _source.volume = Mathf.Lerp(startVolume, 0, elapsedTime / fadeDuration);
-                yield return null;
-            }
-
-            _source.Stop();
-            _source.volume = startVolume;
-        }
+        public static IEnumerator StopSound(float fadeDuration = 0) => _source.FadeOut(fadeDuration);
     }
 }
