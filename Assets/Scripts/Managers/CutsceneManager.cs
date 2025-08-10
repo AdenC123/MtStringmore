@@ -69,11 +69,8 @@ namespace Managers
             }
         
             float startVolume = _source.volume;
-            float elapsedTime = 0f;
-
-            while (elapsedTime < fadeDuration)
+            for (float elapsedTime = 0; elapsedTime < fadeDuration; elapsedTime += Time.unscaledDeltaTime)
             {
-                elapsedTime += Time.unscaledDeltaTime;
                 _source.volume = Mathf.Lerp(startVolume, 0, elapsedTime / fadeDuration);
                 yield return null;
             }
