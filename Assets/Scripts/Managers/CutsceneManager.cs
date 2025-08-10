@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading.Tasks;
 using Level3;
 using UnityEngine;
 using UnityEngine.Events;
@@ -61,12 +60,12 @@ namespace Managers
         }
 
         [YarnCommand("stop_sound")]
-        public static async void StopSound(float fadeDuration = 0)
+        public static IEnumerator StopSound(float fadeDuration = 0)
         {
             if (fadeDuration == 0)
             {
                 _source.Stop();
-                return;
+                yield break;
             }
         
             float startVolume = _source.volume;
