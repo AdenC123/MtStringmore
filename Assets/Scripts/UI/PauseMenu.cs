@@ -25,7 +25,7 @@ namespace UI
         [SerializeField] private Button pauseButton;
         [SerializeField] private TextMeshProUGUI versionNumber;
         private float _prevTimescale;
-        private QuitConfirmationManager quitConfirmationManager;
+        [SerializeField] private GameObject quitConfirmation;
         
         
         /// <summary>
@@ -54,7 +54,6 @@ namespace UI
         {
             _prevTimescale = Time.timeScale;
             versionNumber.text = Application.version;
-            quitConfirmationManager = FindObjectOfType<QuitConfirmationManager>();
             Resume();
             SceneManager.activeSceneChanged += OnSceneChanged;
         }
@@ -130,7 +129,9 @@ namespace UI
         public void LoadMenu()
         {
             // display quit confirmation
-            quitConfirmationManager.ShowConfirmation();
+            quitConfirmation.SetActive(true);
+            Canvas quitConfirmationCanvas = quitConfirmation.GetComponent<Canvas>();
+            quitConfirmationCanvas.enabled = true;
         }
         
     }
