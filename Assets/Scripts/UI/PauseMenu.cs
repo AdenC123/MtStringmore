@@ -130,8 +130,8 @@ namespace UI
         {
             // display quit confirmation
             quitConfirmation.SetActive(true);
-            Canvas quitConfirmationCanvas = quitConfirmation.GetComponent<Canvas>();
-            quitConfirmationCanvas.enabled = true;
+            QuitConfirmationManager.Instance.ShowConfirmation();
+            Debug.Log("loading quit confirmation");
         }
         
     }

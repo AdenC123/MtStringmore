@@ -7,7 +7,6 @@ public class OnSceneButtons : MonoBehaviour
 {
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button restartButton;
-    [SerializeField] private string mainMenuSceneName = "MainMenu";
     
     private void Awake()
     {
@@ -27,7 +26,5 @@ public class OnSceneButtons : MonoBehaviour
 
         pauseButton.gameObject.SetActive(!isMainMenu);
         restartButton.gameObject.SetActive(!isMainMenu && !isCutscene);
-        
-        Debug.Log($"Scene changed to {next.name} → Pause: {!isMainMenu}, Restart: {!isMainMenu && !isCutscene}");
     }
 }

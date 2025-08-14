@@ -1,13 +1,26 @@
+using Managers;
 using UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class QuitConfirmationManager : MonoBehaviour
 {
-    [SerializeField, Tooltip("The quit confirmation canvas")] GameObject confirmationCanvas;
-    [SerializeField, Tooltip("The pause menu game object")] PauseMenu pauseMenu;
-    [SerializeField] private string mainMenuScene = "MainMenu";
+    [SerializeField, Tooltip("The quit confirmation canvas")]
+    private GameObject confirmationCanvas;
+    [SerializeField, Tooltip("The pause menu game object")] 
+    private PauseMenu pauseMenu;
+    private static QuitConfirmationManager _instance;
+    
+    /// <summary>
+    ///     Gets the "singleton" instance of the pause menu.
+    /// </summary>
+    public static QuitConfirmationManager Instance
+    {
+        get
+        {
+            if (!_instance) _instance = FindObjectOfType<QuitConfirmationManager>();
+            return _instance;
+        }
+    }
     
     //<summary>
     //Show the confirmation panel
@@ -25,8 +38,8 @@ public class QuitConfirmationManager : MonoBehaviour
         confirmationCanvas.SetActive(false);
         //Resets the state of the pause menu (i.e. inactive)
         pauseMenu.Resume();
-        Debug.Log("User is going to main menu!");
-        SceneManager.LoadScene(mainMenuScene);
+        Debug.Log("User is going to main menu!"); 
+        SceneListManager.Instance.LoadMainMenu();
     }
 
     //<summary>
