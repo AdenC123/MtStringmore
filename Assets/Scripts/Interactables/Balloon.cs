@@ -66,6 +66,9 @@ namespace Interactables
 
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
+        
+        /// <inheritdoc />
+        public override bool IgnoreOtherEffectors => false;
 
         /// <summary>
         /// Returns the time of the last keyframe.
