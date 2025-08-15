@@ -36,13 +36,13 @@ namespace Managers
         /// <summary>
         /// If true, the player faces left when they respawn
         /// </summary>
-        public bool RespawnFacingLeft { get; private set; }
-
+        public bool RespawnFacingLeft { get; set; }
+        
         /// <summary>
         /// Number of checkpoints reached.
         /// </summary>
         public string[] LevelsAccessed => _levelsAccessed.ToArray();
-
+    
         /// <summary>
         /// The number of collectables collected.
         /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
@@ -442,6 +442,7 @@ namespace Managers
         public static void SetInteractablesEnabled(bool isEnabled)
         {
             Instance.AreInteractablesEnabled = isEnabled;
+            Instance.OnInteractablesEnabledChanged?.Invoke();
         }
 
         /// <summary>
