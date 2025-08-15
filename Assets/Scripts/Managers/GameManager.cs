@@ -47,7 +47,7 @@ namespace Managers
         /// The number of collectables collected.
         /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
         /// </summary>
-        public int NumCollectablesCollected => _collectedCollectables.Count;
+        public int NumCollectablesCollected { get; private set; }
 
         /// <summary>
         /// Max number of known collectables.
@@ -114,10 +114,7 @@ namespace Managers
 
         public const string EmptySaveTime = "--:--:--";
 
-
-        private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
         private readonly HashSet<Vector2> _prevCheckpoints = new();
-        private readonly HashSet<Vector2> _collectedCollectables = new();
         private readonly HashSet<string> _levelsAccessed = new();
 
         /// <summary>
@@ -208,16 +205,15 @@ namespace Managers
                 }
 
                 _prevCheckpoints.Clear();
-                _collectedCollectables.Clear();
+                NumCollectablesCollected = 0;
                 thisLevelDeaths = -1;
                 if (saveGame != null) saveGame.Invoke();
             }
 
-            Collectable[] collectables = FindObjectsOfType<Collectable>();
 
             if (!_dontClearDataOnSceneChanged)
             {
-                _collectableLookup.Clear();
+                Collectable[] collectables = FindObjectsByType<Collectable>(FindObjectsSortMode.None);
                 MaxCollectablesCount = collectables.Length;
                 Debug.Log("GameManager loaded " + MaxCollectablesCount + " collectables");
             }
@@ -225,19 +221,6 @@ namespace Managers
             {
                 Debug.Log("Skipping collectable count in cutscene. Using previous value: " + MaxCollectablesCount);
                 Debug.Log("Skipping ThisLevelTime in cutscene. Using previous value: " + ThisLevelTime);
-            }
-
-            foreach (Collectable collectable in collectables)
-            {
-                Vector2 position = collectable.transform.position;
-                if (_collectedCollectables.Contains(position))
-                {
-                    Destroy(collectable.gameObject);
-                }
-                else
-                {
-                    _collectableLookup.Add(position, collectable);
-                }
             }
 
             _dontClearDataOnSceneChanged = false;
@@ -281,8 +264,8 @@ namespace Managers
             LevelData updatedLevelData = allLevelData[index];
             // Candies
             updatedLevelData.mostCandiesCollected =
-                Mathf.Max(updatedLevelData.mostCandiesCollected, _collectedCollectables.Count);
-            updatedLevelData.totalCandiesInLevel = _collectableLookup.Count;
+                Mathf.Max(updatedLevelData.mostCandiesCollected, NumCollectablesCollected);
+            updatedLevelData.totalCandiesInLevel = MaxCollectablesCount;
             // Deaths
             updatedLevelData.leastDeaths = updatedLevelData.leastDeaths == -1
                 ? thisLevelDeaths
@@ -352,7 +335,7 @@ namespace Managers
             bool shouldFaceLeft = saveData.checkpointFacesLeft;
             RespawnFacingLeft = shouldFaceLeft;
             _prevCheckpoints.Clear();
-            _collectedCollectables.Clear();
+            NumCollectablesCollected = 0;
             _levelsAccessed.UnionWith(saveData.levelsAccessed);
 
             allLevelData[0] = saveData.level1Data;
@@ -378,7 +361,7 @@ namespace Managers
         /// </summary>
         public void CollectCollectable(Collectable collectable)
         {
-            _collectedCollectables.Add(collectable.transform.position);
+            NumCollectablesCollected++;
         }
 
         /// <summary>
@@ -386,7 +369,7 @@ namespace Managers
         /// </summary>
         public void ResetCandyCollected()
         {
-            _collectedCollectables.Clear();
+            NumCollectablesCollected = 0;
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
