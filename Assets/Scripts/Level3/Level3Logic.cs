@@ -95,7 +95,7 @@ namespace Level3
             _player.ForceCancelVelocity();
             _knitby.gameObject.SetActive(true);
             _knitby.transform.position = secondHalfCheckpoint.transform.position;
-            _camera.yOffset = SecondHalfCameraYOffset;
+            _camera.SetYOffset(SecondHalfCameraYOffset);
         }
     }
 }

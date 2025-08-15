@@ -13,11 +13,11 @@ namespace StringmoreCamera
     {
         #region Serialized Private Fields
 
-        public float lookaheadDistance;
-        public float xSmoothTime;
-        public float ySmoothTime;
-        public float yOffset;
-        public float upYThreshold;
+        [SerializeField] private float lookaheadDistance;
+        [SerializeField] private float xSmoothTime;
+        [SerializeField] private float ySmoothTime;
+        [SerializeField] private float yOffset;
+        [SerializeField] private float upYThreshold;
 
         #endregion
 
@@ -111,6 +111,14 @@ namespace StringmoreCamera
         public void ExitFixCameraTrigger(FixCameraTrigger trigger)
         {
             _fixCameraTriggers.Remove(trigger);
+        }
+
+        /// <summary>
+        /// Set the Y offset of the camera above the ground.
+        /// </summary>
+        public void SetYOffset(float offset)
+        {
+            yOffset = offset;
         }
        
         
