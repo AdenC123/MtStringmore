@@ -37,12 +37,12 @@ namespace Managers
         /// If true, the player faces left when they respawn
         /// </summary>
         public bool RespawnFacingLeft { get; set; }
-        
+
         /// <summary>
         /// Number of checkpoints reached.
         /// </summary>
         public string[] LevelsAccessed => _levelsAccessed.ToArray();
-    
+
         /// <summary>
         /// The number of collectables collected.
         /// Should be reset to 0 after being displayed (e.g. after a end-of-level cutscene).
@@ -271,14 +271,28 @@ namespace Managers
         /// </summary>
         private void SaveLevelDataToGameManager()
         {
-            int idx = SceneListManager.Instance.LevelNumber;
-            if (idx == -1)
+            int index = SceneListManager.Instance.LevelNumber - 1;
+            if (index < 0)
             {
                 Debug.Log("GameManager could not determine what level we are currently in");
                 return;
             }
+            Debug.Assert(index < allLevelData.Count, "Invalid level index when saving game data?");
+            LevelData updatedLevelData = allLevelData[index];
+            // Candies
+            updatedLevelData.mostCandiesCollected =
+                Mathf.Max(updatedLevelData.mostCandiesCollected, _collectedCollectables.Count);
+            updatedLevelData.totalCandiesInLevel = _collectableLookup.Count;
+            // Deaths
+            updatedLevelData.leastDeaths = updatedLevelData.leastDeaths == -1
+                ? thisLevelDeaths
+                : Mathf.Min(updatedLevelData.leastDeaths, Mathf.Max(0, thisLevelDeaths));
 
-            SaveToCorrectLevelVariable(idx - 1);
+            // Time
+            if (BeatsCurrentTime(updatedLevelData.bestTime, ThisLevelTime))
+                updatedLevelData.bestTime = ThisLevelTime;
+
+            allLevelData[index] = updatedLevelData;
         }
 
         private bool BeatsCurrentTime(string currBestTimeSpan, string newTimeSpan)
@@ -300,38 +314,6 @@ namespace Managers
                 return t;
             Debug.LogWarning($"Failed to parse parts of: {time}");
             return TimeSpan.MaxValue;
-        }
-
-        private void SaveToCorrectLevelVariable(int index)
-        {
-            if (index >= 0 && index < allLevelData.Count)
-            {
-                LevelData updatedLevelData = allLevelData[index];
-                // Candies
-                if (updatedLevelData.mostCandiesCollected < _collectedCollectables.Count)
-                    updatedLevelData.mostCandiesCollected = _collectedCollectables.Count;
-                updatedLevelData.totalCandiesInLevel = _collectableLookup.Count;
-                // Deaths
-                if (updatedLevelData.leastDeaths == -1 && thisLevelDeaths == -1)
-                {
-                    updatedLevelData.leastDeaths = 0;
-                }
-                else
-                {
-                    if (updatedLevelData.leastDeaths == -1 || updatedLevelData.leastDeaths > thisLevelDeaths)
-                        updatedLevelData.leastDeaths = thisLevelDeaths;
-                }
-
-                // Time
-                if (BeatsCurrentTime(updatedLevelData.bestTime, ThisLevelTime))
-                    updatedLevelData.bestTime = ThisLevelTime;
-
-                allLevelData[index] = updatedLevelData;
-            }
-            else
-            {
-                Debug.Log("Could not save data to GameManager");
-            }
         }
 
         /// <summary>
