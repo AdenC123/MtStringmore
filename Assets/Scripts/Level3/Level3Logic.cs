@@ -92,7 +92,7 @@ namespace Level3
             
             // make player face left
             _player.transform.position = secondHalfCheckpoint.transform.position;
-            _player.AddPlayerVelocityEffector(new SimpleVelocityEffector(velocity => new Vector2(-1.0f, 1.0f)), true);
+            _player.AddPlayerVelocityEffector(new SimpleVelocityEffector(_ => new Vector2(-1.0f, 1.0f)), true);
             
             _knitby.gameObject.SetActive(true);
             _knitby.transform.position = secondHalfCheckpoint.transform.position;

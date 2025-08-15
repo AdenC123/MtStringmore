@@ -247,6 +247,7 @@ namespace Player
 
             _buttonNotPressedPreviousFrame = true;
             Direction = startDirection;
+            GameManager.Instance.RespawnFacingLeft = Mathf.Approximately(startDirection, -1.0f);
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("LetterBlock"), false);
             GameManager.Instance.Reset += OnReset;
         }
