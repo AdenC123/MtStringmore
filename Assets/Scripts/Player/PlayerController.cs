@@ -109,7 +109,7 @@ namespace Player
         /// <summary>
         /// Facing direction of the player. -1.0 for left, 1.0 for right.
         /// </summary>
-        public float Direction { get; set; }
+        public float Direction { get; private set; }
 
         /// <summary>
         /// Time when the most recent dash would have ended (may be a time in the future).
@@ -399,11 +399,6 @@ namespace Player
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("LetterBlock"), false);
             TimeDashEnded = Time.time;
         }
-
-        /// <summary>
-        /// Force the player's velocity to 0.
-        /// </summary>
-        public void ForceCancelVelocity() => _velocity = Vector2.zero;
 
         /// <summary>
         /// Disallows early release for this jump.

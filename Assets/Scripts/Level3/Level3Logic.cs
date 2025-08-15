@@ -89,10 +89,11 @@ namespace Level3
             {
                 zipper.SetTabVisible(true);
             }
-
-            _player.Direction = -1.0f;
+            
+            // make player face left
             _player.transform.position = secondHalfCheckpoint.transform.position;
-            _player.ForceCancelVelocity();
+            _player.AddPlayerVelocityEffector(new SimpleVelocityEffector(velocity => new Vector2(-1.0f, 1.0f)), true);
+            
             _knitby.gameObject.SetActive(true);
             _knitby.transform.position = secondHalfCheckpoint.transform.position;
             _camera.SetYOffset(SecondHalfCameraYOffset);
