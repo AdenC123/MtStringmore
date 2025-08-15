@@ -12,7 +12,7 @@ namespace Save
     {
         public long dateTimeBinary;
         public bool checkpointFacesLeft;
-        public List<string> levelsAccessed;
+        public string[] levelsAccessed;
 
         public LevelData level1Data;
         public LevelData level2Data;

@@ -31,7 +31,7 @@ namespace UI
         {
             // Ensures GameManager load save data before loading level select menu
             FindObjectOfType<SaveDataManager>()?.PreloadSaveData();
-            List<string> unlockedScenes = GameManager.Instance.LevelsAccessed;
+            HashSet<string> unlockedScenes = new(GameManager.Instance.LevelsAccessed);
             playButton.interactable = false;
             unlockedScenes.Add(SceneListManager.Instance.Level1IntroSceneName);
             string[] levelLoadingScenes = SceneListManager.Instance.LevelLoadScenes.ToArray();

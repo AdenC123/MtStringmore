@@ -41,7 +41,7 @@ namespace Managers
         /// <summary>
         /// Number of checkpoints reached.
         /// </summary>
-        public List<string> LevelsAccessed { get; } = new();
+        public string[] LevelsAccessed => _levelsAccessed.ToArray();
 
         /// <summary>
         /// The number of collectables collected.
@@ -118,6 +118,7 @@ namespace Managers
         private readonly Dictionary<Vector2, Collectable> _collectableLookup = new();
         private readonly HashSet<Vector2> _prevCheckpoints = new();
         private readonly HashSet<Vector2> _collectedCollectables = new();
+        private readonly HashSet<string> _levelsAccessed = new();
 
         /// <summary>
         /// So it turns out that onSceneChanged happens after modifying game data on save.
@@ -370,7 +371,7 @@ namespace Managers
             RespawnFacingLeft = shouldFaceLeft;
             _prevCheckpoints.Clear();
             _collectedCollectables.Clear();
-            LevelsAccessed.AddRange(saveData.levelsAccessed);
+            _levelsAccessed.UnionWith(saveData.levelsAccessed);
 
             allLevelData[0] = saveData.level1Data;
             allLevelData[1] = saveData.level2Data;
@@ -380,6 +381,15 @@ namespace Managers
             saveGame?.Invoke();
             _dontClearDataOnSceneChanged = true;
         }
+
+        /// <summary>
+        /// Adds a level to the level accessed list.
+        /// </summary>
+        /// <param name="level">New level</param>
+        /// <returns>
+        /// Whether the add was successful (i.e. not present).
+        /// </returns>
+        public bool AddLevelAccessed(string level) => _levelsAccessed.Add(level);
 
         /// <summary>
         /// Increments the number of candy collected.

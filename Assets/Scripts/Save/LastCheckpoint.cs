@@ -10,15 +10,13 @@ namespace Save
 
         private void Start()
         {
-            saveManager =  FindObjectOfType<SaveDataManager>();
-
+            saveManager = FindObjectOfType<SaveDataManager>();
         }
         
         public void UpdateLevelAccess()
         {
-            if (!GameManager.Instance.LevelsAccessed.Contains(nextLevel))
+            if (!GameManager.Instance.AddLevelAccessed(nextLevel))
             {
-                GameManager.Instance.LevelsAccessed.Add(nextLevel);
                 saveManager?.SaveFile();
                 Debug.Log("Unlocked: " + nextLevel);
             }
