@@ -22,9 +22,8 @@ namespace UI
     
         private void OnSceneChanged(Scene current, Scene next)
         {
-            string thisScene = SceneManager.GetActiveScene().name;
-            bool isMainMenu = SceneListManager.Instance.IsMainMenu(thisScene);
-            bool isCutscene = SceneListManager.Instance.IsSceneCutscene(thisScene);
+            bool isMainMenu = SceneListManager.Instance.InMainMenu;
+            bool isCutscene = SceneListManager.Instance.InCutscene;
 
             pauseButton.gameObject.SetActive(!isMainMenu);
             restartButton.gameObject.SetActive(!isMainMenu && !isCutscene);
