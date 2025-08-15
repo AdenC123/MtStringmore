@@ -267,9 +267,10 @@ namespace Managers
                 Mathf.Max(updatedLevelData.mostCandiesCollected, NumCollectablesCollected);
             updatedLevelData.totalCandiesInLevel = MaxCollectablesCount;
             // Deaths
+            int cleanedLevelDeaths = Mathf.Max(0, thisLevelDeaths);
             updatedLevelData.leastDeaths = updatedLevelData.leastDeaths == -1
-                ? thisLevelDeaths
-                : Mathf.Min(updatedLevelData.leastDeaths, Mathf.Max(0, thisLevelDeaths));
+                ? cleanedLevelDeaths
+                : Mathf.Min(updatedLevelData.leastDeaths, cleanedLevelDeaths);
 
             // Time
             if (BeatsCurrentTime(updatedLevelData.bestTime, ThisLevelTime))
