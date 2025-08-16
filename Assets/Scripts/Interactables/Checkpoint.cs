@@ -45,7 +45,7 @@ namespace Interactables
         protected DialogueRunner DialogRunner;
         protected bool IsCurrentConversation;
 
-        public bool hasBeenHit;
+        private bool hasBeenHit;
 
         public void Start()
         {
