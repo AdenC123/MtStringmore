@@ -71,6 +71,32 @@ namespace Save
         }
 
         /// <summary>
+        /// Deletes the save file.
+        /// </summary>
+        public static void DeleteSaveData()
+        {
+            string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
+            if (!EnsureSaveFolderExists(folderLocation)) return;
+            string filePath = Path.Combine(folderLocation, SaveFileName);
+            if (!File.Exists(filePath)) return;
+            try
+            {
+                FileWriteLock.AcquireWriterLock(1000);
+                File.Delete(filePath);
+            }
+            finally
+            {
+                try
+                {
+                    FileWriteLock.ReleaseWriterLock();
+                }
+                catch (ApplicationException)
+                {
+                }
+            }
+        }
+
+        /// <summary>
         /// Saves the file: creates the thread to save the file.
         /// </summary>
         /// <remarks>
