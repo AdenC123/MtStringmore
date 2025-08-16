@@ -28,6 +28,7 @@ namespace Level3
         private KnitbyController _knitby;
         private FollowCamera _camera;
         private TimerManager _timerManager;
+        private OnSceneButtons _onSceneButtons;
 
         private void Awake()
         {
@@ -37,6 +38,7 @@ namespace Level3
             _player = FindAnyObjectByType<PlayerController>();
             _knitby = FindAnyObjectByType<KnitbyController>();
             _camera = FindAnyObjectByType<FollowCamera>();
+            _onSceneButtons = FindAnyObjectByType<OnSceneButtons>();
         }
 
         private void Start()
@@ -79,6 +81,7 @@ namespace Level3
             {
                 obj.SetActive(inCutscene);
             }
+            _onSceneButtons.SetRestartButtonState(!inCutscene);
         }
 
         /// <summary>
