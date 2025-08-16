@@ -40,7 +40,6 @@ namespace Level3
 
         private void Start()
         {
-            // there's no guarantee we grab the right instance in Awake so we use Start
             GameManager.SetInteractablesEnabled(false);
             
             foreach (AttachableMovingObject zipper in _zippers)
