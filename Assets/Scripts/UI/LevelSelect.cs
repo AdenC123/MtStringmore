@@ -94,6 +94,7 @@ namespace UI
         /// <summary>
         /// Debug button pressed.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public void DebugButtonPressed()
         {
             _debugButtonPressed++;
