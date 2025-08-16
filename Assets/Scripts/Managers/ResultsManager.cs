@@ -59,6 +59,7 @@ namespace Managers
             resultsWindow.gameObject.SetActive(true);
             resultsWindow.UpdateDisplay();
             isResultsPageOpen = true;
+            FindAnyObjectByType<OnSceneButtons>().SetRestartButtonState(false);
             SaveDataManager.SaveFile();
             PauseMenu.IsPauseDisabled = true;
         }
