@@ -27,8 +27,6 @@ namespace Level3
         private PlayerController _player;
         private KnitbyController _knitby;
         private FollowCamera _camera;
-        private TimerManager _timerManager;
-        private OnSceneButtons _onSceneButtons;
 
         private void Awake()
         {
@@ -38,14 +36,12 @@ namespace Level3
             _player = FindAnyObjectByType<PlayerController>();
             _knitby = FindAnyObjectByType<KnitbyController>();
             _camera = FindAnyObjectByType<FollowCamera>();
-            _onSceneButtons = FindAnyObjectByType<OnSceneButtons>();
         }
 
         private void Start()
         {
             // there's no guarantee we grab the right instance in Awake so we use Start
             GameManager.SetInteractablesEnabled(false);
-            _timerManager = FindAnyObjectByType<TimerManager>();
             
             foreach (AttachableMovingObject zipper in _zippers)
             {
@@ -63,7 +59,7 @@ namespace Level3
             SetCutsceneState(false);
             ReachSecondHalf();
             CutsceneFade.FadeIn();
-            _timerManager.SetTimerState(true);
+            FindAnyObjectByType<TimerManager>().SetTimerState(true);
         }
         
         /// <summary>
@@ -81,7 +77,7 @@ namespace Level3
             {
                 obj.SetActive(inCutscene);
             }
-            _onSceneButtons.SetRestartButtonState(!inCutscene);
+            FindAnyObjectByType<OnSceneButtons>().SetRestartButtonState(!inCutscene);
         }
 
         /// <summary>
