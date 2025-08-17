@@ -50,6 +50,12 @@ namespace Level3
             _knitby.gameObject.SetActive(false);
         }
 
+        private void OnDestroy()
+        {
+            // hope level 4 doesn't need interactables disabled lol
+            GameManager.SetInteractablesEnabled(true);
+        }
+
         /// <summary>
         /// Special skip logic since the actual cutscene skip button is hella broken.
         /// </summary>
