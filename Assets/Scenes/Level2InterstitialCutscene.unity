@@ -96277,7 +96277,7 @@ GameObject:
   - component: {fileID: 1111688093}
   m_Layer: 0
   m_Name: Core Components
-  m_TagString: Resetter
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96761,10 +96761,6 @@ PrefabInstance:
     - target: {fileID: 4544653655168585683, guid: 6516e5d0fcba84e26b43a0adcb8fb193, type: 3}
       propertyPath: m_Name
       value: Checkpoint
-      objectReference: {fileID: 0}
-    - target: {fileID: 4544653655168585683, guid: 6516e5d0fcba84e26b43a0adcb8fb193, type: 3}
-      propertyPath: m_TagString
-      value: FinalCheckpoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
