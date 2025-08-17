@@ -104,7 +104,7 @@ namespace Managers
         /// Number of times Marshmallow dies in a level
         /// called by results manager and level select to display stats
         /// </summary>
-        public int thisLevelDeaths;
+        public int ThisLevelDeaths { get; private set; }
 
         /// <summary>
         /// The time it took for player to beat a level in seconds.
@@ -112,7 +112,7 @@ namespace Managers
         /// <remarks>
         /// Called by results manager and level select to display stats
         /// </remarks>
-        public float ThisLevelTime { get; set; }
+        public float ThisLevelTime { get; set; } = float.NaN;
 
         private readonly HashSet<Vector2> _prevCheckpoints = new();
         private readonly HashSet<string> _levelsAccessed = new();
@@ -193,7 +193,7 @@ namespace Managers
 
                 _prevCheckpoints.Clear();
                 NumCollectablesCollected = 0;
-                thisLevelDeaths = -1;
+                ThisLevelDeaths = -1;
                 SaveDataManager.SaveFile();
 
                 Collectable[] collectables = FindObjectsByType<Collectable>(FindObjectsSortMode.None);
@@ -210,13 +210,13 @@ namespace Managers
         private void OnPlayerDeath()
         {
             //brings the deaths from a negative sentinel value to 1
-            if (thisLevelDeaths == -1)
+            if (ThisLevelDeaths == -1)
             {
-                thisLevelDeaths += 2;
+                ThisLevelDeaths += 2;
             }
             else
             {
-                thisLevelDeaths++;
+                ThisLevelDeaths++;
             }
         }
 
@@ -248,7 +248,7 @@ namespace Managers
                 Mathf.Max(updatedLevelData.mostCandiesCollected, NumCollectablesCollected);
             updatedLevelData.totalCandiesInLevel = MaxCollectablesCount;
             // Deaths
-            int cleanedLevelDeaths = Mathf.Max(0, thisLevelDeaths);
+            int cleanedLevelDeaths = Mathf.Max(0, ThisLevelDeaths);
             updatedLevelData.leastDeaths = updatedLevelData.leastDeaths == -1
                 ? cleanedLevelDeaths
                 : Mathf.Min(updatedLevelData.leastDeaths, cleanedLevelDeaths);

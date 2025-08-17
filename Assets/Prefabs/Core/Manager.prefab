@@ -3679,7 +3679,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneTransitionCanvas: {fileID: 3180213058412596211}
   forceFrameRate: 0
-  thisLevelDeaths: 0
 --- !u!114 &2167404556298769624
 MonoBehaviour:
   m_ObjectHideFlags: 0
