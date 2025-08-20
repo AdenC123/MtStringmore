@@ -921,7 +921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.9
-  yParallaxFactor: 0.999
+  yParallaxFactor: 0.975
   fallbackSpriteBounds: 14.7
   hasSize: 1
 --- !u!1 &3471770921051178014
@@ -1166,7 +1166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.8
-  yParallaxFactor: 0.999
+  yParallaxFactor: 0.99
   fallbackSpriteBounds: 19.2
   hasSize: 1
 --- !u!1 &4008468565675577415
@@ -1216,8 +1216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3485dfcc9b1aaf4297aff4ff9916792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xParallaxFactor: 0.5
-  yParallaxFactor: 0.999
+  xParallaxFactor: 0.7
+  yParallaxFactor: 0.99
   fallbackSpriteBounds: 19.2
   hasSize: 1
 --- !u!1 &4512127117271967699
@@ -1462,7 +1462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.83
-  yParallaxFactor: 0.999
+  yParallaxFactor: 0.99
   fallbackSpriteBounds: 19.2
   hasSize: 1
 --- !u!1 &5080257859647054882
@@ -1901,7 +1901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.75
-  yParallaxFactor: 0.999
+  yParallaxFactor: 0.975
   fallbackSpriteBounds: 19.2
   hasSize: 1
 --- !u!1 &8906822354433059994
@@ -2049,7 +2049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xParallaxFactor: 0.85
-  yParallaxFactor: 0.999
+  yParallaxFactor: 0.975
   fallbackSpriteBounds: 16.59
   hasSize: 1
 --- !u!1 &9044636591130866315
