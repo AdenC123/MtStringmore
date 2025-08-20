@@ -2,18 +2,15 @@
 setting: the summit of mt. stringmore
 ---
 Marshmallow: Hang on tight! You doing alright?
-// Knitby is terrified, but feigning it
-Knitby_confused: Uhhhh...
 Knitby_relieved: I'm doing excellent... I've never... been better...
 // floating up on a balloon while Knitby shivers
 // animate background to move to give balloon floaty movement vibes
-Knitby: Marshmallow, look. I think that's the summit! 
+Knitby: Marshmallow, look! I think that's the summit! 
 Marshmallow: Three, two, one, jump!
 // boing
 Marshmallow: Nice to be on solid ground again, huh?
 Knitby: It's certainly a relief.
-<<wait 3>>
-Knitby: Okay, we can touch the clouds from here. That's actually incredible.
+Knitby: ...We can touch the clouds from here. That's actually incredible.
 // Marshmallow excitedly jumps to get A Cloud
 Knitby: Here goes nothing...
 Marshmallow: Oh my god! The clouds really do taste like cotton candy!
@@ -37,12 +34,15 @@ Knitby: Just watch.
 // pan camera to view
 Marshmallow: Whoa...
 Marshmallow: It's so pretty.
+<<wait 5>>
 Knitby: We are the only two fellows alive who have seen this breathtaking view.
 Marshmallow: Yeah...
 Marshmallow: Thank you for coming on this hike with me, Knitby.
-Knitby: Thanks for asking me to come with you.
+Knitby: You truly strung me along.
+Knitby: ...In a good way.
+Marshmallow_smile: Yay!
 <<fade_out 1>>
-<<wait 5>>
+<<wait 2>>
 Knitby: So... How do we get down from here?
 Marshmallow: Uhhh... Good question...
 // end of level
