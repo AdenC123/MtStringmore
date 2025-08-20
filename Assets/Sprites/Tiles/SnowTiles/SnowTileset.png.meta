@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ba1af23807c52b34d959fc19ba311268
+guid: d6fd5fbecb4e74cfc8cac89b9824bba4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BlueStoneTiles_0
+      name: SnowTileset_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 030df23b62ebc423a9f5b404e9641b9b
-      internalID: -1761445014
+      spriteID: cdd9373dd988f4e7883510ecaf7abf25
+      internalID: 1063384331
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlueStoneTiles_1
+      name: SnowTileset_1
       rect:
         serializedVersion: 2
         x: 216
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 76949b53cd0d24691aca7055a47437bb
-      internalID: -1751294952
+      spriteID: d56cb774a78004accab2c4851f07de67
+      internalID: -1030243650
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlueStoneTiles_2
+      name: SnowTileset_2
       rect:
         serializedVersion: 2
         x: 432
@@ -179,77 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 880c58d6d304c45f28086ec4900d1de6
-      internalID: -1847461058
+      spriteID: fb6a1c4e5acce4f0690003457a1982ec
+      internalID: 326807503
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlueStoneTiles_3
-      rect:
-        serializedVersion: 2
-        x: 648
-        y: 432
-        width: 216
-        height: 216
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 06a9e0200d4b541be92af3a659a8778c
-      internalID: 1580156291
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BlueStoneTiles_4
-      rect:
-        serializedVersion: 2
-        x: 864
-        y: 432
-        width: 216
-        height: 216
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 832b3520ee0fe42409ee81323cfc59af
-      internalID: 416972693
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BlueStoneTiles_5
-      rect:
-        serializedVersion: 2
-        x: 1080
-        y: 432
-        width: 216
-        height: 216
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 75c4e0ff092f24ca3a3450443937e9d6
-      internalID: 928049151
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BlueStoneTiles_6
+      name: SnowTileset_3
       rect:
         serializedVersion: 2
         x: 0
@@ -263,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a86f91baca3044946a7e4ff8405b1597
-      internalID: 396326324
+      spriteID: 8b92ad2ce9c1c48f0a9c8dca26ea38fc
+      internalID: 68182964
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlueStoneTiles_7
+      name: SnowTileset_4
       rect:
         serializedVersion: 2
         x: 216
@@ -284,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 450a6b7af162d472294e7cf65b90bd1e
-      internalID: 1301590556
+      spriteID: 4001e9cd2cfa9489b885d3f75c5e86ef
+      internalID: -1599649740
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlueStoneTiles_8
+      name: SnowTileset_5
       rect:
         serializedVersion: 2
         x: 432
@@ -305,56 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5cda9a715d8f449078b7d6d6a9e9dc23
-      internalID: 628914173
+      spriteID: 1132f76dbade94859a05f1a8d3759a64
+      internalID: -2118953642
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlueStoneTiles_9
-      rect:
-        serializedVersion: 2
-        x: 648
-        y: 216
-        width: 216
-        height: 216
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b34212a7ffc2542dab5bfd50b64e037e
-      internalID: 78755225
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BlueStoneTiles_10
-      rect:
-        serializedVersion: 2
-        x: 1080
-        y: 216
-        width: 216
-        height: 216
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8f774102d6352464ba3e3f83fdf9d42b
-      internalID: 936035405
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BlueStoneTiles_11
+      name: SnowTileset_6
       rect:
         serializedVersion: 2
         x: 0
@@ -368,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1b5392388ff5477abbcbfe780f306ce
-      internalID: 793062697
+      spriteID: f0bccc143e5084fde980b9a0f2651745
+      internalID: -731355255
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlueStoneTiles_12
+      name: SnowTileset_7
       rect:
         serializedVersion: 2
         x: 216
@@ -389,14 +284,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 180783c30616347b89d78358f8595eab
-      internalID: 898351698
+      spriteID: 0ba207f00215d4ca386e39944edf497f
+      internalID: -56885869
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlueStoneTiles_13
+      name: SnowTileset_8
       rect:
         serializedVersion: 2
         x: 432
@@ -410,71 +305,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8f0e609188d943f69a8f59643a4d57e
-      internalID: 1947495016
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BlueStoneTiles_14
-      rect:
-        serializedVersion: 2
-        x: 648
-        y: 0
-        width: 216
-        height: 216
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f2ca188faedca4e818620499b814e8af
-      internalID: 1543571055
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BlueStoneTiles_15
-      rect:
-        serializedVersion: 2
-        x: 864
-        y: 0
-        width: 216
-        height: 216
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1bbf308b8c8a3474b8044785025c5390
-      internalID: 939456466
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BlueStoneTiles_16
-      rect:
-        serializedVersion: 2
-        x: 1080
-        y: 0
-        width: 216
-        height: 216
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c26609ceaf25f43c6a45b3f8c47c9189
-      internalID: -1870686012
+      spriteID: c9c374de394e94fb29e25ccf23e90ca9
+      internalID: 1596985183
       vertices: []
       indices: 
       edges: []
@@ -490,23 +322,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BlueStoneTiles_0: -1761445014
-      BlueStoneTiles_1: -1751294952
-      BlueStoneTiles_10: 936035405
-      BlueStoneTiles_11: 793062697
-      BlueStoneTiles_12: 898351698
-      BlueStoneTiles_13: 1947495016
-      BlueStoneTiles_14: 1543571055
-      BlueStoneTiles_15: 939456466
-      BlueStoneTiles_16: -1870686012
-      BlueStoneTiles_2: -1847461058
-      BlueStoneTiles_3: 1580156291
-      BlueStoneTiles_4: 416972693
-      BlueStoneTiles_5: 928049151
-      BlueStoneTiles_6: 396326324
-      BlueStoneTiles_7: 1301590556
-      BlueStoneTiles_8: 628914173
-      BlueStoneTiles_9: 78755225
+      SnowTileset_0: 1063384331
+      SnowTileset_1: -1030243650
+      SnowTileset_2: 326807503
+      SnowTileset_3: 68182964
+      SnowTileset_4: -1599649740
+      SnowTileset_5: -2118953642
+      SnowTileset_6: -731355255
+      SnowTileset_7: -56885869
+      SnowTileset_8: 1596985183
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
