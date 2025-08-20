@@ -1,33 +1,35 @@
 ﻿title: Level4Cutscene
 ---
-Knitby: I see the exit! Freedom, fresh air, the stars twinkling in the sky!
+Marshmallow: I see the exit! 
+Knitby_relieved: Freedom, fresh air, the stars twinkling in the sky!
 // emerging out of the cave
-Knitby: I've never been happier to feel the night's cool breeze rushing through my strands.
-Marshmallow: Yeah, same here.
-<<wait 2>>    
-Marshmallow: So... Knitby.
-Marshmallow: Are you...
-Knitby_confused: Hmm? What's the matter?
-Marshmallow_faraway: Do you want to keep going?
-Knitby_confused: <i>Excuse</i> me? Marshmallow, what's the matter with you?
-Marshmallow: Well, I know at the start I was very braggy, very sure I could go it alone.
-Marshmallow: ...But then you fell, and I realized just how risky this all is.
-Marshmallow_faraway: I don't think I can do this without you, Knitby, so if you're out, so am I.
-Knitby_relieved: Right, okay...
+<<wait 2>>
+Marshmallow_faraway: So... Knitby.
+Marshmallow_faraway: Are you...
+Knitby: Hmm?
+Marshmallow: Do you want to keep going?
+Knitby: Oh...
+Marshmallow: I... I was worried I'd lost you back there.
+Marshmallow: I realized just how risky this all is.
+Knitby_confused: Ah, yes, if only a wise person gave us some forewarning.
+Marshmallow_faraway: I'm sorry for ignoring your warnings.
+Marshmallow_faraway: And I'm sorry I just kept running without even thinking if you're okay.
 <<wait 1>>
-Knitby: Well, it's definitely true that the journey so far has been rather dangerous.
-Marshmallow_faraway: Right, I see how it is.
+Knitby: We can only thank the stars that we survived without a tear.
+Marshmallow: Yeah.
+Marshmallow: Okay.
+Marshmallow: I see how it is...
 // marshmallow begins walking down
-Knitby: ... Hang on. I'm not finished yet.
+Knitby: ...Hang on. I'm not finished yet.
 // marshmallow turns around, confused
 Marshmallow_faraway: Huh?
 Knitby_relieved: Look. I was stuck in the bottom of that cave for what felt like forever, and I was <i>certain</i> I would never make it out.
 Knitby: But then you came back for me, Marshmallow. You saved me. I've experienced the worst outcome possible, and emerged to tell the tale.
-Knitby: So I know we'll be able to overcome whatever comes as long as we face it together.
 Knitby_relieved: Now, don't get me wrong, I'm still terrified of the remainder of the ascent.
-Knitby: But, since we've <i>already</i> come all this way... we may as well see how's the view from the summit. I'm certainly not opposed to the candy along the way, either.
-Marshmallow_smile: <i>YESS</i>!!! And EAT THE CLOUDS TOO!!!
-Knitby: I <i>still</i> don't think that the clouds will resemble cotton candy at all, though.
+Knitby: But, since we've <i>already</i> come all this way... We may as well see the view from the summit.
+Knitby: If we hold on to each other, I know we'll be able to face whatever comes our way.
+Marshmallow: OH... Um, are you sure?
+Knitby: Yes. I <i>still</i> don't think that the clouds will resemble cotton candy at all, though.
 Marshmallow_smile: Sounds like I have the rest of the way to convince you!
 // <<load_scene Level4>>
 
