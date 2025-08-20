@@ -1,4 +1,5 @@
-﻿using Player;
+﻿using Managers;
+using Player;
 using UnityEngine;
 
 namespace Interactables
@@ -24,6 +25,11 @@ namespace Interactables
         /// Whether to disallow re-interaction (by simulating player exit without actually leaving the trigger).
         /// </summary>
         public virtual bool DisallowReinteraction => true;
+
+        /// <summary>
+        /// Whether interacting is enabled.
+        /// </summary>
+        public virtual bool CanInteract => GameManager.Instance.AreInteractablesEnabled;
 
         /// <summary>
         /// Called on player enter.

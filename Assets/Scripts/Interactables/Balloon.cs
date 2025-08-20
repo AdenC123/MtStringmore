@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using Player;
 using UnityEngine;
 using Util;
@@ -14,7 +15,7 @@ namespace Interactables
         private AnimationCurve accelerationCurve;
 
         [SerializeField, Tooltip("Player offset from balloon")]
-        private Vector3 offset = new(0, -3, 0);
+        private Vector2 offset = new(0, -3);
 
         [SerializeField, Min(0), Tooltip("Minimum speed")]
         private float minSpeed = 1;
@@ -65,6 +66,12 @@ namespace Interactables
 
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
+        
+        /// <inheritdoc />
+        public override bool IgnoreOtherEffectors => false;
+
+        /// <inheritdoc />
+        public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset);
 
         /// <summary>
         /// Returns the time of the last keyframe.
@@ -191,7 +198,7 @@ namespace Interactables
             attachAudioSource.clip = RandomUtil.SelectRandom(attachSounds);
             attachAudioSource.Play();
             windAudioSource.Play();
-            Vector2 targetPosition = (Vector2)transform.position + (Vector2)offset;
+            Vector2 targetPosition = _rigidbody.position + offset;
             if (CanAttachAtPosition(targetPosition))
             {
                 player.transform.position = targetPosition;
@@ -227,6 +234,17 @@ namespace Interactables
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+        }
+        
+        private void OnEnable()
+        {
+            GameManager.Instance.Reset += RespawnBalloon;
+        }
+
+        private void OnDisable()
+        {
+            if (GameManager.Instance != null)
+                GameManager.Instance.Reset -= RespawnBalloon;
         }
 
         private void OnValidate()

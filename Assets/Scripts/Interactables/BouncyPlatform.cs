@@ -23,6 +23,9 @@ namespace Interactables
 
         #endregion
         
+        /// <inheritdoc />
+        public override bool CanInteract => true;
+
         private Animator _animator;
         private AudioSource _audioSource;
         private bool _launched;
