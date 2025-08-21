@@ -55,16 +55,6 @@ namespace Interactables
             _collider.enabled = false;
         }
 
-        // /// <summary>
-        // /// Resets the collectable to default
-        // /// </summary>
-        // public void ResetCollectable()
-        // {
-        //     _isCollected = false;
-        //     _spriteRenderer.enabled = true;
-        //     _spriteRenderer.color = Color.white;
-        // }
-
         private void OnValidate()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
