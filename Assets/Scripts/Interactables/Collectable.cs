@@ -1,6 +1,9 @@
+using System;
 using Managers;
+using Player;
 using UnityEngine;
 using Util;
+using Random = UnityEngine.Random;
 
 namespace Interactables
 {
@@ -14,12 +17,53 @@ namespace Interactables
         
         private SpriteRenderer _spriteRenderer;
         private Collider2D _collider;
+        private PlayerController player;
+        private bool _isCollected;
         
         private void Awake()
         {
             _collider = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            player = FindObjectOfType<PlayerController>();
+            _isCollected = false;
         }
+
+        private void OnEnable()
+        {
+            player.Death += OnPlayerDeath;
+        }
+
+        private void OnPlayerDeath()
+        {
+            if (_isCollected) GreyOut();
+        }
+
+        private void Collect()
+        {
+            // TODO: play a visual/particle effect before destroying
+            GameManager.Instance.CollectCollectable(this);
+            SoundManager.Instance.PlayCollectableComboSound();
+            _isCollected = true;
+            _spriteRenderer.enabled = false;
+            _collider.enabled = false;
+        }
+        
+        private void GreyOut()
+        {
+            _spriteRenderer.enabled = true;
+            _spriteRenderer.color = Color.gray;
+            _collider.enabled = false;
+        }
+
+        // /// <summary>
+        // /// Resets the collectable to default
+        // /// </summary>
+        // public void ResetCollectable()
+        // {
+        //     _isCollected = false;
+        //     _spriteRenderer.enabled = true;
+        //     _spriteRenderer.color = Color.white;
+        // }
 
         private void OnValidate()
         {
@@ -28,13 +72,9 @@ namespace Interactables
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && !_isCollected)
             {
-                GameManager.Instance.CollectCollectable(this);
-                // TODO: play a visual/particle effect before destroying
-                SoundManager.Instance.PlayCollectableComboSound();
-                _spriteRenderer.enabled = false;
-                _collider.enabled = false;
+                Collect();
             }
         }
 
