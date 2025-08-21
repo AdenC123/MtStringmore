@@ -1,9 +1,7 @@
-using System;
 using Managers;
 using Player;
 using UnityEngine;
 using Util;
-using Random = UnityEngine.Random;
 
 namespace Interactables
 {
@@ -17,20 +15,21 @@ namespace Interactables
         
         private SpriteRenderer _spriteRenderer;
         private Collider2D _collider;
-        private PlayerController player;
+        private PlayerController _player;
         private bool _isCollected;
         
         private void Awake()
         {
             _collider = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            player = FindObjectOfType<PlayerController>();
+            _player = FindObjectOfType<PlayerController>();
             _isCollected = false;
+            _player.Death += OnPlayerDeath;
         }
 
-        private void OnEnable()
+        private void OnDestroy()
         {
-            player.Death += OnPlayerDeath;
+            _player.Death -= OnPlayerDeath;
         }
 
         private void OnPlayerDeath()
