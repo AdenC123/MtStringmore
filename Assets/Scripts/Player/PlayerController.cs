@@ -247,6 +247,7 @@ namespace Player
 
             _buttonNotPressedPreviousFrame = true;
             Direction = startDirection;
+            GameManager.Instance.RespawnFacingLeft = startDirection < 0.0f;
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("LetterBlock"), false);
             GameManager.Instance.Reset += OnReset;
         }
@@ -332,7 +333,7 @@ namespace Player
             _velocity = _impulseVelocityEffectors
                 .Aggregate(_velocity, (initial, effector) => effector.ApplyVelocity(initial));
             bool hadVelocityEffectors = _playerVelocityEffectors.Count > 0 || _impulseVelocityEffectors.Count > 0;
-            if (_playerVelocityEffectors.Any(e => e is WindController) || (!hadVelocityEffectors && dashEnabled)) HandleDash(); // lets player can dash in wind zones
+            if (_playerVelocityEffectors.Any(e => e.AllowPlayerDashing) || (!hadVelocityEffectors && dashEnabled)) HandleDash();
             _impulseVelocityEffectors.Clear();
             if (!hadVelocityEffectors && dashEnabled) HandleDash();
             ApplyMovement();
@@ -642,6 +643,13 @@ namespace Player
                     // rotate ground normal vector 90 degrees towards facing direction
                     Vector2 walkTarget = new Vector2(_groundNormal.y * Direction, _groundNormal.x * -Direction) *
                                          maxGroundSpeed;
+
+                    var walkEffector = _playerVelocityEffectors.FirstOrDefault(e => e.EffectPlayerWalkSpeed);
+                    if (walkEffector != null)
+                    {
+                        walkTarget = walkEffector.ApplyVelocity(walkTarget);
+                    }
+
                     float newX = Mathf.MoveTowards(_velocity.x, walkTarget.x, groundAcceleration * Time.fixedDeltaTime);
                     float newY = walkTarget.y;
                     _velocity = new Vector2(newX, newY);
@@ -688,7 +696,7 @@ namespace Player
         /// </summary>
         private void HandleInteractables()
         {
-            if (!CurrentInteractableArea || !GameManager.Instance.AreInteractablesEnabled) return;
+            if (!CurrentInteractableArea || !CurrentInteractableArea.CanInteract) return;
             bool previouslyGrounded = PlayerState == PlayerStateEnum.Run;
             if (IsButtonUsed())
             {

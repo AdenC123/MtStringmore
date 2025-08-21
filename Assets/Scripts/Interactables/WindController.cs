@@ -13,7 +13,6 @@ namespace Interactables
         [SerializeField, Tooltip("Player speed moving against wind")] private float headwindSpeed;
         [SerializeField, Tooltip("Player deceleration in headwind")] private float headwindDecl = 20f;
         [SerializeField, Tooltip("Player acceleration in tailwind")] private float tailwindAccel = 50f;
-        [SerializeField] private Vector2 windDirection;
         [SerializeField, Tooltip("Updates both collider2D size and particle region size")] private Vector2 windZoneSize;  
         [SerializeField] private ParticleSystem windParticles;
         [SerializeField] private BoxCollider2D boxCollider;
@@ -28,19 +27,18 @@ namespace Interactables
         private PlayerController _player;
         private bool _playerInside;
         private bool _shouldFadeOut;
-        private Vector2 _windDirNormalized;
-
+        private Vector2 _windDirNormalized => transform.right.normalized;
         #endregion
+
         // Called automatically in editor when a serialized field changes
         private void OnValidate()
         {
-            _windDirNormalized = windDirection.normalized;
+
             UpdateParticles();
         }
 
         private void Awake()
         {
-            _windDirNormalized = windDirection.normalized;
             UpdateParticles();
         }
 
@@ -64,8 +62,10 @@ namespace Interactables
         /// Wind will not change player velocity if on swing or trampoline etc
         /// </remarks>
         public bool IgnoreOtherEffectors => false;
-
-        public bool IgnoreGravity => windDirection.y != 0;
+        
+        /// <inheritdoc />
+        public bool EffectPlayerWalkSpeed => true;
+        public bool AllowPlayerDashing => true;
 
         /// <inheritdoc />
         public Vector2 ApplyVelocity(Vector2 velocity)
@@ -126,14 +126,6 @@ namespace Interactables
         private void UpdateParticles()
         {
             if (windParticles == null || boxCollider == null ) return;
-            
-            // Determine the equivalent angle of the wind based on vector direction
-            float angle = Mathf.Atan2(windDirection.normalized.y, windDirection.normalized.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
-            // Line up the angle the snow should blow in based on wind
-            Transform childTransform1 = transform.GetChild(0);
-            childTransform1.rotation =  Quaternion.Euler(0f, 0f, angle);
 
             // Ensure box collider and particle systems shape match up
             Vector2 newScale = new Vector2(windZoneSize.x, windZoneSize.y); 
