@@ -40,7 +40,7 @@ namespace Interactables
         private void Collect()
         {
             // TODO: play a visual/particle effect before destroying
-            GameManager.Instance.CollectCollectable(this);
+            if (!_isCollected) GameManager.Instance.CollectCollectable(this);
             SoundManager.Instance.PlayCollectableComboSound();
             _isCollected = true;
             _spriteRenderer.enabled = false;
