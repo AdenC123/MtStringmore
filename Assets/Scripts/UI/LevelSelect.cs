@@ -24,6 +24,8 @@ namespace UI
         [SerializeField] private TextMeshProUGUI levelText, timeText, deathText, candyText;
         [SerializeField] private Image candyImage;
 
+        [SerializeField] private AchievementPatches ap;
+
         private const string EmptySaveTime = "--:--:--";
         private string _selectedScene;
         private LevelSelectButton _selectedButton;
@@ -64,27 +66,35 @@ namespace UI
 
             //change the text of the level stats
             levelText.text = "Level " + levelNumber;
-
             LevelData selectedLevel = GameManager.Instance.AllLevelData[levelNumber - 1];
 
             // Candy
+            int mostCandiesCollected = selectedLevel.mostCandiesCollected;
+            int totalCandiesInLevel = selectedLevel.totalCandiesInLevel;
             if (selectedLevel.totalCandiesInLevel < 0)
                 candyText.text = "N/A";
             else
-                candyText.text = selectedLevel.mostCandiesCollected + "/" + selectedLevel.totalCandiesInLevel;
+                candyText.text = mostCandiesCollected + "/" + totalCandiesInLevel;
 
             // Deaths
             Debug.Log(selectedLevel.leastDeaths);
-            deathText.text = selectedLevel.leastDeaths == -1 ? "N/A" : selectedLevel.leastDeaths.ToString();
+            int deaths = selectedLevel.leastDeaths;
+            deathText.text = deaths == -1 ? "N/A" : selectedLevel.leastDeaths.ToString();
 
             // Time
-            timeText.text = float.IsNaN(selectedLevel.bestTime)
+            float bestTime = selectedLevel.bestTime;
+            timeText.text = float.IsNaN(bestTime)
                 ? EmptySaveTime
                 : TimeSpan.FromSeconds(selectedLevel.bestTime).ToString(@"mm\:ss\:ff");
 
-            //CandyImage
-            candyImage.sprite = levelCandyImages[levelNumber - 1];
+            // CandyImage
+            Sprite candy = levelCandyImages[levelNumber - 1];
+            candyImage.sprite = candy;
             candyImage.enabled = true;
+            
+            // Show Achievement Patches if applicable
+            ap?.DisplayAchievementPatches(levelNumber, bestTime, mostCandiesCollected, totalCandiesInLevel, deaths, 
+                candy);
 
             if (_selectedButton) _selectedButton.MarkUnselected();
             _selectedButton = button;
