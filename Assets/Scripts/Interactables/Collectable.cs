@@ -15,24 +15,24 @@ namespace Interactables
         
         private SpriteRenderer _spriteRenderer;
         private Collider2D _collider;
-        private PlayerController _player;
+        private GameManager _gameManager;
         private bool _isCollected;
         
         private void Awake()
         {
             _collider = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _player = FindObjectOfType<PlayerController>();
+            _gameManager = GameManager.Instance;
             _isCollected = false;
-            _player.Death += OnPlayerDeath;
+            _gameManager.Reset += OnReset;
         }
 
         private void OnDestroy()
         {
-            _player.Death -= OnPlayerDeath;
+            _gameManager.Reset -= OnReset;
         }
 
-        private void OnPlayerDeath()
+        private void OnReset()
         {
             if (_isCollected) GreyOut();
         }
@@ -51,7 +51,8 @@ namespace Interactables
         {
             _spriteRenderer.enabled = true;
             _spriteRenderer.color = Color.gray;
-            _collider.enabled = false;
+            _collider.enabled = true;
+            Debug.Log("Collectable Greyed Out");
         }
 
         private void OnValidate()
@@ -61,7 +62,7 @@ namespace Interactables
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player") && !_isCollected)
+            if (other.CompareTag("Player"))
             {
                 Collect();
             }
