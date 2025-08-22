@@ -50,7 +50,7 @@ namespace Interactables
         private void GreyOut()
         {
             _spriteRenderer.enabled = true;
-            _spriteRenderer.color = Color.gray;
+            _spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.3f);
             _collider.enabled = true;
             Debug.Log("Collectable Greyed Out");
         }
