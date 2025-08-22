@@ -98,7 +98,6 @@ MonoBehaviour:
   headwindSpeed: 15
   headwindDecl: 20
   tailwindAccel: 50
-  windDirection: {x: 1, y: 0}
   windZoneSize: {x: 20, y: 20}
   windParticles: {fileID: 6798139565459321612}
   boxCollider: {fileID: 9117195392424306319}
