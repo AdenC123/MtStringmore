@@ -3,13 +3,20 @@ setting: the summit of mt. stringmore
 ---
 <<fix_coords 0 0>>
 <<fade_in>>
+<<shiver Knitby 0.05 0.05>>
 Marshmallow: Hang on tight! You doing alright?
 Knitby_relieved: I'm doing excellent... I've never... been better...
 // floating up on a balloon while Knitby shivers
 // animate background to move to give balloon floaty movement vibes
+<<wait 3>>
 Marshmallow: Oh look! I think that's the summit!!
+<<wait 1>>
 Marshmallow: Three, two, one, jump!
-// boing
+<<stop_shiver Knitby>>
+<<leap_nonblock Marshmallow 12 9 0.85 true>>
+<<leap_nonblock Knitby 10 9 0.85 true>>
+<<fix_coords 10 -15 0.7>>
+<<wait 2>>
 Marshmallow_smile: Nice to be on solid ground again, huh?
 Knitby: It's certainly a relief.
 Knitby: ...We can touch the clouds from here. That's actually incredible.
@@ -22,10 +29,10 @@ Knitby_confused: I have no idea what you're talking about. That tastes like dust
 Marshmallow_smile: Ha, got you!
 Knitby: Okay, but surely now you will admit that clouds don't taste like cotton candy, right?
 // marshmallow chomps another cloud, visibly more hesitantly
-Marshmallow_faraway: No, it's... delicious...
+Marshmallow_frown: No, it's... delicious...
 Knitby_confused: ... Really.
 <<wait 1>>
-Marshmallow: Okay, fine, you were right.
+Marshmallow_frown: Okay, fine, you were right.
 // walks around in circles in a fast pace
 Marshmallow_angry: I can't believe they don't taste like cotton candy...
 Knitby: It's okay, I'm sure they'll be happy to hold your tears.
