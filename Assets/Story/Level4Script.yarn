@@ -1,9 +1,23 @@
 ﻿title: Level4Cutscene
 ---
-Marshmallow: I see the exit! 
+Marshmallow: I see the exit!
+<<fade_in>>
 Knitby_relieved: Freedom, fresh air, the stars twinkling in the sky!
+<<leap_nonblock Marshmallow 8 25 0.5 true>>
+<<wait 0.2>>
+<<leap_nonblock Knitby 8 25 0.5 true>>
+<<wait 0.3>>
+<<run Marshmallow 20 1 11>>
+<<wait 0.2>>
+<<run Knitby 16 1.2 10>>
+<<wait 1>>
+<<fix_coords 18 1>>
+<<resize_camera 4 2>>
+<<wait_move_finish Marshmallow>>
+<<wait_move_finish Knitby>>
 // emerging out of the cave
 <<wait 2>>
+<<flip Marshmallow>>
 Marshmallow_faraway: So... Knitby.
 Marshmallow_faraway: Are you...
 Knitby: Hmm?
@@ -14,21 +28,25 @@ Marshmallow: I realized just how risky this all is.
 Knitby_confused: ...
 Marshmallow_faraway: I'm sorry for ignoring your warnings.
 Marshmallow_faraway: And I'm sorry I just kept running without even thinking if you're okay.
-<<wait 1>>
+<<flip Knitby>>
+<<wait 2>>
 Knitby: We can only thank the stars that we survived without a tear.
 Marshmallow: ...Yeah.
 Marshmallow: Okay, I guess it's time to go home...
-// marshmallow begins walking down
-Knitby: ...Hang on. I'm not finished yet.
-// marshmallow turns around, confused
+<<fix_coords 14 1>>
+<<move Marshmallow 12 1 5>>
+Knitby: Hang on. I'm not finished yet.
+<<flip Marshmallow>>
 Marshmallow_faraway: Huh?
-Knitby_relieved: Look. I was stuck in the bottom of that cave for what felt like forever, and I was <i>certain</i> I would never make it out.
+Knitby_relieved: Look. I was stuck in the bottom of that cave for what felt like forever, and I was certain I would never make it out.
 Knitby: But then you came back for me, Marshmallow. You saved me. I've experienced the worst outcome possible, and emerged to tell the tale.
 Knitby_relieved: Now, don't get me wrong, I'm still terrified of the remainder of the ascent.
-Knitby: But, we've <i>already</i> come all this way... Further than anyone had ever reached.
+Knitby: But, we've already come all this way... Further than anyone had ever reached.
 Knitby: If we hold on to each other, I know we'll be able to face whatever comes our way.
 Marshmallow: OH... Um... are you sure?
-Knitby: Yes. I <i>still</i> don't think that the clouds will resemble cotton candy at all, though.
+Knitby: Yes. I still don't think that the clouds will resemble cotton candy at all, though.
+<<leap Marshmallow 0 10 0.25 true -100>>
+<<leap_nonblock Marshmallow 0 10 0.27 true -100>>
 Marshmallow_smile: Sounds like I have the rest of the way to convince you!
 // <<load_scene Level4>>
 
