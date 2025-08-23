@@ -71,7 +71,7 @@ namespace Interactables
         public override bool IgnoreOtherEffectors => false;
 
         /// <inheritdoc />
-        public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset);
+        public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset) && _rigidbody.position != secondPosition;
 
         /// <summary>
         /// Returns the time of the last keyframe.
@@ -96,13 +96,56 @@ namespace Interactables
         /// Since people may or may not adjust the position in the editor while moving,
         /// this computes the vector projection along the actual path in case someone changes the direction while running.
         /// </remarks>
-        private float DistanceAlongPath
+        private float DistanceAlongPath => VectorUtil.DistanceAlongPath(firstPosition, secondPosition, _rigidbody.position);
+
+        private void Awake()
         {
-            get
+            _rigidbody = GetComponent<Rigidbody2D>();
+            GameManager.Instance.Reset += RespawnBalloon;
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.Reset -= RespawnBalloon;
+        }
+
+        private void OnValidate()
+        {
+            foreach (Keyframe key in (accelerationCurve?.keys ?? Array.Empty<Keyframe>()))
             {
-                Vector2 direction = secondPosition - firstPosition;
-                Vector2 travelled = _rigidbody.position - firstPosition;
-                return Vector2.Dot(direction, travelled) / direction.magnitude;
+                if (key.value is < 0 or > 1)
+                {
+                    Debug.LogWarning($"Acceleration curve keyframe is out of range: {key.time}, {key.value}");
+                }
+            }
+
+            if (!Mathf.Approximately(LastKeyframeTime, 1))
+            {
+                Debug.LogWarning(
+                    $"Acceleration curve last keyframe time is not 1; time will be scaled: {LastKeyframeTime}");
+            }
+
+            Rigidbody2D body = GetComponent<Rigidbody2D>();
+            if (body?.interpolation != RigidbodyInterpolation2D.Interpolate)
+            {
+                Debug.LogWarning("Rigidbody isn't interpolated: positions may appear invalid while moving!");
+            }
+
+            if (!body?.isKinematic ?? false)
+            {
+                Debug.LogWarning("Rigidbody isn't kinematic: may cause problems!");
+            }
+
+            if (body)
+            {
+                List<RaycastHit2D> hits = new();
+                body.position = firstPosition;
+                body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition - firstPosition).magnitude);
+                foreach (RaycastHit2D hit in hits)
+                {
+                    // some wack things may happen if the player collides with something while moving
+                    Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
+                }
             }
         }
 
@@ -213,10 +256,8 @@ namespace Interactables
 
         private bool CanAttachAtPosition(Vector2 targetPosition)
         {
-            RaycastHit2D hit = Physics2D.Raycast(targetPosition, Vector2.down, attachRayDistance, groundLayerMask);
-
             // If the ray hits ground and it's too close, do not attach
-            return hit.collider == null;
+            return !Physics2D.Raycast(targetPosition, Vector2.down, attachRayDistance, groundLayerMask);
         }
 
 
@@ -229,62 +270,6 @@ namespace Interactables
                 boostDirection = Vector2.up; // Default to an upward boost
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, boostDirection, exitVelBoost), true);
             windAudioSource.Stop();
-        }
-
-        private void Awake()
-        {
-            _rigidbody = GetComponent<Rigidbody2D>();
-        }
-        
-        private void OnEnable()
-        {
-            GameManager.Instance.Reset += RespawnBalloon;
-        }
-
-        private void OnDisable()
-        {
-            if (GameManager.Instance != null)
-                GameManager.Instance.Reset -= RespawnBalloon;
-        }
-
-        private void OnValidate()
-        {
-            foreach (Keyframe key in (accelerationCurve?.keys ?? Array.Empty<Keyframe>()))
-            {
-                if (key.value is < 0 or > 1)
-                {
-                    Debug.LogWarning($"Acceleration curve keyframe is out of range: {key.time}, {key.value}");
-                }
-            }
-
-            if (!Mathf.Approximately(LastKeyframeTime, 1))
-            {
-                Debug.LogWarning(
-                    $"Acceleration curve last keyframe time is not 1; time will be scaled: {LastKeyframeTime}");
-            }
-
-            Rigidbody2D body = GetComponent<Rigidbody2D>();
-            if (body?.interpolation != RigidbodyInterpolation2D.Interpolate)
-            {
-                Debug.LogWarning("Rigidbody isn't interpolated: positions may appear invalid while moving!");
-            }
-
-            if (!body?.isKinematic ?? false)
-            {
-                Debug.LogWarning("Rigidbody isn't kinematic: may cause problems!");
-            }
-
-            if (body)
-            {
-                List<RaycastHit2D> hits = new();
-                body.position = firstPosition;
-                body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition - firstPosition).magnitude);
-                foreach (RaycastHit2D hit in hits)
-                {
-                    // some wack things may happen if the player collides with something while moving
-                    Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
-                }
-            }
         }
 
         private void RespawnBalloon()

@@ -165,15 +165,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelerationCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   offset: {x: 0, y: -5}
   minSpeed: 10
-  maxSpeed: 10
+  maxSpeed: 30
   accelerationTime: 1
-  exitVelBoost: {x: 15, y: 5}
+  exitVelBoost: {x: 30, y: 10}
   attachRayDistance: 0.1
   groundLayerMask:
     serializedVersion: 2
