@@ -6,7 +6,7 @@ using Player;
 using UnityEngine;
 using Util;
 
-namespace Interactables
+namespace Interactables.Balloon
 {
     /// <summary>
     /// Balloon interactable.

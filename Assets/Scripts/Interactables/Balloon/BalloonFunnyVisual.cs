@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Interactables
+namespace Interactables.Balloon
 {
     /// <summary>
     /// Balloon flying visual that collides with walls.
@@ -24,7 +24,7 @@ namespace Interactables
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
-            _parent = GetComponentInParent<Balloon>();
+            _parent = GetComponentInParent<Interactables.Balloon.Balloon>();
         }
 
         private void OnEnable()
