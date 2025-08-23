@@ -46,6 +46,7 @@ namespace UI
                 bool isUnlocked = unlockedScenes.Contains(levelLoadingScenes[i]);
                 if (isUnlocked) farthestUnlockedButton = btnObj;
                 btnObj.Initialize(i + 1, isUnlocked);
+                ap.CheckSetGold(btnObj, i+1);
             }
 
             playButton.onClick.AddListener(OnPlayClicked);
@@ -93,7 +94,7 @@ namespace UI
             candyImage.enabled = true;
             
             // Show Achievement Patches if applicable
-            ap?.DisplayAchievementPatches(levelNumber, bestTime, mostCandiesCollected, totalCandiesInLevel, deaths, 
+            ap.DisplayAchievementPatches(levelNumber, bestTime, mostCandiesCollected, totalCandiesInLevel, deaths, 
                 candy);
 
             if (_selectedButton) _selectedButton.MarkUnselected();

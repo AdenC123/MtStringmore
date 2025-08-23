@@ -1,3 +1,6 @@
+using Managers;
+using Save;
+using UI;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -10,7 +13,7 @@ public class AchievementPatches : MonoBehaviour
     private float level1Threshold, level2Threshold, level3Threshold, level4Threshold;
 
     /// <summary>
-    /// Displays achievement patches if applicable, called by Level Select line 61
+    /// Displays achievement patches if applicable, called by Level Select line 97
     /// </summary>
     /// <param name="level">Level number</param>
     /// <param name="timeTaken">Time taken to complete level in seconds</param>
@@ -48,5 +51,32 @@ public class AchievementPatches : MonoBehaviour
             _ => false
         };
     }
-    
+
+    /// <summary>
+    /// Determines whether we meet the 3 conditions of setting the button gold:
+    /// 1. Under time threshold
+    /// 2. All Candies Collected
+    /// 3. Zero deaths
+    /// called from LevelSelect line 46
+    /// </summary>
+    /// <param name="btn">Candidate button for turning gold</param>
+    /// <param name="level">Level number</param>
+    public void CheckSetGold(LevelSelectButton btn, int level)
+    {
+        GameManager gm = GameManager.Instance;
+        LevelData thisLevel = gm.AllLevelData[level - 1];
+
+        //check defaults, then check if we meet all requirement
+        if (!thisLevel.totalCandiesInLevel.Equals(-1) &&
+            !thisLevel.leastDeaths.Equals(-1) &&
+            !float.IsNaN(thisLevel.bestTime))
+        {
+            if (WithinTimeThreshold(level, thisLevel.bestTime) &&
+                thisLevel.mostCandiesCollected - thisLevel.totalCandiesInLevel == 0 &&
+                thisLevel.leastDeaths == 0)
+            {
+                btn.SetGold();
+            }
+        }
+    }
 }
