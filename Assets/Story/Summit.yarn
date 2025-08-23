@@ -1,6 +1,8 @@
 ﻿title: SummitCutscene
 setting: the summit of mt. stringmore
 ---
+<<fix_coords 0 0>>
+<<fade_in>>
 Marshmallow: Hang on tight! You doing alright?
 Knitby_relieved: I'm doing excellent... I've never... been better...
 // floating up on a balloon while Knitby shivers
