@@ -32,7 +32,7 @@ namespace Interactables.Balloon
         [SerializeField, Min(0), Tooltip("Additional velocity boost on exit")]
         private Vector2 exitVelBoost = new(10, 10);
 
-        [SerializeField, Tooltip("Distance to ensure player does not clip into ground")]
+        [SerializeField, Tooltip("Distance to ensure player does not clip into ground"), Min(0)]
         private float attachRayDistance = 0.1f;
 
         [SerializeField, Tooltip("Access to groundLayer to check attach requirements")]
@@ -56,11 +56,14 @@ namespace Interactables.Balloon
 
         [SerializeField] private AudioClip[] attachSounds;
 
-        [SerializeField, Tooltip("Allowed error of player to balloon before respawning")]
+        [SerializeField, Tooltip("Allowed error of player to balloon before respawning"), Min(0)]
         private float positionTolerance = 0.1f;
 
-        [SerializeField, Tooltip("Variable for how long the boost lasts after jumping off")]
+        [SerializeField, Tooltip("Variable for how long the boost lasts after jumping off"), Min(0)]
         private float boostTimer;
+
+        [SerializeField, Min(0), Tooltip("Distance before warning plays")]
+        private float warningDistance = 25;
 
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
@@ -187,16 +190,7 @@ namespace Interactables.Balloon
                  diff = secondPosition - firstPosition)
             {
                 yield return new WaitForFixedUpdate();
-                // yes, I could use possibly use FixedJoint2D, but I suspect that PlayerController may cause problems
-
-                // respawn logic, if balloon reaches second position w/o player, then respawn balloon in start position
-                if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance &&
-                    !_player.HasPlayerVelocityEffector(this))
-                {
-                    RespawnBalloon();
-                    yield break;
-                }
-
+                _balloonWarningVisual.enabled = (diff.magnitude - DistanceAlongPath) < warningDistance;
                 _rigidbody.velocity = EvaluateAt(time) * diff.normalized;
                 time += Time.fixedDeltaTime;
             }
@@ -273,6 +267,7 @@ namespace Interactables.Balloon
         public override void EndInteract(PlayerController player)
         {
             _player.RemovePlayerVelocityEffector(this);
+            StopMotion();
             Vector2 boostDirection = _rigidbody.velocity.normalized;
             _balloonWarningVisual.enabled = false;
             if (boostDirection == Vector2.zero) // Fallback in case balloon is stationary

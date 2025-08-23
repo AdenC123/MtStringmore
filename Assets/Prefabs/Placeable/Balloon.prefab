@@ -158,6 +158,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 081a52e1f6ca2a849aa0d2f6aa8c502b, type: 3}
   positionTolerance: 0.1
   boostTimer: 1
+  warningDistance: 25
 --- !u!82 &-7125210609223808707
 AudioSource:
   m_ObjectHideFlags: 0
