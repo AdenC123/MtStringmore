@@ -64,6 +64,9 @@ namespace Interactables.Balloon
         [SerializeField, Min(0), Tooltip("Slow initial movement upwards")]
         private float initialSpeed = 1;
 
+        [SerializeField, Min(0), Tooltip("Time before reset if you're a goof and miss it somehow")]
+        private float missWindow = 5;
+
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
 
@@ -101,6 +104,7 @@ namespace Interactables.Balloon
             VectorUtil.DistanceAlongPath(firstPosition, secondPosition, _rigidbody.position);
 
         private Coroutine _activeMotion;
+        private Coroutine _resetCoroutine;
 
         private Rigidbody2D _rigidbody;
         private LineRenderer _lineRenderer;
@@ -250,6 +254,8 @@ namespace Interactables.Balloon
         public override void StartInteract(PlayerController player)
         {
             _player = player;
+            if (_resetCoroutine != null) StopCoroutine(_resetCoroutine);
+            _resetCoroutine = null;
             attachAudioSource.clip = RandomUtil.SelectRandom(attachSounds);
             attachAudioSource.Play();
             windAudioSource.Play();
@@ -311,6 +317,7 @@ namespace Interactables.Balloon
         {
             balloonVisual.CanInflate = true;
             _rigidbody.velocity = (secondPosition - firstPosition).normalized * initialSpeed;
+            _resetCoroutine ??= StartCoroutine(GoofDetectionCoroutine());
         }
 
         /// <summary>
@@ -319,10 +326,16 @@ namespace Interactables.Balloon
         public void OnPlayerExitInflationZone()
         {
             balloonVisual.CanInflate = false;
-            if (balloonVisual.IsDisplaying && _player?.CurrentInteractableArea != this)
-            {
-                RespawnBalloon();
-            }
+        }
+
+        /// <summary>
+        /// Checks if the player is a goof and respawns the balloon if they missed
+        /// </summary>
+        /// <returns>coroutine</returns>
+        private IEnumerator GoofDetectionCoroutine()
+        {
+            yield return new WaitForSeconds(missWindow);
+            if (_player?.CurrentInteractableArea != this) RespawnBalloon();
         }
 
         private void OnDrawGizmosSelected()

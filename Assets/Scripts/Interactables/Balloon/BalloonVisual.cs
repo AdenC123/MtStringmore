@@ -34,6 +34,7 @@ namespace Interactables.Balloon
         /// </summary>
         public bool CanInflate
         {
+            get => _animator.GetFloat(AnimatorSpeedHash) > 0;
             set => _animator.SetFloat(AnimatorSpeedHash, value ? 1f : 0f);
         }
 
