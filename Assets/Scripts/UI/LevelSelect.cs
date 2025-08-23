@@ -46,7 +46,7 @@ namespace UI
                 bool isUnlocked = unlockedScenes.Contains(levelLoadingScenes[i]);
                 if (isUnlocked) farthestUnlockedButton = btnObj;
                 btnObj.Initialize(i + 1, isUnlocked);
-                ap.CheckSetGold(btnObj, i+1);
+                ap.CheckSetGoldButton(btnObj, i+1);
             }
 
             playButton.onClick.AddListener(OnPlayClicked);
