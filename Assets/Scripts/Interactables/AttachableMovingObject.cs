@@ -5,7 +5,6 @@ using Managers;
 using Player;
 using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Util;
 
 namespace Interactables
@@ -83,9 +82,6 @@ namespace Interactables
         [SerializeField,
          Tooltip("Audio clip to play when player releases from moving object after it's reached the furthest position")]
         private AudioClip badReleaseClip;
-        
-        [SerializeField, Tooltip("Zipper Teeth Sprite Renderer")]
-        private SpriteRenderer _teethRenderer;
         
         private Color _perfectRangeColor = Color.green;
 
@@ -180,12 +176,10 @@ namespace Interactables
                 {
                     case true when !_inPerfectRange:
                         _tabRenderer.color = _perfectRangeColor;
-                        _teethRenderer.color = _perfectRangeColor;
                         _inPerfectRange = true;
                         break;
                     case false when _inPerfectRange:
                         _tabRenderer.color = _originalColor;
-                        _teethRenderer.color = _originalColor;
                         _inPerfectRange = false;
                         break;
                 }
@@ -194,7 +188,6 @@ namespace Interactables
             //Reset colors
             _inPerfectRange = false;
             _tabRenderer.color = _originalColor;
-            _teethRenderer.color = _originalColor;
 
             _rigidbody.position = secondPosition;
             _rigidbody.velocity = Vector2.zero;
@@ -262,7 +255,6 @@ namespace Interactables
         public override void OnPlayerExit(PlayerController player)
         {
             _tabRenderer.color = _originalColor;
-            _teethRenderer.color = _originalColor;
         }
 
         /// <inheritdoc />
