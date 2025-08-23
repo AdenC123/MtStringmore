@@ -8,7 +8,10 @@ using Util;
 
 namespace Interactables
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    /// <summary>
+    /// Balloon interactable.
+    /// </summary>
+    [RequireComponent(typeof(Rigidbody2D), typeof(LineRenderer), typeof(SpriteRenderer))]
     public class Balloon : AbstractPlayerInteractable
     {
         [SerializeField, Tooltip("Acceleration curve over time, in [0, 1]")]
@@ -60,8 +63,10 @@ namespace Interactables
 
         private Coroutine _activeMotion;
 
-        //Retrieves balloon's rigidbody on awake
         private Rigidbody2D _rigidbody;
+        private LineRenderer _lineRenderer;
+        private BalloonFunnyVisual _balloonFunnyVisual;
+        private SpriteRenderer _spriteRenderer;
         private PlayerController _player;
 
         /// <inheritdoc />
@@ -71,7 +76,7 @@ namespace Interactables
         public override bool IgnoreOtherEffectors => false;
 
         /// <inheritdoc />
-        public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset) && _rigidbody.position != secondPosition;
+        public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset) && _rigidbody.position != secondPosition && _spriteRenderer.enabled;
 
         /// <summary>
         /// Returns the time of the last keyframe.
@@ -101,6 +106,9 @@ namespace Interactables
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _lineRenderer = GetComponent<LineRenderer>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _balloonFunnyVisual = GetComponentInChildren<BalloonFunnyVisual>(true);
             GameManager.Instance.Reset += RespawnBalloon;
         }
 
@@ -222,7 +230,6 @@ namespace Interactables
         /// <inheritdoc />
         public override void OnPlayerExit(PlayerController player)
         {
-            if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance) RespawnBalloon();
         }
 
         /// <inheritdoc />
@@ -242,16 +249,11 @@ namespace Interactables
             attachAudioSource.Play();
             windAudioSource.Play();
             Vector2 targetPosition = _rigidbody.position + offset;
-            if (CanAttachAtPosition(targetPosition))
-            {
-                player.transform.position = targetPosition;
-                _player.AddPlayerVelocityEffector(this);
-                StartMotion();
-            }
-            else
-            {
-                Debug.Log("Cannot attach, distance to ground too small");
-            }
+            player.transform.position = targetPosition;
+            _lineRenderer.enabled = true;
+            _lineRenderer.SetPosition(1, transform.InverseTransformPoint(targetPosition));
+            _player.AddPlayerVelocityEffector(this);
+            StartMotion();
         }
 
         private bool CanAttachAtPosition(Vector2 targetPosition)
@@ -270,13 +272,27 @@ namespace Interactables
                 boostDirection = Vector2.up; // Default to an upward boost
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, boostDirection, exitVelBoost), true);
             windAudioSource.Stop();
+            _spriteRenderer.enabled = false;
+            _lineRenderer.enabled = false;
+            _balloonFunnyVisual.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// Respawns the balloon at the first position.
+        /// </summary>
         private void RespawnBalloon()
         {
             _rigidbody.position = firstPosition;
             StopMotion();
-            Debug.Log("Balloon has respawned at the first position.");
+            _spriteRenderer.enabled = true;
+        }
+
+        /// <summary>
+        /// Called when the ending visual is finished — respawns the balloon.
+        /// </summary>
+        public void OnEndingVisualFinish()
+        {
+            RespawnBalloon();
         }
 
         private void OnDrawGizmosSelected()
@@ -288,6 +304,9 @@ namespace Interactables
             Gizmos.DrawWireSphere(secondPosition, 1);
         }
 
+        /// <summary>
+        /// Player velocity effector at the very end.
+        /// </summary>
         private class BonusEndImpulseEffector : IPlayerVelocityEffector
         {
             private readonly PlayerController _player;
