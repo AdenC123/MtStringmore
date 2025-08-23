@@ -62,7 +62,7 @@ namespace Interactables.Balloon
         [SerializeField, Tooltip("Variable for how long the boost lasts after jumping off"), Min(0)]
         private float boostTimer;
 
-        [SerializeField, Min(0), Tooltip("Distance before warning plays")]
+        [SerializeField, Min(0), Tooltip("Distance to end before warning plays")]
         private float warningDistance = 25;
 
         /// <inheritdoc />
@@ -197,6 +197,7 @@ namespace Interactables.Balloon
 
             _rigidbody.position = secondPosition;
             _rigidbody.velocity = Vector2.zero;
+            _player.StopInteraction(this);
         }
 
         /// <summary>
@@ -302,6 +303,10 @@ namespace Interactables.Balloon
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(firstPosition, 1);
             Gizmos.DrawLine(firstPosition, secondPosition);
+            Vector2 dir = secondPosition - firstPosition;
+            Vector2 warningPoint = dir.normalized * (dir.magnitude - warningDistance) + firstPosition;
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(warningPoint, 1);
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(secondPosition, 1);
         }
