@@ -69,6 +69,7 @@ namespace Interactables
             if (!other.TryGetComponent(out PlayerController player)) return;
             if (!CanInteract)
             {
+                // hacky fix to fix level designers breaking invariant of not having overlapping interactable areas
                 Debug.Log("Ignoring player interactable entrance given interacting is disabled.");
                 return;
             }
