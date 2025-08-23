@@ -149,7 +149,6 @@ MonoBehaviour:
     m_Bits: 256
   windAudioSource: {fileID: -5706059713246313145}
   attachAudioSource: {fileID: -7125210609223808707}
-  spriteRenderer: {fileID: 879478909739085767}
   firstPosition: {x: 6, y: 5}
   secondPosition: {x: 6, y: 20.5}
   attachSounds:
@@ -478,6 +477,7 @@ GameObject:
   - component: {fileID: 4928949919643355405}
   - component: {fileID: 879478909739085767}
   - component: {fileID: 5852797331016004826}
+  - component: {fileID: 1093285674538543202}
   m_Layer: 0
   m_Name: BalloonVisual
   m_TagString: Untagged
@@ -566,6 +566,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   warningSize: 1.2
   timeInWarning: 0.3
+--- !u!95 &1093285674538543202
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335631216199130494}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2cfabf0ac5bb44081864ab0228edf064, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7283525131312162165
 GameObject:
   m_ObjectHideFlags: 0

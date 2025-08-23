@@ -40,7 +40,6 @@ namespace Interactables.Balloon
 
         [SerializeField] private AudioSource windAudioSource;
         [SerializeField] private AudioSource attachAudioSource;
-        [SerializeField] private SpriteRenderer spriteRenderer;
 
         /// <remarks>
         /// Has to be public to allow the editor to modify this without reflection.
@@ -74,7 +73,7 @@ namespace Interactables.Balloon
         /// <inheritdoc />
         public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset)
                                                              && _rigidbody.position != secondPosition
-                                                             && spriteRenderer.enabled;
+                                                             && balloonVisual.IsDisplaying;
         /// <summary>
         /// Returns the time of the last keyframe.
         /// </summary>
@@ -106,14 +105,14 @@ namespace Interactables.Balloon
         private Rigidbody2D _rigidbody;
         private LineRenderer _lineRenderer;
         private BalloonFunnyVisual _balloonFunnyVisual;
-        private BalloonWarningVisual _balloonWarningVisual;
+        private BalloonVisual balloonVisual;
         private PlayerController _player;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _lineRenderer = GetComponent<LineRenderer>();
-            _balloonWarningVisual = GetComponentInChildren<BalloonWarningVisual>(true);
+            balloonVisual = GetComponentInChildren<BalloonVisual>(true);
             _balloonFunnyVisual = GetComponentInChildren<BalloonFunnyVisual>(true);
             GameManager.Instance.Reset += RespawnBalloon;
         }
@@ -190,7 +189,11 @@ namespace Interactables.Balloon
                  diff = secondPosition - firstPosition)
             {
                 yield return new WaitForFixedUpdate();
-                _balloonWarningVisual.enabled = (diff.magnitude - DistanceAlongPath) < warningDistance;
+                if (!balloonVisual.WarningPlaying && (diff.magnitude - DistanceAlongPath) < warningDistance)
+                {
+                    balloonVisual.StartWarning();
+                }
+
                 _rigidbody.velocity = EvaluateAt(time) * diff.normalized;
                 time += Time.fixedDeltaTime;
             }
@@ -270,12 +273,11 @@ namespace Interactables.Balloon
             _player.RemovePlayerVelocityEffector(this);
             StopMotion();
             Vector2 boostDirection = _rigidbody.velocity.normalized;
-            _balloonWarningVisual.enabled = false;
+            balloonVisual.Pop();
             if (boostDirection == Vector2.zero) // Fallback in case balloon is stationary
                 boostDirection = Vector2.up; // Default to an upward boost
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, boostDirection, exitVelBoost), true);
             windAudioSource.Stop();
-            spriteRenderer.enabled = false;
             _lineRenderer.enabled = false;
             _balloonFunnyVisual.gameObject.SetActive(true);
         }
@@ -287,7 +289,7 @@ namespace Interactables.Balloon
         {
             _rigidbody.position = firstPosition;
             StopMotion();
-            spriteRenderer.enabled = true;
+            balloonVisual.ResetToStart();
         }
 
         /// <summary>

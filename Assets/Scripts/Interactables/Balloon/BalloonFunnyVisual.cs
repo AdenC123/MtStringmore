@@ -7,29 +7,24 @@ namespace Interactables.Balloon
     /// <summary>
     /// Balloon flying visual that collides with walls.
     /// </summary>
-    [DisallowMultipleComponent, RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
+    [DisallowMultipleComponent, RequireComponent(typeof(Rigidbody2D))]
     public class BalloonFunnyVisual : MonoBehaviour
     {
-        private static readonly int AnimatorHashSpeed = Animator.StringToHash("Speed");
         [SerializeField, Min(0)] private float verticalAcceleration = 120;
         [SerializeField, Min(0)] private float maxAngularVelocity = 350;
         [SerializeField, Min(0)] private float timeToMaxAngularVelocity = 0.4f;
-        [SerializeField, Min(0)] private float animationSpeed = 0.25f;
         [SerializeField, Min(0)] private float timeToDeath = 1;
         private Balloon _parent;
         private Rigidbody2D _rigidbody;
-        private Animator _animator;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _animator = GetComponent<Animator>();
-            _parent = GetComponentInParent<Interactables.Balloon.Balloon>();
+            _parent = GetComponentInParent<Balloon>();
         }
 
         private void OnEnable()
         {
-            _animator.SetFloat(AnimatorHashSpeed, animationSpeed);
             _rigidbody.position = _parent.transform.position;
             _rigidbody.rotation = 0;
             transform.position = _parent.transform.position;
