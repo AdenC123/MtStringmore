@@ -298,6 +298,8 @@ namespace Interactables.Balloon
         {
             _rigidbody.position = firstPosition;
             transform.position = firstPosition;
+            if (_resetCoroutine != null) StopCoroutine(_resetCoroutine);
+            _resetCoroutine = null;
             StopMotion();
             balloonVisual.ResetToStart();
         }
