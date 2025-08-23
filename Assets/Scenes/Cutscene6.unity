@@ -1775,6 +1775,10 @@ PrefabInstance:
       propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6233932863109230516, guid: acfb9aa2be1d44e8f8a92767af27c906, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 139f7f38dace74047bd1ff4adeb6cc58, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1887,11 +1891,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7720336601314418461, guid: ec97a70a79f3542a2b4d7c736da0849e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.32999998
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7720336601314418461, guid: ec97a70a79f3542a2b4d7c736da0849e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00999999
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7720336601314418461, guid: ec97a70a79f3542a2b4d7c736da0849e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2226,6 +2230,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 385535834071646133, guid: d0738f8adb5244ba0a5801b609442fc4, type: 3}
+      propertyPath: startingOpacity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1030365878134251738, guid: d0738f8adb5244ba0a5801b609442fc4, type: 3}
       propertyPath: m_Pivot.x
       value: 0

@@ -1,9 +1,11 @@
 ﻿title: SummitCutscene
 setting: the summit of mt. stringmore
 ---
+<<animator_set_bool Marshmallow Hang true>>
 <<fix_coords 0 0>>
-<<fade_in>>
 <<shiver Knitby 0.05 0.05>>
+<<wait 0.3>>
+<<fade_in>>
 Marshmallow: Hang on tight! You doing alright?
 Knitby_relieved: I'm doing excellent... I've never... been better...
 // floating up on a balloon while Knitby shivers
@@ -13,10 +15,12 @@ Marshmallow: Oh look! I think that's the summit!!
 <<wait 1>>
 Marshmallow: Three, two, one, jump!
 <<stop_shiver Knitby>>
+<<animator_set_bool Marshmallow Hang false>>
 <<leap_nonblock Marshmallow 12 9 0.85 true>>
 <<leap_nonblock Knitby 10 9 0.85 true>>
 <<fix_coords 10 -15 0.7>>
 <<wait 2>>
+<<flip Marshmallow>>
 Marshmallow_smile: Nice to be on solid ground again, huh?
 Knitby: It's certainly a relief.
 Knitby: ...We can touch the clouds from here. That's actually incredible.
@@ -34,7 +38,7 @@ Knitby_confused: ... Really.
 <<wait 1>>
 Marshmallow_frown: Okay, fine, you were right.
 // walks around in circles in a fast pace
-Marshmallow_angry: I can't believe they don't taste like cotton candy...
+Marshmallow_frown: I can't believe they don't taste like cotton candy...
 Knitby: It's okay, I'm sure they'll be happy to hold your tears.
 Marshmallow_faraway: You're so mean...
 Knitby: Hey, you don't want to miss the sunrise.
