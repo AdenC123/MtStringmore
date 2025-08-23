@@ -11,7 +11,7 @@ namespace Interactables
     /// <summary>
     /// Balloon interactable.
     /// </summary>
-    [RequireComponent(typeof(Rigidbody2D), typeof(LineRenderer), typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(LineRenderer))]
     public class Balloon : AbstractPlayerInteractable
     {
         [SerializeField, Tooltip("Acceleration curve over time, in [0, 1]")]
@@ -40,6 +40,7 @@ namespace Interactables
 
         [SerializeField] private AudioSource windAudioSource;
         [SerializeField] private AudioSource attachAudioSource;
+        [SerializeField] private SpriteRenderer spriteRenderer;
 
         /// <remarks>
         /// Has to be public to allow the editor to modify this without reflection.
@@ -66,7 +67,6 @@ namespace Interactables
         private Rigidbody2D _rigidbody;
         private LineRenderer _lineRenderer;
         private BalloonFunnyVisual _balloonFunnyVisual;
-        private SpriteRenderer _spriteRenderer;
         private PlayerController _player;
 
         /// <inheritdoc />
@@ -76,7 +76,7 @@ namespace Interactables
         public override bool IgnoreOtherEffectors => false;
 
         /// <inheritdoc />
-        public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset) && _rigidbody.position != secondPosition && _spriteRenderer.enabled;
+        public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset) && _rigidbody.position != secondPosition && spriteRenderer.enabled;
 
         /// <summary>
         /// Returns the time of the last keyframe.
@@ -107,7 +107,6 @@ namespace Interactables
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _lineRenderer = GetComponent<LineRenderer>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _balloonFunnyVisual = GetComponentInChildren<BalloonFunnyVisual>(true);
             GameManager.Instance.Reset += RespawnBalloon;
         }
@@ -272,7 +271,7 @@ namespace Interactables
                 boostDirection = Vector2.up; // Default to an upward boost
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, boostDirection, exitVelBoost), true);
             windAudioSource.Stop();
-            _spriteRenderer.enabled = false;
+            spriteRenderer.enabled = false;
             _lineRenderer.enabled = false;
             _balloonFunnyVisual.gameObject.SetActive(true);
         }
@@ -284,7 +283,7 @@ namespace Interactables
         {
             _rigidbody.position = firstPosition;
             StopMotion();
-            _spriteRenderer.enabled = true;
+            spriteRenderer.enabled = true;
         }
 
         /// <summary>
