@@ -476,6 +476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4928949919643355405}
   - component: {fileID: 879478909739085767}
+  - component: {fileID: 5852797331016004826}
   m_Layer: 0
   m_Name: BalloonVisual
   m_TagString: Untagged
@@ -550,6 +551,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5852797331016004826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335631216199130494}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ba7c070ada4e81a6160fc8b02bfb17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warningSize: 1.2
+  timeInWarning: 0.3
 --- !u!1 &7283525131312162165
 GameObject:
   m_ObjectHideFlags: 0

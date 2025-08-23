@@ -62,22 +62,16 @@ namespace Interactables.Balloon
         [SerializeField, Tooltip("Variable for how long the boost lasts after jumping off")]
         private float boostTimer;
 
-        private Coroutine _activeMotion;
-
-        private Rigidbody2D _rigidbody;
-        private LineRenderer _lineRenderer;
-        private BalloonFunnyVisual _balloonFunnyVisual;
-        private PlayerController _player;
-
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
-        
+
         /// <inheritdoc />
         public override bool IgnoreOtherEffectors => false;
 
         /// <inheritdoc />
-        public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset) && _rigidbody.position != secondPosition && spriteRenderer.enabled;
-
+        public override bool CanInteract => base.CanInteract && CanAttachAtPosition(_rigidbody.position + offset)
+                                                             && _rigidbody.position != secondPosition
+                                                             && spriteRenderer.enabled;
         /// <summary>
         /// Returns the time of the last keyframe.
         /// </summary>
@@ -101,12 +95,22 @@ namespace Interactables.Balloon
         /// Since people may or may not adjust the position in the editor while moving,
         /// this computes the vector projection along the actual path in case someone changes the direction while running.
         /// </remarks>
-        private float DistanceAlongPath => VectorUtil.DistanceAlongPath(firstPosition, secondPosition, _rigidbody.position);
+        private float DistanceAlongPath =>
+            VectorUtil.DistanceAlongPath(firstPosition, secondPosition, _rigidbody.position);
+
+        private Coroutine _activeMotion;
+
+        private Rigidbody2D _rigidbody;
+        private LineRenderer _lineRenderer;
+        private BalloonFunnyVisual _balloonFunnyVisual;
+        private BalloonWarningVisual _balloonWarningVisual;
+        private PlayerController _player;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _lineRenderer = GetComponent<LineRenderer>();
+            _balloonWarningVisual = GetComponentInChildren<BalloonWarningVisual>(true);
             _balloonFunnyVisual = GetComponentInChildren<BalloonFunnyVisual>(true);
             GameManager.Instance.Reset += RespawnBalloon;
         }
@@ -147,7 +151,8 @@ namespace Interactables.Balloon
             {
                 List<RaycastHit2D> hits = new();
                 body.position = firstPosition;
-                body.Cast((secondPosition - firstPosition).normalized, hits, (secondPosition - firstPosition).magnitude);
+                body.Cast((secondPosition - firstPosition).normalized, hits,
+                    (secondPosition - firstPosition).magnitude);
                 foreach (RaycastHit2D hit in hits)
                 {
                     // some wack things may happen if the player collides with something while moving
@@ -163,7 +168,8 @@ namespace Interactables.Balloon
         /// <returns>Velocity at time</returns>
         private float EvaluateAt(float time)
         {
-            return Mathf.Lerp(minSpeed, maxSpeed, accelerationCurve.Evaluate(LastKeyframeTime * time / accelerationTime));
+            return Mathf.Lerp(minSpeed, maxSpeed,
+                accelerationCurve.Evaluate(LastKeyframeTime * time / accelerationTime));
         }
 
 
@@ -184,7 +190,8 @@ namespace Interactables.Balloon
                 // yes, I could use possibly use FixedJoint2D, but I suspect that PlayerController may cause problems
 
                 // respawn logic, if balloon reaches second position w/o player, then respawn balloon in start position
-                if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance && !_player.HasPlayerVelocityEffector(this))
+                if (Vector2.Distance(_rigidbody.position, secondPosition) < positionTolerance &&
+                    !_player.HasPlayerVelocityEffector(this))
                 {
                     RespawnBalloon();
                     yield break;
@@ -267,6 +274,7 @@ namespace Interactables.Balloon
         {
             _player.RemovePlayerVelocityEffector(this);
             Vector2 boostDirection = _rigidbody.velocity.normalized;
+            _balloonWarningVisual.enabled = false;
             if (boostDirection == Vector2.zero) // Fallback in case balloon is stationary
                 boostDirection = Vector2.up; // Default to an upward boost
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, boostDirection, exitVelBoost), true);
