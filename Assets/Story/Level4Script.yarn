@@ -1,5 +1,7 @@
 ﻿title: Level4Cutscene
 ---
+<<fix_coords 0 0>>
+<<fade_in>>
 Marshmallow: I see the exit!
 <<fade_in>>
 Knitby_relieved: Freedom, fresh air, the stars twinkling in the sky!
