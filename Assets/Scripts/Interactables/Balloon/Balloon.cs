@@ -64,6 +64,9 @@ namespace Interactables.Balloon
         [SerializeField, Min(0), Tooltip("Distance to end before warning plays")]
         private float warningDistance = 25;
 
+        [SerializeField, Min(0), Tooltip("Slow initial movement upwards")]
+        private float initialSpeed = 1;
+
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
 
@@ -300,13 +303,36 @@ namespace Interactables.Balloon
             RespawnBalloon();
         }
 
+        /// <summary>
+        /// Called when player enters the zone when inflation can begin.
+        /// </summary>
+        public void OnPlayerEnterInflationZone()
+        {
+            balloonVisual.CanInflate = true;
+            _rigidbody.velocity = (secondPosition - firstPosition).normalized * initialSpeed;
+        }
+
+        /// <summary>
+        /// Called when player leaves the zone — assumed to miss the balloon.
+        /// </summary>
+        public void OnPlayerExitInflationZone()
+        {
+            balloonVisual.CanInflate = false;
+            if (balloonVisual.IsDisplaying && _player.CurrentInteractableArea != this)
+            {
+                RespawnBalloon();
+            }
+        }
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(firstPosition, 1);
             Gizmos.DrawLine(firstPosition, secondPosition);
             Vector2 dir = secondPosition - firstPosition;
-            Vector2 warningPoint = dir.normalized * (dir.magnitude - warningDistance) + firstPosition;
+            Vector2 warningPoint = dir.magnitude > warningDistance ? 
+                dir.normalized * (dir.magnitude - warningDistance) + firstPosition :
+                firstPosition;
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(warningPoint, 1);
             Gizmos.color = Color.green;

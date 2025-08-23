@@ -11,6 +11,7 @@ namespace Interactables.Balloon
     public class BalloonVisual : MonoBehaviour
     {
         private static readonly int AnimatorResetHash = Animator.StringToHash("Reset");
+        private static readonly int AnimatorSpeedHash = Animator.StringToHash("Speed");
 
         [SerializeField, Tooltip("New size of the object when warning is playing")]
         private float warningSize = 1.2f;
@@ -28,6 +29,14 @@ namespace Interactables.Balloon
         /// </summary>
         public bool WarningPlaying { get; private set; }
 
+        /// <summary>
+        /// Whether the balloon can inflate.
+        /// </summary>
+        public bool CanInflate
+        {
+            set => _animator.SetFloat(AnimatorSpeedHash, value ? 1f : 0f);
+        }
+
         private SpriteRenderer _spriteRenderer;
         private Animator _animator;
 
@@ -35,6 +44,7 @@ namespace Interactables.Balloon
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _animator = GetComponent<Animator>();
+            CanInflate = false;
         }
 
         /// <summary>
@@ -74,7 +84,7 @@ namespace Interactables.Balloon
         {
             WarningPlaying = true;
             WaitForSeconds wait = new(timeInWarning);
-            while (enabled)
+            while (WarningPlaying)
             {
                 transform.localScale = Vector3.one * warningSize;
                 yield return wait;
