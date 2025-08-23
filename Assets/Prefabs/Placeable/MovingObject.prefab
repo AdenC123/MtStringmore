@@ -314,6 +314,8 @@ MonoBehaviour:
   perfectReleaseThreshold: 0.75
   perfectReleaseClip: {fileID: 8300000, guid: bfc404a2a7ca7af4b857304aa6b97f8a, type: 3}
   badReleaseClip: {fileID: 8300000, guid: 31d2b177859b318499e77744ba392b82, type: 3}
+  _originalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  _perfectRangeMaterial: {fileID: 2100000, guid: ed711f97207578b45a67518634f4577b, type: 2}
 --- !u!50 &4405664681451709143
 Rigidbody2D:
   serializedVersion: 4

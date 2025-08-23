@@ -82,10 +82,8 @@ namespace Interactables
         [SerializeField,
          Tooltip("Audio clip to play when player releases from moving object after it's reached the furthest position")]
         private AudioClip badReleaseClip;
-        
-        private Color _perfectRangeColor = Color.green;
 
-        private Color _originalColor = Color.white;
+        [SerializeField] private Material _originalMaterial, _perfectRangeMaterial;
         
         private bool _inPerfectRange;
         
@@ -175,11 +173,11 @@ namespace Interactables
                 switch (nowPerfect)
                 {
                     case true when !_inPerfectRange:
-                        _tabRenderer.color = _perfectRangeColor;
+                        _tabRenderer.material = _perfectRangeMaterial;
                         _inPerfectRange = true;
                         break;
                     case false when _inPerfectRange:
-                        _tabRenderer.color = _originalColor;
+                        _tabRenderer.material = _originalMaterial;
                         _inPerfectRange = false;
                         break;
                 }
@@ -187,7 +185,7 @@ namespace Interactables
             
             //Reset colors
             _inPerfectRange = false;
-            _tabRenderer.color = _originalColor;
+            _tabRenderer.material = _originalMaterial;
 
             _rigidbody.position = secondPosition;
             _rigidbody.velocity = Vector2.zero;
@@ -254,7 +252,7 @@ namespace Interactables
         /// <inheritdoc />
         public override void OnPlayerExit(PlayerController player)
         {
-            _tabRenderer.color = _originalColor;
+            _tabRenderer.material = _originalMaterial;
         }
 
         /// <inheritdoc />
