@@ -11,11 +11,14 @@ public class AchievementPatches : MonoBehaviour
     private Sprite defaultCandy; //not serialized because passed in as a param.
     [SerializeField, Tooltip("Time to bead to gain achievementPatch in seconds")] 
     private float level1Threshold, level2Threshold, level3Threshold, level4Threshold;
-    
+
     /// <summary>
     /// A check for whether the panel should be gold for each level
     /// </summary>
-    private bool isGoldl1, isGoldl2, isGoldl3, isGoldl4;
+    public bool isGoldL1 { get; private set; } = false;
+    public bool isGoldL2 { get; private set; } = false;
+    public bool isGoldL3 { get; private set; } = false;
+    public bool isGoldL4 { get; private set; } = false;
 
     /// <summary>
     /// Displays achievement patches if applicable, called by Level Select line 97
@@ -102,16 +105,16 @@ public class AchievementPatches : MonoBehaviour
         switch (level)
         {
             case 1:
-                isGoldl1 = true;
+                isGoldL1 = true;
                 break;
             case 2:
-                isGoldl2 = true;
+                isGoldL2 = true;
                 break;
             case 3:
-                isGoldl3 = true;
+                isGoldL3 = true;
                 break;
             case 4:
-                isGoldl4 = true;
+                isGoldL4 = true;
                 break;
         }
     }
