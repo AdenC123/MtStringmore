@@ -4098,10 +4098,6 @@ PrefabInstance:
       propertyPath: nextScene
       value: Level4
       objectReference: {fileID: 0}
-    - target: {fileID: 7214095998270284404, guid: b6fec259806fe4fe2a04e1886d452243, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 2e11ca3e801d4ea45bb1b7b11b99f110, type: 3}
     - target: {fileID: 8964655812362898365, guid: b6fec259806fe4fe2a04e1886d452243, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

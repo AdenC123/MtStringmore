@@ -48,6 +48,6 @@ Knitby: Yes. I still don't think that the clouds will resemble cotton candy at a
 <<leap Marshmallow 0 10 0.25 true -100>>
 <<leap_nonblock Marshmallow 0 10 0.27 true -100>>
 Marshmallow_smile: Sounds like I have the rest of the way to convince you!
-// <<load_scene Level4>>
+<<load_scene Level4>>
 
 ===

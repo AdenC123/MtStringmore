@@ -91,5 +91,6 @@ Marshmallow: Yeah, let's do it.
 
 title: Level3End
 ---
-<<load_scene EndCutscene>>
+<<fade_out>>
+<<load_scene_nonblock Manager Cutscene4 0.5>>
 ===
