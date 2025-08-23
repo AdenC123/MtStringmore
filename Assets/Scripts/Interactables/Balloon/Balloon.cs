@@ -271,6 +271,7 @@ namespace Interactables.Balloon
         /// <inheritdoc />
         public override void EndInteract(PlayerController player)
         {
+            _player = player;
             _player.RemovePlayerVelocityEffector(this);
             if (_player.CurrentInteractableArea == this) _player.CurrentInteractableArea = null;
             StopMotion();
@@ -318,7 +319,7 @@ namespace Interactables.Balloon
         public void OnPlayerExitInflationZone()
         {
             balloonVisual.CanInflate = false;
-            if (balloonVisual.IsDisplaying && _player.CurrentInteractableArea != this)
+            if (balloonVisual.IsDisplaying && _player?.CurrentInteractableArea != this)
             {
                 RespawnBalloon();
             }

@@ -9,23 +9,18 @@ namespace Interactables.Balloon
     [RequireComponent(typeof(Collider2D))]
     public class BalloonTrigger : MonoBehaviour
     {
-        private Balloon _parent;
-        private void Awake()
-        {
-            _parent = GetComponentInParent<Balloon>();
-        }
+        [SerializeField] private Balloon balloon;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             PlayerController player = collision.GetComponent<PlayerController>();
-            if (player) _parent.OnPlayerEnterInflationZone();
+            if (player) balloon.OnPlayerEnterInflationZone();
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            
             PlayerController player = collision.GetComponent<PlayerController>();
-            if (player) _parent.OnPlayerExitInflationZone();
+            if (player) balloon.OnPlayerExitInflationZone();
         }
     }
 }
