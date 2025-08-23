@@ -55,9 +55,6 @@ namespace Interactables.Balloon
 
         [SerializeField] private AudioClip[] attachSounds;
 
-        [SerializeField, Tooltip("Allowed error of player to balloon before respawning"), Min(0)]
-        private float positionTolerance = 0.1f;
-
         [SerializeField, Tooltip("Variable for how long the boost lasts after jumping off"), Min(0)]
         private float boostTimer;
 
@@ -160,8 +157,14 @@ namespace Interactables.Balloon
                     (secondPosition - firstPosition).magnitude);
                 foreach (RaycastHit2D hit in hits)
                 {
+                    // no one f--king reads warnings so i'm disabling this
+                    //
                     // some wack things may happen if the player collides with something while moving
-                    Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
+                    //
+                    // of course, no one cares and instead blames the devs for not reading the console
+                    //
+                    // so no point in having this here
+                    // Debug.LogWarning("Object may be in motion path: " + hit.transform.gameObject.name);
                 }
             }
         }
@@ -227,11 +230,6 @@ namespace Interactables.Balloon
         /// <inheritdoc />
         public override void OnPlayerEnter(PlayerController player)
         {
-            if (_rigidbody.position == secondPosition)
-            {
-                // disallow re-attaching if reached
-                player.CurrentInteractableArea = null;
-            }
         }
 
         /// <inheritdoc />
@@ -274,6 +272,7 @@ namespace Interactables.Balloon
         public override void EndInteract(PlayerController player)
         {
             _player.RemovePlayerVelocityEffector(this);
+            if (_player.CurrentInteractableArea == this) _player.CurrentInteractableArea = null;
             StopMotion();
             Vector2 boostDirection = _rigidbody.velocity.normalized;
             balloonVisual.Pop();
@@ -291,6 +290,7 @@ namespace Interactables.Balloon
         private void RespawnBalloon()
         {
             _rigidbody.position = firstPosition;
+            transform.position = firstPosition;
             StopMotion();
             balloonVisual.ResetToStart();
         }

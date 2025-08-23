@@ -67,6 +67,11 @@ namespace Interactables
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.TryGetComponent(out PlayerController player)) return;
+            if (!CanInteract)
+            {
+                Debug.Log("Ignoring player interactable entrance given interacting is disabled.");
+                return;
+            }
             player.CurrentInteractableArea = this;
             OnPlayerEnter(player);
         }
@@ -74,14 +79,13 @@ namespace Interactables
         private void OnTriggerExit2D(Collider2D other)
         {
             if (!other.TryGetComponent(out PlayerController player)) return;
-            if (player.CurrentInteractableArea != this)
+            if (player.CurrentInteractableArea == this)
             {
-                if (player.CurrentInteractableArea != null)
-                    Debug.LogWarning("Player's current interactable area does not match!");
+                if (DisallowReinteraction) player.CurrentInteractableArea = null;
             }
-            else if (DisallowReinteraction)
+            else if (player.CurrentInteractableArea && CanInteract)
             {
-                player.CurrentInteractableArea = null;
+                Debug.LogWarning("Player's current interactable area does not match!");
             }
 
             OnPlayerExit(player);
