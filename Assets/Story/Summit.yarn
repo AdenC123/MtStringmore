@@ -66,12 +66,11 @@ Marshmallow_smile: Yay!
 <<wait 2>>
 Knitby: So... How do we get down from here?
 Marshmallow: Uhhh... Good question...
-// end of level
 <<trigger_checkpoint Checkpoint>>
 
 ===
 
-title: Level4End
+title: GameEnd
 ---
 //<<load_scene Credits>>
 ===

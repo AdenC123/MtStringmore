@@ -3704,7 +3704,7 @@ MonoBehaviour:
     postLevelCutscene: 
   - preLevelCutscene: 
     levelName: Level4
-    postLevelCutscene: EndCutscene
+    postLevelCutscene: 
 --- !u!82 &2257474230385962516
 AudioSource:
   m_ObjectHideFlags: 0
