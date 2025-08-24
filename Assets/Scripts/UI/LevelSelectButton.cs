@@ -12,6 +12,7 @@ namespace UI
     {
         [SerializeField] private Sprite unlockedSprite;
         [SerializeField] private Sprite lockedSprite;
+        [SerializeField] private Sprite goldSprite;
 
         /// <summary>
         /// Button's level number.
@@ -80,6 +81,14 @@ namespace UI
             Color color = _image.color;
             color.a = alpha;
             _image.color = color;
+        }
+
+        /// <summary>
+        /// Sets the sprite to gold sprite
+        /// </summary>
+        public void SetGold()
+        {
+            _image.sprite = goldSprite;
         }
     }
 }
