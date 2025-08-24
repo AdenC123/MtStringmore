@@ -49625,6 +49625,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6964292186168748787, guid: a1b314ed5ae0641aaa5d3157e2de53d7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1893608415}
+    - targetCorrespondingSourceObject: {fileID: 6964292186168748787, guid: a1b314ed5ae0641aaa5d3157e2de53d7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1893608421}
   m_SourcePrefab: {fileID: 100100000, guid: a1b314ed5ae0641aaa5d3157e2de53d7, type: 3}
 --- !u!1 &864930005 stripped
 GameObject:
@@ -54753,6 +54756,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3175786740816282053, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: maxFallSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3175786740816282053, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
+      propertyPath: fallAccelerationDown
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 4217790213014453210, guid: 616301d93505e4a409e884aa0b323f31, type: 3}
       propertyPath: m_Name
       value: Player
@@ -55441,6 +55452,22 @@ Skybox:
   m_GameObject: {fileID: 864930005}
   m_Enabled: 1
   m_CustomSkybox: {fileID: 2100000, guid: 8b81693d534ae4897b325a88d401b66f, type: 2}
+--- !u!114 &1893608421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864930005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c261fa82d249f2a9f689b7a6ac62bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startColor: {r: 1, g: 0.9044997, b: 0, a: 0}
+  endColor: {r: 0.10442621, g: 0.10442621, b: 0.20125782, a: 1}
+  transitionStartHeight: 0
+  transitionEndHeight: 800
 --- !u!4 &1893770802 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6009844562311201391, guid: bd5a06fafcdc9ee45aae247860696304, type: 3}
