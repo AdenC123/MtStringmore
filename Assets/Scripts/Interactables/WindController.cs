@@ -146,7 +146,6 @@ namespace Interactables
             _fadeInCoroutine ??= StartCoroutine(FadeInAudio());
             _player = player; 
             _player.AddPlayerVelocityEffector(this);
-            _player.CanDash = true;
             _player.ForceCancelEarlyRelease();
             if (_player.PlayerState == PlayerController.PlayerStateEnum.Dash)
             {
