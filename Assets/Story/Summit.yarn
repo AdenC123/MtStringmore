@@ -25,6 +25,7 @@ Marshmallow: Three, two, one, jump!
 <<flip Marshmallow>>
 Marshmallow_smile: Nice to be on solid ground again, huh?
 Knitby: It's certainly a relief.
+<<wait 1>>
 Knitby: ...We can touch the clouds from here. That's actually incredible.
 // Marshmallow excitedly jumps to get A Cloud
 Knitby: Here goes nothing...
