@@ -146,6 +146,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2167404556298769624, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
+      propertyPath: levels.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2257474230385962516, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -16704,7 +16708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1495736755695802734, guid: b6fec259806fe4fe2a04e1886d452243, type: 3}
       propertyPath: nextScene
-      value: Level2
+      value: EndCutscene
       objectReference: {fileID: 0}
     - target: {fileID: 8964655812362898365, guid: b6fec259806fe4fe2a04e1886d452243, type: 3}
       propertyPath: m_LocalPosition.x
