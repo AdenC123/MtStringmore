@@ -2,7 +2,7 @@
 setting: the summit of mt. stringmore
 ---
 <<animator_set_bool Marshmallow Hang true>>
-<<fix_coords 0 0>>
+<<fix_coords 0 1.5>>
 <<shiver Knitby 0.05 0.05>>
 <<wait 0.3>>
 <<fade_in>>
@@ -14,14 +14,8 @@ Knitby_relieved: I'm doing excellent... I've never... been better...
 Marshmallow: Oh look! I think that's the summit!!
 <<wait 1>>
 Marshmallow: Three, two, one, jump!
-<<stop_particles FakeClouds1>>
-// hacky way to stop the illusion of going up
-<<set_particle_velocity FakeClouds1 0 0>>
-<<stop_particles FakeClouds2>>
-<<set_particle_velocity FakeClouds2 0 0>>
-<<stop_particles FakeClouds3>>
-// yup dwbi
-<<set_particle_velocity FakeClouds3 0 0>>
+<<trigger_checkpoint BalloonCheckpoint>>
+<<trigger_checkpoint CloudCheckpoint>>
 <<stop_shiver Knitby>>
 <<animator_set_bool Marshmallow Hang false>>
 <<leap_nonblock Marshmallow 12 9 0.85 true>>
