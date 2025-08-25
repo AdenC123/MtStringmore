@@ -611,10 +611,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2167404556298769624, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
-      propertyPath: levels.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 2257474230385962516, guid: 3c94b1314f832f84ca7de56231cf1b3a, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -1931,7 +1927,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 4
-      m_TileSpriteIndex: 25
+      m_TileSpriteIndex: 27
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -2000,12 +1996,12 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 81
     m_Data: {fileID: 68182964, guid: d6fd5fbecb4e74cfc8cac89b9824bba4, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 326807503, guid: d6fd5fbecb4e74cfc8cac89b9824bba4, type: 3}
-  - m_RefCount: 13
-    m_Data: {fileID: -1030243650, guid: d6fd5fbecb4e74cfc8cac89b9824bba4, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 13
+    m_Data: {fileID: -1030243650, guid: d6fd5fbecb4e74cfc8cac89b9824bba4, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 326807503, guid: d6fd5fbecb4e74cfc8cac89b9824bba4, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: -56885869, guid: d6fd5fbecb4e74cfc8cac89b9824bba4, type: 3}
   - m_RefCount: 3
