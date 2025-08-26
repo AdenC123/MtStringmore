@@ -19,16 +19,15 @@ Knitby_relieved: Freedom, fresh air, the stars twinkling in the sky!
 // emerging out of the cave
 <<wait 2>>
 <<flip Marshmallow>>
-Marshmallow_faraway: So... Knitby.
-Marshmallow_faraway: Are you...
+Marshmallow: Um... Knitby.
+Marshmallow: Are you...
 Knitby: Hmm?
 Marshmallow: Do you want to keep going?
 Knitby: Oh...
-Marshmallow: I... I was worried I'd lost you back there.
-Marshmallow: I realized just how risky this all is.
+Marshmallow_faraway: I... I was actually worried I'd lost you back there.
+Marshmallow_faraway: Maybe you were right all along. I was so reckless, you warned me again and again about how dangerous this is, but...
 Knitby_confused: ...
-Marshmallow_faraway: I'm sorry for ignoring your warnings.
-Marshmallow_faraway: And I'm sorry I just kept running without even thinking if you're okay.
+Marshmallow_faraway: I just kept running without even thinking if you're okay.
 <<flip Knitby>>
 <<wait 2>>
 Knitby: We can only thank the stars that we survived without a tear.
@@ -43,12 +42,12 @@ Knitby_relieved: Look. I was stuck in the bottom of that cave for what felt like
 Knitby: But then you came back for me, Marshmallow. You saved me. I've experienced the worst outcome possible, and emerged to tell the tale.
 Knitby_relieved: Now, don't get me wrong, I'm still terrified of the remainder of the ascent.
 Knitby: But, we've already come all this way... Further than anyone had ever reached.
-Knitby: If we hold on to each other, I know we'll be able to face whatever comes our way.
+Knitby: As long as we face it together, I know we'll be able to overcome the trials ahead of us.
 Marshmallow: OH... Um... are you sure?
 Knitby: Yes. I still don't think that the clouds will resemble cotton candy at all, though.
-<<leap Marshmallow 0 10 0.25 true -100>>
-<<leap_nonblock Marshmallow 0 10 0.27 true -100>>
-Marshmallow_smile: Sounds like I have the rest of the way to convince you!
+// <<leap Marshmallow 0 10 0.25 true -100>>
+// <<leap_nonblock Marshmallow 0 10 0.27 true -100>>
+Marshmallow_smile: Well, sounds like I have the rest of the way to convince you!
 <<load_scene Level4>>
 
 ===
