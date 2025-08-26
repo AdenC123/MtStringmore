@@ -1,4 +1,5 @@
 using TMPro;
+using UI;
 using UnityEngine;
 
 public class ThankYou : MonoBehaviour
