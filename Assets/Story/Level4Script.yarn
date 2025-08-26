@@ -51,3 +51,9 @@ Marshmallow_smile: Well, sounds like I have the rest of the way to convince you!
 <<load_scene Level4>>
 
 ===
+
+title: Level4End
+---
+<<fade_out 1>>
+<<load_scene Cutscene6>>
+===
