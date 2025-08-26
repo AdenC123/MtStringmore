@@ -3861,6 +3861,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: e98b8cbf15eb59f4091b19283e52312e, type: 3}
   - sceneName: Level4
     audioClip: {fileID: 8300000, guid: cf0ef17a771f24049a29fd22890eed63, type: 3}
+  - sceneName: Cutscene6
+    audioClip: {fileID: 8300000, guid: b7648f8be5342284ab4719cce78707ee, type: 3}
 --- !u!114 &3119184382528755020
 MonoBehaviour:
   m_ObjectHideFlags: 0
