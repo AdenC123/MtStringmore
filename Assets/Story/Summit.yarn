@@ -24,9 +24,9 @@ Marshmallow: Three, two, one, jump!
 <<wait 2>>
 <<flip Marshmallow>>
 Marshmallow_smile: Nice to be on solid ground again, huh?
-Knitby: It's certainly a relief.
+Knitby: My relief is beyond imaginable.
 <<wait 1>>
-Knitby: ...We can touch the clouds from here. That's actually incredible.
+Knitby: ...We can actually touch the clouds from here, that doesn't feel real.
 // Marshmallow excitedly jumps to get A Cloud
 Knitby: Here goes nothing...
 Marshmallow: Oh my god! The clouds really do taste like cotton candy!
@@ -36,27 +36,21 @@ Knitby_confused: I have no idea what you're talking about. That tastes like dust
 Marshmallow_smile: Ha, got you!
 Knitby: Okay, but surely now you will admit that clouds don't taste like cotton candy, right?
 // marshmallow chomps another cloud, visibly more hesitantly
+// walks around in circles in a fast pace
 Marshmallow_frown: No, it's... delicious...
 Knitby_confused: ... Really.
-<<wait 1>>
-Marshmallow_frown: Okay, fine, you were right.
-// walks around in circles in a fast pace
-Marshmallow_frown: I can't believe they don't taste like cotton candy...
-Knitby: It's okay, I'm sure they'll be happy to hold your tears.
-Marshmallow_faraway: You're so mean...
-Knitby: Hey, you don't want to miss the sunrise.
+// marshmallow still pacing around
+Knitby: The sunrise will greet us soon, it'll be a spectacle you don't want to miss.
 Marshmallow: What sunrise? The sun rises every day! That's not what I came here for!
-Knitby: Just watch.
+Knitby: Marshmallow, just... Watch.
 // pan camera to view
 Marshmallow: Whoa...
 Marshmallow: It's so pretty.
 <<wait 5>>
-Knitby: We are the only two fellows alive who have seen this breathtaking view.
+Knitby: We are the only two souls alive who have seen this breathtaking view.
 Marshmallow: Yeah...
 Marshmallow: Thank you for coming on this hike with me, Knitby.
-Knitby: You truly strung me along.
-Knitby: ...In a good way.
-Marshmallow_smile: Yay!
+Knitby: It's an immeasurable blessing that I lived to see this. Thank you.
 <<fade_out 1>>
 <<wait 2>>
 Knitby: So... How do we get down from here?
