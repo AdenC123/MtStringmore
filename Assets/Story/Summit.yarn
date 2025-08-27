@@ -27,17 +27,28 @@ Marshmallow_smile: Nice to be on solid ground again, huh?
 Knitby: My relief is beyond imaginable.
 <<wait 1>>
 Knitby: ...We can actually touch the clouds from here, that doesn't feel real.
-// Marshmallow excitedly jumps to get A Cloud
+<<animator_set_trigger Marshmallow FaceAway>>
 Knitby: Here goes nothing...
+<<animator_set_bool Marshmallow Eat true>>
+<<wait 2>>
+<<set_animation Marshmallow false false>>
 Marshmallow: Oh my god! The clouds really do taste like cotton candy!
+<<set_animation Marshmallow true false>>
+<<animator_set_bool Marshmallow Eat false>>
 Knitby: No chance. That's impossible.
-// knitby chomps a cloud, and marshmallow snickers
+<<animator_set_bool Knitby Eat true>>
+<<wait 2>>
+<<animator_set_bool Knitby Eat false>>
 Knitby_confused: I have no idea what you're talking about. That tastes like dusty stale water.
 Marshmallow_smile: Ha, got you!
 Knitby: Okay, but surely now you will admit that clouds don't taste like cotton candy, right?
-// marshmallow chomps another cloud, visibly more hesitantly
-// walks around in circles in a fast pace
+<<animator_set_trigger Marshmallow FaceAway>>
+<<wait 1>>
+<<animator_set_bool Marshmallow Eat true>>
+<<animator_set_float Marshmallow AnimSpeed 0.5>>
 Marshmallow_frown: No, it's... delicious...
+<<animator_set_bool Marshmallow Eat false>>
+<<animator_set_float Marshmallow AnimSpeed 1>>
 Knitby_confused: ... Really.
 // marshmallow still pacing around
 Knitby: The sunrise will greet us soon, it'll be a spectacle you don't want to miss.
@@ -50,7 +61,7 @@ Marshmallow: It's so pretty.
 Knitby: We are the only two souls alive who have seen this breathtaking view.
 Marshmallow: Yeah...
 Marshmallow: Thank you for coming on this hike with me, Knitby.
-Knitby: It's an immeasurable blessing that I lived to see this. Thank you.
+Knitby: It is an absolute blessing that I lived to see this. Thank you.
 <<fade_out 1>>
 <<wait 2>>
 Knitby: So... How do we get down from here?
