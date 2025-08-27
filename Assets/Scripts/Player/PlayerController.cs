@@ -215,6 +215,7 @@ namespace Player
         private bool _wasSwingClockwise;
         private ShakeCamera _shake;
         private Coroutine _dashNoclipHax;
+        private bool _inNoDashArea;
         #endregion
 
         #region Unity Event Handlers
@@ -294,6 +295,10 @@ namespace Player
             {
                 TryKill();
             }
+            else if (other.gameObject.CompareTag("NoDashArea"))
+            {
+                _inNoDashArea = true;
+            }
         }
 
         private void OnParticleCollision(GameObject other)
@@ -311,6 +316,12 @@ namespace Player
                 // can't swing if outside swing area
                 // assumes swing areas are not overlapping
                 _canSwing = false;
+                // allow dashing right after exiting swing, even if still in no dash area
+                _inNoDashArea = false;
+            }
+            else if (other.gameObject.CompareTag("NoDashArea"))
+            {
+                _inNoDashArea = false;
             }
         }
 
@@ -584,7 +595,7 @@ namespace Player
 
         private void HandleDash()
         {
-            if (PlayerState is PlayerStateEnum.Air && IsButtonUsed() && _canDash && !_closeToWall)
+            if (PlayerState is PlayerStateEnum.Air && IsButtonUsed() && _canDash && !_closeToWall && !_inNoDashArea)
             {
                 // start a dash
                 _canDash = false;
