@@ -605,14 +605,14 @@ namespace Player
             {
                 // move player forward at dash speed
                 _velocity.y = 0;
-                _velocity.x = dashSpeed * Direction;
+                if (Mathf.Abs(_velocity.x) < dashSpeed) _velocity.x = dashSpeed * Direction;
                 // check if dash is over
                 if (_time - _timeDashed >= dashTime)
                 {
                     PlayerState = PlayerStateEnum.Air;
                     if (_dashNoclipHax != null) StopCoroutine(_dashNoclipHax);
                     _dashNoclipHax = StartCoroutine(DashNoClipHaxRoutine());
-                    _velocity.x = endDashSpeed * Direction;
+                    if (Mathf.Abs(_velocity.x) < endDashSpeed) _velocity.x = endDashSpeed * Direction;
                     TimeDashEnded = Time.time;
                 }
             }
