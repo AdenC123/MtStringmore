@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5702808448728899113}
   - component: {fileID: 5433298301573505991}
+  - component: {fileID: 7855957687074449652}
   m_Layer: 0
   m_Name: NoDashArea
   m_TagString: NoDashArea
@@ -67,3 +68,16 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 8.5, y: 5.8930745}
   m_Direction: 1
+--- !u!114 &7855957687074449652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099055302689244885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ca7f6169ec471d8ec644a3a3d9db54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableWithInteractables: 1

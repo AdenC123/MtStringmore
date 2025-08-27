@@ -911,6 +911,7 @@ namespace Player
             PlayerState = PlayerStateEnum.Run;
             _velocity = Vector2.zero;
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("LetterBlock"), false);
+            _inNoDashArea = false;
         }
     }
 }
