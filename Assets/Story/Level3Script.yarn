@@ -91,5 +91,5 @@ Marshmallow: Yeah, let's do it.
 
 title: Level3End
 ---
-<<load_scene EndCutscene>>
+<<load_scene Level4>>
 ===
