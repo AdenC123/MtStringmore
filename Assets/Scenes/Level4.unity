@@ -45122,13 +45122,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4544653655168585683, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 178221554}
   m_SourcePrefab: {fileID: 100100000, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
+--- !u!1 &178221551 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4544653655168585683, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
+  m_PrefabInstance: {fileID: 178221550}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &178221553 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1324156711375271402, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
   m_PrefabInstance: {fileID: 178221550}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &178221554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178221551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f148edf03b4564d83786e5749f3422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialMove: balloon
+  tutorialText: Hold and release
+  tutorialPosition: {x: -380, y: -90}
+  tutorialEnd: {fileID: 1581195785}
 --- !u!4 &184104576 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1324156711375271402, guid: d896cfaf134fcf742b43b825c3882308, type: 3}
@@ -53135,6 +53159,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b7a73a2733b56447817b14efc15d9bb, type: 3}
+--- !u!114 &1581195785 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5389366347138013205, guid: 8b7a73a2733b56447817b14efc15d9bb, type: 3}
+  m_PrefabInstance: {fileID: 1581195784}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece393c529fb7c549ba0dd72bd5fc311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1588058011
 PrefabInstance:
   m_ObjectHideFlags: 0
