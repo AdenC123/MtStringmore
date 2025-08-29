@@ -44138,14 +44138,6 @@ PrefabInstance:
       propertyPath: tailwindSpeed
       value: 40
       objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.x
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windDirection.x
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9117195392424306319, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_Size.x
       value: 80
@@ -45041,18 +45033,6 @@ PrefabInstance:
     - target: {fileID: 6798139565459321612, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: ShapeModule.m_Scale.y
       value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.x
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.y
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windDirection.x
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9117195392424306319, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_Size.x
@@ -47074,18 +47054,6 @@ PrefabInstance:
       propertyPath: ShapeModule.m_Scale.y
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.x
-      value: 230
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windDirection.x
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9117195392424306319, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_Size.x
       value: 230
@@ -48624,18 +48592,6 @@ PrefabInstance:
     - target: {fileID: 6798139565459321612, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: ShapeModule.m_Scale.y
       value: 65
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.x
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.y
-      value: 65
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windDirection.x
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 9117195392424306319, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_Size.x
@@ -51292,10 +51248,6 @@ PrefabInstance:
       propertyPath: ShapeModule.m_Scale.x
       value: 80
       objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.x
-      value: 80
-      objectReference: {fileID: 0}
     - target: {fileID: 9117195392424306319, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_Size.x
       value: 80
@@ -51441,18 +51393,6 @@ PrefabInstance:
     - target: {fileID: 6798139565459321612, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: ShapeModule.m_Scale.y
       value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.x
-      value: 290
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.y
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windDirection.x
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 9117195392424306319, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_Size.x
@@ -53628,18 +53568,6 @@ PrefabInstance:
     - target: {fileID: 6798139565459321612, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: ShapeModule.m_Scale.y
       value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.x
-      value: 121.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.y
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windDirection.x
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9117195392424306319, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_Size.x
