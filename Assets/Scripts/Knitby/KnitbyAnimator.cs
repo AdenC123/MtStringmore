@@ -68,6 +68,7 @@ namespace Knitby
         {
             anim.SetFloat(YVelocityKey, y);
             _spriteRenderer.flipX = x < 0;
+            _knitbyController.DetachFromPlayer();
         }
 
         private void OnGroundedChanged(bool grounded)
@@ -83,7 +84,8 @@ namespace Knitby
 
         private void OnSwing(bool inSwing)
         {
-            anim.SetBool(SwingKey, inSwing);
+            // anim.SetBool(SwingKey, inSwing);
+            _knitbyController.AttachToPlayer();
         }
 
         private void OnPlayerCanDash(bool canDash)
