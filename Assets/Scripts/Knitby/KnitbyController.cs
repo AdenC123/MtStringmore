@@ -20,6 +20,12 @@ namespace Knitby
         [SerializeField] private float idleThreshold = 0.07f;
         [SerializeField] private int granularity = 10;
         [SerializeField] private float interpolationSpeed = 20;
+        
+        [Header("Attach Settings")] 
+        [SerializeField] private Vector2 shoulderOffset = new Vector2(0.5f, 0.5f);
+        [SerializeField] private float attachLerpSpeed = 15f;
+
+        private bool _isAttached;
 
         [Header("Collisions")] [SerializeField]
         private LayerMask collisionLayer;
@@ -83,19 +89,31 @@ namespace Knitby
             _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
             _playerController = _player.GetComponent<PlayerController>();
             _playerController.Death += PlayerDeath;
+            _isAttached = false;
         }
 
         private void Update()
         {
-            if (_currentPathPosition == Vector3.zero) return;
+            if (!_player) return;
+            
+            if (_isAttached)
+            {
+                Vector3 targetPos = _player.transform.position + new Vector3(shoulderOffset.x, shoulderOffset.y, 0f);
+                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed);
+            }
+            else
+            {
+                if (_currentPathPosition == Vector3.zero) return;
 
-            if (!_isSwinging)
-                SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
+                if (!_isSwinging)
+                    SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
 
-            Vector3 direction = _currentPathPosition - transform.position;
+                Vector3 direction = _currentPathPosition - transform.position;
 
-            DirectionUpdated?.Invoke(direction.x, direction.y);
-            transform.position += direction * (Time.deltaTime * interpolationSpeed);
+                DirectionUpdated?.Invoke(direction.x, direction.y);
+                transform.position += direction * (Time.deltaTime * interpolationSpeed);
+            }
+
         }
 
         private void FixedUpdate()
@@ -144,6 +162,16 @@ namespace Knitby
             if (!_player) return;
             PlayerController playerController = _player.GetComponent<PlayerController>();
             playerController.Death -= PlayerDeath;
+        }
+        
+        public void AttachToPlayer()
+        {
+            _isAttached = true;
+        }
+        
+        public void DetachFromPlayer()
+        {
+            _isAttached = false;
         }
 
         private RaycastHit2D CapsuleCastCollision(Vector2 dir, float distance)
