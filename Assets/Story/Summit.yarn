@@ -28,29 +28,47 @@ Knitby: My relief is beyond imaginable.
 <<wait 1>>
 Knitby: ...We can actually touch the clouds from here, that doesn't feel real.
 <<animator_set_trigger Marshmallow FaceAway>>
+<<wait 0.3>>
+// TODO play cloud SFX
+<<trigger_checkpoint ShowCloudMarshmallow>>
 Knitby: Here goes nothing...
 <<animator_set_bool Marshmallow Eat true>>
+<<trigger_checkpoint EatCloudMarshmallow>>
 <<wait 2>>
+<<trigger_checkpoint StopEatCloudMarshmallow>>
 <<set_animation Marshmallow false false>>
 Marshmallow: Oh my god! The clouds really do taste like cotton candy!
+<<trigger_checkpoint HideCloudMarshmallow>>
 <<set_animation Marshmallow true false>>
 <<animator_set_bool Marshmallow Eat false>>
 Knitby: No chance. That's impossible.
+<<animator_set_float Knitby AnimSpeed 0>>
 <<animator_set_bool Knitby Eat true>>
+<<wait 0.3>>
+<<trigger_checkpoint ShowCloudKnitby>>
+<<trigger_checkpoint EatCloudKnitby>>
+<<animator_set_float Knitby AnimSpeed 1>>
 <<wait 2>>
+<<trigger_checkpoint StopEatCloudKnitby>>
+<<trigger_checkpoint HideCloudKnitby>>
+<<shiver Knitby 0.2 0.1 0.75>>
 <<animator_set_bool Knitby Eat false>>
 Knitby_confused: I have no idea what you're talking about. That tastes like dusty stale water.
 Marshmallow_smile: Ha, got you!
 Knitby: Okay, but surely now you will admit that clouds don't taste like cotton candy, right?
 <<animator_set_trigger Marshmallow FaceAway>>
+<<trigger_checkpoint ShowCloudMarshmallow>>
 <<wait 1>>
 <<animator_set_bool Marshmallow Eat true>>
+<<trigger_checkpoint EatCloudMarshmallow>>
 <<animator_set_float Marshmallow AnimSpeed 1.5>>
 <<wait 0.75>>
 <<animator_set_float Marshmallow AnimSpeed 0.3>>
 Marshmallow_frown: No, it's... delicious...
+<<trigger_checkpoint StopEatCloudMarshmallow>>
 <<animator_set_float Marshmallow AnimSpeed 0>>
 Knitby_confused: ... Really.
+<<trigger_checkpoint EatCloudMarshmallow>>
 <<animator_set_float Marshmallow AnimSpeed 0.3>>
 <<wait 2>>
 <<move Knitby 16 -16.2 10>>
