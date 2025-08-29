@@ -17,4 +17,5 @@ Knitby: Bedtime stories?! We're about to cease to exist!
 Narrator: Oops, you weren't supposed to hear that...
 <<wait 1>>
 <<fade_in 3>>
+<<enable_exit>>
 ===
