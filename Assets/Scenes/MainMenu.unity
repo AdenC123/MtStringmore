@@ -3451,6 +3451,7 @@ MonoBehaviour:
   deathText: {fileID: 1526345124}
   candyText: {fileID: 693041855}
   candyImage: {fileID: 596148415}
+  ap: {fileID: 0}
 --- !u!1 &1602962891
 GameObject:
   m_ObjectHideFlags: 0
@@ -4155,6 +4156,7 @@ GameObject:
   - component: {fileID: 1959963978}
   - component: {fileID: 1959963980}
   - component: {fileID: 1959963979}
+  - component: {fileID: 1959963981}
   m_Layer: 5
   m_Name: Stats/Play Background
   m_TagString: Untagged
@@ -4224,6 +4226,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959963977}
   m_CullTransparentMesh: 1
+--- !u!114 &1959963981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959963977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c1dc83e54c4c44fa2e7812f06f30bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeImage: {fileID: 1698542738}
+  candyImage: {fileID: 596148415}
+  deathImage: {fileID: 2127215923}
+  playPanel: {fileID: 1959963979}
+  defaultTime: {fileID: 21300000, guid: 21143fef4c789b04e95604ce3751613e, type: 3}
+  defaultDeath: {fileID: 21300000, guid: 15ad3414051cb2e459f5905d4e827b54, type: 3}
+  timePatch: {fileID: 21300000, guid: 87090cf857627e249bb9f2c5ed5144b4, type: 3}
+  candyPatch: {fileID: 21300000, guid: 87090cf857627e249bb9f2c5ed5144b4, type: 3}
+  deathPatch: {fileID: 21300000, guid: 87090cf857627e249bb9f2c5ed5144b4, type: 3}
+  goldPanel: {fileID: 21300000, guid: 5f90d55a517b0d54f8c7780c0339ce45, type: 3}
+  defaultPanel: {fileID: 21300000, guid: 38857b4b2e26c40b694bdea81ca94739, type: 3}
+  level1Threshold: 200
+  level2Threshold: 200
+  level3Threshold: 200
+  level4Threshold: 200
 --- !u!1 &2018018880
 GameObject:
   m_ObjectHideFlags: 0
