@@ -106718,6 +106718,7 @@ MonoBehaviour:
   - {fileID: 747506631}
   - {fileID: 1189795136}
   secondHalfBGM: {fileID: 8300000, guid: 2e11ca3e801d4ea45bb1b7b11b99f110, type: 3}
+  cutsceneBGM: {fileID: 8300000, guid: ab1b20689e29a354383a3360865396c2, type: 3}
   secondHalfCheckpoint: {fileID: 459664544}
   SecondHalfCameraYOffset: 3
 --- !u!1001 &747506629
