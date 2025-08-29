@@ -1,4 +1,5 @@
 using Managers;
+using Player;
 using UnityEngine;
 
 namespace Interactables
@@ -32,6 +33,22 @@ namespace Interactables
             if (disableWithInteractables)
             {
                 GameManager.Instance.OnInteractablesEnabledChanged -= OnInteractablesEnabledChanged;
+            }
+        }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.TryGetComponent(out PlayerController player))
+            {
+                player.EnterNoDashArea();
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.TryGetComponent(out PlayerController player))
+            {
+                player.ExitNoDashArea();
             }
         }
 

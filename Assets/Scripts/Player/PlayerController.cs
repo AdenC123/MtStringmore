@@ -295,10 +295,6 @@ namespace Player
             {
                 TryKill();
             }
-            else if (other.gameObject.CompareTag("NoDashArea"))
-            {
-                _inNoDashArea = true;
-            }
         }
 
         private void OnParticleCollision(GameObject other)
@@ -317,10 +313,6 @@ namespace Player
                 // assumes swing areas are not overlapping
                 _canSwing = false;
                 // allow dashing right after exiting swing, even if still in no dash area
-                _inNoDashArea = false;
-            }
-            else if (other.gameObject.CompareTag("NoDashArea"))
-            {
                 _inNoDashArea = false;
             }
         }
@@ -352,6 +344,10 @@ namespace Player
         }
 
         #endregion
+
+        public void EnterNoDashArea() => _inNoDashArea = true;
+        
+        public void ExitNoDashArea() => _inNoDashArea = false;
 
         public bool HasPlayerVelocityEffector(IPlayerVelocityEffector playerVelocityEffector)
         {

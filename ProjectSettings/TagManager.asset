@@ -7,7 +7,6 @@ TagManager:
   - SwingArea
   - Death
   - LetterBlock
-  - NoDashArea
   layers:
   - Default
   - TransparentFX
