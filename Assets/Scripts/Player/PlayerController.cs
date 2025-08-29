@@ -313,7 +313,7 @@ namespace Player
                 // assumes swing areas are not overlapping
                 _canSwing = false;
                 // allow dashing right after exiting swing, even if still in no dash area
-                _inNoDashArea = false;
+                ExitNoDashArea();
             }
         }
 
