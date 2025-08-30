@@ -25,7 +25,7 @@ namespace Knitby
         
         [FormerlySerializedAs("shoulderOffset")]
         [Header("Attach Settings")] 
-        [SerializeField] private Vector2 attachOffset = new Vector2(0.5f, 0.5f);
+        [SerializeField] private Vector2 attachOffset = new Vector2(-1.0f, 1.5f);
         [SerializeField] private float attachLerpSpeed = 15f;
         [SerializeField] private bool _isPlayerHanging;
 

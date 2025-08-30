@@ -456,8 +456,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4476534854235773522, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
-      propertyPath: attachLerpSpeed
-      value: 30
+      propertyPath: attachOffset.y
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4476534854235773522, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: shoulderOffset.x
