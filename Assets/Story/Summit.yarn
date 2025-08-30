@@ -29,7 +29,6 @@ Knitby: My relief is beyond imaginable.
 Knitby: ...We can actually touch the clouds from here, that doesn't feel real.
 <<animator_set_trigger Marshmallow FaceAway>>
 <<wait 0.3>>
-// TODO play cloud SFX
 <<trigger_checkpoint ShowCloudMarshmallow>>
 Knitby: Here goes nothing...
 <<animator_set_bool Marshmallow Eat true>>
@@ -50,6 +49,7 @@ Knitby: No chance. That's impossible.
 <<trigger_checkpoint HideCloudKnitby>>
 <<shiver Knitby 0.1 0.2 0.5>>
 <<animator_set_bool Knitby Eat false>>
+<<wait 0.5>>
 Knitby_confused: I have no idea what you're talking about. That tastes like dusty stale water.
 Marshmallow_smile: Ha, got you!
 Knitby: Okay, but surely now you will admit that clouds don't taste like cotton candy, right?
