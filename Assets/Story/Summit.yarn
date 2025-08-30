@@ -36,11 +36,8 @@ Knitby: Here goes nothing...
 <<trigger_checkpoint EatCloudMarshmallow>>
 <<wait 2>>
 <<trigger_checkpoint StopEatCloudMarshmallow>>
-<<set_animation Marshmallow false false>>
+<<animator_set_float Marshmallow AnimSpeed 0>>
 Marshmallow: Oh my god! The clouds really do taste like cotton candy!
-<<trigger_checkpoint HideCloudMarshmallow>>
-<<set_animation Marshmallow true false>>
-<<animator_set_bool Marshmallow Eat false>>
 Knitby: No chance. That's impossible.
 <<animator_set_float Knitby AnimSpeed 0>>
 <<animator_set_bool Knitby Eat true>>
@@ -51,30 +48,27 @@ Knitby: No chance. That's impossible.
 <<wait 2>>
 <<trigger_checkpoint StopEatCloudKnitby>>
 <<trigger_checkpoint HideCloudKnitby>>
-<<shiver Knitby 0.2 0.1 0.75>>
+<<shiver Knitby 0.1 0.2 0.5>>
 <<animator_set_bool Knitby Eat false>>
 Knitby_confused: I have no idea what you're talking about. That tastes like dusty stale water.
 Marshmallow_smile: Ha, got you!
 Knitby: Okay, but surely now you will admit that clouds don't taste like cotton candy, right?
-<<animator_set_trigger Marshmallow FaceAway>>
-<<trigger_checkpoint ShowCloudMarshmallow>>
-<<wait 1>>
-<<animator_set_bool Marshmallow Eat true>>
-<<trigger_checkpoint EatCloudMarshmallow>>
+<<trigger_checkpoint EatCloudMarshmallow2>>
 <<animator_set_float Marshmallow AnimSpeed 1.5>>
 <<wait 0.75>>
 <<animator_set_float Marshmallow AnimSpeed 0.3>>
 Marshmallow_frown: No, it's... delicious...
-<<trigger_checkpoint StopEatCloudMarshmallow>>
+<<trigger_checkpoint StopEatCloudMarshmallow2>>
 <<animator_set_float Marshmallow AnimSpeed 0>>
 Knitby_confused: ... Really.
-<<trigger_checkpoint EatCloudMarshmallow>>
 <<animator_set_float Marshmallow AnimSpeed 0.3>>
+<<trigger_checkpoint EatCloudMarshmallow3>>
 <<wait 2>>
 <<move Knitby 16 -16.2 10>>
 <<wait 0.5>>
 <<flip Knitby>>
 Knitby: The sunrise will greet us soon, it'll be a spectacle you don't want to miss.
+<<trigger_checkpoint HideCloudMarshmallow>>
 <<animator_set_float Marshmallow AnimSpeed 1>>
 <<animator_set_bool Marshmallow Eat false>>
 <<flip Marshmallow>>
