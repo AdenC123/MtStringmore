@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Managers;
 using Save;
@@ -17,20 +16,12 @@ namespace UI
         [SerializeField]
         private Sprite defaultTime, defaultDeath, timePatch, candyPatch, deathPatch, goldPanel, defaultPanel;
 
-        [SerializeField, Tooltip("Time to bead to gain achievementPatch in seconds")]
-        private float[] levelTimeThresholds = new float[GameManager.NumLevels];
         private readonly bool[] levelsGold = new bool[GameManager.NumLevels];
 
+        /// <summary>
+        /// Returns true if all the levels are gold.
+        /// </summary>
         public bool IsAllGold => levelsGold.All(a => a);
-
-        private void OnValidate()
-        {
-            if (levelTimeThresholds.Length >= GameManager.NumLevels) return;
-            Debug.LogWarning("AchievementPatches OnValidate: levelTimeThresholds.Length < " + GameManager.NumLevels);
-            float[] newTime = new float[GameManager.NumLevels];
-            Array.Copy(levelTimeThresholds, newTime, levelTimeThresholds.Length);
-            levelTimeThresholds = newTime;
-        }
 
         /// <summary>
         /// Displays achievement patches if applicable, called by Level Select line 97
@@ -47,9 +38,7 @@ namespace UI
             //conditions to meet to get patch
             bool candyCondition = candiesInLevel != -1 && candiesCollected == candiesInLevel;
             bool deathCondition = numDeaths == 0;
-            bool timeCondition = !float.IsNaN(timeTaken) &&
-                                 levelTimeThresholds.Length >= level &&
-                                 timeTaken < levelTimeThresholds[level-1];
+            bool timeCondition = SceneListManager.Instance.IsTimeWithinThreshold(level, timeTaken);
 
             candyImage.sprite = candyCondition ? candyPatch : levelCandy;
             deathImage.sprite = deathCondition ? deathPatch : defaultDeath;
@@ -79,7 +68,7 @@ namespace UI
             {
                 return;
             }
-            if (levelTimeThresholds.Length >= level && levelTimeThresholds[level-1] > thisLevel.bestTime &&
+            if (SceneListManager.Instance.IsTimeWithinThreshold(level, thisLevel.bestTime) &&
                 thisLevel.mostCandiesCollected - thisLevel.totalCandiesInLevel == 0 &&
                 thisLevel.leastDeaths == 0)
             {
