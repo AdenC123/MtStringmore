@@ -57,6 +57,11 @@ namespace UI
         /// <param name="button">Button clicked</param>
         public void OnLevelSelected(int levelNumber, LevelSelectButton button)
         {
+            if (GameManager.Instance.AllLevelData.Count < levelNumber)
+            {
+                Debug.LogWarning("bruh which guy messed up the scene list again");
+                return;
+            }
             string sceneName = SceneListManager.Instance.LevelLoadScenes[levelNumber - 1];
             _selectedScene = sceneName;
             playButton.interactable = true;
