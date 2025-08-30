@@ -33,8 +33,6 @@ namespace UI
 
         private void Start()
         {
-            // Ensures GameManager load save data before loading level select menu
-            GameManager.Instance.UpdateFromSaveData();
             HashSet<string> unlockedScenes = new(GameManager.Instance.LevelsAccessed);
             playButton.interactable = false;
             unlockedScenes.Add(SceneListManager.Instance.Level1IntroSceneName);

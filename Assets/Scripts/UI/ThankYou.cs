@@ -1,7 +1,7 @@
 using System.Linq;
 using Managers;
-using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UI
 {
@@ -10,12 +10,16 @@ namespace UI
     /// </summary>
     public class ThankYou : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI text;
+        [SerializeField] private UnityEvent eventOnAllGold;
 
         private void Start()
         {
-            text.enabled = GameManager.Instance.AllLevelData.Select((data, index) => (data, index))
-                .All(tuple => tuple.data.IsLevelGold(tuple.index));
+            bool isAllGold = GameManager.Instance.AllLevelData.Select((data, index) => (data, index))
+                .All(tuple => tuple.data.IsLevelGold(tuple.index + 1));
+            if (isAllGold)
+            {
+                eventOnAllGold.Invoke();
+            }
         }
     }
 }
