@@ -26,7 +26,7 @@ Marshmallow: Three, two, one, jump!
 Marshmallow_smile: Nice to be on solid ground again, huh?
 Knitby: My relief is beyond imaginable.
 <<wait 1>>
-Knitby: ...We can actually touch the clouds from here, that doesn't feel real.
+Knitby: ... This feels surreal, the clouds are actually within our reach.
 <<animator_set_trigger Marshmallow FaceAway>>
 <<wait 0.3>>
 <<trigger_checkpoint ShowCloudMarshmallow>>
@@ -73,7 +73,7 @@ Knitby: The sunrise will greet us soon, it'll be a spectacle you don't want to m
 <<animator_set_bool Marshmallow Eat false>>
 <<flip Marshmallow>>
 Marshmallow: What sunrise? The sun rises every day! That's not what I came here for!
-Knitby: Marshmallow, just... Come here.
+Knitby: Marshmallow, just... come here.
 <<flip Knitby>>
 <<run Knitby 34 -16.2 10>>
 <<run Marshmallow 30 -16.4 10>>
@@ -94,7 +94,7 @@ Marshmallow: It's so pretty.
 Knitby: We are the only two souls alive who have seen this breathtaking view.
 Marshmallow: Yeah...
 Marshmallow: Thank you for coming on this hike with me, Knitby.
-Knitby: I am glad I lived to see this. Thank you.
+Knitby: I'm glad you strung me along. Thank you, Marshmallow.
 <<fade_out 1>>
 <<wait 2>>
 Knitby: So... How do we get down from here?
