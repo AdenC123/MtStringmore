@@ -50,12 +50,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3289076269451440949, guid: 0b6d8a2e79bd74c4a9ad30c2d1a818df, type: 3}
       propertyPath: possibleSprites.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3289076269451440949, guid: 0b6d8a2e79bd74c4a9ad30c2d1a818df, type: 3}
       propertyPath: possibleSprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: bf88ae4275933b44ca209cdc46e10688, type: 3}
+    - target: {fileID: 3289076269451440949, guid: 0b6d8a2e79bd74c4a9ad30c2d1a818df, type: 3}
+      propertyPath: possibleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 67210b5fea2754745bb3a18e8ba59ff0, type: 3}
+    - target: {fileID: 3289076269451440949, guid: 0b6d8a2e79bd74c4a9ad30c2d1a818df, type: 3}
+      propertyPath: possibleSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7c6dbce8a958241f287aff8d60f08871, type: 3}
     - target: {fileID: 4902370112981007730, guid: 0b6d8a2e79bd74c4a9ad30c2d1a818df, type: 3}
       propertyPath: m_Name
       value: Collectable Rainbow
