@@ -306,7 +306,7 @@ MonoBehaviour:
   unzipSpeed: 10
   accelerationTime: 1.5
   exitVelBoost: {x: 10, y: 10}
-  exitDelayTime: 0.1
+  exitDelayTime: 0.2
   playerOffset: {x: 0, y: -3}
   firstPosition: {x: 1.39, y: -0.89}
   secondPosition: {x: -18, y: -0.89}
