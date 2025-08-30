@@ -72,9 +72,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -2}
+  m_Offset: {x: 0, y: -1.4275131}
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 2.5724869
 --- !u!50 &7679260670876389696
 Rigidbody2D:
   serializedVersion: 4
@@ -157,7 +157,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 081a52e1f6ca2a849aa0d2f6aa8c502b, type: 3}
   boostTimer: 1
   warningDistance: 25
-  initialSpeed: 3
+  initialSpeed: 2
+  missWindow: 5
 --- !u!82 &3573509288529436064
 AudioSource:
   m_ObjectHideFlags: 0
@@ -542,7 +543,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 30, y: 30}
+  m_Size: {x: 50, y: 30}
   m_EdgeRadius: 0
 --- !u!114 &7402035491081585543
 MonoBehaviour:
