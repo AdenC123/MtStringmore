@@ -3451,7 +3451,7 @@ MonoBehaviour:
   deathText: {fileID: 1526345124}
   candyText: {fileID: 693041855}
   candyImage: {fileID: 596148415}
-  ap: {fileID: 0}
+  ap: {fileID: 1959963981}
 --- !u!1 &1602962891
 GameObject:
   m_ObjectHideFlags: 0
