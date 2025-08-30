@@ -1,3 +1,5 @@
+using System.Linq;
+using Managers;
 using TMPro;
 using UnityEngine;
 
@@ -9,11 +11,11 @@ namespace UI
     public class ThankYou : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI text;
-        [SerializeField] private AchievementPatches ap;
 
         private void OnEnable()
         {
-            text.enabled = ap.IsAllGold;
+            text.enabled = GameManager.Instance.AllLevelData.Select((data, index) => (data, index))
+                .All(tuple => tuple.data.IsLevelGold(tuple.index));
         }
     }
 }

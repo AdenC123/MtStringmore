@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Managers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,7 +44,12 @@ namespace UI
         {
             _button.interactable = unlocked;
             _text.text = unlocked ? levelNumber.ToString() : string.Empty;
-            _image.sprite = unlocked ? unlockedSprite : lockedSprite;
+            bool isGold = GameManager.Instance.AllLevelData[levelNumber - 1].IsLevelGold(levelNumber);
+            if (isGold)
+                _image.sprite = goldSprite;
+            else
+                _image.sprite = unlocked ? unlockedSprite : lockedSprite;
+
             LevelNumber = levelNumber;
         }
 
@@ -81,14 +87,6 @@ namespace UI
             Color color = _image.color;
             color.a = alpha;
             _image.color = color;
-        }
-
-        /// <summary>
-        /// Sets the sprite to gold sprite
-        /// </summary>
-        public void SetGold()
-        {
-            _image.sprite = goldSprite;
         }
     }
 }
