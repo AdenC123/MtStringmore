@@ -24,15 +24,14 @@ namespace UI
         [SerializeField] private TextMeshProUGUI levelText, timeText, deathText, candyText;
         [SerializeField] private Image candyImage;
 
+        [SerializeField] private AchievementPatches ap;
+
         private const string EmptySaveTime = "--:--:--";
         private string _selectedScene;
         private LevelSelectButton _selectedButton;
-        private int _debugButtonPressed;
 
         private void Start()
         {
-            // Ensures GameManager load save data before loading level select menu
-            GameManager.Instance.UpdateFromSaveData();
             HashSet<string> unlockedScenes = new(GameManager.Instance.LevelsAccessed);
             playButton.interactable = false;
             unlockedScenes.Add(SceneListManager.Instance.Level1IntroSceneName);
@@ -58,57 +57,49 @@ namespace UI
         /// <param name="button">Button clicked</param>
         public void OnLevelSelected(int levelNumber, LevelSelectButton button)
         {
+            if (GameManager.Instance.AllLevelData.Count < levelNumber)
+            {
+                Debug.LogWarning("bruh which guy messed up the scene list again");
+                return;
+            }
             string sceneName = SceneListManager.Instance.LevelLoadScenes[levelNumber - 1];
             _selectedScene = sceneName;
             playButton.interactable = true;
 
             //change the text of the level stats
             levelText.text = "Level " + levelNumber;
-
             LevelData selectedLevel = GameManager.Instance.AllLevelData[levelNumber - 1];
 
             // Candy
+            int mostCandiesCollected = selectedLevel.mostCandiesCollected;
+            int totalCandiesInLevel = selectedLevel.totalCandiesInLevel;
             if (selectedLevel.totalCandiesInLevel < 0)
                 candyText.text = "N/A";
             else
-                candyText.text = selectedLevel.mostCandiesCollected + "/" + selectedLevel.totalCandiesInLevel;
+                candyText.text = mostCandiesCollected + "/" + totalCandiesInLevel;
 
             // Deaths
-            Debug.Log(selectedLevel.leastDeaths);
-            deathText.text = selectedLevel.leastDeaths == -1 ? "N/A" : selectedLevel.leastDeaths.ToString();
+            int deaths = selectedLevel.leastDeaths;
+            deathText.text = deaths == -1 ? "N/A" : deaths.ToString();
 
             // Time
-            timeText.text = float.IsNaN(selectedLevel.bestTime)
+            float bestTime = selectedLevel.bestTime;
+            timeText.text = float.IsNaN(bestTime)
                 ? EmptySaveTime
-                : TimeSpan.FromSeconds(selectedLevel.bestTime).ToString(@"mm\:ss\:ff");
+                : TimeSpan.FromSeconds(bestTime).ToString(@"mm\:ss\:ff");
 
-            //CandyImage
-            candyImage.sprite = levelCandyImages[levelNumber - 1];
+            // CandyImage
+            Sprite candy = levelCandyImages[levelNumber - 1];
+            candyImage.sprite = candy;
             candyImage.enabled = true;
+            
+            // Show Achievement Patches if applicable
+            ap.DisplayAchievementPatches(levelNumber, bestTime, mostCandiesCollected, totalCandiesInLevel, deaths, 
+                candy);
 
             if (_selectedButton) _selectedButton.MarkUnselected();
             _selectedButton = button;
             button.MarkSelected();
-        }
-
-        /// <summary>
-        /// Debug button pressed.
-        /// </summary>
-        // ReSharper disable once UnusedMember.Global
-        public void DebugButtonPressed()
-        {
-            _debugButtonPressed++;
-            if (_debugButtonPressed > 10)
-            {
-                int childCount = buttonContainer.childCount;
-                for (int i = 0; i < childCount; i++)
-                {
-                    LevelSelectButton btn = buttonContainer.GetChild(i).GetComponent<LevelSelectButton>();
-                    btn.Initialize(i + 1, true);
-                }
-
-                transform.Find("SecretDebugOption").GetChild(0).gameObject.SetActive(true);
-            }
         }
 
         /// <summary>
