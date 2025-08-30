@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Managers;
 using Player;
+using UnityEditor.UI;
 using UnityEngine;
 
 namespace Knitby
@@ -24,7 +25,6 @@ namespace Knitby
         [Header("Attach Settings")] 
         [SerializeField] private Vector2 shoulderOffset = new Vector2(0.5f, 0.5f);
         [SerializeField] private float attachLerpSpeed = 15f;
-
         private bool _isAttached;
 
         [Header("Collisions")] [SerializeField]
@@ -89,20 +89,23 @@ namespace Knitby
             _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
             _playerController = _player.GetComponent<PlayerController>();
             _playerController.Death += PlayerDeath;
-            _isAttached = false;
         }
 
         private void Update()
         {
             if (!_player) return;
+
+            _isAttached = _isSwinging;
             
             if (_isAttached)
             {
                 Vector3 targetPos = _player.transform.position + new Vector3(shoulderOffset.x, shoulderOffset.y, 0f);
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed);
+                SetIdle?.Invoke(_isAttached);
             }
             else
             {
+                SetIdle?.Invoke(_isAttached);
                 if (_currentPathPosition == Vector3.zero) return;
 
                 if (!_isSwinging)
@@ -113,7 +116,6 @@ namespace Knitby
                 DirectionUpdated?.Invoke(direction.x, direction.y);
                 transform.position += direction * (Time.deltaTime * interpolationSpeed);
             }
-
         }
 
         private void FixedUpdate()
@@ -126,11 +128,13 @@ namespace Knitby
 
             if (_queueTimer > 0) return;
             _queueTimer = timeOffset / granularity;
+            
             if (_path.Count == granularity)
                 _currentPathPosition = _path.Dequeue();
             _path.Enqueue(_player.transform.position);
-
+            
             bool groundHit = CapsuleCastCollision(Vector2.down, collisionDistance);
+
             if (_grounded != groundHit)
             {
                 _grounded = groundHit;
@@ -162,16 +166,6 @@ namespace Knitby
             if (!_player) return;
             PlayerController playerController = _player.GetComponent<PlayerController>();
             playerController.Death -= PlayerDeath;
-        }
-        
-        public void AttachToPlayer()
-        {
-            _isAttached = true;
-        }
-        
-        public void DetachFromPlayer()
-        {
-            _isAttached = false;
         }
 
         private RaycastHit2D CapsuleCastCollision(Vector2 dir, float distance)
