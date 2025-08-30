@@ -94,6 +94,18 @@ namespace Managers
         }
 
         /// <summary>
+        /// Determines if the level time is within the threshold.
+        /// </summary>
+        /// <param name="level">Level number (1-NumLevels)</param>
+        /// <param name="timeInSeconds">Level time, seconds</param>
+        /// <returns>True if time is within threshold, false otherwise (e.g. invalid level/time)</returns>
+        public bool IsTimeWithinThreshold(int level, float timeInSeconds)
+        {
+            if (level < 1 || level > levels.Length) return false;
+            return !float.IsNaN(timeInSeconds) && levels[level - 1].timeToBeat > timeInSeconds;
+        }
+
+        /// <summary>
         /// Initializes level and cutscene lookup if not present.
         /// </summary>
         private void InitializeLookupsIfNotPresent()
@@ -133,6 +145,7 @@ namespace Managers
             public string preLevelCutscene;
             public string levelName;
             public string postLevelCutscene;
+            public float timeToBeat;
         }
     }
 }
