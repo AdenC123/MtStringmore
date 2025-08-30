@@ -23,14 +23,14 @@ Marshmallow: Um... Knitby.
 Marshmallow: Are you...
 Knitby: Hmm?
 Marshmallow: Do you want to keep going?
-Knitby: Oh...
+Knitby: Oh...?
 Marshmallow_faraway: I... I was actually worried I'd lost you back there.
 Marshmallow_faraway: Maybe you were right all along. I was so reckless, you warned me again and again about how dangerous this is, but...
 Knitby_confused: ...
 Marshmallow_faraway: I just kept running without even thinking if you're okay.
 <<flip Knitby>>
 <<wait 2>>
-Knitby: We can only thank the stars that we survived without a tear.
+Knitby: We... can only be grateful that we made it out in one piece.
 Marshmallow: ...Yeah.
 Marshmallow: Okay, I guess it's time to go home...
 <<fix_coords 14 1>>
