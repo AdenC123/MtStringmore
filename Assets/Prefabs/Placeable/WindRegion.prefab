@@ -98,12 +98,9 @@ MonoBehaviour:
   headwindSpeed: 15
   headwindDecl: 20
   tailwindAccel: 50
-  windZoneSize: {x: 20, y: 20}
   windParticles: {fileID: 6798139565459321612}
-  boxCollider: {fileID: 9117195392424306319}
   childParticleSystem: {fileID: 2854986540465095608}
   fadeSpeed: 1
-  audioSource: {fileID: 6059428688773899260}
 --- !u!198 &6798139565459321612
 ParticleSystem:
   m_ObjectHideFlags: 0
