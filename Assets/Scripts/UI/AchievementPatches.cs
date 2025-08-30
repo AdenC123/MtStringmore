@@ -1,11 +1,14 @@
+using System.Linq;
 using Managers;
 using Save;
-using UI;
 using UnityEngine.UI;
 using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Custom logic to handle accomplishing certain achievements (time less than threshold, no deaths/all candies).
+    /// </summary>
     public class AchievementPatches : MonoBehaviour
     {
         [SerializeField] private Image timeImage, candyImage, deathImage, playPanel;
@@ -16,14 +19,9 @@ namespace UI
         [SerializeField, Tooltip("Time to bead to gain achievementPatch in seconds")]
         private float level1Threshold, level2Threshold, level3Threshold, level4Threshold;
 
-        /// <summary>
-        /// A check for whether the panel should be gold for each level
-        /// </summary>
-        public bool isGoldL1 { get; private set; } = false;
+        private readonly bool[] levelsGold = new bool[4];
 
-        public bool isGoldL2 { get; private set; } = false;
-        public bool isGoldL3 { get; private set; } = false;
-        public bool isGoldL4 { get; private set; } = false;
+        public bool IsAllGold => levelsGold.All(a => a);
 
         /// <summary>
         /// Displays achievement patches if applicable, called by Level Select line 97
@@ -42,23 +40,12 @@ namespace UI
             bool deathCondition = numDeaths == 0;
             bool timeCondition = !float.IsNaN(timeTaken) && WithinTimeThreshold(level, timeTaken);
 
-            //check default value for candy
-            if (candiesInLevel != -1)
-                candyImage.sprite = candyCondition ? candyPatch : levelCandy;
-
+            candyImage.sprite = candyCondition ? candyPatch : levelCandy;
             deathImage.sprite = deathCondition ? deathPatch : defaultDeath;
-
-            //check default value for time
-            if (!float.IsNaN(timeTaken))
-                timeImage.sprite = timeCondition ? timePatch : defaultTime;
-            else
-                timeImage.sprite = defaultTime;
+            timeImage.sprite = timeCondition ? timePatch : defaultTime;
 
             //apply gold to playPanel if applicable
-            if (timeCondition && candyCondition && deathCondition)
-                playPanel.sprite = goldPanel;
-            else
-                playPanel.sprite = defaultPanel;
+            playPanel.sprite = timeCondition && candyCondition && deathCondition ? goldPanel : defaultPanel;
         }
 
         private bool WithinTimeThreshold(int level, float timeTaken)
@@ -78,51 +65,27 @@ namespace UI
         /// 1. Under time threshold
         /// 2. All Candies Collected
         /// 3. Zero deaths
-        /// called from LevelSelect line 46
+        /// called from LevelSelect on Start
         /// </summary>
         /// <param name="btn">Candidate button for turning gold</param>
         /// <param name="level">Level number</param>
         public void CheckSetGoldButton(LevelSelectButton btn, int level)
         {
-            GameManager gm = GameManager.Instance;
-            Debug.Log(level);
-
             //make sure level is within correct range
             if (1 > level || level > 4) return;
-            LevelData thisLevel;
-            thisLevel = gm.AllLevelData[level - 1];
+            LevelData thisLevel = GameManager.Instance.AllLevelData[level - 1];
 
             //check defaults, then check if we meet all requirement
-            if (!thisLevel.totalCandiesInLevel.Equals(-1) &&
-                !thisLevel.leastDeaths.Equals(-1) &&
-                !float.IsNaN(thisLevel.bestTime))
+            if (thisLevel.totalCandiesInLevel == -1 || thisLevel.leastDeaths == -1 || float.IsNaN(thisLevel.bestTime))
             {
-                if (WithinTimeThreshold(level, thisLevel.bestTime) &&
-                    thisLevel.mostCandiesCollected - thisLevel.totalCandiesInLevel == 0 &&
-                    thisLevel.leastDeaths == 0)
-                {
-                    btn.SetGold();
-                    SetVariableGold(level);
-                }
+                return;
             }
-        }
-
-        private void SetVariableGold(int level)
-        {
-            switch (level)
+            if (WithinTimeThreshold(level, thisLevel.bestTime) &&
+                thisLevel.mostCandiesCollected - thisLevel.totalCandiesInLevel == 0 &&
+                thisLevel.leastDeaths == 0)
             {
-                case 1:
-                    isGoldL1 = true;
-                    break;
-                case 2:
-                    isGoldL2 = true;
-                    break;
-                case 3:
-                    isGoldL3 = true;
-                    break;
-                case 4:
-                    isGoldL4 = true;
-                    break;
+                btn.SetGold();
+                levelsGold[level - 1] = true;
             }
         }
     }
