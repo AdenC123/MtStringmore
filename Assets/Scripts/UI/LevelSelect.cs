@@ -78,15 +78,14 @@ namespace UI
                 candyText.text = mostCandiesCollected + "/" + totalCandiesInLevel;
 
             // Deaths
-            Debug.Log(selectedLevel.leastDeaths);
             int deaths = selectedLevel.leastDeaths;
-            deathText.text = deaths == -1 ? "N/A" : selectedLevel.leastDeaths.ToString();
+            deathText.text = deaths == -1 ? "N/A" : deaths.ToString();
 
             // Time
             float bestTime = selectedLevel.bestTime;
             timeText.text = float.IsNaN(bestTime)
                 ? EmptySaveTime
-                : TimeSpan.FromSeconds(selectedLevel.bestTime).ToString(@"mm\:ss\:ff");
+                : TimeSpan.FromSeconds(bestTime).ToString(@"mm\:ss\:ff");
 
             // CandyImage
             Sprite candy = levelCandyImages[levelNumber - 1];
