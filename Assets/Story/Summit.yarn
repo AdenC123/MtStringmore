@@ -24,7 +24,7 @@ Marshmallow: Three, two, one, jump!
 <<wait 2>>
 <<flip Marshmallow>>
 Marshmallow_smile: Nice to be on solid ground again, huh?
-Knitby: My relief is beyond imaginable.
+Knitby: My relief is unimaginable.
 <<wait 1>>
 Knitby: ... This feels surreal, the clouds are actually within our reach.
 <<animator_set_trigger Marshmallow FaceAway>>
