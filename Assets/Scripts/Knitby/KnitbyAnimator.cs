@@ -41,7 +41,6 @@ namespace Knitby
             _knitbyController.Swing += OnSwing;
             _knitbyController.CanDash += OnPlayerCanDash;
             _knitbyController.PlayerDeath += OnPlayerDeath;
-            _knitbyController.SetIdle += OnIdle;
 
             GameManager.Instance.Reset += OnReset;
         }
@@ -83,8 +82,7 @@ namespace Knitby
 
         private void OnSwing(bool inSwing)
         {
-            // anim.SetBool(SwingKey, inSwing);
-            // _knitbyController.AttachToPlayer();
+            anim.SetBool(SwingKey, inSwing);
         }
 
         private void OnPlayerCanDash(bool canDash)

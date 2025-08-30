@@ -175,7 +175,7 @@ MonoBehaviour:
   interpolationSpeed: 20
   shoulderOffset: {x: -1.5, y: 1}
   attachLerpSpeed: 20
-  _isAttached: 0
+  _isPlayerHanging: 0
   collisionLayer:
     serializedVersion: 2
     m_Bits: 256

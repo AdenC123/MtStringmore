@@ -4,6 +4,7 @@ using Managers;
 using Player;
 using UnityEditor.UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Knitby
 {
@@ -22,10 +23,11 @@ namespace Knitby
         [SerializeField] private int granularity = 10;
         [SerializeField] private float interpolationSpeed = 20;
         
+        [FormerlySerializedAs("shoulderOffset")]
         [Header("Attach Settings")] 
-        [SerializeField] private Vector2 shoulderOffset = new Vector2(0.5f, 0.5f);
+        [SerializeField] private Vector2 attachOffset = new Vector2(0.5f, 0.5f);
         [SerializeField] private float attachLerpSpeed = 15f;
-        private bool _isAttached;
+        [SerializeField] private bool _isPlayerHanging;
 
         [Header("Collisions")] [SerializeField]
         private LayerMask collisionLayer;
@@ -94,18 +96,17 @@ namespace Knitby
         private void Update()
         {
             if (!_player) return;
-
-            _isAttached = _isSwinging;
             
-            if (_isAttached)
+            if (_isPlayerHanging)
             {
-                Vector3 targetPos = _player.transform.position + new Vector3(shoulderOffset.x, shoulderOffset.y, 0f);
+                float xFlip = _playerController.Velocity.x < 0 ? -1 : 1;
+                Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * xFlip, attachOffset.y, 0f);
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed);
-                SetIdle?.Invoke(_isAttached);
+                SetIdle?.Invoke(_isPlayerHanging);
             }
             else
             {
-                SetIdle?.Invoke(_isAttached);
+                SetIdle?.Invoke(_isPlayerHanging);
                 if (_currentPathPosition == Vector3.zero) return;
 
                 if (!_isSwinging)
@@ -158,6 +159,11 @@ namespace Knitby
         private void OnEnable()
         {
             GameManager.Instance.Reset += OnReset;
+            
+            if (_player == null) _player = GameObject.FindWithTag("Player");
+            
+            PlayerController playerController = _player.GetComponent<PlayerController>();
+            if (playerController) playerController.HangChanged += OnHangChanged;
         }
 
         private void OnDisable()
@@ -165,9 +171,15 @@ namespace Knitby
             GameManager.Instance.Reset -= OnReset;
             if (!_player) return;
             PlayerController playerController = _player.GetComponent<PlayerController>();
+            if (playerController) playerController.HangChanged += OnHangChanged;
             playerController.Death -= PlayerDeath;
         }
 
+        private void OnHangChanged(bool isHanging, bool facingLeft)
+        {
+            _isPlayerHanging = isHanging;
+        }
+        
         private RaycastHit2D CapsuleCastCollision(Vector2 dir, float distance)
         {
             return Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0,
