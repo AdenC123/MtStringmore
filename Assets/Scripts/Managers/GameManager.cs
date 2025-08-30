@@ -29,6 +29,8 @@ namespace Managers
         /// </remarks>
         public static GameManager Instance => _instance ??= FindObjectOfType<GameManager>();
 
+        public const int NumLevels = 4;
+
         /// <summary>
         /// Last checkpoint position. The player should respawn here if they die.
         /// </summary>
@@ -116,7 +118,7 @@ namespace Managers
 
         private readonly HashSet<Vector2> _prevCheckpoints = new();
         private readonly HashSet<string> _levelsAccessed = new();
-        private readonly LevelData[] _levelData = new LevelData[4];
+        private readonly LevelData[] _levelData = new LevelData[NumLevels];
 
         private bool _areInteractablesEnabled = true;
 

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Managers;
 using Save;
@@ -17,11 +18,19 @@ namespace UI
         private Sprite defaultTime, defaultDeath, timePatch, candyPatch, deathPatch, goldPanel, defaultPanel;
 
         [SerializeField, Tooltip("Time to bead to gain achievementPatch in seconds")]
-        private float level1Threshold, level2Threshold, level3Threshold, level4Threshold;
-
-        private readonly bool[] levelsGold = new bool[4];
+        private float[] levelTimeThresholds = new float[GameManager.NumLevels];
+        private readonly bool[] levelsGold = new bool[GameManager.NumLevels];
 
         public bool IsAllGold => levelsGold.All(a => a);
+
+        private void OnValidate()
+        {
+            if (levelTimeThresholds.Length >= GameManager.NumLevels) return;
+            Debug.LogWarning("AchievementPatches OnValidate: levelTimeThresholds.Length < " + GameManager.NumLevels);
+            float[] newTime = new float[GameManager.NumLevels];
+            Array.Copy(levelTimeThresholds, newTime, levelTimeThresholds.Length);
+            levelTimeThresholds = newTime;
+        }
 
         /// <summary>
         /// Displays achievement patches if applicable, called by Level Select line 97
@@ -38,7 +47,9 @@ namespace UI
             //conditions to meet to get patch
             bool candyCondition = candiesInLevel != -1 && candiesCollected == candiesInLevel;
             bool deathCondition = numDeaths == 0;
-            bool timeCondition = !float.IsNaN(timeTaken) && WithinTimeThreshold(level, timeTaken);
+            bool timeCondition = !float.IsNaN(timeTaken) &&
+                                 levelTimeThresholds.Length >= level &&
+                                 timeTaken < levelTimeThresholds[level-1];
 
             candyImage.sprite = candyCondition ? candyPatch : levelCandy;
             deathImage.sprite = deathCondition ? deathPatch : defaultDeath;
@@ -46,18 +57,6 @@ namespace UI
 
             //apply gold to playPanel if applicable
             playPanel.sprite = timeCondition && candyCondition && deathCondition ? goldPanel : defaultPanel;
-        }
-
-        private bool WithinTimeThreshold(int level, float timeTaken)
-        {
-            return level switch
-            {
-                1 => timeTaken < level1Threshold,
-                2 => timeTaken < level2Threshold,
-                3 => timeTaken < level3Threshold,
-                4 => timeTaken < level4Threshold,
-                _ => false
-            };
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace UI
         public void CheckSetGoldButton(LevelSelectButton btn, int level)
         {
             //make sure level is within correct range
-            if (1 > level || level > 4) return;
+            if (1 > level || level > GameManager.NumLevels) return;
             LevelData thisLevel = GameManager.Instance.AllLevelData[level - 1];
 
             //check defaults, then check if we meet all requirement
@@ -80,7 +79,7 @@ namespace UI
             {
                 return;
             }
-            if (WithinTimeThreshold(level, thisLevel.bestTime) &&
+            if (levelTimeThresholds.Length >= level && levelTimeThresholds[level-1] > thisLevel.bestTime &&
                 thisLevel.mostCandiesCollected - thisLevel.totalCandiesInLevel == 0 &&
                 thisLevel.leastDeaths == 0)
             {
