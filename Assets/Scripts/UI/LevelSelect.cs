@@ -29,7 +29,6 @@ namespace UI
         private const string EmptySaveTime = "--:--:--";
         private string _selectedScene;
         private LevelSelectButton _selectedButton;
-        private int _debugButtonPressed;
 
         private void Start()
         {
@@ -96,26 +95,6 @@ namespace UI
             if (_selectedButton) _selectedButton.MarkUnselected();
             _selectedButton = button;
             button.MarkSelected();
-        }
-
-        /// <summary>
-        /// Debug button pressed.
-        /// </summary>
-        // ReSharper disable once UnusedMember.Global
-        public void DebugButtonPressed()
-        {
-            _debugButtonPressed++;
-            if (_debugButtonPressed > 10)
-            {
-                int childCount = buttonContainer.childCount;
-                for (int i = 0; i < childCount; i++)
-                {
-                    LevelSelectButton btn = buttonContainer.GetChild(i).GetComponent<LevelSelectButton>();
-                    btn.Initialize(i + 1, true);
-                }
-
-                transform.Find("SecretDebugOption").GetChild(0).gameObject.SetActive(true);
-            }
         }
 
         /// <summary>
