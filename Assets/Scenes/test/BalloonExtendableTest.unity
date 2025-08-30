@@ -2682,14 +2682,6 @@ PrefabInstance:
       propertyPath: tailwindSpeed
       value: 40
       objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.x
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932240251994718148, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
-      propertyPath: windZoneSize.y
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 9117195392424306319, guid: 4f145837ce26d784880911c2f0e82dd2, type: 3}
       propertyPath: m_Size.x
       value: 40

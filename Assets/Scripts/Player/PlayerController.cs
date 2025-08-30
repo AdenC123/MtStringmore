@@ -215,6 +215,7 @@ namespace Player
         private bool _wasSwingClockwise;
         private ShakeCamera _shake;
         private Coroutine _dashNoclipHax;
+        private bool _inNoDashArea;
         #endregion
 
         #region Unity Event Handlers
@@ -311,6 +312,8 @@ namespace Player
                 // can't swing if outside swing area
                 // assumes swing areas are not overlapping
                 _canSwing = false;
+                // allow dashing right after exiting swing, even if still in no dash area
+                ExitNoDashArea();
             }
         }
 
@@ -341,6 +344,10 @@ namespace Player
         }
 
         #endregion
+
+        public void EnterNoDashArea() => _inNoDashArea = true;
+        
+        public void ExitNoDashArea() => _inNoDashArea = false;
 
         public bool HasPlayerVelocityEffector(IPlayerVelocityEffector playerVelocityEffector)
         {
@@ -584,7 +591,7 @@ namespace Player
 
         private void HandleDash()
         {
-            if (PlayerState is PlayerStateEnum.Air && IsButtonUsed() && _canDash && !_closeToWall)
+            if (PlayerState is PlayerStateEnum.Air && IsButtonUsed() && _canDash && !_closeToWall && !_inNoDashArea)
             {
                 // start a dash
                 _canDash = false;
@@ -605,14 +612,14 @@ namespace Player
             {
                 // move player forward at dash speed
                 _velocity.y = 0;
-                _velocity.x = dashSpeed * Direction;
+                if (Mathf.Abs(_velocity.x) < dashSpeed) _velocity.x = dashSpeed * Direction;
                 // check if dash is over
                 if (_time - _timeDashed >= dashTime)
                 {
                     PlayerState = PlayerStateEnum.Air;
                     if (_dashNoclipHax != null) StopCoroutine(_dashNoclipHax);
                     _dashNoclipHax = StartCoroutine(DashNoClipHaxRoutine());
-                    _velocity.x = endDashSpeed * Direction;
+                    if (Mathf.Abs(_velocity.x) < endDashSpeed) _velocity.x = endDashSpeed * Direction;
                     TimeDashEnded = Time.time;
                 }
             }
@@ -900,6 +907,7 @@ namespace Player
             PlayerState = PlayerStateEnum.Run;
             _velocity = Vector2.zero;
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("LetterBlock"), false);
+            _inNoDashArea = false;
         }
     }
 }
