@@ -153,6 +153,7 @@ namespace Managers
             }
 
             Debug.Log("Application version: " + Application.version);
+            UpdateFromSaveData();
         }
 
         private void Update()

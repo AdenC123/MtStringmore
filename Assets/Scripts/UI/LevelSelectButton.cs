@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Managers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ namespace UI
     {
         [SerializeField] private Sprite unlockedSprite;
         [SerializeField] private Sprite lockedSprite;
+        [SerializeField] private Sprite goldSprite;
 
         /// <summary>
         /// Button's level number.
@@ -42,7 +44,13 @@ namespace UI
         {
             _button.interactable = unlocked;
             _text.text = unlocked ? levelNumber.ToString() : string.Empty;
-            _image.sprite = unlocked ? unlockedSprite : lockedSprite;
+            bool isGold = GameManager.Instance.AllLevelData.Count >= levelNumber && // because some guy created a level 5
+                GameManager.Instance.AllLevelData[levelNumber - 1].IsLevelGold(levelNumber);
+            if (isGold)
+                _image.sprite = goldSprite;
+            else
+                _image.sprite = unlocked ? unlockedSprite : lockedSprite;
+
             LevelNumber = levelNumber;
         }
 
