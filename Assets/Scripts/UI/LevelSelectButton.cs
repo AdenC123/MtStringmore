@@ -44,7 +44,8 @@ namespace UI
         {
             _button.interactable = unlocked;
             _text.text = unlocked ? levelNumber.ToString() : string.Empty;
-            bool isGold = GameManager.Instance.AllLevelData[levelNumber - 1].IsLevelGold(levelNumber);
+            bool isGold = GameManager.Instance.AllLevelData.Count >= levelNumber && // because some guy created a level 5
+                GameManager.Instance.AllLevelData[levelNumber - 1].IsLevelGold(levelNumber);
             if (isGold)
                 _image.sprite = goldSprite;
             else

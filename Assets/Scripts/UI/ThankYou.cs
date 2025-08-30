@@ -12,7 +12,7 @@ namespace UI
     {
         [SerializeField] private TextMeshProUGUI text;
 
-        private void OnEnable()
+        private void Start()
         {
             text.enabled = GameManager.Instance.AllLevelData.Select((data, index) => (data, index))
                 .All(tuple => tuple.data.IsLevelGold(tuple.index));
