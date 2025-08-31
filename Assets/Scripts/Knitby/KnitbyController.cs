@@ -38,6 +38,8 @@ namespace Knitby
 
         public event Action<bool> SetIdle;
 
+        public event Action<bool> SetWait;
+        
         /// <summary>
         ///     Fires when direction updates.
         ///     Parameters: x and y, distances from position in previous frame
@@ -99,7 +101,7 @@ namespace Knitby
         {
             if (!_player) return;
             
-            SetIdle?.Invoke(_isPlayerHanging);
+            SetWait?.Invoke(_isPlayerHanging);
             if (_isPlayerHanging)
             {
                 float xFlip = _playerController.Direction;
@@ -111,7 +113,7 @@ namespace Knitby
                 if (_currentPathPosition == Vector3.zero) return;
 
                 if (!_isSwinging)
-                    SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
+                    SetWait?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
 
                 Vector3 direction = _currentPathPosition - transform.position;
 

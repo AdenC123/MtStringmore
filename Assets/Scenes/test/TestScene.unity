@@ -457,7 +457,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4476534854235773522, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: attachOffset.x
-      value: -1.2
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4476534854235773522, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: attachOffset.y
@@ -465,7 +465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4476534854235773522, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: attachLerpSpeed
-      value: 60
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 4476534854235773522, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: shoulderOffset.x

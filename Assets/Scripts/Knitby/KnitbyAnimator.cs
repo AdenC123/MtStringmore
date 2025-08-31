@@ -17,6 +17,7 @@ namespace Knitby
         private static readonly int LeaveWallKey = Animator.StringToHash("LeaveWall");
         private static readonly int SwingKey = Animator.StringToHash("InSwing");
         private static readonly int IdleKey = Animator.StringToHash("Idle");
+        private static readonly int WaitKey = Animator.StringToHash("Wait");
         private static readonly int PlayerDeadKey = Animator.StringToHash("PlayerDead");
         private static readonly int FadeControl = Shader.PropertyToID("_FadeControl");
         [SerializeField] private Animator anim;
@@ -54,6 +55,7 @@ namespace Knitby
             _knitbyController.CanDash -= OnPlayerCanDash;
             _knitbyController.PlayerDeath -= OnPlayerDeath;
             _knitbyController.SetIdle -= OnIdle;
+            _knitbyController.SetWait -= OnWait;
 
             GameManager.Instance.Reset -= OnReset;
         }
@@ -61,6 +63,11 @@ namespace Knitby
         private void OnIdle(bool value)
         {
             anim.SetBool(IdleKey, value);
+        }
+        
+        private void OnWait(bool value)
+        {
+            anim.SetBool(WaitKey, value);
         }
 
         private void OnMove(float x, float y)
