@@ -50,7 +50,10 @@ namespace Managers
         /// <param name="fadeDuration">Duration of fade, seconds</param>
         /// <returns>Coroutine</returns>
         [YarnCommand("fade_out_bgm")]
-        public IEnumerator FadeOutBGM(float fadeDuration = 0) => _audioSource.FadeOut(fadeDuration);
+        public void FadeOutBGM(float fadeDuration = 0)
+        {
+            StartCoroutine(_audioSource.FadeOut(fadeDuration));
+        }
 
         /// <summary>
         /// Play the given background music.

@@ -113923,7 +113923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f134b98831f254aafdfa0dff56eaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevel: EndCutscene
+  nextLevel: Cutscene5
 --- !u!1001 &2033653130
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -106,14 +106,6 @@ namespace Managers
         /// </summary>
         public int ThisLevelDeaths { get; private set; }
 
-        /// <summary>
-        /// The time it took for player to beat a level in seconds.
-        /// </summary>
-        /// <remarks>
-        /// Called by results manager and level select to display stats
-        /// </remarks>
-        public float ThisLevelTime { get; set; } = float.NaN;
-
         private readonly HashSet<Vector2> _prevCheckpoints = new();
         private readonly HashSet<string> _levelsAccessed = new();
         private readonly LevelData[] _levelData = new LevelData[4];
@@ -128,7 +120,6 @@ namespace Managers
                 return;
             }
             _instance = this;
-            ThisLevelTime = float.NaN;
             for (int i = 0; i < _levelData.Length; i++)
             {
                 _levelData[i] = new LevelData();
@@ -164,12 +155,6 @@ namespace Managers
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-
-            PlayerController player = FindObjectOfType<PlayerController>();
-            if (player)
-            {
-                player.Death -= OnPlayerDeath;
-            }
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -187,7 +172,6 @@ namespace Managers
                 PlayerController player = FindObjectOfType<PlayerController>();
                 if (player)
                 {
-                    player.Death += OnPlayerDeath;
                     CheckPointPos = player.transform.position;
                     Debug.Log("Hopefully set checkpoint position to be player's position: " + CheckPointPos);
                 }
@@ -199,31 +183,18 @@ namespace Managers
 
                 Collectable[] collectables = FindObjectsByType<Collectable>(FindObjectsSortMode.None);
                 MaxCollectablesCount = collectables.Length;
-                Debug.Log("GameManager loaded " + MaxCollectablesCount + " collectables");
+                Debug.Log($"GameManager loaded {MaxCollectablesCount} collectables");
             }
             else
             {
                 Debug.Log("Skipping collectable count in cutscene. Using previous value: " + MaxCollectablesCount);
-                Debug.Log("Skipping ThisLevelTime in cutscene. Using previous value: " + ThisLevelTime);
-            }
-        }
-
-        private void OnPlayerDeath()
-        {
-            //brings the deaths from a negative sentinel value to 1
-            if (ThisLevelDeaths == -1)
-            {
-                ThisLevelDeaths += 2;
-            }
-            else
-            {
-                ThisLevelDeaths++;
             }
         }
 
         /// <summary>
         /// Saves level data - called by resultsManager once last checkpoint is reached.
         /// </summary>
+        [YarnCommand("save_game")]
         public void SaveGame()
         {
             SaveLevelDataToGameManager();
@@ -255,8 +226,9 @@ namespace Managers
                 : Mathf.Min(updatedLevelData.leastDeaths, cleanedLevelDeaths);
 
             // Time
-            updatedLevelData.bestTime = float.IsNaN(updatedLevelData.bestTime) ? ThisLevelTime :
-                Math.Min(updatedLevelData.bestTime, ThisLevelTime);
+            float thisLevelTime = TimerManager.ElapsedLevelTime;
+            updatedLevelData.bestTime = float.IsNaN(updatedLevelData.bestTime) ? thisLevelTime :
+                Math.Min(updatedLevelData.bestTime, thisLevelTime);
             _levelData[index] = updatedLevelData;
         }
 
@@ -349,6 +321,16 @@ namespace Managers
         {
             Reset?.Invoke();
             sceneTransitionCanvas.FadeIn -= OnFadeIn;
+            
+            //brings the deaths from a negative sentinel value to 1
+            if (ThisLevelDeaths == -1)
+            {
+                ThisLevelDeaths += 2;
+            }
+            else
+            {
+                ThisLevelDeaths++;
+            }
         }
 
         [YarnCommand("load_scene_nonblock")]
