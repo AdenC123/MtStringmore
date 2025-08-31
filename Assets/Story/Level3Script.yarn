@@ -81,6 +81,7 @@ Marshmallow: Yeah, let's do it.
 <<run CutsceneMarshmallow 80 -197.7 8 true>>
 <<resize_camera 10 0.2>>
 <<wait 0.25>>
+<<fade_out_bgm Manager 3>>
 <<fade_out 3>>
 <<wait 0.5>>
 <<cutscene_state CustomLevel3Logic false>>
