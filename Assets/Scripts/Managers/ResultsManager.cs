@@ -47,7 +47,6 @@ namespace Managers
         {
             Time.timeScale = 0;
             if (_lastCheckpoint) _lastCheckpoint.UpdateLevelAccess();
-            GameManager.Instance.ThisLevelTime = TimerManager.ElapsedLevelTime;
             GameManager.Instance.SaveGame();
             resultsWindow.gameObject.SetActive(true);
             resultsWindow.UpdateDisplay();
