@@ -3,7 +3,7 @@ setting: the summit of mt. stringmore
 ---
 <<animator_set_bool Marshmallow Hang true>>
 <<fix_coords 0 1.5>>
-<<resize_camera 8 10>>
+<<resize_camera 8 100>>
 <<shiver Knitby 0.05 0.05>>
 <<wait 0.3>>
 <<fade_in>>
