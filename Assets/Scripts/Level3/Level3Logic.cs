@@ -31,6 +31,10 @@ namespace Level3
         private void Awake()
         {
             _checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
+            foreach (Checkpoint checkpoint in _checkpoints)
+            {
+                checkpoint.IsMarshmellowOnly = true;
+            }
             _zippers = FindObjectsByType<AttachableMovingObject>(FindObjectsSortMode.None);
             
             _player = FindAnyObjectByType<PlayerController>();
@@ -102,6 +106,7 @@ namespace Level3
             {
                 if (checkpoint != secondHalfCheckpoint) 
                     checkpoint.FlipAndResetCheckpoint();
+                checkpoint.IsMarshmellowOnly = false;
             }
             secondHalfCheckpoint.respawnFacingLeft = true;
             GameManager.Instance.RespawnFacingLeft = true;
