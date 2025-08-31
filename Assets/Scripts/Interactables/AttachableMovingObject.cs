@@ -82,6 +82,10 @@ namespace Interactables
         [SerializeField,
          Tooltip("Audio clip to play when player releases from moving object after it's reached the furthest position")]
         private AudioClip badReleaseClip;
+
+        [SerializeField] private Material _originalMaterial, _perfectRangeMaterial;
+        
+        private bool _inPerfectRange;
         
         private Coroutine _activeMotion;
 
@@ -100,6 +104,8 @@ namespace Interactables
         private PlayerController _player;
         private AudioSource _audioSource;
         private SpriteRenderer _tabRenderer;
+        
+        
 
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
@@ -161,7 +167,25 @@ namespace Interactables
                 _rigidbody.velocity = EvaluateAt(time) * diff.normalized;
                 _prevVelocity = _rigidbody.velocity;
                 time += Time.fixedDeltaTime;
+                
+                bool nowPerfect = _prevVelocity.magnitude >= perfectReleaseThreshold * maxSpeed;
+
+                switch (nowPerfect)
+                {
+                    case true when !_inPerfectRange:
+                        _tabRenderer.material = _perfectRangeMaterial;
+                        _inPerfectRange = true;
+                        break;
+                    case false when _inPerfectRange:
+                        _tabRenderer.material = _originalMaterial;
+                        _inPerfectRange = false;
+                        break;
+                }
             }
+            
+            //Reset colors
+            _inPerfectRange = false;
+            _tabRenderer.material = _originalMaterial;
 
             _rigidbody.position = secondPosition;
             _rigidbody.velocity = Vector2.zero;
@@ -223,6 +247,7 @@ namespace Interactables
         /// <inheritdoc />
         public override void OnPlayerExit(PlayerController player)
         {
+            _tabRenderer.material = _originalMaterial;
         }
 
         /// <inheritdoc />
@@ -272,7 +297,10 @@ namespace Interactables
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, _prevVelocity, exitVelBoost), true);
             _audioSource.Stop();
             if (IsPerfectRelease())
+            {
                 _audioSource.PlayOneShot(perfectReleaseClip);
+                
+            }
             StopMotion();
             if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
             _unzippedMotion = StartCoroutine(UnzipCoroutine());
