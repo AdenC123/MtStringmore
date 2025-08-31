@@ -57555,12 +57555,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2093800853}
   - {fileID: 675325525}
   - {fileID: 1806021933}
   - {fileID: 1088793804}
   - {fileID: 1893608414}
   - {fileID: 36154284}
-  - {fileID: 2093800853}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1116198549
@@ -65855,15 +65855,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gradient:
-    serializedVersion: 2
-    key0: {r: 0.2, g: 0.3254902, b: 0.6313726, a: 1}
-    key1: {r: 0.73333335, g: 0.36078432, b: 0.4, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
+    key0:
+      r: 0.2
+      g: 0.3254902
+      b: 0.6313726
+      a: 1
+    key1:
+      r: 0.73333335
+      g: 0.36078432
+      b: 0.4
+      a: 1
+    key2:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key3:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key4:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key5:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key6:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key7:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
     ctime0: 0
     ctime1: 65535
     ctime2: 0
@@ -65886,6 +65917,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   minY: 0
   maxY: 400
+  cam: {fileID: 0}
   sr: {fileID: 0}
 --- !u!4 &1893770802 stripped
 Transform:
@@ -67626,7 +67658,7 @@ GameObject:
   - component: {fileID: 2093800853}
   - component: {fileID: 2093800854}
   m_Layer: 0
-  m_Name: Square
+  m_Name: SunriseSky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67641,8 +67673,8 @@ Transform:
   m_GameObject: {fileID: 2093800852}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 412.2352, y: 673.1191, z: 0}
-  m_LocalScale: {x: 2117.876, y: 1435.5142, z: 1}
+  m_LocalPosition: {x: 379.2906, y: 629.2896, z: 10}
+  m_LocalScale: {x: 1773.7382, y: 1339.2241, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1111688093}
