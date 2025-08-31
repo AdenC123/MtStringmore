@@ -678,6 +678,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: FaceAway
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Eat
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8065619330816116229}
   m_Solo: 0
