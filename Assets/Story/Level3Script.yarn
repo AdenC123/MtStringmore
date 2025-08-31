@@ -75,6 +75,7 @@ Knitby_relieved: Thankfully, I'm not injured, it's just that... my thoughts feel
 // TODO hot chocolate lava rumble sound
 Knitby: We should probably consider leaving now.
 Marshmallow: Yeah, let's do it.
+<<fade_out_bgm Manager 2>>
 <<wait 0.5>>
 <<run CutsceneKnitby 80 -197.7 8>>
 <<wait 0.75>>

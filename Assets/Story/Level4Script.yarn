@@ -54,6 +54,7 @@ Marshmallow_smile: Well, sounds like I have the rest of the way to convince you!
 
 title: Level4End
 ---
+<<save_game Manager>>
 <<fade_out 1>>
 <<load_scene Cutscene6>>
 ===
