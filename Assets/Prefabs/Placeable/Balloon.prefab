@@ -147,18 +147,17 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  windAudioSource: {fileID: 1927134968448480249}
-  attachAudioSource: {fileID: 3573509288529436064}
   firstPosition: {x: 6, y: 5}
   secondPosition: {x: 6, y: 20.5}
-  attachSounds:
-  - {fileID: 8300000, guid: 2dacb231db46f8a44980014e2b3f90ac, type: 3}
-  - {fileID: 8300000, guid: 292f28f65864ad348b8d69bb077e2208, type: 3}
-  - {fileID: 8300000, guid: 081a52e1f6ca2a849aa0d2f6aa8c502b, type: 3}
   boostTimer: 1
   warningDistance: 25
   initialSpeed: 2
   missWindow: 5
+  loopingAudioSource: {fileID: 1927134968448480249}
+  oneShotAudioSource: {fileID: 3573509288529436064}
+  attachSound: {fileID: 8300000, guid: ccf993050392391499829ece3b86f001, type: 3}
+  warningSound: {fileID: 8300000, guid: bcf2bc1a6eaaec84fa478f58ef0419e6, type: 3}
+  detachSound: {fileID: 8300000, guid: c899dd42e4587af43ae9b439825dfe13, type: 3}
 --- !u!82 &3573509288529436064
 AudioSource:
   m_ObjectHideFlags: 0
@@ -265,7 +264,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 7445090876735969629, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 8e3e2d422f7a0c3478c74fd6e1e69270, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

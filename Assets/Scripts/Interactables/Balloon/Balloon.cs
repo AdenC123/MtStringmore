@@ -14,6 +14,8 @@ namespace Interactables.Balloon
     [RequireComponent(typeof(Rigidbody2D), typeof(LineRenderer))]
     public class Balloon : AbstractPlayerInteractable
     {
+        [Header("Motion")]
+        
         [SerializeField, Tooltip("Acceleration curve over time, in [0, 1]")]
         private AnimationCurve accelerationCurve;
 
@@ -38,9 +40,6 @@ namespace Interactables.Balloon
         [SerializeField, Tooltip("Access to groundLayer to check attach requirements")]
         private LayerMask groundLayerMask;
 
-        [SerializeField] private AudioSource windAudioSource;
-        [SerializeField] private AudioSource attachAudioSource;
-
         /// <remarks>
         /// Has to be public to allow the editor to modify this without reflection.
         /// </remarks>
@@ -52,8 +51,7 @@ namespace Interactables.Balloon
         /// </remarks>
         [Tooltip("Second position (world space)")]
         public Vector2 secondPosition;
-
-        [SerializeField] private AudioClip[] attachSounds;
+       
 
         [SerializeField, Tooltip("Variable for how long the boost lasts after jumping off"), Min(0)]
         private float boostTimer;
@@ -66,6 +64,21 @@ namespace Interactables.Balloon
 
         [SerializeField, Min(0), Tooltip("Time before reset if you're a goof and miss it somehow")]
         private float missWindow = 5;
+        
+        [Header("Audio")]
+        
+        /// <summary>
+        /// Audio source for sounds that are looped.
+        /// </summary>
+        [SerializeField] private AudioSource loopingAudioSource;
+        
+        /// <summary>
+        /// Audio source for sounds that are played once.
+        /// </summary>
+        [SerializeField] private AudioSource oneShotAudioSource;
+        [SerializeField] private AudioClip attachSound;
+        [SerializeField] private AudioClip warningSound;
+        [SerializeField] private AudioClip detachSound;
 
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
@@ -201,6 +214,7 @@ namespace Interactables.Balloon
                 yield return new WaitForFixedUpdate();
                 if (!balloonVisual.WarningPlaying && (diff.magnitude - DistanceAlongPath) < warningDistance)
                 {
+                    oneShotAudioSource.PlayOneShot(warningSound);
                     balloonVisual.StartWarning();
                 }
 
@@ -257,9 +271,8 @@ namespace Interactables.Balloon
             _player.CanDash = true;
             if (_resetCoroutine != null) StopCoroutine(_resetCoroutine);
             _resetCoroutine = null;
-            attachAudioSource.clip = RandomUtil.SelectRandom(attachSounds);
-            attachAudioSource.Play();
-            windAudioSource.Play();
+            oneShotAudioSource.PlayOneShot(attachSound);
+            loopingAudioSource.Play();
             Vector2 targetPosition = _rigidbody.position + offset;
             player.transform.position = targetPosition;
             _lineRenderer.enabled = true;
@@ -283,11 +296,12 @@ namespace Interactables.Balloon
             if (_player.CurrentInteractableArea == this) _player.CurrentInteractableArea = null;
             StopMotion();
             Vector2 boostDirection = _rigidbody.velocity.normalized;
+            oneShotAudioSource.PlayOneShot(detachSound);
             balloonVisual.Pop();
             if (boostDirection == Vector2.zero) // Fallback in case balloon is stationary
                 boostDirection = Vector2.up; // Default to an upward boost
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, boostDirection, exitVelBoost), true);
-            windAudioSource.Stop();
+            loopingAudioSource.Stop();
             _lineRenderer.enabled = false;
             _balloonFunnyVisual.gameObject.SetActive(true);
         }
