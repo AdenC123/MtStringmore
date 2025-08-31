@@ -183,7 +183,7 @@ namespace Managers
 
                 Collectable[] collectables = FindObjectsByType<Collectable>(FindObjectsSortMode.None);
                 MaxCollectablesCount = collectables.Length;
-                Debug.Log("GameManager loaded " + MaxCollectablesCount + " collectables");
+                Debug.Log($"GameManager loaded {MaxCollectablesCount} collectables");
             }
             else
             {
