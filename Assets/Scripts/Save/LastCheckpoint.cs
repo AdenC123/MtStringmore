@@ -31,9 +31,7 @@ namespace Save
         /// </summary>
         public void UpdateLevelAccess()
         {
-            if (GameManager.Instance.AddLevelAccessed(nextLevel)) return;
-            SaveDataManager.SaveFile();
-            Debug.Log("Unlocked: " + nextLevel);
+            GameManager.Instance.AddLevelAccessed(nextLevel);
         }
     }
 }

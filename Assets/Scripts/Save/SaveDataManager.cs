@@ -11,10 +11,16 @@ namespace Save
     /// </summary>
     public static class SaveDataManager
     {
+        private static readonly string SaveFolderName = "saves";
         private static readonly string SaveFileName = "data.save";
         private static readonly ReaderWriterLock FileWriteLock = new();
 
         private static Thread _saveThread;
+
+        /// <summary>
+        /// Save file location.
+        /// </summary>
+        public static string SaveFileLocation => Path.Combine(Application.persistentDataPath, SaveFolderName, SaveFileName);
 
         /// <summary>
         /// Returns the current save state data.
@@ -43,7 +49,7 @@ namespace Save
         /// <returns>Save file data, or null if not present</returns>
         public static SaveFileData? ReadExistingSave()
         {
-            string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
+            string folderLocation = Path.Combine(Application.persistentDataPath, SaveFolderName);
             if (!EnsureSaveFolderExists(folderLocation)) return null;
             string filePath = Path.Combine(folderLocation, SaveFileName);
             if (!File.Exists(filePath)) return null;
@@ -75,9 +81,7 @@ namespace Save
         /// </summary>
         public static void DeleteSaveData()
         {
-            string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
-            if (!EnsureSaveFolderExists(folderLocation)) return;
-            string filePath = Path.Combine(folderLocation, SaveFileName);
+            string filePath = SaveFileLocation;
             if (!File.Exists(filePath)) return;
             try
             {
@@ -113,7 +117,7 @@ namespace Save
             }
 
             _saveThread?.Join();
-            string folderLocation = Path.Combine(Application.persistentDataPath, "saves");
+            string folderLocation = Path.Combine(Application.persistentDataPath, SaveFolderName);
             SaveFileWriter saveFileWriter = new(folderLocation, GetCurrentSaveData());
             _saveThread = new Thread(saveFileWriter.WriteFile);
             _saveThread.Start();
