@@ -70,7 +70,7 @@ namespace Managers
             _gameManager.ResetCandyCollected();
             isResultsPageOpen = false;
             PauseMenu.IsPauseDisabled = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(SceneListManager.Instance.LevelLoadScenes[SceneListManager.Instance.LevelNumber-1]);
         }
         
         public void LoadMainMenu()
