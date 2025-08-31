@@ -24,41 +24,83 @@ Marshmallow: Three, two, one, jump!
 <<wait 2>>
 <<flip Marshmallow>>
 Marshmallow_smile: Nice to be on solid ground again, huh?
-Knitby: It's certainly a relief.
+Knitby: My relief is unimaginable.
 <<wait 1>>
-Knitby: ...We can touch the clouds from here. That's actually incredible.
-// Marshmallow excitedly jumps to get A Cloud
+Knitby: ... This feels surreal, the clouds are actually within our reach.
+<<animator_set_bool Marshmallow FaceAway true>>
+<<wait 0.3>>
+<<trigger_checkpoint ShowCloudMarshmallow>>
 Knitby: Here goes nothing...
+<<animator_set_bool Marshmallow Eat true>>
+<<trigger_checkpoint EatCloudMarshmallow>>
+<<wait 2>>
+<<trigger_checkpoint StopEatCloudMarshmallow>>
+<<animator_set_float Marshmallow AnimSpeed 0>>
 Marshmallow: Oh my god! The clouds really do taste like cotton candy!
 Knitby: No chance. That's impossible.
-// knitby chomps a cloud, and marshmallow snickers
+<<animator_set_float Knitby AnimSpeed 0>>
+<<animator_set_bool Knitby Eat true>>
+<<wait 0.3>>
+<<trigger_checkpoint ShowCloudKnitby>>
+<<trigger_checkpoint EatCloudKnitby>>
+<<animator_set_float Knitby AnimSpeed 1>>
+<<wait 2>>
+<<trigger_checkpoint StopEatCloudKnitby>>
+<<trigger_checkpoint HideCloudKnitby>>
+<<shiver Knitby 0.1 0.2 0.5>>
+<<wait 0.5>>
+<<stop_shiver Knitby>>
+<<animator_set_bool Knitby Eat false>>
+<<wait 0.5>>
 Knitby_confused: I have no idea what you're talking about. That tastes like dusty stale water.
-Marshmallow_smile: Ha, got you!
-Knitby: Okay, but surely now you will admit that clouds don't taste like cotton candy, right?
-// marshmallow chomps another cloud, visibly more hesitantly
-Marshmallow_frown: No, it's... delicious...
+<<trigger_checkpoint EatCloudMarshmallow2>>
+<<animator_set_float Marshmallow AnimSpeed 1.5>>
+<<wait 0.75>>
+<<animator_set_float Marshmallow AnimSpeed 0.3>>
+Marshmallow_faraway: No, it's... delicious...
+<<trigger_checkpoint StopEatCloudMarshmallow2>>
+<<animator_set_float Marshmallow AnimSpeed 0>>
 Knitby_confused: ... Really.
-<<wait 1>>
-Marshmallow_frown: Okay, fine, you were right.
-// walks around in circles in a fast pace
-Marshmallow_frown: I can't believe they don't taste like cotton candy...
-Knitby: It's okay, I'm sure they'll be happy to hold your tears.
-Marshmallow_faraway: You're so mean...
-Knitby: Hey, you don't want to miss the sunrise.
+<<wait 2>>
+<<animator_set_bool Knitby Eat false>>
+Knitby: It was never really about the clouds anyway, was it?
+<<wait 3>>
+<<trigger_checkpoint HideCloudMarshmallow>>
+<<animator_set_float Marshmallow AnimSpeed 1>>
+<<animator_set_bool Marshmallow Eat false>>
+<<animator_set_bool Marshmallow FaceAway false>>
+Marshmallow_faraway: ... Well, what now?
+<<move Knitby 16 -16.2 10>>
+<<wait 0.5>>
+<<flip Knitby>>
+Knitby: The sunrise will greet us soon. It'll be a spectacle you don't want to miss.
+<<flip Marshmallow>>
 Marshmallow: What sunrise? The sun rises every day! That's not what I came here for!
-Knitby: Just watch.
-// pan camera to view
-Marshmallow: Whoa...
-Marshmallow: It's so pretty.
-<<wait 5>>
-Knitby: We are the only two fellows alive who have seen this breathtaking view.
+Knitby: Marshmallow, just... come here.
+<<flip Knitby>>
+<<run Knitby 34 -16.2 10>>
+<<wait 1>>
+<<run Marshmallow 30 -16.4 10>>
+<<wait 0.5>>
+<<fix_coords 32 -13 0.7>>
+<<wait_move_finish Marshmallow>>
+<<wait 0.5>>
+<<animator_set_float Marshmallow AnimSpeed 0>>
+<<animator_set_bool Marshmallow FaceAway true>>
+<<animator_set_float Knitby AnimSpeed 0>>
+<<animator_set_bool Knitby Eat true>>
+<<flip Knitby>>
+// TODO sunrise trigger, pan til both not visible on screen
+<<wait 4>>
+Knitby: We are the only two souls alive who have seen this breathtaking view.
+<<wait 1>>
 Marshmallow: Yeah...
-Marshmallow: Thank you for coming on this hike with me, Knitby.
-Knitby: You truly strung me along.
-Knitby: ...In a good way.
-Marshmallow_smile: Yay!
+Marshmallow: It is a stunning view.
+<<wait 2>>
+Marshmallow_smile: Thank you for coming with me, Knitby.
+Knitby_relieved: I'm glad you strung me along. Thank you, Marshmallow.
 <<fade_out 1>>
 <<wait 2>>
-Knitby: So... How do we get down from here?
-Marshmallow: Uhhh... Good question...
+Knitby: So... how do we get down from here?
+Marshmallow: Uhhh... good question...
 ===
