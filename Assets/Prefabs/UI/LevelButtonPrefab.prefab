@@ -283,7 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockedSprite: {fileID: 21300000, guid: cc6602c0d4b8f40a3a1db784f3355601, type: 3}
   lockedSprite: {fileID: 21300000, guid: 5d6ce6cf0462a462383eef4e4e147d53, type: 3}
-  goldSprite: {fileID: 21300000, guid: fdb11fc5335320b4e8f2c37b5d4ef460, type: 3}
+  goldSprite: {fileID: 21300000, guid: 36890d9c1ba21e34b9fb11d1d38a009f, type: 3}
 --- !u!82 &2490197287166932835
 AudioSource:
   m_ObjectHideFlags: 0
