@@ -48,37 +48,38 @@ Knitby: No chance. That's impossible.
 <<trigger_checkpoint StopEatCloudKnitby>>
 <<trigger_checkpoint HideCloudKnitby>>
 <<shiver Knitby 0.1 0.2 0.5>>
+<<wait 0.5>>
+<<stop_shiver Knitby>>
 <<animator_set_bool Knitby Eat false>>
 <<wait 0.5>>
 Knitby_confused: I have no idea what you're talking about. That tastes like dusty stale water.
-Marshmallow_smile: Ha, got you!
-Knitby: Okay, but surely now you will admit that clouds don't taste like cotton candy, right?
 <<trigger_checkpoint EatCloudMarshmallow2>>
 <<animator_set_float Marshmallow AnimSpeed 1.5>>
 <<wait 0.75>>
 <<animator_set_float Marshmallow AnimSpeed 0.3>>
-Marshmallow_frown: No, it's... delicious...
+Marshmallow_faraway: No, it's... delicious...
 <<trigger_checkpoint StopEatCloudMarshmallow2>>
 <<animator_set_float Marshmallow AnimSpeed 0>>
 Knitby_confused: ... Really.
-<<animator_set_float Marshmallow AnimSpeed 0.3>>
-<<trigger_checkpoint EatCloudMarshmallow3>>
 <<wait 2>>
-Knitby: Did you at least accomplish what you set out to prove?
-Marshmallow: ...
-Knitby: *sighs*...
-<<move Knitby 16 -16.2 10>>
-<<wait 0.5>>
-Knitby: The sunrise will greet us soon, it'll be a spectacle you don't want to miss.
-<<flip Knitby>>
-Knitby: Marshmallow, just... come here.
+<<animator_set_bool Knitby Eat false>>
+Knitby: It was never really about the clouds anyway, was it?
+<<wait 3>>
 <<trigger_checkpoint HideCloudMarshmallow>>
 <<animator_set_float Marshmallow AnimSpeed 1>>
 <<animator_set_bool Marshmallow Eat false>>
+<<animator_set_bool Marshmallow FaceAway false>>
+Marshmallow_faraway: ... Well, what now?
+<<move Knitby 16 -16.2 10>>
+<<wait 0.5>>
+<<flip Knitby>>
+Knitby: The sunrise will greet us soon. It'll be a spectacle you don't want to miss.
 <<flip Marshmallow>>
+Marshmallow: What sunrise? The sun rises every day! That's not what I came here for!
+Knitby: Marshmallow, just... come here.
 <<flip Knitby>>
 <<run Knitby 34 -16.2 10>>
-<<animator_set_bool Marshmallow FaceAway false>>
+<<wait 1>>
 <<run Marshmallow 30 -16.4 10>>
 <<wait 0.5>>
 <<fix_coords 32 -13 0.7>>
@@ -89,18 +90,17 @@ Knitby: Marshmallow, just... come here.
 <<animator_set_float Knitby AnimSpeed 0>>
 <<animator_set_bool Knitby Eat true>>
 <<flip Knitby>>
-<<wait 1>>
-// TODO sunrise trigger
+// TODO sunrise trigger, pan til both not visible on screen
 <<wait 4>>
-Marshmallow: Nothing really changed, and I guess it's just another day...
-Marshmallow: But, this is a really pretty view.
-<<animator_set_bool Marshmallow FaceAway false>>
-Marshmallow_smile: And I'm really happy I got to see it with you.
-<<animator_set_bool Knitby Eat false>>
-<<animator_set_float Knitby AnimSpeed 1>>
-Knitby_relieved: I'm glad you strung me along.
+Knitby: We are the only two souls alive who have seen this breathtaking view.
+<<wait 1>>
+Marshmallow: Yeah...
+Marshmallow: It is a stunning view.
+<<wait 2>>
+Marshmallow_smile: Thank you for coming with me, Knitby.
+Knitby_relieved: I'm glad you strung me along. Thank you, Marshmallow.
 <<fade_out 1>>
 <<wait 2>>
-Knitby: So... How do we get down from here?
-Marshmallow: Uhhh... Good question...
+Knitby: So... how do we get down from here?
+Marshmallow: Uhhh... good question...
 ===
