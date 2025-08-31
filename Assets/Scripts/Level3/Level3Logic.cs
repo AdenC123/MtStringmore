@@ -18,7 +18,7 @@ namespace Level3
         [SerializeField] private UnityEvent onSecondHalfReached;
         [SerializeField] private GameObject[] gameObjects;
         [SerializeField] private GameObject[] cutsceneObjects;
-        [SerializeField] private AudioClip secondHalfBGM;
+        [SerializeField] private AudioClip secondHalfBGM, cutsceneBGM;
         [SerializeField] private Checkpoint secondHalfCheckpoint;
         [SerializeField] private float SecondHalfCameraYOffset;
 
@@ -83,6 +83,7 @@ namespace Level3
                 obj.SetActive(inCutscene);
             }
             FindAnyObjectByType<OnSceneButtons>().SetRestartButtonState(!inCutscene);
+            GameManager.Instance.GetComponent<BGMManager>().PlayBGM(cutsceneBGM);
         }
 
         /// <summary>

@@ -77,7 +77,7 @@ setting: a cliff
 <<wait 0.05>>
 <<leap_nonblock Knitby -25 18 0.37 false -66 true true true>>
 <<fade_in 0.25>>
-<<fix_coords 74 678 1>>
+<<fix_coords 74 678 1>>F
 <<wait_move_finish Knitby>>
 // Knitby and Marshmallow jump up together
 <<leap_nonblock Marshmallow -25 18 0.37 false -66 true>>

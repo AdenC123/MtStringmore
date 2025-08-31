@@ -254,6 +254,7 @@ namespace Interactables.Balloon
         public override void StartInteract(PlayerController player)
         {
             _player = player;
+            _player.CanDash = true;
             if (_resetCoroutine != null) StopCoroutine(_resetCoroutine);
             _resetCoroutine = null;
             attachAudioSource.clip = RandomUtil.SelectRandom(attachSounds);
