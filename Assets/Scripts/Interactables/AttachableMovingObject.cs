@@ -267,6 +267,7 @@ namespace Interactables
         /// <inheritdoc />
         public override void EndInteract(PlayerController player)
         {
+            _player = player;
             _player.RemovePlayerVelocityEffector(this);
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, _prevVelocity, exitVelBoost), true);
             _audioSource.Stop();
