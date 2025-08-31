@@ -27,7 +27,7 @@ Marshmallow_smile: Nice to be on solid ground again, huh?
 Knitby: My relief is unimaginable.
 <<wait 1>>
 Knitby: ... This feels surreal, the clouds are actually within our reach.
-<<animator_set_trigger Marshmallow FaceAway>>
+<<animator_set_bool Marshmallow FaceAway true>>
 <<wait 0.3>>
 <<trigger_checkpoint ShowCloudMarshmallow>>
 Knitby: Here goes nothing...
@@ -64,37 +64,41 @@ Knitby_confused: ... Really.
 <<animator_set_float Marshmallow AnimSpeed 0.3>>
 <<trigger_checkpoint EatCloudMarshmallow3>>
 <<wait 2>>
+Knitby: Did you at least accomplish what you set out to prove?
+Marshmallow: ...
+Knitby: *sighs*...
 <<move Knitby 16 -16.2 10>>
 <<wait 0.5>>
-<<flip Knitby>>
 Knitby: The sunrise will greet us soon, it'll be a spectacle you don't want to miss.
+<<flip Knitby>>
+Knitby: Marshmallow, just... come here.
 <<trigger_checkpoint HideCloudMarshmallow>>
 <<animator_set_float Marshmallow AnimSpeed 1>>
 <<animator_set_bool Marshmallow Eat false>>
 <<flip Marshmallow>>
-Marshmallow: What sunrise? The sun rises every day! That's not what I came here for!
-Knitby: Marshmallow, just... come here.
 <<flip Knitby>>
 <<run Knitby 34 -16.2 10>>
+<<animator_set_bool Marshmallow FaceAway false>>
 <<run Marshmallow 30 -16.4 10>>
 <<wait 0.5>>
 <<fix_coords 32 -13 0.7>>
 <<wait_move_finish Marshmallow>>
 <<wait 0.5>>
 <<animator_set_float Marshmallow AnimSpeed 0>>
-<<animator_set_trigger Marshmallow FaceAway>>
+<<animator_set_bool Marshmallow FaceAway true>>
 <<animator_set_float Knitby AnimSpeed 0>>
 <<animator_set_bool Knitby Eat true>>
+<<flip Knitby>>
 <<wait 1>>
 // TODO sunrise trigger
 <<wait 4>>
-Marshmallow: Whoa...
-Marshmallow: It's so pretty.
-<<wait 2>>
-Knitby: We are the only two souls alive who have seen this breathtaking view.
-Marshmallow: Yeah...
-Marshmallow: Thank you for coming on this hike with me, Knitby.
-Knitby: I'm glad you strung me along. Thank you, Marshmallow.
+Marshmallow: Nothing really changed, and I guess it's just another day...
+Marshmallow: But, this is a really pretty view.
+<<animator_set_bool Marshmallow FaceAway false>>
+Marshmallow_smile: And I'm really happy I got to see it with you.
+<<animator_set_bool Knitby Eat false>>
+<<animator_set_float Knitby AnimSpeed 1>>
+Knitby_relieved: I'm glad you strung me along.
 <<fade_out 1>>
 <<wait 2>>
 Knitby: So... How do we get down from here?
