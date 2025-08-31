@@ -4,9 +4,9 @@
 <<fade_in>>
 Marshmallow: I see the exit!
 Knitby_relieved: Freedom, fresh air, the stars twinkling in the sky!
-<<leap_nonblock Marshmallow 8 25 0.5 true>>
+<<leap_nonblock Marshmallow 20 25 0.5 true>>
 <<wait 0.2>>
-<<leap_nonblock Knitby 8 25 0.5 true>>
+<<leap_nonblock Knitby 20 25 0.5 true>>
 <<wait 0.3>>
 <<run Marshmallow 20 1 11>>
 <<wait 0.2>>

@@ -8,6 +8,10 @@ namespace Interactables
     /// </summary>
     public class TurnAroundClueHandler : MonoBehaviour
     {
+        [SerializeField] private SpriteRenderer keyRenderer;
+        [SerializeField] private Sprite desktopKeySprite;
+        [SerializeField] private Sprite mobileKeySprite;
+        
         private Checkpoint _checkpoint;
         private GameObject _turnBackText;
         private bool _playerInTrigger;
@@ -21,6 +25,8 @@ namespace Interactables
             _turnBackText = transform.GetChild(0).gameObject;
             _playerInTrigger = false;
             _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            
+            keyRenderer.sprite = SystemInfo.deviceType == DeviceType.Desktop ? desktopKeySprite : mobileKeySprite;
         }
 
         private void FixedUpdate()
