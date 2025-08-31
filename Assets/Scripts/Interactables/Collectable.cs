@@ -12,6 +12,7 @@ namespace Interactables
     public class Collectable : MonoBehaviour
     {
         [SerializeField] private Sprite[] possibleSprites;
+        [SerializeField] private bool disableWithInteractables;
         
         private SpriteRenderer _spriteRenderer;
         private Collider2D _collider;
@@ -26,10 +27,23 @@ namespace Interactables
             _isCollected = false;
             _gameManager.Reset += OnReset;
         }
+        
+        private void Start()
+        {
+            if (disableWithInteractables)
+            {
+                OnInteractablesEnabledChanged();
+                GameManager.Instance.OnInteractablesEnabledChanged += OnInteractablesEnabledChanged;
+            }
+        }
 
         private void OnDestroy()
         {
             _gameManager.Reset -= OnReset;
+            if (disableWithInteractables)
+            {
+                GameManager.Instance.OnInteractablesEnabledChanged -= OnInteractablesEnabledChanged;
+            }
         }
 
         private void OnReset()
@@ -66,6 +80,12 @@ namespace Interactables
             {
                 Collect();
             }
+        }
+        
+        private void OnInteractablesEnabledChanged()
+        {
+            _spriteRenderer.enabled = GameManager.Instance.AreInteractablesEnabled;
+            _collider.enabled = GameManager.Instance.AreInteractablesEnabled;
         }
 
         /// <summary>

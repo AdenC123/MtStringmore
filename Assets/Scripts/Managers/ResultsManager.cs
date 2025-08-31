@@ -12,14 +12,7 @@ namespace Managers
         [Header("Results Page")]
         [SerializeField]
         private ResultsWindow resultsWindow;
-        
-        private GameManager _gameManager;
         private LastCheckpoint _lastCheckpoint;
-
-        private void Start()
-        {
-            _gameManager = GameManager.Instance;
-        }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -54,23 +47,21 @@ namespace Managers
         {
             Time.timeScale = 0;
             if (_lastCheckpoint) _lastCheckpoint.UpdateLevelAccess();
-            _gameManager.ThisLevelTime = TimerManager.ElapsedLevelTime;
-            _gameManager.SaveGame();
+            GameManager.Instance.SaveGame();
             resultsWindow.gameObject.SetActive(true);
             resultsWindow.UpdateDisplay();
             isResultsPageOpen = true;
             FindAnyObjectByType<OnSceneButtons>().SetRestartButtonState(false);
-            SaveDataManager.SaveFile();
             PauseMenu.IsPauseDisabled = true;
         }
 
         public void RestartLevel() 
         {
             Time.timeScale = 1f;
-            _gameManager.ResetCandyCollected();
+            GameManager.Instance.ResetCandyCollected();
             isResultsPageOpen = false;
             PauseMenu.IsPauseDisabled = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(SceneListManager.Instance.LevelLoadScenes[SceneListManager.Instance.LevelNumber-1]);
         }
         
         public void LoadMainMenu()
@@ -86,7 +77,7 @@ namespace Managers
             isResultsPageOpen = false;
             Time.timeScale = 1f;
             PauseMenu.IsPauseDisabled = false;
-            _gameManager.ResetCandyCollected();
+            GameManager.Instance.ResetCandyCollected();
             _lastCheckpoint.AttachedCheckpoint.StartConversation();
         }
     }

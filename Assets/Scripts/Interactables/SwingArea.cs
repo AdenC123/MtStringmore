@@ -10,6 +10,8 @@ namespace Interactables
     public class SwingArea : MonoBehaviour
     {
         [Min(0), Tooltip("Swing radius (local space)")] public float swingRadius;
+
+        [SerializeField] private SpriteRenderer buttonSprite;
         
         /// <summary>
         /// Swings are enabled by default, but override with the disable sprite if GameManager flag is set
@@ -36,7 +38,9 @@ namespace Interactables
         /// </summary>
         private void UpdateSprite()
         {
-            _renderer.sprite = GameManager.Instance.AreInteractablesEnabled ? _enabledSprite : disabledSprite;
+            bool interactablesEnabled = GameManager.Instance.AreInteractablesEnabled;
+            buttonSprite.enabled = interactablesEnabled;
+            _renderer.sprite = interactablesEnabled ? _enabledSprite : disabledSprite;
         }
     }
 }
