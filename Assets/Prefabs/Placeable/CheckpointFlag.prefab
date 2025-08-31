@@ -606,6 +606,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac22a4c578f14cf188535b640fb9549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keyRenderer: {fileID: 1076940163416714745}
+  desktopKeySprite: {fileID: -1435485583, guid: b7c86cda58369a6448426f99e751c5d1, type: 3}
+  mobileKeySprite: {fileID: 1510258920, guid: d350c18f1836a9341af07a6e366b6e50, type: 3}
 --- !u!61 &6371513655768383600
 BoxCollider2D:
   m_ObjectHideFlags: 0
