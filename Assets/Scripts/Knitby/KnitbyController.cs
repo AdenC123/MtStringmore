@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Managers;
 using Player;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Debug = UnityEngine.Debug;
 
 namespace Knitby
 {
@@ -97,16 +99,15 @@ namespace Knitby
         {
             if (!_player) return;
             
+            SetIdle?.Invoke(_isPlayerHanging);
             if (_isPlayerHanging)
             {
-                float xFlip = _playerController.Velocity.x < 0 ? -1 : 1;
+                float xFlip = _playerController.Direction;
                 Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * xFlip, attachOffset.y, 0f);
-                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed);
-                SetIdle?.Invoke(_isPlayerHanging);
+                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed); 
             }
             else
             {
-                SetIdle?.Invoke(_isPlayerHanging);
                 if (_currentPathPosition == Vector3.zero) return;
 
                 if (!_isSwinging)
