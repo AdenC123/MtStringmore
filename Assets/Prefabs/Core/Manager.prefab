@@ -3857,13 +3857,15 @@ MonoBehaviour:
   - sceneName: Level2
     audioClip: {fileID: 8300000, guid: 243a490f23d23774bb4075fd58beec36, type: 3}
   - sceneName: Level2InterstitialCutscene
-    audioClip: {fileID: 8300000, guid: 2630bb1a019af7241b472b020339bc96, type: 3}
+    audioClip: {fileID: 8300000, guid: a3be949df2b33594989d4e5395e56cf9, type: 3}
   - sceneName: Level3
     audioClip: {fileID: 8300000, guid: e98b8cbf15eb59f4091b19283e52312e, type: 3}
+  - sceneName: Cutscene5
+    audioClip: {fileID: 8300000, guid: 87a6e33345e597d4ca104a5b42bf1c32, type: 3}
   - sceneName: Level4
-    audioClip: {fileID: 8300000, guid: cf0ef17a771f24049a29fd22890eed63, type: 3}
+    audioClip: {fileID: 8300000, guid: a8024f5e6a1246b4baf6c062ccf67a4e, type: 3}
   - sceneName: Cutscene6
-    audioClip: {fileID: 8300000, guid: b7648f8be5342284ab4719cce78707ee, type: 3}
+    audioClip: {fileID: 8300000, guid: b652c52860361c9438290532632e4ea2, type: 3}
 --- !u!114 &3119184382528755020
 MonoBehaviour:
   m_ObjectHideFlags: 0
