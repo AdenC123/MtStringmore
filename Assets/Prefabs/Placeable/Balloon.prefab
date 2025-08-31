@@ -689,7 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ba7c070ada4e81a6160fc8b02bfb17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningSize: 1.2
+  warningSize: 1.1
   timeInWarning: 0.3
 --- !u!95 &2715363034417763769
 Animator:
