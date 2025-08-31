@@ -164,12 +164,6 @@ namespace Managers
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-
-            PlayerController player = FindObjectOfType<PlayerController>();
-            if (player)
-            {
-                player.Death -= OnPlayerDeath;
-            }
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -187,7 +181,6 @@ namespace Managers
                 PlayerController player = FindObjectOfType<PlayerController>();
                 if (player)
                 {
-                    player.Death += OnPlayerDeath;
                     CheckPointPos = player.transform.position;
                     Debug.Log("Hopefully set checkpoint position to be player's position: " + CheckPointPos);
                 }
@@ -205,19 +198,6 @@ namespace Managers
             {
                 Debug.Log("Skipping collectable count in cutscene. Using previous value: " + MaxCollectablesCount);
                 Debug.Log("Skipping ThisLevelTime in cutscene. Using previous value: " + ThisLevelTime);
-            }
-        }
-
-        private void OnPlayerDeath()
-        {
-            //brings the deaths from a negative sentinel value to 1
-            if (ThisLevelDeaths == -1)
-            {
-                ThisLevelDeaths += 2;
-            }
-            else
-            {
-                ThisLevelDeaths++;
             }
         }
 
@@ -349,6 +329,16 @@ namespace Managers
         {
             Reset?.Invoke();
             sceneTransitionCanvas.FadeIn -= OnFadeIn;
+            
+            //brings the deaths from a negative sentinel value to 1
+            if (ThisLevelDeaths == -1)
+            {
+                ThisLevelDeaths += 2;
+            }
+            else
+            {
+                ThisLevelDeaths++;
+            }
         }
 
         [YarnCommand("load_scene_nonblock")]
