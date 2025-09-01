@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Managers;
 using Player;
 using UI;
+using UnityEditor;
 using UnityEngine;
 using Util;
 
@@ -76,8 +77,8 @@ namespace Interactables
 
         [Tooltip("Path renderer")] public MovingObjectPathRenderer pathRenderer;
         
-        [SerializeField, Tooltip("The percent threshold to count as a perfect release"), Range(0, 1)]
-        private float perfectReleaseThreshold = 0.75f;
+        [SerializeField, Tooltip("The distance from the end of the zipper to count as a perfect release"), Min(0)]
+        private float perfectReleaseDistance;
 
         [SerializeField, Tooltip("Audio clip to play when player releases from moving object at the perfect threshold")]
         private AudioClip perfectReleaseClip;
@@ -148,8 +149,7 @@ namespace Interactables
         ///
         /// Counted as distance greater than threshold.
         /// </summary>
-        private bool IsPerfectRelease => DistanceAlongPath >=
-                                         Vector2.Distance(firstPosition, secondPosition) * perfectReleaseThreshold;
+        private bool IsPerfectRelease => Vector2.Distance(_rigidbody.position, secondPosition) <= perfectReleaseDistance;
 
         /// <summary>
         /// Evaluates the velocity at a specific time since motion start.
@@ -182,13 +182,11 @@ namespace Interactables
                 time += Time.fixedDeltaTime;
                 _animator.SetBool(AnimatorHashWhite, IsPerfectRelease);
             }
-            
-            //Reset colors
-            _animator.SetBool(AnimatorHashWhite, false);
 
             _rigidbody.position = secondPosition;
             _rigidbody.velocity = Vector2.zero;
             yield return new WaitForSeconds(exitDelayTime);
+            _animator.SetBool(AnimatorHashWhite, false);
             _prevVelocity = _rigidbody.velocity;
             _player.StopInteraction(this);
             _audioSource.PlayOneShot(badReleaseClip);
@@ -300,6 +298,7 @@ namespace Interactables
             if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
             _unzippedMotion = StartCoroutine(UnzipCoroutine());
             player.CurrentInteractableArea = null;
+            _animator.SetBool(AnimatorHashWhite, false);
         }
     
         /// <summary>
