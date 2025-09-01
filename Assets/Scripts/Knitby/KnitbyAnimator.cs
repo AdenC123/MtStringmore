@@ -42,6 +42,8 @@ namespace Knitby
             _knitbyController.Swing += OnSwing;
             _knitbyController.CanDash += OnPlayerCanDash;
             _knitbyController.PlayerDeath += OnPlayerDeath;
+            _knitbyController.SetIdle += OnIdle;
+            _knitbyController.SetWait += OnWait;
 
             GameManager.Instance.Reset += OnReset;
         }

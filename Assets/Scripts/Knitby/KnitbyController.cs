@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Managers;
 using Player;
+using TMPro;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -101,10 +102,11 @@ namespace Knitby
         {
             if (!_player) return;
             
-            SetWait?.Invoke(_isPlayerHanging);
-            if (_isPlayerHanging)
+            float xFlip = _playerController.Direction;
+            
+            SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
+            if (_isPlayerHanging && !_isSwinging)
             {
-                float xFlip = _playerController.Direction;
                 Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * xFlip, attachOffset.y, 0f);
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed); 
             }
@@ -113,7 +115,7 @@ namespace Knitby
                 if (_currentPathPosition == Vector3.zero) return;
 
                 if (!_isSwinging)
-                    SetWait?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
+                    SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
 
                 Vector3 direction = _currentPathPosition - transform.position;
 
