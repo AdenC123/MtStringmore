@@ -25,6 +25,7 @@ namespace Managers
         }
 
         [SerializeField] private string mainMenuSceneName;
+        [SerializeField] private string creditsSceneName;
         [SerializeField] private LevelInfo[] levels;
 
         private readonly List<string> _levelLoadScenes = new();
@@ -73,6 +74,14 @@ namespace Managers
         {
             return sceneName == mainMenuSceneName;
         }
+        
+        /// <summary>
+        /// Whether a given scene is the credits scene.
+        /// </summary>
+        public bool IsCredits(string sceneName)
+        {
+            return sceneName == creditsSceneName;
+        }
 
         /// <summary>
         /// Loads the main menu.
@@ -90,7 +99,7 @@ namespace Managers
         public bool IsSceneCutscene(string sceneName)
         {
             InitializeLookupsIfNotPresent();
-            return _cutscenes.Contains(sceneName);
+            return _cutscenes.Contains(sceneName) || IsCredits(sceneName);
         }
 
         /// <summary>

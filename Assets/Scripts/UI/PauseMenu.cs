@@ -79,7 +79,7 @@ namespace UI
 
         private void OnSceneChanged(Scene current, Scene next)
         {
-            pauseButton.gameObject.SetActive(!SceneListManager.Instance.IsMainMenu(next.name)) ;
+            pauseButton.gameObject.SetActive(!SceneListManager.Instance.IsMainMenu(next.name) && !SceneListManager.Instance.IsCredits(next.name));
         }
 
         /// <summary>

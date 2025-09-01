@@ -1,11 +1,15 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Yarn.Unity;
 
 namespace Managers
 {
+    /// <summary>
+    /// Manager of the in game timer.
+    /// </summary>
     public class TimerManager : MonoBehaviour
     {
         private static TimerManager _instance;
@@ -25,42 +29,42 @@ namespace Managers
         [SerializeField] private GameObject resultsWindow;
         [SerializeField] private Toggle timerToggle;
 
-        private static bool _isEnabled = true;
-        public static float ElapsedLevelTime { get; private set; }
-        public static string ElapsedLevelTimeString => TimeSpan.FromSeconds(ElapsedLevelTime).ToString(@"mm\:ss\:ff");
+        /// <summary>
+        /// Elapsed level time, seconds.
+        /// </summary>
+        public float ElapsedLevelTime { get; private set; }
 
-        // public bool IsResultsWindowActive => resultsWindow.activeSelf;
-        // public bool IsTimerShown => inGameTimerText.enabled;
+        /// <summary>
+        /// Human readable string for the elapsed level time.
+        /// </summary>
+        public string ElapsedLevelTimeString => TimeSpan.FromSeconds(ElapsedLevelTime).ToString(@"mm\:ss\:ff");
+
+        /// <summary>
+        /// Whether the timer should be hidden even if the setting is enabled.
+        /// </summary>
+        private bool ShouldDisableTimer => !_isNotForceDisabled || resultsWindow.activeSelf ||
+                                             SceneListManager.Instance.InCutscene ||
+                                             SceneListManager.Instance.InMainMenu;
+        
+        private bool _isNotForceDisabled = true;
 
         private void Awake()
         {
             if (Instance != this) Destroy(gameObject);
-            //only reset time when in a level, not in a cutscene
-            if (!SceneListManager.Instance.InCutscene)
-            {
-                ElapsedLevelTime = 0;
-            }
 
-            inGameTimerText.enabled = false;
+            UpdateFromPrefs();
+            
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        private void Start()
+        private void OnDestroy()
         {
-            int savedSpeedToggle = PlayerPrefs.GetInt("SpeedTime", 0);
-            bool toggle = savedSpeedToggle == 1;
-            ToggleTimer(toggle);
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         private void Update()
         {
-            if (!_isEnabled) return;
-            if (resultsWindow.activeSelf || SceneListManager.Instance.InCutscene || SceneListManager.Instance.InMainMenu)
-            {
-                inGameTimerText.enabled = false;
-                return;
-            }
-
-            inGameTimerText.enabled = timerToggle.isOn;
+            if (ShouldDisableTimer) return;
 
             ElapsedLevelTime += Time.deltaTime;
             // slight performance gain from not updating the text if not displayed
@@ -68,23 +72,51 @@ namespace Managers
                 inGameTimerText.text = ElapsedLevelTimeString;
         }
 
+        /// <summary>
+        /// Runs on scene load.
+        /// </summary>
+        /// <param name="newScene">New scene</param>
+        /// <param name="mode">Scene load mode</param>
+        private void OnSceneLoaded(Scene newScene, LoadSceneMode mode)
+        {
+            _isNotForceDisabled = true;
+            //only reset time when in a level, not in a cutscene
+            if (!SceneListManager.Instance.InCutscene)
+            {
+                ElapsedLevelTime = 0;
+            }
+            UpdateFromPrefs();
+        }
+
+        /// <summary>
+        /// Updates the timer toggle/text depending on the saved PlayerPref.
+        /// </summary>
+        private void UpdateFromPrefs()
+        {
+            int savedSpeedToggle = PlayerPrefs.GetInt("SpeedTime", 0);
+            bool userShowToggle = savedSpeedToggle == 1;
+            timerToggle.isOn = userShowToggle;
+            inGameTimerText.enabled = !ShouldDisableTimer && userShowToggle;
+        }
+
+        /// <summary>
+        /// Sets the timer state.
+        /// </summary>
+        /// <param name="value">True if the timer should be enabled</param>
         [YarnCommand("timer_state")]
         public void SetTimerState(bool value)
         {
-            _isEnabled = value;
-            inGameTimerText.enabled = value;
+            _isNotForceDisabled = value;
+            inGameTimerText.enabled = !ShouldDisableTimer && timerToggle.isOn;
         }
 
+        /// <summary>
+        /// Called by the toggle - updates the PlayerPref and the in game timer.
+        /// </summary>
         public void OnToggle()
         {
-            inGameTimerText.enabled = timerToggle.isOn;
-            ToggleTimer(timerToggle.isOn);
-        }
-
-        public void ToggleTimer(bool toggle)
-        {
-            timerToggle.isOn = toggle;
-            int value = toggle ? 1 : 0;
+            inGameTimerText.enabled = timerToggle.isOn && !ShouldDisableTimer;
+            int value = timerToggle.isOn ? 1 : 0;
             PlayerPrefs.SetInt("SpeedTime", value);
             PlayerPrefs.Save();
         }

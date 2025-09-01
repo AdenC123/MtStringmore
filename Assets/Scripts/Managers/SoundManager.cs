@@ -63,14 +63,22 @@ namespace Managers
             _timeSinceLastCollect += Time.deltaTime;
         }
 
-        /// <summary> Sets Master volume (0.0001 to 1). </summary>
+        /// <summary>
+        /// Sets Master volume.
+        /// </summary>
+        /// <param name="volume">Slider volume, 0.0001-1</param>
         public void SetMasterVolume(float volume)
         {
+            audioMixer.SetFloat("Master", SoundUtil.SliderToVolume(volume));
             masterSlider.value = volume;
             PlayerPrefs.SetFloat("Master", volume);
             PlayerPrefs.Save();
         }
 
+        /// <summary>
+        /// Sets BGM volume.
+        /// </summary>
+        /// <param name="volume">Slider volume, 0.0001-1</param>
         public void SetBgmVolume(float volume)
         {
             audioMixer.SetFloat("BGM", SoundUtil.SliderToVolume(volume));
@@ -79,6 +87,10 @@ namespace Managers
             PlayerPrefs.Save();
         }
 
+        /// <summary>
+        /// Sets SFX volume.
+        /// </summary>
+        /// <param name="volume">Slider volume, 0.0001-1</param>
         public void SetSfxVolume(float volume)
         {
             audioMixer.SetFloat("SFX", SoundUtil.SliderToVolume(volume));

@@ -226,7 +226,7 @@ namespace Managers
                 : Mathf.Min(updatedLevelData.leastDeaths, cleanedLevelDeaths);
 
             // Time
-            float thisLevelTime = TimerManager.ElapsedLevelTime;
+            float thisLevelTime = TimerManager.Instance.ElapsedLevelTime;
             updatedLevelData.bestTime = float.IsNaN(updatedLevelData.bestTime) ? thisLevelTime :
                 Math.Min(updatedLevelData.bestTime, thisLevelTime);
             _levelData[index] = updatedLevelData;

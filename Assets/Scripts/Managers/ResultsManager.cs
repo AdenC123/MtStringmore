@@ -1,3 +1,4 @@
+using System.Linq;
 using Save;
 using UI;
 using UnityEngine;
@@ -10,8 +11,10 @@ namespace Managers
         public static bool isResultsPageOpen;
 
         [Header("Results Page")]
-        [SerializeField]
-        private ResultsWindow resultsWindow;
+        [SerializeField] private ResultsWindow resultsWindow;
+        [SerializeField] private GameObject menuButton;
+        [SerializeField] private string[] disableMainMenuInScenes;
+        
         private LastCheckpoint _lastCheckpoint;
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -27,6 +30,9 @@ namespace Managers
             {
                 _lastCheckpoint.AttachedCheckpoint.onCheckpointReached.AddListener(HandleFinalCheckpointHit);
             }
+
+            bool inDisableMainMenuScene = disableMainMenuInScenes.Contains(SceneManager.GetActiveScene().name);
+            menuButton.SetActive(!inDisableMainMenuScene);
             
             resultsWindow.gameObject.SetActive(false);
             isResultsPageOpen = false;
