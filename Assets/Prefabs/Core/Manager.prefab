@@ -3692,6 +3692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenuSceneName: MainMenu
+  creditsSceneName: EndCutscene
   levels:
   - preLevelCutscene: IntroCutscene
     levelName: Level1Trial
