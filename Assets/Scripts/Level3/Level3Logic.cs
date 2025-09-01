@@ -31,6 +31,10 @@ namespace Level3
         private void Awake()
         {
             _checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
+            foreach (Checkpoint checkpoint in _checkpoints)
+            {
+                checkpoint.IsMarshmellowOnly = true;
+            }
             _zippers = FindObjectsByType<AttachableMovingObject>(FindObjectsSortMode.None);
             
             _player = FindAnyObjectByType<PlayerController>();
@@ -44,7 +48,7 @@ namespace Level3
             
             foreach (AttachableMovingObject zipper in _zippers)
             {
-                zipper.SetTabVisible(false);
+                zipper.TabVisible = false;
             }
             
             _knitby.gameObject.SetActive(false);
@@ -102,6 +106,7 @@ namespace Level3
             {
                 if (checkpoint != secondHalfCheckpoint) 
                     checkpoint.FlipAndResetCheckpoint();
+                checkpoint.IsMarshmellowOnly = false;
             }
             secondHalfCheckpoint.respawnFacingLeft = true;
             GameManager.Instance.RespawnFacingLeft = true;
@@ -110,7 +115,7 @@ namespace Level3
             
             foreach (AttachableMovingObject zipper in _zippers)
             {
-                zipper.SetTabVisible(true);
+                zipper.TabVisible = true;
             }
             
             // make player face left

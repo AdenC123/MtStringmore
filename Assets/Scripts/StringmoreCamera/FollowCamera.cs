@@ -54,7 +54,7 @@ namespace StringmoreCamera
             GameManager.Instance.Reset += OnReset;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             GameManager.Instance.Reset -= OnReset;
         }

@@ -13,6 +13,7 @@ namespace Interactables
     public class Checkpoint : AbstractPlayerInteractable
     {
         private static readonly int HoistKey = Animator.StringToHash("Hoisted");
+        private static readonly int MarshmellowOnlyKey = Animator.StringToHash("MarshmellowOnly");
 
         [Header("References")] [SerializeField]
         protected Animator anim;
@@ -31,6 +32,15 @@ namespace Interactables
 
         [SerializeField] private Vector2 spawnOffset;
         public UnityEvent onCheckpointReached;
+
+        /// <summary>
+        /// Whether the checkpoint is marshmellow only.
+        /// </summary>
+        public bool IsMarshmellowOnly
+        {
+            get => anim.GetBool(MarshmellowOnlyKey);
+            set => anim.SetBool(MarshmellowOnlyKey, value);
+        }
         
         /// <summary>
         /// Whether this checkpoint has a conversation.
