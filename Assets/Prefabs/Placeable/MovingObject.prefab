@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 4584647155902881460}
   - component: {fileID: 4405664681451709143}
   - component: {fileID: 4148157428037213512}
+  - component: {fileID: 6609991139307971626}
   m_Layer: 0
   m_Name: MovingPart
   m_TagString: Untagged
@@ -160,13 +161,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9211632749489715583}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.02656113, y: -0, z: -0, w: 0.99964726}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.39, y: -0.89, z: 0}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7263870473811980632}
-  m_LocalEulerAnglesHint: {x: -3.044, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8410817067001568742
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -314,8 +315,6 @@ MonoBehaviour:
   perfectReleaseThreshold: 0.75
   perfectReleaseClip: {fileID: 8300000, guid: bfc404a2a7ca7af4b857304aa6b97f8a, type: 3}
   badReleaseClip: {fileID: 8300000, guid: 31d2b177859b318499e77744ba392b82, type: 3}
-  _originalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  _perfectRangeMaterial: {fileID: 2100000, guid: ed711f97207578b45a67518634f4577b, type: 2}
 --- !u!50 &4405664681451709143
 Rigidbody2D:
   serializedVersion: 4
@@ -439,3 +438,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &6609991139307971626
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9211632749489715583}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 86cdba97128faff458cb563e870cf5ae, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

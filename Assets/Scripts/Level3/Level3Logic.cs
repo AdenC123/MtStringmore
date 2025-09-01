@@ -48,7 +48,7 @@ namespace Level3
             
             foreach (AttachableMovingObject zipper in _zippers)
             {
-                zipper.SetTabVisible(false);
+                zipper.TabVisible = false;
             }
             
             _knitby.gameObject.SetActive(false);
@@ -115,7 +115,7 @@ namespace Level3
             
             foreach (AttachableMovingObject zipper in _zippers)
             {
-                zipper.SetTabVisible(true);
+                zipper.TabVisible = true;
             }
             
             // make player face left
