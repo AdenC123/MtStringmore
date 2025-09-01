@@ -144,9 +144,12 @@ namespace Interactables
         private float DistanceAlongPath => VectorUtil.DistanceAlongPath(firstPosition, secondPosition, _rigidbody.position);
 
         /// <summary>
-        /// Returns true if the velocity is higher than the perfect release threshold.
+        /// Returns true if classified as a perfect release.
+        ///
+        /// Counted as distance greater than threshold.
         /// </summary>
-        private bool IsPerfectRelease => _prevVelocity.magnitude >= perfectReleaseThreshold * maxSpeed;
+        private bool IsPerfectRelease => DistanceAlongPath >=
+                                         Vector2.Distance(firstPosition, secondPosition) * perfectReleaseThreshold;
 
         /// <summary>
         /// Evaluates the velocity at a specific time since motion start.
