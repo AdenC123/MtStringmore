@@ -53,9 +53,12 @@ namespace Managers
         }
 
         [YarnCommand("play_sound")]
-        public static IEnumerator PlaySound(string soundName, bool blockUntilDone = true)
+        public static IEnumerator PlaySound(string soundName, bool blockUntilDone = true, bool stopOtherSounds = false)
         {
-            _source.PlayOneShot(Resources.Load<AudioClip>(soundName));
+			AudioClip audio = Resources.Load<AudioClip>(soundName);
+			if (stopOtherSounds)
+				_source.Stop();
+			_source.PlayOneShot(audio);
             if (blockUntilDone)
                 yield return new WaitUntil(() => !_source.isPlaying);
         }
