@@ -42,7 +42,7 @@ namespace Managers
         /// <summary>
         /// Whether the timer should be hidden even if the setting is enabled.
         /// </summary>
-        private bool ShouldForceHideTimer => !_isNotForceDisabled || resultsWindow.activeSelf ||
+        private bool ShouldDisableTimer => !_isNotForceDisabled || resultsWindow.activeSelf ||
                                              SceneListManager.Instance.InCutscene ||
                                              SceneListManager.Instance.InMainMenu;
         
@@ -64,7 +64,7 @@ namespace Managers
 
         private void Update()
         {
-            if (ShouldForceHideTimer) return;
+            if (ShouldDisableTimer) return;
 
             ElapsedLevelTime += Time.deltaTime;
             // slight performance gain from not updating the text if not displayed
@@ -96,7 +96,7 @@ namespace Managers
             int savedSpeedToggle = PlayerPrefs.GetInt("SpeedTime", 0);
             bool userShowToggle = savedSpeedToggle == 1;
             timerToggle.isOn = userShowToggle;
-            inGameTimerText.enabled = !ShouldForceHideTimer && userShowToggle;
+            inGameTimerText.enabled = !ShouldDisableTimer && userShowToggle;
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Managers
         public void SetTimerState(bool value)
         {
             _isNotForceDisabled = value;
-            inGameTimerText.enabled = !ShouldForceHideTimer && timerToggle.isOn;
+            inGameTimerText.enabled = !ShouldDisableTimer && timerToggle.isOn;
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Managers
         /// </summary>
         public void OnToggle()
         {
-            inGameTimerText.enabled = timerToggle.isOn && !ShouldForceHideTimer;
+            inGameTimerText.enabled = timerToggle.isOn && !ShouldDisableTimer;
             int value = timerToggle.isOn ? 1 : 0;
             PlayerPrefs.SetInt("SpeedTime", value);
             PlayerPrefs.Save();
