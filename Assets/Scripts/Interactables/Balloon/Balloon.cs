@@ -67,14 +67,10 @@ namespace Interactables.Balloon
         
         [Header("Audio")]
         
-        /// <summary>
-        /// Audio source for sounds that are looped.
-        /// </summary>
+        [Tooltip("Audio source for sounds that are looped.")]
         [SerializeField] private AudioSource loopingAudioSource;
         
-        /// <summary>
-        /// Audio source for sounds that are played once.
-        /// </summary>
+        [Tooltip("Audio source for sounds that are played once.")]
         [SerializeField] private AudioSource oneShotAudioSource;
         [SerializeField] private AudioClip attachSound;
         [SerializeField] private AudioClip warningSound;
