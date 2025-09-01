@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Yarn.Unity;
 
@@ -25,23 +26,22 @@ namespace Managers
         [SerializeField] private GameObject resultsWindow;
         [SerializeField] private Toggle timerToggle;
 
-        private static bool _isEnabled = true;
-        public static float ElapsedLevelTime { get; private set; }
-        public static string ElapsedLevelTimeString => TimeSpan.FromSeconds(ElapsedLevelTime).ToString(@"mm\:ss\:ff");
-
-        // public bool IsResultsWindowActive => resultsWindow.activeSelf;
-        // public bool IsTimerShown => inGameTimerText.enabled;
+        private bool _isEnabled = true;
+        public float ElapsedLevelTime { get; private set; }
+        public string ElapsedLevelTimeString => TimeSpan.FromSeconds(ElapsedLevelTime).ToString(@"mm\:ss\:ff");
 
         private void Awake()
         {
             if (Instance != this) Destroy(gameObject);
-            //only reset time when in a level, not in a cutscene
-            if (!SceneListManager.Instance.InCutscene)
-            {
-                ElapsedLevelTime = 0;
-            }
 
             inGameTimerText.enabled = false;
+            
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         private void Start()
@@ -66,6 +66,21 @@ namespace Managers
             // slight performance gain from not updating the text if not displayed
             if (inGameTimerText.enabled)
                 inGameTimerText.text = ElapsedLevelTimeString;
+        }
+
+        /// <summary>
+        /// Runs on scene load.
+        /// </summary>
+        /// <param name="newScene">New scene</param>
+        /// <param name="mode">Scene load mode</param>
+        private void OnSceneLoaded(Scene newScene, LoadSceneMode mode)
+        {
+            _isEnabled = true;
+            //only reset time when in a level, not in a cutscene
+            if (!SceneListManager.Instance.InCutscene)
+            {
+                ElapsedLevelTime = 0;
+            }
         }
 
         [YarnCommand("timer_state")]
