@@ -114,7 +114,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 256
+        y: 512
         width: 512
         height: 256
       alignment: 0
@@ -135,6 +135,48 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 512
+        y: 512
+        width: 512
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbe570c724c915043885553c5e6d1d37
+      internalID: -74893122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tutorial-Zipper_2
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 512
+        width: 512
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f03e8455c05ac5740ac4519134656148
+      internalID: 1699341593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tutorial-Zipper_3
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 256
         width: 512
         height: 256
@@ -145,14 +187,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8bc68d686d694f04cb7ea602cb656bf4
-      internalID: -74893122
+      spriteID: 4c3c095bc17264646845ec0506178b06
+      internalID: -330758638
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tutorial-Zipper_2
+      name: Tutorial-Zipper_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 256
+        width: 512
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26415a1313cda904d98f693ca52c8fc5
+      internalID: -68359015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tutorial-Zipper_5
       rect:
         serializedVersion: 2
         x: 1024
@@ -166,14 +229,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bca5fa83692dc394f95306d8bcaa1cc3
-      internalID: 1699341593
+      spriteID: 314296507082a3b4996e2c8e595e812d
+      internalID: -2033457173
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tutorial-Zipper_3
+      name: Tutorial-Zipper_6
       rect:
         serializedVersion: 2
         x: 0
@@ -187,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6faee0826f7d5104c9961b7c6fce3ea4
-      internalID: -330758638
+      spriteID: b67ba7fb3616c644da332d05e6623aa0
+      internalID: -1321143021
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tutorial-Zipper_4
+      name: Tutorial-Zipper_7
       rect:
         serializedVersion: 2
         x: 512
@@ -208,29 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8b19d5136b6387498d8280cba758a2a
-      internalID: -68359015
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tutorial-Zipper_5
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 512
-        height: 256
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e033a0bf832b3be44aba35d0180f532b
-      internalID: -2033457173
+      spriteID: 4eadaef76d0951b4496f39f5a4345c0e
+      internalID: -869409476
       vertices: []
       indices: 
       edges: []
@@ -252,6 +294,8 @@ TextureImporter:
       Tutorial-Zipper_3: -330758638
       Tutorial-Zipper_4: -68359015
       Tutorial-Zipper_5: -2033457173
+      Tutorial-Zipper_6: -1321143021
+      Tutorial-Zipper_7: -869409476
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
