@@ -104,14 +104,16 @@ namespace Knitby
             
             float xFlip = _playerController.Direction;
             
-            SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
             if (_isPlayerHanging && !_isSwinging)
             {
                 Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * xFlip, attachOffset.y, 0f);
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed); 
+                DirectionUpdated?.Invoke(targetPos.x - transform.position.x, targetPos.y - transform.position.y);
+                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
             }
             else
             {
+                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
                 if (_currentPathPosition == Vector3.zero) return;
 
                 if (!_isSwinging)

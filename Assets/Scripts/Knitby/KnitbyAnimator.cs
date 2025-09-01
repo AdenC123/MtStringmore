@@ -75,7 +75,11 @@ namespace Knitby
         private void OnMove(float x, float y)
         {
             anim.SetFloat(YVelocityKey, y);
-            _spriteRenderer.flipX = x < 0;
+            const float threshold = 0.01f;
+            if (x > threshold)
+                _spriteRenderer.flipX = false;
+            else if (x < -threshold)
+                _spriteRenderer.flipX = true;
         }
 
         private void OnGroundedChanged(bool grounded)
