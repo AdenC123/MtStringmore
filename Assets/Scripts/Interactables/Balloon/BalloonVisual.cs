@@ -14,7 +14,7 @@ namespace Interactables.Balloon
         private static readonly int AnimatorSpeedHash = Animator.StringToHash("Speed");
 
         [SerializeField, Tooltip("New size of the object when warning is playing")]
-        private float warningSize = 1.2f;
+        private float warningSize = 1.1f;
 
         [SerializeField, Tooltip("Time with new size (sec)"), Min(0)]
         private float timeInWarning = 0.3f;
