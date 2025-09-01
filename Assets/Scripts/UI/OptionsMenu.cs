@@ -36,7 +36,6 @@ namespace UI
             });
             bgmSlider.onValueChanged.AddListener(delegate { SoundManager.Instance.SetBgmVolume(bgmSlider.value); });
             sfxSlider.onValueChanged.AddListener(delegate { SoundManager.Instance.SetSfxVolume(sfxSlider.value); });
-            timerToggle.onValueChanged.AddListener(delegate { TimerManager.Instance.ToggleTimer(timerToggle.isOn); });
    
             versionNumber.text = Application.version;
         }
