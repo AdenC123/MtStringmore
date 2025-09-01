@@ -29,9 +29,12 @@ namespace Interactables
     /// Also, there's shared code among the #cloth branch as well - upon merger of one of the branches, this should be
     /// refactored as well.
     /// </remarks>
-    [RequireComponent(typeof(Rigidbody2D), typeof(AudioSource))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(AudioSource), typeof(Animator))]
+    [RequireComponent(typeof(SpriteRenderer))]
     public class AttachableMovingObject : AbstractPlayerInteractable
     {
+        private static readonly int AnimatorHashWhite = Animator.StringToHash("White");
+
         [SerializeField, Tooltip("Acceleration curve over time, in [0, 1]")]
         private AnimationCurve accelerationCurve;
 
@@ -84,9 +87,8 @@ namespace Interactables
         private AudioClip badReleaseClip;
         
         private Coroutine _activeMotion;
-
         private Coroutine _unzippedMotion;
-
+        private Animator _animator;
         private Rigidbody2D _rigidbody;
 
         /// <summary>
@@ -106,6 +108,15 @@ namespace Interactables
 
         /// <inheritdoc />
         public override bool CanInteract => base.CanInteract && _rigidbody.position != secondPosition;
+
+        /// <summary>
+        /// Gets or sets the visibility of the attachable tab.
+        /// Does not affect the path renderer (we want to keep it visible in the first half of level 3).
+        /// </summary>
+        public bool TabVisible
+        {
+            set => _tabRenderer.enabled = value;
+        }
 
         /// <summary>
         /// Returns the time of the last keyframe.
@@ -131,6 +142,14 @@ namespace Interactables
         /// this computes the vector projection along the actual path in case someone changes the direction while running.
         /// </remarks>
         private float DistanceAlongPath => VectorUtil.DistanceAlongPath(firstPosition, secondPosition, _rigidbody.position);
+
+        /// <summary>
+        /// Returns true if classified as a perfect release.
+        ///
+        /// Counted as distance greater than threshold.
+        /// </summary>
+        private bool IsPerfectRelease => DistanceAlongPath >=
+                                         Vector2.Distance(firstPosition, secondPosition) * perfectReleaseThreshold;
 
         /// <summary>
         /// Evaluates the velocity at a specific time since motion start.
@@ -161,7 +180,11 @@ namespace Interactables
                 _rigidbody.velocity = EvaluateAt(time) * diff.normalized;
                 _prevVelocity = _rigidbody.velocity;
                 time += Time.fixedDeltaTime;
+                _animator.SetBool(AnimatorHashWhite, IsPerfectRelease);
             }
+            
+            //Reset colors
+            _animator.SetBool(AnimatorHashWhite, false);
 
             _rigidbody.position = secondPosition;
             _rigidbody.velocity = Vector2.zero;
@@ -223,6 +246,7 @@ namespace Interactables
         /// <inheritdoc />
         public override void OnPlayerExit(PlayerController player)
         {
+            _animator.SetBool(AnimatorHashWhite, false);
         }
 
         /// <inheritdoc />
@@ -271,8 +295,7 @@ namespace Interactables
             _player.RemovePlayerVelocityEffector(this);
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, _prevVelocity, exitVelBoost), true);
             _audioSource.Stop();
-            if (IsPerfectRelease())
-                _audioSource.PlayOneShot(perfectReleaseClip);
+            if (IsPerfectRelease) _audioSource.PlayOneShot(perfectReleaseClip);
             StopMotion();
             if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
             _unzippedMotion = StartCoroutine(UnzipCoroutine());
@@ -296,6 +319,7 @@ namespace Interactables
             _rigidbody = GetComponent<Rigidbody2D>();
             _audioSource = GetComponent<AudioSource>();
             _tabRenderer = GetComponent<SpriteRenderer>();
+            _animator = GetComponent<Animator>();
             GameManager.Instance.Reset += OnReset;
         }
 
@@ -343,8 +367,6 @@ namespace Interactables
                 }
             }
         }
-        
-        private bool IsPerfectRelease() => _prevVelocity.magnitude >= perfectReleaseThreshold * maxSpeed;
 
         private void OnDrawGizmosSelected()
         {
@@ -353,15 +375,6 @@ namespace Interactables
             Gizmos.DrawLine(firstPosition, secondPosition);
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(secondPosition, 1);
-        }
-
-        /// <summary>
-        /// Set the visibility of the attachable tab.
-        /// Does not affect the path renderer (we want to keep it visible in the first half of level 3).
-        /// </summary>
-        public void SetTabVisible(bool visible)
-        {
-            _tabRenderer.enabled = visible;
         }
 
         private class BonusEndImpulseEffector : IPlayerVelocityEffector

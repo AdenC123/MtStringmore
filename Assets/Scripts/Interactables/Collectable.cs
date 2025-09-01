@@ -1,5 +1,4 @@
 using Managers;
-using Player;
 using UnityEngine;
 using Util;
 
@@ -66,7 +65,6 @@ namespace Interactables
             _spriteRenderer.enabled = true;
             _spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.3f);
             _collider.enabled = true;
-            Debug.Log("Collectable Greyed Out");
         }
 
         private void OnValidate()
