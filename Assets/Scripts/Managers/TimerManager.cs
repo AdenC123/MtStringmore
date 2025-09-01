@@ -54,7 +54,7 @@ namespace Managers
         private void Update()
         {
             if (!_isEnabled) return;
-            if (resultsWindow.activeSelf || SceneListManager.Instance.InCutscene)
+            if (resultsWindow.activeSelf || SceneListManager.Instance.InCutscene || SceneListManager.Instance.InMainMenu)
             {
                 inGameTimerText.enabled = false;
                 return;
