@@ -31,7 +31,7 @@ namespace UI
                 Debug.LogWarning("GameManager death count uninstantiated?");
             }
             deathsText.RunCountUpWithRate(deaths);
-            timerText.text = TimerManager.ElapsedLevelTimeString;
+            timerText.text = TimerManager.Instance.ElapsedLevelTimeString;
         }
     }
 }

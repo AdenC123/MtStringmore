@@ -999,6 +999,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resultsWindow: {fileID: 6823790342341326098}
+  menuButton: {fileID: 3460405037983618707}
+  disableMainMenuInScenes:
+  - Level4
 --- !u!1 &4689274418804491040
 GameObject:
   m_ObjectHideFlags: 0
