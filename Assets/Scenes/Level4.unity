@@ -65854,71 +65854,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d76f560afb40c8b5b06d02ef05f3e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gradient:
-    key0:
-      r: 0.2
-      g: 0.3254902
-      b: 0.6313726
-      a: 1
-    key1:
-      r: 0.73333335
-      g: 0.36078432
-      b: 0.4
-      a: 1
-    key2:
-      r: 0
-      g: 0
-      b: 0
-      a: 0
-    key3:
-      r: 0
-      g: 0
-      b: 0
-      a: 0
-    key4:
-      r: 0
-      g: 0
-      b: 0
-      a: 0
-    key5:
-      r: 0
-      g: 0
-      b: 0
-      a: 0
-    key6:
-      r: 0
-      g: 0
-      b: 0
-      a: 0
-    key7:
-      r: 0
-      g: 0
-      b: 0
-      a: 0
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 129
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_ColorSpace: -1
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
-  minY: 0
-  maxY: 400
-  cam: {fileID: 0}
-  sr: {fileID: 0}
 --- !u!4 &1893770802 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6009844562311201391, guid: bd5a06fafcdc9ee45aae247860696304, type: 3}
@@ -67673,8 +67608,8 @@ Transform:
   m_GameObject: {fileID: 2093800852}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 379.2906, y: 629.2896, z: 10}
-  m_LocalScale: {x: 1773.7382, y: 1339.2241, z: 0}
+  m_LocalPosition: {x: 381.4096, y: 623.6304, z: 10}
+  m_LocalScale: {x: 1777.9952, y: 1460.6333, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1111688093}

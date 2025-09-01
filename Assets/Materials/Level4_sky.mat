@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SkyMaterial
+  m_Name: Level4_sky
   m_Shader: {fileID: 4800000, guid: 44538f0d5bd704a4680239c2929e0984, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -27,6 +27,6 @@ Material:
     m_Floats:
     - _OffsetY: 0.5
     m_Colors:
-    - _ColorBottom: {r: 0.73333335, g: 0.36078432, b: 0.4, a: 1}
-    - _ColorTop: {r: 0.20000002, g: 0.3254902, b: 0.6313726, a: 1}
+    - _ColorBottom: {r: 0.2, g: 0.3254902, b: 0.6313726, a: 1}
+    - _ColorTop: {r: 0.73333335, g: 0.36078432, b: 0.4, a: 1}
   m_BuildTextureStacks: []
