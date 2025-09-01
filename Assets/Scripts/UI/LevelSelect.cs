@@ -76,7 +76,7 @@ namespace UI
             if (selectedLevel.totalCandiesInLevel < 0)
                 candyText.text = "N/A";
             else
-                candyText.text = mostCandiesCollected + "/" + totalCandiesInLevel;
+                candyText.text = $"{mostCandiesCollected}/{totalCandiesInLevel}";
 
             // Deaths
             int deaths = selectedLevel.leastDeaths;

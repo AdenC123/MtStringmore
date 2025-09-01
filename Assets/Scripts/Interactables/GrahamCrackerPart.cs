@@ -17,6 +17,7 @@ namespace Interactables
         private Vector2 _dir;
         private Vector2 _initialPosition;
         private GrahamCrackerBehaviour _crackerBehaviour;
+        private PlayerController _player;
         private bool _isMovingToKill;
 
         private void Awake()
@@ -30,18 +31,23 @@ namespace Interactables
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!_isMovingToKill || Vector2.Dot(collision.GetContact(0).normal, _rigidbody2D.velocity) > 0) return;
+            Vector2 towards = _isBottom ? transform.up : -transform.up;
             Collider2D other = collision.collider;
-            _crackerBehaviour.RegisterCollision(_isBottom, other.GetComponent<PlayerController>(),
-                other.GetComponent<GrahamCrackerPart>());
+            PlayerController otherPlayer = other.GetComponent<PlayerController>();
+            if (Vector2.Dot(collision.GetContact(0).normal, towards) > 0) return;
+            if (otherPlayer) _player = otherPlayer;
+            if (_isMovingToKill)
+                _crackerBehaviour.RegisterCollision(_isBottom, otherPlayer,
+                 other.GetComponent<GrahamCrackerPart>());
         }
 
         private void OnCollisionExit2D(Collision2D collision)
         {
-            if (!_isMovingToKill) return;
             Collider2D other = collision.collider;
-            _crackerBehaviour.DeregisterCollision(_isBottom, other.GetComponent<PlayerController>(),
-                other.GetComponent<GrahamCrackerPart>());
+            PlayerController otherPlayer = other.GetComponent<PlayerController>();
+            if (_player && otherPlayer) _player = null;
+            if (!_isMovingToKill) return;
+            _crackerBehaviour.DeregisterCollision(_isBottom, otherPlayer, other.GetComponent<GrahamCrackerPart>());
         }
 
         /// <summary>
@@ -65,6 +71,8 @@ namespace Interactables
             _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
             _rigidbody2D.velocity = _dir * speed;
             _isMovingToKill = true;
+            if (_player)
+                _crackerBehaviour.RegisterCollision(_isBottom, _player, null);
         }
 
         /// <summary>

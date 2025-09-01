@@ -1,7 +1,10 @@
-﻿using Interactables;
+﻿using System.Diagnostics;
+using System.IO;
+using Interactables;
 using Save;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Editor
 {
@@ -30,6 +33,22 @@ namespace Editor
         private static void DeleteSaveData()
         {
             SaveDataManager.DeleteSaveData();
+        }
+        
+        /// <summary>
+        /// Open save data file.
+        /// </summary>
+        [MenuItem("Assets/Open Save Data")]
+        private static void OpenSaveData()
+        {
+            string saveFileLocation = SaveDataManager.SaveFileLocation;
+            if (!File.Exists(saveFileLocation))
+            {
+                Debug.LogWarning("Save file not found.");
+                return;
+            }
+            // hope it's not malware.
+            Process.Start($"{saveFileLocation}");
         }
     }
 }
