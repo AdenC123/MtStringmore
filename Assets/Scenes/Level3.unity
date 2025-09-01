@@ -114785,6 +114785,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7349807287707373597, guid: 94dd1786f4731e249977361c0ade801f, type: 3}
+      propertyPath: m_Volume
+      value: 0.363
+      objectReference: {fileID: 0}
+    - target: {fileID: 7349807287707373597, guid: 94dd1786f4731e249977361c0ade801f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7349807287707373597, guid: 94dd1786f4731e249977361c0ade801f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8acb46df268e6a440ab182651be47eea, type: 3}
     - target: {fileID: 8890782690322104109, guid: 94dd1786f4731e249977361c0ade801f, type: 3}
       propertyPath: m_Name
       value: Level3DeathArea
