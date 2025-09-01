@@ -174,7 +174,7 @@ MonoBehaviour:
   granularity: 10
   interpolationSpeed: 20
   attachOffset: {x: -1, y: 1.5}
-  attachLerpSpeed: 30
+  attachLerpSpeed: 70
   _isPlayerHanging: 0
   collisionLayer:
     serializedVersion: 2
