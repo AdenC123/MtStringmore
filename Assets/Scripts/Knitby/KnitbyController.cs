@@ -26,9 +26,8 @@ namespace Knitby
         [SerializeField] private int granularity = 10;
         [SerializeField] private float interpolationSpeed = 20;
         
-        [FormerlySerializedAs("shoulderOffset")]
-        [Header("Attach Settings")] 
-        [SerializeField] private Vector2 attachOffset = new Vector2(-1.0f, 0f);
+        [Header("Attach Settings")]
+        [SerializeField] private Vector2 attachOffset;
         [SerializeField] private float attachLerpSpeed = 70f;
         [SerializeField] private bool _isPlayerHanging;
 

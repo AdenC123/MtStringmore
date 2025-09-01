@@ -173,7 +173,7 @@ MonoBehaviour:
   idleThreshold: 0.07
   granularity: 10
   interpolationSpeed: 20
-  attachOffset: {x: -1, y: 1.5}
+  attachOffset: {x: -1, y: 0}
   attachLerpSpeed: 70
   _isPlayerHanging: 0
   collisionLayer:

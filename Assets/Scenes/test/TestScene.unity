@@ -464,10 +464,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4476534854235773522, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
-      propertyPath: attachLerpSpeed
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 4476534854235773522, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: shoulderOffset.x
       value: -1
       objectReference: {fileID: 0}
