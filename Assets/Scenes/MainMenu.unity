@@ -1140,7 +1140,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: bf88ae4275933b44ca209cdc46e10688, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -3980,7 +3980,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 21143fef4c789b04e95604ce3751613e, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -4373,10 +4373,10 @@ MonoBehaviour:
   playPanel: {fileID: 1959963979}
   defaultTime: {fileID: 21300000, guid: 21143fef4c789b04e95604ce3751613e, type: 3}
   defaultDeath: {fileID: 21300000, guid: 15ad3414051cb2e459f5905d4e827b54, type: 3}
-  timePatch: {fileID: 21300000, guid: 87090cf857627e249bb9f2c5ed5144b4, type: 3}
-  candyPatch: {fileID: 21300000, guid: 87090cf857627e249bb9f2c5ed5144b4, type: 3}
-  deathPatch: {fileID: 21300000, guid: 87090cf857627e249bb9f2c5ed5144b4, type: 3}
-  goldPanel: {fileID: 21300000, guid: 5f90d55a517b0d54f8c7780c0339ce45, type: 3}
+  timePatch: {fileID: 21300000, guid: 49f3b2d3e79f5c14885eb5beb02ea92c, type: 3}
+  candyPatch: {fileID: 21300000, guid: c525bfde407127945a7fb65853458182, type: 3}
+  deathPatch: {fileID: 21300000, guid: b2de2b2d90ff21741a3da5a8a656f933, type: 3}
+  goldPanel: {fileID: 21300000, guid: 92a3b7e0ed07298408719754e3ed5b01, type: 3}
   defaultPanel: {fileID: 21300000, guid: 38857b4b2e26c40b694bdea81ca94739, type: 3}
 --- !u!1 &2018018880
 GameObject:
@@ -4879,7 +4879,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 15ad3414051cb2e459f5905d4e827b54, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
