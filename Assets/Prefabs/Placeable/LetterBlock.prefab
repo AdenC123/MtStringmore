@@ -267,6 +267,13 @@ MonoBehaviour:
   blockBreakDelay: 0.25
   delayBetweenShakes: 0.01
   distance: 0.5
+  possibleSprites:
+  - sprite: {fileID: 21300000, guid: a88f1be1f70948b4dac02a1a512a1803, type: 3}
+    letterColor: {r: 0.6784314, g: 0.6784314, b: 0.32156864, a: 1}
+  - sprite: {fileID: 21300000, guid: 11ad66a2e75132744a2052b1a8a4019a, type: 3}
+    letterColor: {r: 0.70980394, g: 0.3647059, b: 0.4, a: 1}
+  - sprite: {fileID: 21300000, guid: a658043534d6e624cac8584a92c03e1a, type: 3}
+    letterColor: {r: 0.20392157, g: 0.2784314, b: 0.34117648, a: 1}
 --- !u!82 &2305959855338661898
 AudioSource:
   m_ObjectHideFlags: 0
