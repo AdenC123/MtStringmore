@@ -91,7 +91,7 @@ Knitby: Marshmallow, just... come here.
 <<animator_set_float Knitby AnimSpeed 0>>
 <<animator_set_bool Knitby Eat true>>
 <<flip Knitby>>
-// TODO sunrise trigger, pan til both not visible on screen
+<<trigger_checkpoint SunriseCloudsCheckpoint>>
 <<wait 4>>
 Knitby: We are the only two souls alive who have seen this breathtaking view.
 <<wait 1>>
