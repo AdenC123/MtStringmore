@@ -4,7 +4,7 @@ using Managers;
 using TMPro;
 using UnityEngine;
 using Util;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -27,11 +27,6 @@ namespace Interactables.LetterBlock
         [SerializeField] private CollectableSpriteInfo[] possibleSprites;
 
         private SpriteRenderer _renderer;
-
-        private void OnValidate()
-        {
-            _renderer = GetComponent<SpriteRenderer>();
-        }
         
         private void Awake()
         {
@@ -81,9 +76,10 @@ namespace Interactables.LetterBlock
         public void RandomizeSprite()
         {
 #if UNITY_EDITOR
+            _renderer = GetComponent<SpriteRenderer>();
             CollectableSpriteInfo info = RandomUtil.SelectRandom(possibleSprites);
             _renderer.sprite = info.sprite;
-            char randomChar = (char) new Random().Next(65, 91);  // uppercase ascii from A to Z
+            char randomChar = (char) Random.Range(65, 91);  // uppercase ascii from A to Z
             TextMeshPro textMesh = letter.GetComponent<TextMeshPro>();
             textMesh.text = $"{randomChar}";
             textMesh.color = info.letterColor;
