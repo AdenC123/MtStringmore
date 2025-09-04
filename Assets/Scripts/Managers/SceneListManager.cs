@@ -66,19 +66,6 @@ namespace Managers
         }
 
         /// <summary>
-        /// Scene name for the actual level part of this playing level.
-        /// </summary>
-        public string CurrentActualLevelScene
-        {
-            get
-            {
-                int index = LevelNumber - 1;
-                if (index < 0 || index >= levels.Length) return null;
-                return levels[index].levelName;
-            }
-        }
-
-        /// <summary>
         /// Whether a given scene is the main menu scene.
         /// </summary>
         /// <param name="sceneName">Scene name</param>
@@ -102,6 +89,30 @@ namespace Managers
         public void LoadMainMenu()
         {
             SceneManager.LoadScene(mainMenuSceneName);
+        }
+
+        /// <summary>
+        /// Restarts the level either from the initial cutscene (if in the initial cutscene) or from the level.
+        /// </summary>
+        public void RestartLevel()
+        {
+            string scene = SceneManager.GetActiveScene().name;
+            int levelIndex = LevelNumber - 1;
+            if (levelIndex < 0 || levelIndex >= levels.Length)
+            {
+                Debug.LogWarning($"Scene {scene} has unknown scene level in SceneListManager");
+                SceneManager.LoadScene(scene);
+                return;
+            }
+
+            // check if you're in the initial cutscene
+            if (LevelLoadScenes[levelIndex] == scene)
+            {
+                SceneManager.LoadScene(scene);
+                return;
+            }
+
+            SceneManager.LoadScene(levels[levelIndex].levelName);
         }
 
         /// <summary>

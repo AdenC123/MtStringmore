@@ -67,7 +67,7 @@ namespace Managers
             GameManager.Instance.ResetCandyCollected();
             isResultsPageOpen = false;
             PauseMenu.IsPauseDisabled = false;
-            SceneManager.LoadScene(SceneListManager.Instance.CurrentActualLevelScene);
+            SceneListManager.Instance.RestartLevel();
         }
         
         public void LoadMainMenu()
