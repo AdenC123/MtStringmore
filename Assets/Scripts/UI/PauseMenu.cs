@@ -117,9 +117,8 @@ namespace UI
         /// </summary>
         public void ResetButtonPressed()
         {
-            Scene currentScene = SceneManager.GetActiveScene();
             Resume();
-            SceneManager.LoadScene(currentScene.name); //reload the scene we are currently in
+            SceneManager.LoadScene(SceneListManager.Instance.CurrentActualLevelScene);
         }
 
         /// <summary>
