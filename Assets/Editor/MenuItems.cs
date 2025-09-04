@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using Interactables;
+using Interactables.LetterBlock;
 using Save;
 using UnityEditor;
 using UnityEngine;
@@ -23,6 +24,15 @@ namespace Editor
             {
                 collectable.RandomizeSprite();
                 collectable.RandomizeRotation();
+            }
+        }
+        
+        [MenuItem("Assets/Randomize Letter Blocks")]
+        private static void RandomizeAllBlocksInScene()
+        {
+            foreach (LetterBlockVisual block in Object.FindObjectsOfType<LetterBlockVisual>())
+            {
+                block.RandomizeSprite();
             }
         }
 

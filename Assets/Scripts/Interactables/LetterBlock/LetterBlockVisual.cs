@@ -1,7 +1,14 @@
+using System;
 using System.Collections;
 using Managers;
+using TMPro;
 using UnityEngine;
 using Util;
+using Random = UnityEngine.Random;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Interactables.LetterBlock
 {
@@ -17,9 +24,10 @@ namespace Interactables.LetterBlock
         [SerializeField] [Min(0)] private float blockBreakDelay;
         [SerializeField] [Range(0f, 0.1f)] private float delayBetweenShakes = 0.01f;
         [SerializeField] [Range(0f, 2f)] private float distance = 0.1f;
+        [SerializeField] private CollectableSpriteInfo[] possibleSprites;
 
         private SpriteRenderer _renderer;
-
+        
         private void Awake()
         {
             _renderer = GetComponent<SpriteRenderer>();
@@ -59,6 +67,31 @@ namespace Interactables.LetterBlock
             yield return new WaitForSeconds(blockBreakDelay / 2f);
             particles.SetActive(false);
             foreach (SpriteRenderer childRenderer in childRenderers) childRenderer.enabled = false;
+        }
+        
+        /// <summary>
+        /// DO NOT call this outside of the editor!
+        /// Randomizes sprite and letter.
+        /// </summary>
+        public void RandomizeSprite()
+        {
+#if UNITY_EDITOR
+            _renderer = GetComponent<SpriteRenderer>();
+            CollectableSpriteInfo info = RandomUtil.SelectRandom(possibleSprites);
+            _renderer.sprite = info.sprite;
+            char randomChar = (char) Random.Range(65, 91);  // uppercase ascii from A to Z
+            TextMeshPro textMesh = letter.GetComponent<TextMeshPro>();
+            textMesh.text = $"{randomChar}";
+            textMesh.color = info.letterColor;
+            EditorUtility.SetDirty(textMesh);
+#endif
+        }
+        
+        [Serializable]
+        private struct CollectableSpriteInfo
+        {
+            public Sprite sprite;
+            public Color letterColor;
         }
     }
 }
