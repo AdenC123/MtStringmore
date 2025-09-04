@@ -66,6 +66,19 @@ namespace Managers
         }
 
         /// <summary>
+        /// Scene name for the actual level part of this playing level.
+        /// </summary>
+        public string CurrentActualLevelScene
+        {
+            get
+            {
+                int index = LevelNumber - 1;
+                if (index < 0 || index >= levels.Length) return null;
+                return levels[index].levelName;
+            }
+        }
+
+        /// <summary>
         /// Whether a given scene is the main menu scene.
         /// </summary>
         /// <param name="sceneName">Scene name</param>
