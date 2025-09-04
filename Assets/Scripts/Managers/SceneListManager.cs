@@ -92,6 +92,30 @@ namespace Managers
         }
 
         /// <summary>
+        /// Restarts the level either from the initial cutscene (if in the initial cutscene) or from the level.
+        /// </summary>
+        public void RestartLevel()
+        {
+            string scene = SceneManager.GetActiveScene().name;
+            int levelIndex = LevelNumber - 1;
+            if (levelIndex < 0 || levelIndex >= levels.Length)
+            {
+                Debug.LogWarning($"Scene {scene} has unknown scene level in SceneListManager");
+                SceneManager.LoadScene(scene);
+                return;
+            }
+
+            // check if you're in the initial cutscene
+            if (LevelLoadScenes[levelIndex] == scene)
+            {
+                SceneManager.LoadScene(scene);
+                return;
+            }
+
+            SceneManager.LoadScene(levels[levelIndex].levelName);
+        }
+
+        /// <summary>
         /// Determines whether a given scene is a cutscene.
         /// </summary>
         /// <param name="sceneName">Given scene name</param>

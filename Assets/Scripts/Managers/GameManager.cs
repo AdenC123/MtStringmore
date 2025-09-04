@@ -269,12 +269,18 @@ namespace Managers
             SaveData saveData = optionalData.Value.saveData;
             _prevCheckpoints.Clear();
             NumCollectablesCollected = 0;
-            _levelsAccessed.UnionWith(saveData.levelsAccessed);
-
-            _levelData[0] = saveData.level1Data;
-            _levelData[1] = saveData.level2Data;
-            _levelData[2] = saveData.level3Data;
-            _levelData[3] = saveData.level4Data;
+            if (saveData.levelsAccessed != null)
+                _levelsAccessed.UnionWith(saveData.levelsAccessed);
+            if (saveData.levelData != null)
+            {
+                if (saveData.levelData.Length != _levelData.Length)
+                    Debug.LogWarning($"Mismatching level data array lengths, got {saveData.levelData.Length}, expected {_levelData.Length}");
+                Array.Copy(saveData.levelData, _levelData, Mathf.Min(saveData.levelData.Length, _levelData.Length));
+            }
+            else
+            {
+                for (int i = 0; i < _levelData.Length; i++) _levelData[i] = new LevelData();
+            }
 
             SaveDataManager.SaveFile();
             return true;
