@@ -84,6 +84,7 @@ namespace Knitby
 
         private GameObject _player;
         private PlayerController _playerController;
+        private Animator _animator;
         private float _queueTimer;
         private bool _wallHit;
         private bool _isSwinging;
@@ -95,15 +96,23 @@ namespace Knitby
             _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
             _playerController = _player.GetComponent<PlayerController>();
             _playerController.Death += PlayerDeath;
+            // _animator = GetComponentInChildren<Animator>();
         }
 
         private void Update()
         {
             if (!_player) return;
             
+            /*if (_isSwinging)
+            {
+                AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
+                if (state.IsName("Swing") && state.normalizedTime < 1f) return;
+                _isSwinging = false;
+            }*/
+            
             float xFlip = _playerController.Direction;
             
-            if (_isPlayerHanging && !_isSwinging)
+            if (_isPlayerHanging/* && !_isSwinging*/)
             {
                 Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * xFlip, attachOffset.y, 0f);
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed); 
@@ -157,7 +166,7 @@ namespace Knitby
             }
 
             _isSwinging = _lineRenderer.isVisible;
-            Swing?.Invoke(_isSwinging);
+            // Swing?.Invoke(_isSwinging);
 
             CanDash?.Invoke(_playerController.CanDash);
         }
