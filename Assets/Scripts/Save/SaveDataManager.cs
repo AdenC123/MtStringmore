@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Managers;
 using UnityEngine;
@@ -35,10 +36,7 @@ namespace Save
                 {
                     dateTimeBinary = DateTime.Now.ToBinary(),
                     levelsAccessed = gameManager.LevelsAccessed,
-                    level1Data = gameManager.AllLevelData[0],
-                    level2Data = gameManager.AllLevelData[1],
-                    level3Data = gameManager.AllLevelData[2],
-                    level4Data = gameManager.AllLevelData[3]
+                    levelData = gameManager.AllLevelData.ToArray()
                 }
             };
         }

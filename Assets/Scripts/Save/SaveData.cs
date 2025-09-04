@@ -12,10 +12,7 @@ namespace Save
         public long dateTimeBinary;
         public string[] levelsAccessed;
 
-        public LevelData level1Data;
-        public LevelData level2Data;
-        public LevelData level3Data;
-        public LevelData level4Data;
+        public LevelData[] levelData;
     }
 
     [Serializable]
