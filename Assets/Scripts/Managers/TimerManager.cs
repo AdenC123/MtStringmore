@@ -113,12 +113,14 @@ namespace Managers
         /// <summary>
         /// Called by the toggle - updates the PlayerPref and the in game timer.
         /// </summary>
-        public void OnToggle()
+        /// <param name="newValue">New toggle value</param>
+        public void OnToggle(bool newValue)
         {
-            inGameTimerText.enabled = timerToggle.isOn && !ShouldDisableTimer;
-            int value = timerToggle.isOn ? 1 : 0;
+            inGameTimerText.enabled = newValue && !ShouldDisableTimer;
+            int value = newValue ? 1 : 0;
             PlayerPrefs.SetInt("SpeedTime", value);
             PlayerPrefs.Save();
+            timerToggle.isOn = newValue; // main menu has two toggles
         }
     }
 }

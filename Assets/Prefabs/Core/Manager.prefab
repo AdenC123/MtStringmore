@@ -4530,17 +4530,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3410946196948061372, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
   m_PrefabInstance: {fileID: 1974878319844433746}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4706405958964759677 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6501137475381154607, guid: dd796b62e71897f40b9dc32c7f7c24a4, type: 3}
-  m_PrefabInstance: {fileID: 1974878319844433746}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d4be20ed61369e4e989a9243a6a6898, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3647923371266957146
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4549,10 +4538,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6620736445687505185}
     m_Modifications:
-    - target: {fileID: 71625077971201445, guid: 5c654c169bd254d1d82a509d0c1b76e1, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 4706405958964759677}
     - target: {fileID: 273314195693845939, guid: 5c654c169bd254d1d82a509d0c1b76e1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
