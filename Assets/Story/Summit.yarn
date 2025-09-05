@@ -71,6 +71,7 @@ Knitby: It was never really about the clouds anyway, was it?
 <<animator_set_bool Marshmallow Eat false>>
 <<animator_set_bool Marshmallow FaceAway false>>
 Marshmallow_faraway: ... Well, what now?
+<<wait 0.5>>
 <<move Knitby 16 -16.2 10>>
 <<wait 0.5>>
 <<flip Knitby>>
@@ -91,6 +92,7 @@ Knitby: Marshmallow, just... come here.
 <<animator_set_float Knitby AnimSpeed 0>>
 <<animator_set_bool Knitby Eat true>>
 <<flip Knitby>>
+<<wait 1>>
 <<trigger_checkpoint SunriseCloudsCheckpoint>>
 <<wait 4>>
 Knitby: We are the only two souls alive who have seen this breathtaking view.
