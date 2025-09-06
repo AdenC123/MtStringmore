@@ -1,5 +1,6 @@
 ﻿title: Level4Cutscene
 ---
+<<resize_camera 8 100>>
 <<fix_coords 0 0>>
 <<fade_in>>
 Marshmallow: I see the exit!
