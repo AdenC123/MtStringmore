@@ -71,6 +71,7 @@ Knitby: It was never really about the clouds anyway, was it?
 <<animator_set_bool Marshmallow Eat false>>
 <<animator_set_bool Marshmallow FaceAway false>>
 Marshmallow_faraway: ... Well, what now?
+<<wait 0.5>>
 <<move Knitby 16 -16.2 10>>
 <<wait 0.5>>
 <<flip Knitby>>
@@ -79,11 +80,11 @@ Knitby: The sunrise will greet us soon. It'll be a spectacle you don't want to m
 Marshmallow: What sunrise? The sun rises every day! That's not what I came here for!
 Knitby: Marshmallow, just... come here.
 <<flip Knitby>>
-<<run Knitby 34 -16.2 10>>
+<<run Knitby 42 -16.2 10>>
 <<wait 1>>
-<<run Marshmallow 30 -16.4 10>>
+<<run Marshmallow 38 -16.4 10>>
 <<wait 0.5>>
-<<fix_coords 32 -13 0.7>>
+<<fix_coords 40 -13 0.7>>
 <<wait_move_finish Marshmallow>>
 <<wait 0.5>>
 <<animator_set_float Marshmallow AnimSpeed 0>>
@@ -91,8 +92,11 @@ Knitby: Marshmallow, just... come here.
 <<animator_set_float Knitby AnimSpeed 0>>
 <<animator_set_bool Knitby Eat true>>
 <<flip Knitby>>
+<<wait 1>>
 <<trigger_checkpoint SunriseCloudsCheckpoint>>
 <<wait 4>>
+<<fix_coords 40 -5 6>>
+<<wait 8>>
 Knitby: We are the only two souls alive who have seen this breathtaking view.
 <<wait 1>>
 Marshmallow: Yeah...
