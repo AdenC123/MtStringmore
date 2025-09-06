@@ -708,6 +708,7 @@ namespace Player
                 PlayerState = PlayerStateEnum.OnObject;
                 HangChanged?.Invoke(true, _velocity.x < 0);
                 CurrentInteractableArea.StartInteract(this);
+                
                 if (previouslyGrounded)
                 {
                     _timeLeftGround = _time;
