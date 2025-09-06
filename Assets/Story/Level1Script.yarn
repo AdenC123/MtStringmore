@@ -1,6 +1,7 @@
 ﻿title: IntroCutscene
 setting: outside Knitby's house
 ---
+<<resize_camera 6.5 100>>
 <<fix_coords 6.9 2>>
 <<move Marshmallow 2 1 15 true>>
 // marshmallow knocks on Knitby's door
