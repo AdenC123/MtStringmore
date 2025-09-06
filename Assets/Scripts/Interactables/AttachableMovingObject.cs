@@ -102,6 +102,7 @@ namespace Interactables
         private PlayerController _player;
         private AudioSource _audioSource;
         private SpriteRenderer _tabRenderer;
+        private PlayerAnimator _playerAnim;
 
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
@@ -292,7 +293,11 @@ namespace Interactables
             _player.RemovePlayerVelocityEffector(this);
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, _prevVelocity, exitVelBoost), true);
             _audioSource.Stop();
-            if (IsPerfectRelease) _audioSource.PlayOneShot(perfectReleaseClip);
+            if (IsPerfectRelease)
+            {
+                _playerAnim.OnPerfectRelease();
+                _audioSource.PlayOneShot(perfectReleaseClip);
+            }
             StopMotion();
             if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
             _unzippedMotion = StartCoroutine(UnzipCoroutine());
@@ -318,6 +323,7 @@ namespace Interactables
             _audioSource = GetComponent<AudioSource>();
             _tabRenderer = GetComponent<SpriteRenderer>();
             _animator = GetComponent<Animator>();
+            _playerAnim = FindObjectOfType<PlayerAnimator>();
             GameManager.Instance.Reset += OnReset;
         }
 

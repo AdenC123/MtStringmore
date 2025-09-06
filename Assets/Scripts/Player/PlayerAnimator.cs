@@ -40,7 +40,7 @@ namespace Player
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private GameObject deathSmoke;
         [SerializeField] private ParticleSystem dashDust;
-
+        [SerializeField] private ParticleSystem speedRings;
         // [Header("Particles")] [SerializeField] private ParticleSystem _jumpParticles;
         // [SerializeField] private ParticleSystem _launchParticles;
         // [SerializeField] private ParticleSystem _moveParticles;
@@ -328,6 +328,11 @@ namespace Player
             sprite.flipX = clockwise;
         }
 
+        public void OnPerfectRelease()
+        {
+            speedRings.Play();
+        }
+        
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
