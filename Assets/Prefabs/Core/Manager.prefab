@@ -3697,19 +3697,19 @@ MonoBehaviour:
   - preLevelCutscene: IntroCutscene
     levelName: Level1Trial
     postLevelCutscene: 
-    timeToBeat: 200
+    timeToBeat: 90
   - preLevelCutscene: SecondCutscene
     levelName: Level2
     postLevelCutscene: Level2InterstitialCutscene
-    timeToBeat: 200
+    timeToBeat: 110
   - preLevelCutscene: 
     levelName: Level3
     postLevelCutscene: 
-    timeToBeat: 200
+    timeToBeat: 90
   - preLevelCutscene: Cutscene5
     levelName: Level4
     postLevelCutscene: Cutscene6
-    timeToBeat: 200
+    timeToBeat: 140
 --- !u!82 &2257474230385962516
 AudioSource:
   m_ObjectHideFlags: 0
