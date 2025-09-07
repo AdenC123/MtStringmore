@@ -88,7 +88,9 @@ namespace Knitby
         private float _queueTimer;
         private bool _wallHit;
         private bool _isSwinging;
-
+        private bool _wasSwinging;
+        private bool _hasSpun;
+        
         private void Start()
         {
             _col = GetComponent<CapsuleCollider2D>();
@@ -103,16 +105,19 @@ namespace Knitby
         {
             if (!_player) return;
             
-            if (_isSwinging)
+            // Do not delete this is important for zipper and balloon hanging handling
+            // just commented out to figure out animation issues
+            
+            /*if (_isSwinging)
             {
                 AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
-                if (state.IsName("Knitby_Spin") && state.normalizedTime < 1f) return;
+                if (state.IsName("EnterSwing") && state.normalizedTime < 1f) return;
                 _isSwinging = false;
             }
             
             float xFlip = _playerController.Direction;
             
-            if (_isPlayerHanging)
+            if (_isPlayerHanging & !_isSwinging)
             {
                 Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * xFlip, attachOffset.y, 0f);
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed); 
@@ -120,18 +125,33 @@ namespace Knitby
                 SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
             }
             else
+            {*/
+            AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
+
+            if (_isSwinging)
             {
-                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
-                if (_currentPathPosition == Vector3.zero) return;
-
-                if (!_isSwinging)
-                    SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
-
-                Vector3 direction = _currentPathPosition - transform.position;
-
-                DirectionUpdated?.Invoke(direction.x, direction.y);
-                transform.position += direction * (Time.deltaTime * interpolationSpeed);
+                if (state.IsName("EnterSwing"))
+                {
+                    if (state.normalizedTime >= 1f)
+                    {
+                        SetWait?.Invoke(true);
+                        _isSwinging = false;
+                    }
+                    else return;
+                }
             }
+
+            SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
+            if (_currentPathPosition == Vector3.zero) return;
+
+            if (!_isSwinging)
+                SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
+
+            Vector3 direction = _currentPathPosition - transform.position;
+
+            DirectionUpdated?.Invoke(direction.x, direction.y);
+            transform.position += direction * (Time.deltaTime * interpolationSpeed);
+            /*}*/
         }
 
         private void FixedUpdate()
@@ -165,6 +185,8 @@ namespace Knitby
                 WallHitChanged?.Invoke(wallHit);
             }
 
+            // This is the main issue, because the swing animation keeps triggering while the line
+            // is being rendered and knitby just keeps spinning
             _isSwinging = _lineRenderer.isVisible;
             Swing?.Invoke(_isSwinging);
             
