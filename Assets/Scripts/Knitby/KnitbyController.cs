@@ -96,11 +96,19 @@ namespace Knitby
             _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
             _playerController = _player.GetComponent<PlayerController>();
             _playerController.Death += PlayerDeath;
+            _animator = GetComponentInChildren<Animator>();
         }
 
         private void Update()
         {
             if (!_player) return;
+            
+            if (_isSwinging)
+            {
+                AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
+                if (state.IsName("Knitby_Spin") && state.normalizedTime < 1f) return;
+                _isSwinging = false;
+            }
             
             float xFlip = _playerController.Direction;
             
@@ -158,7 +166,8 @@ namespace Knitby
             }
 
             _isSwinging = _lineRenderer.isVisible;
-
+            Swing?.Invoke(_isSwinging);
+            
             CanDash?.Invoke(_playerController.CanDash);
         }
 

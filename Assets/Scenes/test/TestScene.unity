@@ -471,6 +471,14 @@ PrefabInstance:
       propertyPath: shoulderOffset.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5915865940897924245, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1906661188, guid: e8ec3215b88e44e43ae732790ebd88cb, type: 3}
+    - target: {fileID: 5915865940897924245, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7720336601314418461, guid: 0fedb40c7675c7a40b7785be1f0863bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: -52
