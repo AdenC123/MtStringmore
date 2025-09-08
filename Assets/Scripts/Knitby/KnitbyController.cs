@@ -103,25 +103,25 @@ namespace Knitby
             if (!_player) return;
             
             float xFlip = _playerController.Direction;
-            
+
             if (_isPlayerHanging)
             {
                 Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * xFlip, attachOffset.y, 0f);
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed); 
                 DirectionUpdated?.Invoke(targetPos.x - transform.position.x, targetPos.y - transform.position.y);
-                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
             }
             else
             {
-                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
                 if (_currentPathPosition == Vector3.zero) return;
 
                 if (!_isSwinging)
                     SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
 
                 Vector3 direction = _currentPathPosition - transform.position;
-
-                DirectionUpdated?.Invoke(direction.x, direction.y);
+                if (_isSwinging)
+                    DirectionUpdated?.Invoke(xFlip, direction.y);
+                else 
+                    DirectionUpdated?.Invoke(direction.x, direction.y);
                 transform.position += direction * (Time.deltaTime * interpolationSpeed);
             }
         }
@@ -157,8 +157,13 @@ namespace Knitby
                 WallHitChanged?.Invoke(wallHit);
             }
 
-            _isSwinging = _lineRenderer.isVisible;
-
+            if (_isSwinging != _lineRenderer.isVisible)
+            {
+                _isSwinging = _lineRenderer.isVisible;
+                Swing?.Invoke(_isSwinging);
+            }
+            
+            SetWait?.Invoke(_isPlayerHanging || _isSwinging);
             CanDash?.Invoke(_playerController.CanDash);
         }
 
