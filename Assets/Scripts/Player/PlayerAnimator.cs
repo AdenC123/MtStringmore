@@ -334,11 +334,6 @@ namespace Player
                 transform.localPosition.z);
             sprite.flipX = clockwise;
         }
-
-        public void OnPerfectRelease()
-        {
-            speedRings.Play();
-        }
         
         private void OnDrawGizmosSelected()
         {
