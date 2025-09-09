@@ -144,6 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 948893277551666396}
   - component: {fileID: 71625077971201445}
+  - component: {fileID: 5348157480131533325}
   m_Layer: 5
   m_Name: In-Game Timer Toggle
   m_TagString: Untagged
@@ -219,10 +220,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Managers.TimerManager, Assembly-CSharp
+      - m_Target: {fileID: 5348157480131533325}
+        m_TargetAssemblyTypeName: UI.TimerToggle, Assembly-CSharp
         m_MethodName: OnToggle
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -232,6 +233,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!114 &5348157480131533325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050077137815239433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be64604d67014bb3bf8dea1dc5fe6142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1089465513726079161
 GameObject:
   m_ObjectHideFlags: 0

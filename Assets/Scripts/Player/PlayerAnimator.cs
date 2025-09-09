@@ -1,4 +1,5 @@
 ﻿using System;
+using Knitby;
 using Managers;
 using UI;
 using UnityEngine;
@@ -88,6 +89,8 @@ namespace Player
         private static readonly int DeathKey = Animator.StringToHash("Dead");
         private static readonly int RoastKey = Animator.StringToHash("Roast");
         private static readonly int IdleKey = Animator.StringToHash("Idle");
+        
+        public event Action<float> PlayerHang;
 
         #endregion
 
@@ -292,11 +295,15 @@ namespace Player
                         _spriteOriginalPosition.x - hangOffset.x,
                         transform.localPosition.y,
                         transform.localPosition.z);
+                
+                PlayerHang?.Invoke(-2f);
             }
             else
             {
                 transform.localPosition = _spriteOriginalPosition;
                 _swingPos = null;
+                
+                PlayerHang?.Invoke(0f);
             }
         }
 
