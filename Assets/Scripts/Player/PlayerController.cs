@@ -444,8 +444,8 @@ namespace Player
             RaycastHit2D groundCast = CapsuleCastCollision(Vector2.down, collisionDistance);
             bool groundHit = groundCast;
             bool ceilingHit = CapsuleCastCollision(Vector2.up, collisionDistance);
-            bool leftWallHit = CapsuleCastCollision(Vector2.left, collisionDistance);
-            bool rightWallHit = CapsuleCastCollision(Vector2.right, collisionDistance);
+            bool leftWallHit = CapsuleCastCollision(Vector2.left, collisionDistance) && _velocity.x < -Mathf.Epsilon;
+            bool rightWallHit = CapsuleCastCollision(Vector2.right, collisionDistance) && _velocity.x > Mathf.Epsilon;
             RaycastHit2D wallCloseHit = CapsuleCastCollision(_velocity, wallCloseDistance);
             if (wallCloseHit && wallCloseHit.transform.CompareTag("LetterBlock"))
                 _closeToWall = false;
