@@ -1,5 +1,4 @@
 ﻿using System;
-using Knitby;
 using Managers;
 using UI;
 using UnityEngine;
@@ -41,7 +40,7 @@ namespace Player
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private GameObject deathSmoke;
         [SerializeField] private ParticleSystem dashDust;
-
+        [SerializeField] private ParticleSystem speedRings;
         // [Header("Particles")] [SerializeField] private ParticleSystem _jumpParticles;
         // [SerializeField] private ParticleSystem _launchParticles;
         // [SerializeField] private ParticleSystem _moveParticles;
@@ -180,6 +179,14 @@ namespace Player
         {
             anim.SetFloat(XSpeedKey, Mathf.Abs(_player.Velocity.x));
             anim.SetFloat(YVelocityKey, _player.Velocity.y);
+        }
+        
+        /// <summary>
+        /// Play the speed ring particles. 
+        /// </summary>
+        public void PlaySpeedRings()
+        {
+            speedRings.Play();
         }
 
         /// <summary>
@@ -334,7 +341,7 @@ namespace Player
                 transform.localPosition.z);
             sprite.flipX = clockwise;
         }
-
+        
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
