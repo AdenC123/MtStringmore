@@ -100,8 +100,10 @@ namespace Interactables
         private Vector2 _prevVelocity;
 
         private PlayerController _player;
+        private PlayerAnimator _playerAnim;
         private AudioSource _audioSource;
         private SpriteRenderer _tabRenderer;
+        private bool _playerKickedOff;
 
         /// <inheritdoc />
         public override bool IgnoreGravity => true;
@@ -185,6 +187,7 @@ namespace Interactables
             _rigidbody.position = secondPosition;
             _rigidbody.velocity = Vector2.zero;
             yield return new WaitForSeconds(exitDelayTime);
+            _playerKickedOff = true;
             _animator.SetBool(AnimatorHashWhite, false);
             _prevVelocity = _rigidbody.velocity;
             _player.StopInteraction(this);
@@ -255,6 +258,7 @@ namespace Interactables
         /// <inheritdoc />
         public override void StartInteract(PlayerController player)
         {
+            _playerKickedOff = false;
             player.CanDash = true;
             _player = player;
             _audioSource.Play();
@@ -292,7 +296,11 @@ namespace Interactables
             _player.RemovePlayerVelocityEffector(this);
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, _prevVelocity, exitVelBoost), true);
             _audioSource.Stop();
-            if (IsPerfectRelease) _audioSource.PlayOneShot(perfectReleaseClip);
+            if (IsPerfectRelease && !_playerKickedOff)
+            {
+                _playerAnim.PlaySpeedRings();
+                _audioSource.PlayOneShot(perfectReleaseClip);
+            }
             StopMotion();
             if (_unzippedMotion != null) StopCoroutine(_unzippedMotion);
             _unzippedMotion = StartCoroutine(UnzipCoroutine());
@@ -318,6 +326,7 @@ namespace Interactables
             _audioSource = GetComponent<AudioSource>();
             _tabRenderer = GetComponent<SpriteRenderer>();
             _animator = GetComponent<Animator>();
+            _playerAnim = FindFirstObjectByType<PlayerAnimator>();
             GameManager.Instance.Reset += OnReset;
         }
 

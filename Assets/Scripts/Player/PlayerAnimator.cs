@@ -19,8 +19,6 @@ namespace Player
         private Vector3 _lastPosition;
         private Vector3 _spriteOriginalPosition;
 
-        private bool _ringsPlayed;
-
         /// <summary>
         ///     RoastState of the player (i.e. how cooked they are) on a scale of 0 (not cooked) to <see cref="NumRoastStates" />
         ///     (very cooked).
@@ -60,7 +58,6 @@ namespace Player
         [Tooltip("Player position offset when hanging onto object (small red wire sphere gizmo)")]
         [SerializeField] private Vector2 hangOffset;
         [SerializeField][Range(0, 1)][Tooltip("Multiplier of swing angle")] private float swingDeltaMultiplier = 0.5f;
-        [SerializeField] private float speedRingSpeedThreshold;
         // @formatter:on
 
         [SerializeField] private Color[] roastColors;
@@ -143,7 +140,6 @@ namespace Player
             HandleVerticalSpeed();
             HandleIdle();
             HandleSwingRotation();
-            HandleSpeedRings();
         }
 
         #endregion
@@ -186,25 +182,11 @@ namespace Player
         }
         
         /// <summary>
-        /// Activate the speed ring particles if the player's horizontal velocity is over threshold. 
+        /// Play the speed ring particles. 
         /// </summary>
-        private void HandleSpeedRings()
+        public void PlaySpeedRings()
         {
-            bool ringsShouldPlay = Mathf.Abs(_player.Velocity.x) >= speedRingSpeedThreshold &&
-                                   _player.PlayerState != PlayerController.PlayerStateEnum.OnObject &&
-                                   _player.PlayerState != PlayerController.PlayerStateEnum.Swing;
-            
-            if (!_ringsPlayed && ringsShouldPlay)
-            {
-                speedRings.Play();
-                _ringsPlayed = true;
-            }
-            else if (_ringsPlayed && !ringsShouldPlay)
-            {
-                // mark that we can play the rings again when next we go over the threshold
-                speedRings.Stop();  // probably already finished since not looping, but stop just in case
-                _ringsPlayed = false;
-            }
+            speedRings.Play();
         }
 
         /// <summary>
