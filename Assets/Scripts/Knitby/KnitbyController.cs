@@ -1,13 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Managers;
 using Player;
-using TMPro;
-using UnityEditor.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Debug = UnityEngine.Debug;
 
 namespace Knitby
 {
