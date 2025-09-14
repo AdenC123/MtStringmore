@@ -269,6 +269,7 @@ MonoBehaviour:
     m_Bits: 256
   collisionDistance: 0.2
   wallCloseDistance: 2
+  wallVelocityThreshold: 1
   maxGroundSpeed: 22
   groundAcceleration: 30
   startDirection: 1
