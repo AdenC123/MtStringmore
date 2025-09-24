@@ -3722,7 +3722,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -8652575604657733914, guid: e6b9335b6d268ba46aa2ead17d902bfb, type: 2}
   m_audioClip: {fileID: 8300000, guid: f23f3aac074ac0e4bbbce2bbb30f4fed, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.149
+  m_Volume: 0.294
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3823,7 +3823,7 @@ MonoBehaviour:
   bgmSlider: {fileID: 7062846956582741004}
   sfxSlider: {fileID: 5902967078041605912}
   startBgmVolume: 0.5
-  startSfxVolume: 0.5
+  startSfxVolume: 0.6
   startMasterVolume: 0.5
   collectableClips:
   - {fileID: 8300000, guid: efde65e288ccde64b8f303a7bb665400, type: 3}
