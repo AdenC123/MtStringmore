@@ -165,6 +165,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e9de9b181cfc6804e9e615db52c9d7ad, type: 3}
   hangOffset: {x: 0, y: 0}
   swingDeltaMultiplier: 0.5
+  speedRingSpeedThreshold: 31
   roastColors:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 0.90081525, b: 0.75, a: 1}
