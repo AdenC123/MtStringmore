@@ -108,7 +108,7 @@ namespace Managers
 
         private readonly HashSet<Vector2> _prevCheckpoints = new();
         private readonly HashSet<string> _levelsAccessed = new();
-        private readonly LevelData[] _levelData = new LevelData[4];
+        private readonly LevelData[] _levelData = new LevelData[5];
 
         private bool _areInteractablesEnabled = true;
 

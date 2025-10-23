@@ -3710,6 +3710,10 @@ MonoBehaviour:
     levelName: Level4
     postLevelCutscene: Cutscene6
     timeToBeat: 140
+  - preLevelCutscene: 
+    levelName: Level5
+    postLevelCutscene: 
+    timeToBeat: 240
 --- !u!82 &2257474230385962516
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3867,6 +3871,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: a8024f5e6a1246b4baf6c062ccf67a4e, type: 3}
   - sceneName: Cutscene6
     audioClip: {fileID: 8300000, guid: b652c52860361c9438290532632e4ea2, type: 3}
+  - sceneName: Level5
+    audioClip: {fileID: 8300000, guid: a8024f5e6a1246b4baf6c062ccf67a4e, type: 3}
 --- !u!114 &3119184382528755020
 MonoBehaviour:
   m_ObjectHideFlags: 0
