@@ -30,6 +30,7 @@ namespace Knitby
         [SerializeField] private Vector2 attachOffset;
         [SerializeField] private float attachLerpSpeed = 70f;
         [SerializeField] private bool _isPlayerHanging;
+        [SerializeField] private bool _isSwingingClockwise;
 
         [Header("Collisions")] [SerializeField]
         private LayerMask collisionLayer;
@@ -94,64 +95,64 @@ namespace Knitby
         private void Start()
         {
             _col = GetComponent<CapsuleCollider2D>();
-            _player = GameObject.FindGameObjectWithTag("Player");
-            _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
-            _playerController = _player.GetComponent<PlayerController>();
-            _playerController.Death += PlayerDeath;
             _animator = GetComponentInChildren<Animator>();
+            
+            _player = GameObject.FindGameObjectWithTag("Player");
+            _playerController = _player.GetComponent<PlayerController>();
+            _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
+            
+            _playerController.HangChanged += OnHangChanged;
+            _playerController.SwingDifferentDirection += OnSwingDifferentDirection;
+            _playerController.Death += PlayerDeath;
         }
 
         private void Update()
         {
             if (!_player) return;
             
-            // Do not delete this is important for zipper and balloon hanging handling
-            // just commented out to figure out animation issues
-            
-            /*if (_isSwinging)
+            if (_isSwinging)
             {
                 AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
                 if (state.IsName("EnterSwing") && state.normalizedTime < 1f) return;
                 _isSwinging = false;
             }
             
-            float xFlip = _playerController.Direction;
-            
             if (_isPlayerHanging & !_isSwinging)
             {
-                Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * xFlip, attachOffset.y, 0f);
+                float dir = _isSwingingClockwise ? -1f : 1f;
+                Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * dir, attachOffset.y, 0f);
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed); 
-                DirectionUpdated?.Invoke(targetPos.x - transform.position.x, targetPos.y - transform.position.y);
+                transform.rotation = _player.transform.rotation;
                 SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
             }
             else
-            {*/
-            AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
-
-            if (_isSwinging)
             {
-                if (state.IsName("EnterSwing"))
+                AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
+    
+                if (_isSwinging)
                 {
-                    if (state.normalizedTime >= 1f)
+                    if (state.IsName("EnterSwing"))
                     {
-                        SetWait?.Invoke(true);
-                        _isSwinging = false;
+                        if (state.normalizedTime >= 1f)
+                        {
+                            SetWait?.Invoke(true);
+                            _isSwinging = false;
+                        }
+                        else return;
                     }
-                    else return;
                 }
+    
+                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
+                if (_currentPathPosition == Vector3.zero) return;
+    
+                if (!_isSwinging)
+                    SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
+    
+                Vector3 direction = _currentPathPosition - transform.position;
+    
+                DirectionUpdated?.Invoke(direction.x, direction.y);
+                transform.position += direction * (Time.deltaTime * interpolationSpeed);
             }
-
-            SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
-            if (_currentPathPosition == Vector3.zero) return;
-
-            if (!_isSwinging)
-                SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
-
-            Vector3 direction = _currentPathPosition - transform.position;
-
-            DirectionUpdated?.Invoke(direction.x, direction.y);
-            transform.position += direction * (Time.deltaTime * interpolationSpeed);
-            /*}*/
         }
 
         private void FixedUpdate()
@@ -196,25 +197,28 @@ namespace Knitby
         private void OnEnable()
         {
             GameManager.Instance.Reset += OnReset;
-            
-            if (_player == null) _player = GameObject.FindWithTag("Player");
-            
-            PlayerController playerController = _player.GetComponent<PlayerController>();
-            if (playerController) playerController.HangChanged += OnHangChanged;
+            if (!_player || !_playerController) return;
+            _playerController.HangChanged += OnHangChanged;
+            _playerController.Death += PlayerDeath;
         }
 
         private void OnDisable()
         {
             GameManager.Instance.Reset -= OnReset;
-            if (!_player) return;
-            PlayerController playerController = _player.GetComponent<PlayerController>();
-            if (playerController) playerController.HangChanged += OnHangChanged;
-            playerController.Death -= PlayerDeath;
+            if (!_player || !_playerController) return;
+            _playerController.HangChanged -= OnHangChanged;
+            _playerController.Death -= PlayerDeath;
         }
 
         private void OnHangChanged(bool isHanging, bool facingLeft)
         {
             _isPlayerHanging = isHanging;
+        }
+        
+        private void OnSwingDifferentDirection(bool clockwise)
+        {
+            _isSwingingClockwise = clockwise;
+            DirectionUpdated.Invoke(clockwise ? -1f : 1f, 0f);
         }
         
         private RaycastHit2D CapsuleCastCollision(Vector2 dir, float distance)

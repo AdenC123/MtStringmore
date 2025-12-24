@@ -295,15 +295,11 @@ namespace Player
                         _spriteOriginalPosition.x - hangOffset.x,
                         transform.localPosition.y,
                         transform.localPosition.z);
-                
-                PlayerHang?.Invoke(-2f);
             }
             else
             {
                 transform.localPosition = _spriteOriginalPosition;
                 _swingPos = null;
-                
-                PlayerHang?.Invoke(0f);
             }
         }
 
