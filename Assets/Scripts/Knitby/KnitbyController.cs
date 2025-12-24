@@ -109,50 +109,9 @@ namespace Knitby
         private void Update()
         {
             if (!_player) return;
-            
-            if (_isSwinging)
-            {
-                AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
-                if (state.IsName("EnterSwing") && state.normalizedTime < 1f) return;
-                _isSwinging = false;
-            }
-            
-            if (_isPlayerHanging & !_isSwinging)
-            {
-                float dir = _isSwingingClockwise ? -1f : 1f;
-                Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * dir, attachOffset.y, 0f);
-                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed); 
-                transform.rotation = _player.transform.rotation;
-                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
-            }
-            else
-            {
-                AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
-    
-                if (_isSwinging)
-                {
-                    if (state.IsName("EnterSwing"))
-                    {
-                        if (state.normalizedTime >= 1f)
-                        {
-                            SetWait?.Invoke(true);
-                            _isSwinging = false;
-                        }
-                        else return;
-                    }
-                }
-    
-                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
-                if (_currentPathPosition == Vector3.zero) return;
-    
-                if (!_isSwinging)
-                    SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
-    
-                Vector3 direction = _currentPathPosition - transform.position;
-    
-                DirectionUpdated?.Invoke(direction.x, direction.y);
-                transform.position += direction * (Time.deltaTime * interpolationSpeed);
-            }
+            HandleGrounded();
+            HandleHang();
+            HandleSwing();
         }
 
         private void FixedUpdate()
@@ -186,12 +145,59 @@ namespace Knitby
                 WallHitChanged?.Invoke(wallHit);
             }
 
-            // This is the main issue, because the swing animation keeps triggering while the line
-            // is being rendered and knitby just keeps spinning
             _isSwinging = _lineRenderer.isVisible;
             Swing?.Invoke(_isSwinging);
             
             CanDash?.Invoke(_playerController.CanDash);
+        }
+        
+        /// <summary>
+        ///     Handle states when on the ground
+        /// </summary>
+        private void HandleGrounded()
+        {
+            if (_isPlayerHanging || _isSwinging) return;
+            
+            SetWait?.Invoke(false);
+            SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
+            if (_currentPathPosition == Vector3.zero) return;
+            
+            Vector3 direction = _currentPathPosition - transform.position;
+            DirectionUpdated?.Invoke(direction.x, direction.y);
+            transform.position += direction * (Time.deltaTime * interpolationSpeed);
+        }
+        
+        /// <summary>
+        ///     Handle hanging states except swinging
+        /// </summary>
+        private void HandleHang()
+        {
+            if (!_isPlayerHanging || _isSwinging) return;
+            
+            float dir = _playerController.Direction;
+            HandleHangingPosition(dir);
+            SetWait?.Invoke(true);
+        }
+        
+        private void HandleSwing()
+        {
+            if (!_isSwinging) return;
+            
+            float dir = _isSwingingClockwise ? -1f : 1f;
+            HandleHangingPosition(dir);
+            AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
+        }
+        
+        /// <summary>
+        ///     When player is hanging, move Knitby to the right position + rotation
+        /// </summary>
+        private void HandleHangingPosition(float dir)
+        {
+            transform.rotation = _player.transform.rotation;
+            Vector3 localOffset = new Vector3(attachOffset.x * dir, attachOffset.y, 0f);
+            Vector3 rotatedOffset = _player.transform.TransformDirection(localOffset);
+            Vector3 targetPos = _player.transform.position + rotatedOffset;
+            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed);
         }
 
         private void OnEnable()
@@ -213,6 +219,8 @@ namespace Knitby
         private void OnHangChanged(bool isHanging, bool facingLeft)
         {
             _isPlayerHanging = isHanging;
+            if (!isHanging)
+                transform.rotation = Quaternion.identity;
         }
         
         private void OnSwingDifferentDirection(bool clockwise)
@@ -237,6 +245,7 @@ namespace Knitby
             Vector3 spawnPos = new(checkpointPos.x, checkpointPos.y, transform.position.z);
             _currentPathPosition = spawnPos;
             transform.position = spawnPos;
+            transform.rotation = Quaternion.identity;
         }
     }
 }

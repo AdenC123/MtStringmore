@@ -85,8 +85,6 @@ namespace Player
         private static readonly int DeathKey = Animator.StringToHash("Dead");
         private static readonly int RoastKey = Animator.StringToHash("Roast");
         private static readonly int IdleKey = Animator.StringToHash("Idle");
-        
-        public event Action<float> PlayerHang;
 
         #endregion
 
