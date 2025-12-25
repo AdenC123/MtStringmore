@@ -29,8 +29,6 @@ namespace Knitby
         [Header("Attach Settings")]
         [SerializeField] private Vector2 attachOffset;
         [SerializeField] private float attachLerpSpeed = 70f;
-        [SerializeField] private bool _isPlayerHanging;
-        [SerializeField] private bool _isSwingingClockwise;
 
         [Header("Collisions")] [SerializeField]
         private LayerMask collisionLayer;
@@ -88,8 +86,9 @@ namespace Knitby
         private Animator _animator;
         private float _queueTimer;
         private bool _wallHit;
+        private bool _isPlayerHanging;
         private bool _isSwinging;
-        private bool _wasSwinging;
+        private bool _isSwingingClockwise;
         private bool _hasSpun;
         
         private void Start()
@@ -102,6 +101,7 @@ namespace Knitby
             _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
             
             _playerController.HangChanged += OnHangChanged;
+            _playerController.SwingChanged += OnSwingChanged;
             _playerController.SwingDifferentDirection += OnSwingDifferentDirection;
             _playerController.Death += PlayerDeath;
         }
@@ -110,8 +110,8 @@ namespace Knitby
         {
             if (!_player) return;
             HandleGrounded();
-            HandleHang();
             HandleSwing();
+            HandleHang();
         }
 
         private void FixedUpdate()
@@ -144,9 +144,6 @@ namespace Knitby
                 _wallHit = wallHit;
                 WallHitChanged?.Invoke(wallHit);
             }
-
-            _isSwinging = _lineRenderer.isVisible;
-            Swing?.Invoke(_isSwinging);
             
             CanDash?.Invoke(_playerController.CanDash);
         }
@@ -158,7 +155,6 @@ namespace Knitby
         {
             if (_isPlayerHanging || _isSwinging) return;
             
-            SetWait?.Invoke(false);
             SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
             if (_currentPathPosition == Vector3.zero) return;
             
@@ -174,18 +170,25 @@ namespace Knitby
         {
             if (!_isPlayerHanging || _isSwinging) return;
             
+            Debug.Log("hang");
             float dir = _playerController.Direction;
             HandleHangingPosition(dir);
-            SetWait?.Invoke(true);
         }
         
+        /// <summary>
+        ///     Handle logic when Knitby has spun and is now on player's back on the swing
+        /// </summary>
         private void HandleSwing()
         {
             if (!_isSwinging) return;
+            if (!_hasSpun)
+            {
+                _hasSpun = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f;
+                return;
+            }
             
             float dir = _isSwingingClockwise ? -1f : 1f;
             HandleHangingPosition(dir);
-            AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
         }
         
         /// <summary>
@@ -205,6 +208,7 @@ namespace Knitby
             GameManager.Instance.Reset += OnReset;
             if (!_player || !_playerController) return;
             _playerController.HangChanged += OnHangChanged;
+            _playerController.SwingChanged += OnSwingChanged;
             _playerController.Death += PlayerDeath;
         }
 
@@ -213,14 +217,23 @@ namespace Knitby
             GameManager.Instance.Reset -= OnReset;
             if (!_player || !_playerController) return;
             _playerController.HangChanged -= OnHangChanged;
+            _playerController.SwingChanged -= OnSwingChanged;
             _playerController.Death -= PlayerDeath;
         }
 
         private void OnHangChanged(bool isHanging, bool facingLeft)
         {
+            SetWait?.Invoke(isHanging);
             _isPlayerHanging = isHanging;
             if (!isHanging)
                 transform.rotation = Quaternion.identity;
+        }
+        
+        private void OnSwingChanged(bool isSwinging)
+        {
+            _isSwinging = isSwinging;
+            _hasSpun = false;
+            Swing?.Invoke(_isSwinging);
         }
         
         private void OnSwingDifferentDirection(bool clockwise)

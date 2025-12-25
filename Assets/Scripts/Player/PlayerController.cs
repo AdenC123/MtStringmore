@@ -147,6 +147,13 @@ namespace Player
         ///     bool (facingLeft): True when facing left, false otherwise
         /// </summary>
         public event Action<bool, bool> HangChanged;
+        
+        /// <summary>
+        /// Fires when the player hangs onto a swing.
+        /// Parameters:
+        ///     bool (hanging): True when player attaches, false when player lets go
+        /// </summary>
+        public event Action<bool> SwingChanged;
 
         public event Action DoubleJumped;
         public event Action Death;
@@ -753,6 +760,7 @@ namespace Player
                 _audioSource.clip = swingAttach;
                 _audioSource.Play();
                 ropeRenderer.enabled = true;
+                SwingChanged?.Invoke(true);
                 HangChanged?.Invoke(true, _velocity.x < 0);
             }
             else if (PlayerState is PlayerStateEnum.Swing && _isButtonHeld)
@@ -842,6 +850,7 @@ namespace Player
                 _canSwing = false;
                 _audioSource.clip = swingDetach;
                 _audioSource.Play();
+                SwingChanged?.Invoke(false);
                 HangChanged?.Invoke(false, _velocity.x < 0);
                 _swingPos = null;
                 transform.localEulerAngles = Vector3.zero;
