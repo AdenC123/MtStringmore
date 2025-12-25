@@ -753,6 +753,7 @@ namespace Player
 
         private void HandleSwing()
         {
+            HandleSwingRotation();
             if (_canSwing && IsButtonUsed() && GameManager.Instance.AreInteractablesEnabled)
             {
                 // in swing area, button pressed
@@ -837,8 +838,6 @@ namespace Player
                         _audioSource.clip = RandomUtil.SelectRandom(swingChangeDirection);
                         _audioSource.Play();
                     }
-                    
-                    HandleSwingRotation();
                 }
             }
             else if (PlayerState is PlayerStateEnum.Swing && !_isButtonHeld)
@@ -869,6 +868,12 @@ namespace Player
         
         private void HandleSwingRotation()
         {
+            if (_swingPos == null || PlayerState is not PlayerStateEnum.Swing)
+            {
+                transform.localEulerAngles = Vector3.zero;
+                return;
+            }
+            
             Vector2 diff = (Vector2)transform.position - _swingPos.Value;
             // yes, this is meant to be Atan2(x, y) as we want the vector perpendicular
             float angle = Mathf.Atan2(diff.x, -diff.y) * Mathf.Rad2Deg;

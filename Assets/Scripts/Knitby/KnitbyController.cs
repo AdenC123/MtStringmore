@@ -252,6 +252,9 @@ namespace Knitby
         /// </summary>
         private void OnReset()
         {
+            _isPlayerHanging = false;
+            _isSwinging = false;
+            
             _path.Clear();
             Vector2 checkpointPos = GameManager.Instance.CheckPointPos;
             Vector3 spawnPos = new(checkpointPos.x, checkpointPos.y, transform.position.z);
