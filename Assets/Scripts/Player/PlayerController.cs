@@ -64,6 +64,7 @@ namespace Player
         [SerializeField, Min(0)] private float hackVelocityRatio = 0.8f;
         [SerializeField, Range(0, Mathf.PI), Tooltip("Maximum angle from bottom to apply hacky additional acceleration")]
         private float hackRange = Mathf.PI/6;
+        [SerializeField][Range(0, 1)][Tooltip("Multiplier of swing angle")] private float swingDeltaMultiplier = 0.5f;
         [Header("Visual")]
         [SerializeField, Min(0)] private float runParticleVelocityThreshold = 0.1f;
         [SerializeField] private LineRenderer ropeRenderer;
@@ -147,10 +148,16 @@ namespace Player
         ///     bool (facingLeft): True when facing left, false otherwise
         /// </summary>
         public event Action<bool, bool> HangChanged;
+        
+        /// <summary>
+        /// Fires when the player hangs onto a swing.
+        /// Parameters:
+        ///     bool (hanging): True when player attaches, false when player lets go
+        /// </summary>
+        public event Action<bool> SwingChanged;
 
         public event Action DoubleJumped;
         public event Action Death;
-        public event Action<Vector2> OnSwingStart;
         public event Action<bool> SwingDifferentDirection;
 
         /// <summary>
@@ -213,6 +220,7 @@ namespace Player
         private float _swingRadius;
         private bool _canSwing;
         private bool _swingStarted;
+        private Vector2? _swingPos;
         private bool _wasSwingClockwise;
         private ShakeCamera _shake;
         private Coroutine _dashNoclipHax;
@@ -746,6 +754,7 @@ namespace Player
 
         private void HandleSwing()
         {
+            HandleSwingRotation();
             if (_canSwing && IsButtonUsed() && GameManager.Instance.AreInteractablesEnabled)
             {
                 // in swing area, button pressed
@@ -753,6 +762,7 @@ namespace Player
                 _audioSource.clip = swingAttach;
                 _audioSource.Play();
                 ropeRenderer.enabled = true;
+                SwingChanged?.Invoke(true);
                 HangChanged?.Invoke(true, _velocity.x < 0);
             }
             else if (PlayerState is PlayerStateEnum.Swing && _isButtonHeld)
@@ -764,7 +774,7 @@ namespace Player
                 {
                     // reached max radius, start swing
                     _swingStarted = true;
-                    OnSwingStart?.Invoke(_swingArea.transform.position);
+                    _swingPos = _swingArea.transform.position;
                     Vector2 relPos = transform.position - _swingArea.transform.position;
                     _wasSwingClockwise = Vector3.Cross(relPos, _velocity).z > 0f;
                 }
@@ -840,7 +850,10 @@ namespace Player
                 _canSwing = false;
                 _audioSource.clip = swingDetach;
                 _audioSource.Play();
+                SwingChanged?.Invoke(false);
                 HangChanged?.Invoke(false, _velocity.x < 0);
+                _swingPos = null;
+                transform.localEulerAngles = Vector3.zero;
 
                 if (_swingStarted)
                 {
@@ -852,6 +865,20 @@ namespace Player
                     _swingStarted = false;
                 }
             }
+        }
+        
+        private void HandleSwingRotation()
+        {
+            if (_swingPos == null || PlayerState is not PlayerStateEnum.Swing)
+            {
+                transform.localEulerAngles = Vector3.zero;
+                return;
+            }
+            
+            Vector2 diff = (Vector2)transform.position - _swingPos.Value;
+            // yes, this is meant to be Atan2(x, y) as we want the vector perpendicular
+            float angle = Mathf.Atan2(diff.x, -diff.y) * Mathf.Rad2Deg;
+            transform.localEulerAngles = new Vector3(0, 0, Mathf.LerpAngle(angle, 0, 1 - swingDeltaMultiplier));
         }
 
         private void RedrawRope()
@@ -901,6 +928,7 @@ namespace Player
             _playerVelocityEffectors.Clear();
             _impulseVelocityEffectors.Clear();
             ropeRenderer.enabled = false;
+            _swingPos = null;
             PlayerState = PlayerStateEnum.Run;
             _velocity = Vector2.zero;
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("LetterBlock"), false);
