@@ -79,7 +79,6 @@ namespace Knitby
         private CapsuleCollider2D _col;
         private Vector3 _currentPathPosition;
         private bool _grounded;
-        private LineRenderer _lineRenderer;
 
         private GameObject _player;
         private PlayerController _playerController;
@@ -98,7 +97,6 @@ namespace Knitby
             
             _player = GameObject.FindGameObjectWithTag("Player");
             _playerController = _player.GetComponent<PlayerController>();
-            _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
             
             _playerController.HangChanged += OnHangChanged;
             _playerController.SwingChanged += OnSwingChanged;
