@@ -170,7 +170,6 @@ namespace Knitby
         {
             if (!_isPlayerHanging || _isSwinging) return;
             
-            Debug.Log("hang");
             float dir = _playerController.Direction;
             HandleHangingPosition(dir);
         }
