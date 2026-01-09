@@ -67,7 +67,6 @@ namespace Player
         [SerializeField][Range(0, 1)][Tooltip("Multiplier of swing angle")] private float swingDeltaMultiplier = 0.5f;
         [Header("Visual")]
         [SerializeField, Min(0)] private float runParticleVelocityThreshold = 0.1f;
-        [SerializeField] private LineRenderer ropeRenderer;
         [SerializeField] private float deathTime;
         // this is just here for battle of the concepts
         [Header("Temporary")]
@@ -153,8 +152,9 @@ namespace Player
         /// Fires when the player hangs onto a swing.
         /// Parameters:
         ///     bool (hanging): True when player attaches, false when player lets go
+        ///     Vector2: Position of swing
         /// </summary>
-        public event Action<bool> SwingChanged;
+        public event Action<bool, Vector3> SwingChanged;
 
         public event Action DoubleJumped;
         public event Action Death;
@@ -265,9 +265,7 @@ namespace Player
         private void Update()
         {
             _time += Time.deltaTime;
-
             GetInput();
-            RedrawRope(); // TODO this should be moved outside player controller when knitby is real
         }
 
         private void OnDestroy()
@@ -761,8 +759,7 @@ namespace Player
                 PlayerState = PlayerStateEnum.Swing;
                 _audioSource.clip = swingAttach;
                 _audioSource.Play();
-                ropeRenderer.enabled = true;
-                SwingChanged?.Invoke(true);
+                SwingChanged?.Invoke(true, _swingArea.transform.position);
                 HangChanged?.Invoke(true, _velocity.x < 0);
             }
             else if (PlayerState is PlayerStateEnum.Swing && _isButtonHeld)
@@ -846,11 +843,10 @@ namespace Player
                 // swinging but button is released
                 // stop swinging, disallow swing until reentering area
                 PlayerState = PlayerStateEnum.Air;
-                ropeRenderer.enabled = false;
                 _canSwing = false;
                 _audioSource.clip = swingDetach;
                 _audioSource.Play();
-                SwingChanged?.Invoke(false);
+                SwingChanged?.Invoke(false, Vector2.zero);
                 HangChanged?.Invoke(false, _velocity.x < 0);
                 _swingPos = null;
                 transform.localEulerAngles = Vector3.zero;
@@ -879,16 +875,6 @@ namespace Player
             // yes, this is meant to be Atan2(x, y) as we want the vector perpendicular
             float angle = Mathf.Atan2(diff.x, -diff.y) * Mathf.Rad2Deg;
             transform.localEulerAngles = new Vector3(0, 0, Mathf.LerpAngle(angle, 0, 1 - swingDeltaMultiplier));
-        }
-
-        private void RedrawRope()
-        {
-            if (PlayerState == PlayerStateEnum.Swing)
-            {
-                ropeRenderer.positionCount = 2;
-                ropeRenderer.SetPosition(0, transform.position);
-                ropeRenderer.SetPosition(1, _swingArea.transform.position);
-            }
         }
 
         private void ApplyMovement()
@@ -927,7 +913,6 @@ namespace Player
 
             _playerVelocityEffectors.Clear();
             _impulseVelocityEffectors.Clear();
-            ropeRenderer.enabled = false;
             _swingPos = null;
             PlayerState = PlayerStateEnum.Run;
             _velocity = Vector2.zero;

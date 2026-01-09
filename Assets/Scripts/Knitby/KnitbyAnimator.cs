@@ -20,12 +20,16 @@ namespace Knitby
         private static readonly int WaitKey = Animator.StringToHash("Wait");
         private static readonly int PlayerDeadKey = Animator.StringToHash("PlayerDead");
         private static readonly int FadeControl = Shader.PropertyToID("_FadeControl");
+        private static readonly string SpinStateName = "Spin";
+        
         [SerializeField] private Animator anim;
+        [SerializeField] private LineRenderer ropeRenderer;
         [SerializeField] private GameObject deathSmoke;
+        
         private KnitbyController _knitbyController;
         private Material _material;
-
         private SpriteRenderer _spriteRenderer;
+        private Vector3 _swingPos;
 
         private void Awake()
         {
@@ -62,6 +66,32 @@ namespace Knitby
             GameManager.Instance.Reset -= OnReset;
         }
 
+        private void Update()
+        {
+            RedrawRope();
+        }
+
+        private void RedrawRope()
+        {
+            if (!ropeRenderer.enabled) return;
+            
+            ropeRenderer.positionCount = 2;
+            ropeRenderer.SetPosition(0, transform.position);
+            
+            AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName(SpinStateName))
+            {
+                Vector3 currToPos = _swingPos - transform.position;
+                float ropeProgress = Mathf.Min(1, anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+                Vector3 ropeEndPos = transform.position + ropeProgress * currToPos;
+                ropeRenderer.SetPosition(1, ropeEndPos);
+            }
+            else
+            {
+                ropeRenderer.SetPosition(1, _swingPos);
+            }
+        }
+
         private void OnIdle(bool value)
         {
             anim.SetBool(IdleKey, value);
@@ -93,9 +123,11 @@ namespace Knitby
             anim.SetTrigger(wallHit ? HitWallKey : LeaveWallKey);
         }
 
-        private void OnSwing(bool inSwing)
+        private void OnSwing(bool inSwing, Vector3 swingPos)
         {
             anim.SetBool(SwingKey, inSwing);
+            ropeRenderer.enabled = inSwing;
+            _swingPos = swingPos;
         }
 
         private void OnPlayerCanDash(bool canDash)
@@ -120,6 +152,7 @@ namespace Knitby
             anim.SetBool(SwingKey, false);
             anim.SetBool(WaitKey, false);
             anim.SetBool(PlayerDeadKey, false);
+            ropeRenderer.enabled = false;
         }
     }
 }

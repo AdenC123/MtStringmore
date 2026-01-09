@@ -49,9 +49,12 @@ namespace Knitby
         public event Action<bool> GroundedChanged;
 
         /// <summary>
-        ///     Fires continuously; true when currently in swing, false otherwise
+        /// Fires when player gets on/off swing.
+        /// Parameters:
+        ///     bool: True when player attaches, false when player lets go
+        ///     Vector2: Position of swing
         /// </summary>
-        public event Action<bool> Swing;
+        public event Action<bool, Vector3> Swing;
 
         /// <summary>
         ///     Fires when player is dead
@@ -221,11 +224,11 @@ namespace Knitby
                 transform.rotation = Quaternion.identity;
         }
         
-        private void OnSwingChanged(bool isSwinging)
+        private void OnSwingChanged(bool isSwinging, Vector3 swingPos)
         {
             _isSwinging = isSwinging;
             _hasSpun = false;
-            Swing?.Invoke(_isSwinging);
+            Swing?.Invoke(isSwinging, swingPos);
         }
         
         private void OnSwingDifferentDirection(bool clockwise)
