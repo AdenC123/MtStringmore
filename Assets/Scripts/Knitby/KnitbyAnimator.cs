@@ -1,5 +1,6 @@
 using Managers;
 using UnityEngine;
+using Util;
 
 namespace Knitby
 {
@@ -120,6 +121,7 @@ namespace Knitby
             anim.SetBool(SwingKey, false);
             anim.SetBool(WaitKey, false);
             anim.SetBool(PlayerDeadKey, false);
+            AnimatorUtil.ResetAnimator(anim, "Run");
         }
     }
 }
