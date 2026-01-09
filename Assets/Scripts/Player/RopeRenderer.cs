@@ -12,22 +12,27 @@ namespace Player
     {
         [SerializeField] private float ropeGrowDuration = 0.3f;
         [SerializeField] private bool growFromSelfToAttachPoint = true;
+        [SerializeField] private bool useWorldSpace = true;
 
-        private LineRenderer _ropeRenderer;
+        private LineRenderer _lineRenderer;
         private Vector3 _attachPos;
         private Coroutine _growRoutine;
 
         private void Awake()
         {
-            _ropeRenderer = GetComponent<LineRenderer>();
-            _ropeRenderer.positionCount = 2;
-            _ropeRenderer.enabled = false;
+            _lineRenderer = GetComponent<LineRenderer>();
+            _lineRenderer.enabled = false;
+            _lineRenderer.positionCount = 2;
+            _lineRenderer.SetPosition(growFromSelfToAttachPoint ? 0 : 1, transform.position);
         }
 
         private void Update()
         {
-            if (!_ropeRenderer.enabled) return;
-            _ropeRenderer.SetPosition(growFromSelfToAttachPoint ? 0 : 1, transform.position);
+            if (!_lineRenderer.enabled) return;
+            _lineRenderer.SetPosition(
+                growFromSelfToAttachPoint ? 0 : 1,
+                useWorldSpace ? transform.position : transform.localPosition
+            );
         }
 
         public void Attach(Vector3 attachPos)
@@ -37,7 +42,7 @@ namespace Player
             if (_growRoutine != null)
                 StopCoroutine(_growRoutine);
 
-            _ropeRenderer.enabled = true;
+            _lineRenderer.enabled = true;
             _growRoutine = StartCoroutine(GrowRope());
         }
 
@@ -46,27 +51,29 @@ namespace Player
             if (_growRoutine != null)
                 StopCoroutine(_growRoutine);
 
-            _ropeRenderer.enabled = false;
+            _lineRenderer.enabled = false;
         }
 
         private IEnumerator GrowRope()
         {
+            Vector3 selfPos = useWorldSpace ? transform.position : transform.localPosition;
             float t = 0f;
 
             while (t < 1f)
             {
                 t += Time.deltaTime / ropeGrowDuration;
                 float lerp = Mathf.Clamp01(t);
+                selfPos = useWorldSpace ? transform.position : transform.localPosition;
 
                 if (growFromSelfToAttachPoint)
                 {
-                    _ropeRenderer.SetPosition(0, transform.position);
-                    _ropeRenderer.SetPosition(1, Vector3.Lerp(transform.position, _attachPos, lerp));
+                    _lineRenderer.SetPosition(0, selfPos);
+                    _lineRenderer.SetPosition(1, Vector3.Lerp(selfPos, _attachPos, lerp));
                 }
                 else
                 {
-                    _ropeRenderer.SetPosition(0, Vector3.Lerp(_attachPos, transform.position, lerp));
-                    _ropeRenderer.SetPosition(1, transform.position);
+                    _lineRenderer.SetPosition(0, Vector3.Lerp(_attachPos, selfPos, lerp));
+                    _lineRenderer.SetPosition(1, selfPos);
                 }
 
                 yield return null;
@@ -74,13 +81,13 @@ namespace Player
 
             if (growFromSelfToAttachPoint)
             {
-                _ropeRenderer.SetPosition(0, transform.position);
-                _ropeRenderer.SetPosition(1, _attachPos);
+                _lineRenderer.SetPosition(0, selfPos);
+                _lineRenderer.SetPosition(1, _attachPos);
             }
             else
             {
-                _ropeRenderer.SetPosition(0, _attachPos);
-                _ropeRenderer.SetPosition(1, transform.position);
+                _lineRenderer.SetPosition(0, _attachPos);
+                _lineRenderer.SetPosition(1, selfPos);
             }
         }
 
