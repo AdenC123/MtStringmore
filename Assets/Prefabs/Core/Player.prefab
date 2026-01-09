@@ -164,8 +164,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c81b8a0512e132e4cbdff16ff3c341e9, type: 3}
   - {fileID: 8300000, guid: e9de9b181cfc6804e9e615db52c9d7ad, type: 3}
   hangOffset: {x: 0, y: 0}
-  swingDeltaMultiplier: 0.5
-  speedRingSpeedThreshold: 31
   roastColors:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 0.90081525, b: 0.75, a: 1}
@@ -299,8 +297,9 @@ MonoBehaviour:
   maxHackAcceleration: 200
   hackVelocityRatio: 0.8
   hackRange: 0.4
+  swingDeltaMultiplier: 0.5
   runParticleVelocityThreshold: 0.1
-  ropeRenderer: {fileID: 8739561083334380143}
+  ropeRenderer: {fileID: 783731139087979784}
   deathTime: 1
   poofSmoke: {fileID: 3003327103453879542, guid: e52706b0a1958aa4fa0aa6a37ce53810, type: 3}
   swingAttach: {fileID: 8300000, guid: c34be067950c0494cb0a29b36dd18775, type: 3}
@@ -619,6 +618,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1310921584863302646}
   - component: {fileID: 8739561083334380143}
+  - component: {fileID: 783731139087979784}
   m_Layer: 7
   m_Name: RopeDrawer
   m_TagString: Untagged
@@ -745,6 +745,20 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &783731139087979784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8704445144224804026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82fcbdc2eeb8af3409ddc0e898105c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ropeGrowDuration: 0.3
+  growFromSelfToAttachPoint: 1
 --- !u!1001 &598642433859097067
 PrefabInstance:
   m_ObjectHideFlags: 0
