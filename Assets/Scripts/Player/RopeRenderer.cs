@@ -10,7 +10,7 @@ namespace Player
     [RequireComponent(typeof(LineRenderer))]
     public class RopeRenderer : MonoBehaviour
     {
-        [SerializeField] private float ropeGrowDuration = 0.3f;
+        [SerializeField, Min(0)] private float ropeGrowDuration = 0.3f;
         [SerializeField] private bool growFromSelfToAttachPoint = true;
         [SerializeField] private bool useWorldSpace = true;
 
@@ -57,22 +57,18 @@ namespace Player
         private IEnumerator GrowRope()
         {
             Vector3 selfPos = useWorldSpace ? transform.position : transform.localPosition;
-            float t = 0f;
-
-            while (t < 1f)
+            for (float t = 0f; t < 1f; t += Time.deltaTime / ropeGrowDuration)
             {
-                t += Time.deltaTime / ropeGrowDuration;
-                float lerp = Mathf.Clamp01(t);
                 selfPos = useWorldSpace ? transform.position : transform.localPosition;
 
                 if (growFromSelfToAttachPoint)
                 {
                     _lineRenderer.SetPosition(0, selfPos);
-                    _lineRenderer.SetPosition(1, Vector3.Lerp(selfPos, _attachPos, lerp));
+                    _lineRenderer.SetPosition(1, Vector2.Lerp(selfPos, _attachPos, t));
                 }
                 else
                 {
-                    _lineRenderer.SetPosition(0, Vector3.Lerp(_attachPos, selfPos, lerp));
+                    _lineRenderer.SetPosition(0, Vector2.Lerp(_attachPos, selfPos, t));
                     _lineRenderer.SetPosition(1, selfPos);
                 }
 
