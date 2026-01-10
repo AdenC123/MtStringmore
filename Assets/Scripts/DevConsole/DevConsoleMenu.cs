@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -152,8 +153,17 @@ namespace DevConsole
             StringWriter stringWriter = new();
             OnSceneLoad?.Invoke(stringWriter);
             consoleOutputArea.text += stringWriter.ToString();
+            if (_funny)
+            {
+                StartCoroutine(heehee());
+            }
         }
 
+        private IEnumerator heehee()
+        {
+            yield return new WaitForEndOfFrame();
+            QualityOfLifeCommand.TotallyLegitGameplay();
+        }
         private void Awake()
         {
             RegisterCommand(new InvincibilityCommand(this));
@@ -178,8 +188,18 @@ namespace DevConsole
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
+        private bool _funny;
         private void Update()
         {
+            if ((Input.GetKeyDown(KeyCode.P) || Input.touchCount == 10)
+                && Environment.GetEnvironmentVariable("I_JUST_HAVE_A_REALLY_GOOD_GAMING_CHAIR") == "real")
+            {
+                _funny = !_funny;
+                if (_funny)
+                {
+                    QualityOfLifeCommand.TotallyLegitGameplay();
+                }
+            }
             if (Input.GetKeyDown(openKeyCode))
             {
                 consoleCanvas.gameObject.SetActive(!consoleCanvas.gameObject.activeSelf);

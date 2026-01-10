@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using Interactables;
 using Player;
+using Save;
+using UI;
 using UnityEngine;
 
 namespace DevConsole
@@ -19,7 +21,7 @@ namespace DevConsole
         public string Name => "QualityOfLife";
 
         /// <inheritdoc />
-        public string[] Aliases => new[]{"qol"};
+        public string[] Aliases => new[] { "qol" };
 
         /// <inheritdoc />
         public void Run(string[] args, StringWriter sw)
@@ -47,7 +49,7 @@ namespace DevConsole
                 sw.WriteLine(IDevCommand.Color("Couldn't find player in current scene.", "red"));
                 return;
             }
-            
+
             Checkpoint checkpoint = Object.FindObjectsOfType<Checkpoint>()
                 .FirstOrDefault(checkpoint => checkpoint.HasConversation);
             if (!checkpoint)
@@ -55,7 +57,7 @@ namespace DevConsole
                 sw.WriteLine(IDevCommand.Color("Couldn't find final checkpoint in current scene.", "red"));
                 return;
             }
-            
+
             Camera camera = Camera.main;
             if (!camera)
             {
@@ -69,6 +71,38 @@ namespace DevConsole
         public void PrintUsage(StringWriter sw, string color = "red")
         {
             sw.WriteLine(IDevCommand.Color($"Usage: {Name} [/1/0]", color));
+        }
+
+        public static bool TotallyLegitGameplay()
+        {
+            PlayerController player = Object.FindAnyObjectByType<PlayerController>(FindObjectsInactive.Exclude);
+            if (!player) return false;
+
+            Vector3 targetPos;
+            LastCheckpoint checkpoint = Object.FindAnyObjectByType<LastCheckpoint>(FindObjectsInactive.Exclude);
+            if (checkpoint) targetPos = checkpoint.transform.position;
+            else
+            {
+                CutsceneCheckpoint possiblyCutscene = Object.FindAnyObjectByType<CutsceneCheckpoint>(FindObjectsInactive.Exclude);
+                if (possiblyCutscene) targetPos = possiblyCutscene.transform.position;
+                else return false;
+            }
+
+            Camera camera = Camera.main;
+            List<Collectable> collectables = new List<Collectable>(Object.FindObjectsByType<Collectable>(FindObjectsInactive.Include, FindObjectsSortMode.None));
+            foreach (Collectable collectable in collectables)
+            {
+                collectable.gameObject.SetActive(true);
+                collectable.SendMessage("Collect", SendMessageOptions.DontRequireReceiver);
+            }
+            Object
+                .FindObjectsByType<FadeEffects>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+                .SingleOrDefault(obj => obj.gameObject.name == "FadeCanvas")?.gameObject.SetActive(false);
+            if (collectables.Count == 0) return false;
+            player.transform.position = targetPos;
+            if (camera)
+                camera.transform.position = targetPos;
+            return true;
         }
 
         /// <summary>
@@ -94,7 +128,7 @@ namespace DevConsole
                 yield return waitForFixedUpdate;
             }
             player.transform.position = position;
-            if (camera) 
+            if (camera)
                 camera.transform.position = position;
         }
     }
