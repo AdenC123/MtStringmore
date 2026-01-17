@@ -24,7 +24,6 @@ namespace Knitby
         [Header("Attach Settings")]
         [SerializeField] private Vector2 attachOffset;
         [SerializeField] private float attachLerpSpeed = 70f;
-        [SerializeField] private bool _isPlayerHanging;
 
         [Header("Collisions")] [SerializeField]
         private LayerMask collisionLayer;
@@ -75,50 +74,37 @@ namespace Knitby
         private CapsuleCollider2D _col;
         private Vector3 _currentPathPosition;
         private bool _grounded;
-        private LineRenderer _lineRenderer;
 
         private GameObject _player;
         private PlayerController _playerController;
         private Animator _animator;
         private float _queueTimer;
         private bool _wallHit;
+        private bool _isPlayerHanging;
         private bool _isSwinging;
-
+        private bool _isSwingingClockwise;
+        private bool _hasSpun;
+        
         private void Start()
         {
             _col = GetComponent<CapsuleCollider2D>();
+            _animator = GetComponentInChildren<Animator>();
+            
             _player = GameObject.FindGameObjectWithTag("Player");
-            _lineRenderer = _player.GetComponentInChildren<LineRenderer>();
             _playerController = _player.GetComponent<PlayerController>();
+            
+            _playerController.HangChanged += OnHangChanged;
+            _playerController.SwingChanged += OnSwingChanged;
+            _playerController.SwingDifferentDirection += OnSwingDifferentDirection;
             _playerController.Death += PlayerDeath;
         }
 
         private void Update()
         {
             if (!_player) return;
-            
-            float xFlip = _playerController.Direction;
-            
-            if (_isPlayerHanging)
-            {
-                Vector3 targetPos = _player.transform.position + new Vector3(attachOffset.x * xFlip, attachOffset.y, 0f);
-                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed); 
-                DirectionUpdated?.Invoke(targetPos.x - transform.position.x, targetPos.y - transform.position.y);
-                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
-            }
-            else
-            {
-                SetWait?.Invoke(_isPlayerHanging && !_isSwinging);
-                if (_currentPathPosition == Vector3.zero) return;
-
-                if (!_isSwinging)
-                    SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
-
-                Vector3 direction = _currentPathPosition - transform.position;
-
-                DirectionUpdated?.Invoke(direction.x, direction.y);
-                transform.position += direction * (Time.deltaTime * interpolationSpeed);
-            }
+            HandleGrounded();
+            HandleSwing();
+            HandleHang();
         }
 
         private void FixedUpdate()
@@ -151,34 +137,101 @@ namespace Knitby
                 _wallHit = wallHit;
                 WallHitChanged?.Invoke(wallHit);
             }
-
-            _isSwinging = _lineRenderer.isVisible;
-
+            
             CanDash?.Invoke(_playerController.CanDash);
+        }
+        
+        /// <summary>
+        ///     Handle states when on the ground
+        /// </summary>
+        private void HandleGrounded()
+        {
+            if (_isPlayerHanging || _isSwinging) return;
+            
+            SetIdle?.Invoke(Vector3.Distance(transform.position, _currentPathPosition) <= idleThreshold);
+            if (_currentPathPosition == Vector3.zero) return;
+            
+            Vector3 direction = _currentPathPosition - transform.position;
+            DirectionUpdated?.Invoke(direction.x, direction.y);
+            transform.position += direction * (Time.deltaTime * interpolationSpeed);
+        }
+        
+        /// <summary>
+        ///     Handle hanging states except swinging
+        /// </summary>
+        private void HandleHang()
+        {
+            if (!_isPlayerHanging || _isSwinging) return;
+            
+            float dir = _playerController.Direction;
+            HandleHangingPosition(dir);
+        }
+        
+        /// <summary>
+        ///     Handle logic when Knitby has spun and is now on player's back on the swing
+        /// </summary>
+        private void HandleSwing()
+        {
+            if (!_isSwinging) return;
+            if (!_hasSpun)
+            {
+                _hasSpun = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f;
+                return;
+            }
+            
+            float dir = _isSwingingClockwise ? -1f : 1f;
+            HandleHangingPosition(dir);
+        }
+        
+        /// <summary>
+        ///     When player is hanging, move Knitby to the right position + rotation
+        /// </summary>
+        private void HandleHangingPosition(float dir)
+        {
+            transform.rotation = _player.transform.rotation;
+            Vector3 localOffset = new Vector3(attachOffset.x * dir, attachOffset.y, 0f);
+            Vector3 rotatedOffset = _player.transform.TransformDirection(localOffset);
+            Vector3 targetPos = _player.transform.position + rotatedOffset;
+            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * attachLerpSpeed);
         }
 
         private void OnEnable()
         {
             GameManager.Instance.Reset += OnReset;
-            
-            if (_player == null) _player = GameObject.FindWithTag("Player");
-            
-            PlayerController playerController = _player.GetComponent<PlayerController>();
-            if (playerController) playerController.HangChanged += OnHangChanged;
+            if (!_player || !_playerController) return;
+            _playerController.HangChanged += OnHangChanged;
+            _playerController.SwingChanged += OnSwingChanged;
+            _playerController.Death += PlayerDeath;
         }
 
         private void OnDisable()
         {
             GameManager.Instance.Reset -= OnReset;
-            if (!_player) return;
-            PlayerController playerController = _player.GetComponent<PlayerController>();
-            if (playerController) playerController.HangChanged += OnHangChanged;
-            playerController.Death -= PlayerDeath;
+            if (!_player || !_playerController) return;
+            _playerController.HangChanged -= OnHangChanged;
+            _playerController.SwingChanged -= OnSwingChanged;
+            _playerController.Death -= PlayerDeath;
         }
 
         private void OnHangChanged(bool isHanging, bool facingLeft)
         {
+            SetWait?.Invoke(isHanging);
             _isPlayerHanging = isHanging;
+            if (!isHanging)
+                transform.rotation = Quaternion.identity;
+        }
+        
+        private void OnSwingChanged(bool isSwinging)
+        {
+            _isSwinging = isSwinging;
+            _hasSpun = false;
+            Swing?.Invoke(_isSwinging);
+        }
+        
+        private void OnSwingDifferentDirection(bool clockwise)
+        {
+            _isSwingingClockwise = clockwise;
+            DirectionUpdated.Invoke(clockwise ? -1f : 1f, 0f);
         }
         
         private RaycastHit2D CapsuleCastCollision(Vector2 dir, float distance)
@@ -192,11 +245,15 @@ namespace Knitby
         /// </summary>
         private void OnReset()
         {
+            _isPlayerHanging = false;
+            _isSwinging = false;
+            
             _path.Clear();
             Vector2 checkpointPos = GameManager.Instance.CheckPointPos;
             Vector3 spawnPos = new(checkpointPos.x, checkpointPos.y, transform.position.z);
             _currentPathPosition = spawnPos;
             transform.position = spawnPos;
+            transform.rotation = Quaternion.identity;
         }
     }
 }

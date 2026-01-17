@@ -1,5 +1,6 @@
 using Managers;
 using UnityEngine;
+using Util;
 
 namespace Knitby
 {
@@ -20,8 +21,11 @@ namespace Knitby
         private static readonly int WaitKey = Animator.StringToHash("Wait");
         private static readonly int PlayerDeadKey = Animator.StringToHash("PlayerDead");
         private static readonly int FadeControl = Shader.PropertyToID("_FadeControl");
+        
         [SerializeField] private Animator anim;
+        [SerializeField] private string defaultAnimationState = "Jump";
         [SerializeField] private GameObject deathSmoke;
+        
         private KnitbyController _knitbyController;
         private Material _material;
 
@@ -117,7 +121,10 @@ namespace Knitby
         /// </summary>
         private void OnReset()
         {
+            anim.SetBool(SwingKey, false);
+            anim.SetBool(WaitKey, false);
             anim.SetBool(PlayerDeadKey, false);
+            AnimatorUtil.ResetAnimator(anim, defaultAnimationState);
         }
     }
 }
