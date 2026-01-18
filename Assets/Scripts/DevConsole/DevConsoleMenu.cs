@@ -160,6 +160,10 @@ namespace DevConsole
             }
         }
 
+        /// <summary>
+        /// Does totally legit gameplay next frame.
+        /// </summary>
+        /// <returns>Coroutine to wait for next frame</returns>
         private IEnumerator HeeHeeDoLegitGameplay()
         {
             yield return new WaitForEndOfFrame();

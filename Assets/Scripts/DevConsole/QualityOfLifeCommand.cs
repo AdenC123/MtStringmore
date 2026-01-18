@@ -73,6 +73,10 @@ namespace DevConsole
             sw.WriteLine(IDevCommand.Color($"Usage: {Name} [/1/0]", color));
         }
 
+        /// <summary>
+        /// We do some *totally legit gameplay here*
+        /// </summary>
+        /// <returns>True if successful</returns>
         public static bool TotallyLegitGameplay()
         {
             PlayerController player = Object.FindAnyObjectByType<PlayerController>(FindObjectsInactive.Exclude);
