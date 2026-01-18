@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace UI
@@ -20,11 +21,14 @@ namespace UI
             _debugButtonPressed++;
             if (_debugButtonPressed > 10)
             {
-                int childCount = buttonContainer.childCount;
-                for (int i = 0; i < childCount; i++)
+                if (Environment.GetEnvironmentVariable("I_JUST_HAVE_A_REALLY_GOOD_GAMING_CHAIR") == "real")
                 {
-                    LevelSelectButton btn = buttonContainer.GetChild(i).GetComponent<LevelSelectButton>();
-                    btn.Initialize(i + 1, true);
+                    int childCount = buttonContainer.childCount;
+                    for (int i = 0; i < childCount; i++)
+                    {
+                        LevelSelectButton btn = buttonContainer.GetChild(i).GetComponent<LevelSelectButton>();
+                        btn.Initialize(i + 1, true);
+                    }
                 }
                 eventOnTrigger.Invoke();
             }
