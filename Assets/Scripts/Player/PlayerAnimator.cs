@@ -55,6 +55,7 @@ namespace Player
         [SerializeField] private AudioClip[] deathSounds;
     
         [Header("Visual")]
+        [SerializeField] private string defaultAnimationState = "Run";
         [Tooltip("Player position offset when hanging onto object (small red wire sphere gizmo)")]
         [SerializeField] private Vector2 hangOffset;
         // @formatter:on
@@ -332,7 +333,8 @@ namespace Player
         // }
 
         /// <summary>
-        ///     On reset, re-activate sprites and make them full opacity
+        ///     On reset, re-activate sprites, make them full opacity.
+        ///     Also reset all animation keys.
         /// </summary>
         private void OnReset()
         {
@@ -341,6 +343,7 @@ namespace Player
                 child.gameObject.SetActive(true);
                 FadeEffects.GetFadeEffectHandler(child, 1).SetAlpha(1);
             }
+            AnimatorUtil.ResetAnimator(anim, defaultAnimationState);
         }
 
         #endregion

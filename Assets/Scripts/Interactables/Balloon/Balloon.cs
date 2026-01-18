@@ -11,7 +11,7 @@ namespace Interactables.Balloon
     /// <summary>
     /// Balloon interactable.
     /// </summary>
-    [RequireComponent(typeof(Rigidbody2D), typeof(LineRenderer))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class Balloon : AbstractPlayerInteractable
     {
         [Header("Motion")]
@@ -116,7 +116,7 @@ namespace Interactables.Balloon
         private Coroutine _resetCoroutine;
 
         private Rigidbody2D _rigidbody;
-        private LineRenderer _lineRenderer;
+        private RopeRenderer _ropeRenderer;
         private BalloonFunnyVisual _balloonFunnyVisual;
         private BalloonVisual balloonVisual;
         private PlayerController _player;
@@ -124,7 +124,7 @@ namespace Interactables.Balloon
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _lineRenderer = GetComponent<LineRenderer>();
+            _ropeRenderer = GetComponentInChildren<RopeRenderer>();
             balloonVisual = GetComponentInChildren<BalloonVisual>(true);
             _balloonFunnyVisual = GetComponentInChildren<BalloonFunnyVisual>(true);
             GameManager.Instance.Reset += RespawnBalloon;
@@ -271,8 +271,7 @@ namespace Interactables.Balloon
             loopingAudioSource.Play();
             Vector2 targetPosition = _rigidbody.position + offset;
             player.transform.position = targetPosition;
-            _lineRenderer.enabled = true;
-            _lineRenderer.SetPosition(1, transform.InverseTransformPoint(targetPosition));
+            _ropeRenderer.Attach(transform.InverseTransformPoint(targetPosition));
             _player.AddPlayerVelocityEffector(this);
             StartMotion();
         }
@@ -298,7 +297,7 @@ namespace Interactables.Balloon
                 boostDirection = Vector2.up; // Default to an upward boost
             _player.AddPlayerVelocityEffector(new BonusEndImpulseEffector(_player, boostDirection, exitVelBoost), true);
             loopingAudioSource.Stop();
-            _lineRenderer.enabled = false;
+            _ropeRenderer.Detach();
             _balloonFunnyVisual.gameObject.SetActive(true);
         }
 
