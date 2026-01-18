@@ -191,8 +191,8 @@ namespace DevConsole
         private bool _funny;
         private void Update()
         {
-            if ((Input.GetKeyDown(KeyCode.P) || Input.touchCount == 10)
-                && Environment.GetEnvironmentVariable("I_JUST_HAVE_A_REALLY_GOOD_GAMING_CHAIR") == "real")
+            if (Environment.GetEnvironmentVariable("I_JUST_HAVE_A_REALLY_GOOD_GAMING_CHAIR") != "real") return;
+            if (Input.GetKeyDown(KeyCode.P) || Input.touchCount == 10)
             {
                 _funny = !_funny;
                 if (_funny)
