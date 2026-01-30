@@ -392,7 +392,7 @@ namespace Player
             Debug.Assert(CurrentInteractableArea == interactable,
                 $"Requested to stop interaction on inactive interactable: {interactable} vs Current {CurrentInteractableArea}");
             _buttonNotPressedPreviousFrame = true;
-            CurrentInteractableArea.EndInteract(this);
+            if (CurrentInteractableArea) CurrentInteractableArea.EndInteract(this);
             PlayerState = PlayerStateEnum.Air;
             HangChanged?.Invoke(false, _velocity.x < 0);
         }

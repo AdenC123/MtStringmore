@@ -1,4 +1,5 @@
 using System;
+using Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -42,11 +43,12 @@ namespace Managers
         /// <summary>
         /// Whether the timer should be hidden even if the setting is enabled.
         /// </summary>
-        private bool ShouldDisableTimer => !_isNotForceDisabled || resultsWindow.activeSelf ||
+        private bool ShouldDisableTimer => !_isNotForceDisabled ||
                                              SceneListManager.Instance.InCutscene ||
                                              SceneListManager.Instance.InMainMenu;
         
         private bool _isNotForceDisabled = true;
+        private LastCheckpoint _lastCheckpoint;
 
         private void Awake()
         {
@@ -60,6 +62,11 @@ namespace Managers
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (_lastCheckpoint)
+            {
+                _lastCheckpoint.AttachedCheckpoint.onCheckpointReached.RemoveListener(HandleFinalCheckpointHit);
+                _lastCheckpoint = null;
+            }
         }
 
         private void Update()
@@ -79,6 +86,16 @@ namespace Managers
         /// <param name="mode">Scene load mode</param>
         private void OnSceneLoaded(Scene newScene, LoadSceneMode mode)
         {
+            if (_lastCheckpoint)
+            {
+                _lastCheckpoint.AttachedCheckpoint.onCheckpointReached.RemoveListener(HandleFinalCheckpointHit);
+                _lastCheckpoint = null;
+            }
+            _lastCheckpoint = FindAnyObjectByType<LastCheckpoint>();
+            if (_lastCheckpoint)
+            {
+                _lastCheckpoint.AttachedCheckpoint.onCheckpointReached.AddListener(HandleFinalCheckpointHit);
+            }
             _isNotForceDisabled = true;
             //only reset time when in a level, not in a cutscene
             if (!SceneListManager.Instance.InCutscene)
@@ -86,6 +103,17 @@ namespace Managers
                 ElapsedLevelTime = 0;
             }
             UpdateFromPrefs();
+        }
+
+        /// <summary>
+        /// On final checkpoint hit hide the timer.
+        /// </summary>
+        /// <remarks>
+        /// Don't worry, we'll re-show it on scene load.
+        /// </remarks>
+        private void HandleFinalCheckpointHit()
+        {
+            SetTimerState(false);
         }
 
         /// <summary>
