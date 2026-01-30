@@ -42,7 +42,7 @@ namespace Managers
         /// <summary>
         /// Whether the timer should be hidden even if the setting is enabled.
         /// </summary>
-        private bool ShouldDisableTimer => !_isNotForceDisabled || resultsWindow.activeSelf ||
+        private bool ShouldDisableTimer => !_isNotForceDisabled ||
                                              SceneListManager.Instance.InCutscene ||
                                              SceneListManager.Instance.InMainMenu;
         
